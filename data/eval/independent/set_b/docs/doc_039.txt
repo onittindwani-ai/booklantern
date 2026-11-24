@@ -1,0 +1,30 @@
+PACIFIC RIM FREIGHT LTD
+12/F Example Tower, 1 Test Road
+Kowloon, Hong Kong
+
+INVOICE
+
+Invoice No    Invoice Date    Amount due (USD)
+PRF-260214    20261107        EUR 1,953.00
+
+Due Date    Payment Terms
+20261127    Net 20
+
+Bill To
+Harbourline Outdoor Supply Ltd
+12 Quay Street
+Bristol BS1 4XX
+United Kingdom
+
+Description                                 Qty   Unit Price   Tax     Amount
+-----------------------------------------------------------------------------
+Air freight HKG to LHR, 420 kg chargeable   420         4.10     N   1,722.00
+Airline fuel surcharge                      420         0.55     N     231.00
+
+Subtotal                    EUR 1,953.00
+Tax 0%                          EUR 0.00
+Total (USD)                 EUR 1,953.00
+
+
+Bank details: Fictional Test Bank (HK) Ltd
+Acct 000-000001-001

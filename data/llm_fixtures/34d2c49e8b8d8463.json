@@ -1,0 +1,7 @@
+{
+  "text": "Month end summary: 14 open invoices worth $21,300.00, 5 bills waiting for review, 3 bank lines not matched, 9 open exceptions.",
+  "input_tokens": 150,
+  "output_tokens": 40,
+  "model": "claude-haiku-5-5",
+  "prompt_preview": "[task:summarise_month]\nFACTS:\n{\"open_invoices\": 14, \"receivable\": \"$21,300.00\", \"bills_to_review\": 5, \"unmatched\": 3, \"exceptions\": 9}\nEND"
+}

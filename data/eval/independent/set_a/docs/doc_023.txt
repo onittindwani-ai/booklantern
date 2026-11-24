@@ -1,0 +1,49 @@
+FJORD FREIGHT AS    Page 1 of 2
+INVOICE FF-2026-11874   08.10.2026
+
+Kaigata 5
+5003 Bergen
+Norway
+Org.nr 000 000 001 MVA
+
+Invoice No     FF-2026-11874                      Bill To
+Invoice Date   08.10.2026                         Harbourline Outdoor Supply Ltd
+Due Date       29.10.2026                         12 Quay Street
+Payment Terms  Net 21 days                        Bristol BS1 4XX
+PO Number      PO-77160                           United Kingdom
+Account No     HOS-17
+
+
+Description                                Qty  Unit Price    Amount
+--------------------------------------------------------------------
+Container 01 Bergen to Bristol (FCL 20ft)    1    5 610,50  5 610,50
+Container 02 Bergen to Bristol (FCL 20ft)    1    5 395,25  5 395,25
+Container 03 Bergen to Bristol (FCL 20ft)    1    5 480,00  5 480,00
+Container 04 Bergen to Bristol (FCL 20ft)    1    5 610,50  5 610,50
+Container 05 Bergen to Bristol (FCL 20ft)    1    5 395,25  5 395,25
+Container 06 Bergen to Bristol (FCL 20ft)    1    5 480,00  5 480,00
+Container 07 Bergen to Bristol (FCL 20ft)    1    5 610,50  5 610,50
+Container 08 Bergen to Bristol (FCL 20ft)    1    5 395,25  5 395,25
+
+                                       Carried forward 43 977,25 NOK
+FJORD FREIGHT AS    Page 2 of 2
+INVOICE FF-2026-11874   08.10.2026
+
+Brought forward 43 977,25 NOK
+
+Description                                Qty  Unit Price    Amount
+--------------------------------------------------------------------
+Container 09 Bergen to Bristol (FCL 20ft)    1    5 480,00  5 480,00
+Container 10 Bergen to Bristol (FCL 20ft)    1    5 610,50  5 610,50
+Container 11 Bergen to Bristol (FCL 20ft)    1    5 395,25  5 395,25
+Container 12 Bergen to Bristol (FCL 20ft)    1    5 480,00  5 480,00
+
+                                             Subtotal  65 943,00 NOK
+                                             MVA 25%   16 485,75 NOK
+                                             TOTAL     82 428,75 NOK
+
+Booking ref BK-000771   B/L no. FJF000118
+Weight total 241,600 kg
+
+Bank details: Fiktiv Testbank ASA
+IBAN NO00 0000 0000 001

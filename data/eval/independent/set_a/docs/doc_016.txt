@@ -1,0 +1,32 @@
+Kellerhoff Büromöbel GmbH | Industriestraße 17, 70469 Stuttgart, Deutschland
+
+Harbourline Outdoor Supply Ltd                Rechnungsdatum: 12.10.2026
+12 Quay Street                                Kunden-Nr: K-48210
+Bristol BS1 4XX                               Bestellnummer: B-45512
+United Kingdom                                Tel +49 711 555 0100
+
+GUTSCHRIFT Nr. GS-2026-00044
+Credit against invoice 2026-100387
+
+Pos  Bezeichnung                                    Menge  Einzelpreis   Betrag
+-------------------------------------------------------------------------------
+  1  Rücknahme Bürodrehstuhl Modell Sigma (defekt)  1 Stk       219,00  -219,00
+  2  Transportkostenerstattung                          1        25,00   -25,00
+
+                                                         Nettobetrag  -244,00 €
+
+MwSt     Netto    Steuer
+------------------------
+19 %  244,00 €  -46,36 €
+
+                                                        Gesamtbetrag  -290,36 €
+
+Zahlungsbedingungen: 14 Tage 2 % Skonto, 30 Tage netto
+Fällig am: 11.11.2026
+
+Bezug: Rechnung 2026-100387 vom 21.09.2026
+
+----------------------------------------------------------------------
+Bankverbindung: Fiktive Testbank AG
+IBAN DE00 0000 0000 0000 0000 01  BIC TESTDEFFXXX
+USt-IdNr. DE000000001  |  HRB 000001 Amtsgericht Stuttgart

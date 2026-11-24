@@ -1,0 +1,10 @@
+{
+  "status": "UNVERIFIED, from general knowledge, not from Intuit's page",
+  "method": "POST",
+  "path": "/v3/company/{realmId}/bill",
+  "query": ["minorversion"],
+  "request_required": ["VendorRef", "Line"],
+  "request_line_fields": ["DetailType", "Amount", "Description", "AccountBasedExpenseLineDetail"],
+  "request_line_detail_type": "AccountBasedExpenseLineDetail",
+  "response_path": ["Bill", "Id"]
+}

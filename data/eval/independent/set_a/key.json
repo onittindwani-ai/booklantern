@@ -1,0 +1,4057 @@
+[
+ {
+  "file": "doc_001.txt",
+  "doc_id": "A15",
+  "doc_type": "bill",
+  "language": "fr",
+  "layout_family": "euro",
+  "tags": [
+   "tax_extra",
+   "language_fr",
+   "eom_terms",
+   "addressee_variant_ok"
+  ],
+  "needs_person": false,
+  "vendor": "Atelier Moreau SARL",
+  "vendor_aliases": [
+   "Atelier Moreau"
+  ],
+  "invoice_number": "F2026-0788",
+  "invoice_date": "2026-10-14",
+  "due_date": "2026-11-30",
+  "due_date_derived_from_terms": "2026-11-30",
+  "currency": "EUR",
+  "currency_exponent": 2,
+  "subtotal_minor": 60100,
+  "subtotal_printed": true,
+  "tax_minor": 12020,
+  "tax_printed": true,
+  "total_minor": 72120,
+  "computed_total_minor": 72120,
+  "amount_basis_of_lines": "net",
+  "tax_mode": "extra",
+  "tax_breakdown": [
+   {
+    "label": "TVA",
+    "rate_bps": 2000,
+    "base_minor": 60100,
+    "tax_minor": 12020
+   }
+  ],
+  "line_items": [
+   {
+    "description": "Fil de coton peigné, cône de 500 g",
+    "quantity": "40",
+    "unit_price": "12.90",
+    "amount_minor": 51600
+   },
+   {
+    "description": "Aiguilles assorties, boîte",
+    "quantity": "25",
+    "unit_price": "3.40",
+    "amount_minor": 8500
+   }
+  ],
+  "payment_terms": "Paiement à 30 jours fin de mois",
+  "payment_terms_days": 30,
+  "payment_terms_eom": true,
+  "po_number": null,
+  "addressed_to": "HARBOURLINE OUTDOOR SUPPLY LTD",
+  "sign_convention": null,
+  "expected_findings": [],
+  "duplicate_of": null,
+  "decoys": [
+   {
+    "text": "Indemnité forfaitaire de recouvrement : 40,00 EUR",
+    "must_not_be": "tax"
+   }
+  ]
+ },
+ {
+  "file": "doc_002.txt",
+  "doc_id": "A46",
+  "doc_type": "bill",
+  "language": "en",
+  "layout_family": "classic",
+  "tags": [
+   "zar",
+   "space_thousands",
+   "ymd_slash_date"
+  ],
+  "needs_person": false,
+  "vendor": "Basalt Security Services (Pty) Ltd",
+  "vendor_aliases": [
+   "Basalt Security Services"
+  ],
+  "invoice_number": "INV004471",
+  "invoice_date": "2026-10-01",
+  "due_date": "2026-10-31",
+  "due_date_derived_from_terms": "2026-10-31",
+  "currency": "ZAR",
+  "currency_exponent": 2,
+  "subtotal_minor": 1349600,
+  "subtotal_printed": true,
+  "tax_minor": 202440,
+  "tax_printed": true,
+  "total_minor": 1552040,
+  "computed_total_minor": 1552040,
+  "amount_basis_of_lines": "net",
+  "tax_mode": "extra",
+  "tax_breakdown": [
+   {
+    "label": "VAT",
+    "rate_bps": 1500,
+    "base_minor": 1349600,
+    "tax_minor": 202440
+   }
+  ],
+  "line_items": [
+   {
+    "description": "Armed response retainer, October",
+    "quantity": "1",
+    "unit_price": "8450.00",
+    "amount_minor": 845000
+   },
+   {
+    "description": "Guard hours, event cover",
+    "quantity": "36",
+    "unit_price": "118.50",
+    "amount_minor": 426600
+   },
+   {
+    "description": "Alarm monitoring, 3 sites",
+    "quantity": "3",
+    "unit_price": "260.00",
+    "amount_minor": 78000
+   }
+  ],
+  "payment_terms": "Payable within 30 days",
+  "payment_terms_days": 30,
+  "payment_terms_eom": false,
+  "po_number": "PO-77177",
+  "addressed_to": "Harbourline Outdoor Supply Ltd",
+  "sign_convention": null,
+  "expected_findings": [],
+  "duplicate_of": null,
+  "decoys": [
+   {
+    "text": "Previous invoice INV004398 settled 2026/09/28",
+    "must_not_be": "invoice_number"
+   }
+  ]
+ },
+ {
+  "file": "doc_003.txt",
+  "doc_id": "A30",
+  "doc_type": "bill",
+  "language": "en",
+  "layout_family": "classic",
+  "tags": [
+   "tax_rate_implied_vs_label",
+   "sgd"
+  ],
+  "needs_person": false,
+  "vendor": "Orchid Tech Components Pte Ltd",
+  "vendor_aliases": [
+   "Orchid Tech Components"
+  ],
+  "invoice_number": "OTC/26/10/1301",
+  "invoice_date": "2026-10-21",
+  "due_date": "2026-12-05",
+  "due_date_derived_from_terms": "2026-12-05",
+  "currency": "SGD",
+  "currency_exponent": 2,
+  "subtotal_minor": 103600,
+  "subtotal_printed": true,
+  "tax_minor": 7252,
+  "tax_printed": true,
+  "total_minor": 110852,
+  "computed_total_minor": 110852,
+  "amount_basis_of_lines": "net",
+  "tax_mode": "extra",
+  "tax_breakdown": [
+   {
+    "label": "GST",
+    "rate_bps": 900,
+    "base_minor": 103600,
+    "tax_minor": 7252
+   }
+  ],
+  "line_items": [
+   {
+    "description": "Voltage regulator LDO 3.3V",
+    "quantity": "900",
+    "unit_price": "0.64",
+    "amount_minor": 57600
+   },
+   {
+    "description": "Crystal oscillator 16MHz",
+    "quantity": "500",
+    "unit_price": "0.92",
+    "amount_minor": 46000
+   }
+  ],
+  "payment_terms": "Net 45",
+  "payment_terms_days": 45,
+  "payment_terms_eom": false,
+  "po_number": null,
+  "addressed_to": "Harbourline Outdoor Supply Ltd",
+  "sign_convention": null,
+  "expected_findings": [
+   "tax_rate_sanity"
+  ],
+  "duplicate_of": null,
+  "decoys": [],
+  "note": "Label says GST 9% but the tax amount equals 7.0% of the subtotal (old rate). Total is internally consistent."
+ },
+ {
+  "file": "doc_004.txt",
+  "doc_id": "A25",
+  "doc_type": "bill",
+  "language": "en",
+  "layout_family": "compact",
+  "tags": [
+   "compact",
+   "future_date",
+   "ambiguous_numeric_date"
+  ],
+  "needs_person": false,
+  "vendor": "Pinecrest Janitorial Co",
+  "vendor_aliases": [
+   "Pinecrest Janitorial"
+  ],
+  "invoice_number": "5977",
+  "invoice_date": "2027-02-03",
+  "due_date": "2027-03-05",
+  "due_date_derived_from_terms": "2027-03-05",
+  "currency": "USD",
+  "currency_exponent": 2,
+  "subtotal_minor": 35850,
+  "subtotal_printed": true,
+  "tax_minor": 2599,
+  "tax_printed": true,
+  "total_minor": 38449,
+  "computed_total_minor": 38449,
+  "amount_basis_of_lines": "net",
+  "tax_mode": "extra",
+  "tax_breakdown": [
+   {
+    "label": "Sales tax",
+    "rate_bps": 725,
+    "base_minor": 35850,
+    "tax_minor": 2599
+   }
+  ],
+  "line_items": [
+   {
+    "description": "Floor service, office level 1",
+    "quantity": "4",
+    "unit_price": "85.00",
+    "amount_minor": 34000
+   },
+   {
+    "description": "Supplies surcharge",
+    "quantity": "1",
+    "unit_price": "18.50",
+    "amount_minor": 1850
+   }
+  ],
+  "payment_terms": "NET 30",
+  "payment_terms_days": 30,
+  "payment_terms_eom": false,
+  "po_number": null,
+  "addressed_to": "Harbourline Outdoor Supply Ltd",
+  "sign_convention": null,
+  "expected_findings": [
+   "future_date"
+  ],
+  "date_resolution": "month first, US vendor",
+  "duplicate_of": null,
+  "decoys": [],
+  "note": "Invoice date is after the reference date 2026-11-23 in context.json."
+ },
+ {
+  "file": "doc_005.txt",
+  "doc_id": "A17",
+  "doc_type": "bill",
+  "language": "es",
+  "layout_family": "totals_top",
+  "tags": [
+   "totals_top",
+   "language_es",
+   "decimal_comma",
+   "long_date_es"
+  ],
+  "needs_person": false,
+  "vendor": "Casa Verde Suministros SL",
+  "vendor_aliases": [
+   "Casa Verde Suministros",
+   "CASA VERDE SUMINISTROS S.L."
+  ],
+  "invoice_number": "FV-2026/0388",
+  "invoice_date": "2026-09-30",
+  "due_date": "2026-11-29",
+  "due_date_derived_from_terms": "2026-11-29",
+  "currency": "EUR",
+  "currency_exponent": 2,
+  "subtotal_minor": 120570,
+  "subtotal_printed": true,
+  "tax_minor": 25320,
+  "tax_printed": true,
+  "total_minor": 145890,
+  "computed_total_minor": 145890,
+  "amount_basis_of_lines": "net",
+  "tax_mode": "extra",
+  "tax_breakdown": [
+   {
+    "label": "IVA",
+    "rate_bps": 2100,
+    "base_minor": 120570,
+    "tax_minor": 25320
+   }
+  ],
+  "line_items": [
+   {
+    "description": "Aceite de oliva virgen extra, garrafa 5 L",
+    "quantity": "24",
+    "unit_price": "31.80",
+    "amount_minor": 76320
+   },
+   {
+    "description": "Vinagre de Jerez reserva, caja 6x75 cl",
+    "quantity": "10",
+    "unit_price": "38.40",
+    "amount_minor": 38400
+   },
+   {
+    "description": "Servilletas de papel, pack 100",
+    "quantity": "30",
+    "unit_price": "1.95",
+    "amount_minor": 5850
+   }
+  ],
+  "payment_terms": "Pago a 60 días fecha factura",
+  "payment_terms_days": 60,
+  "payment_terms_eom": false,
+  "po_number": "OC-1182",
+  "addressed_to": "Harbourline Outdoor Supply Ltd",
+  "sign_convention": null,
+  "expected_findings": [],
+  "duplicate_of": null,
+  "decoys": [
+   {
+    "text": "Albarán nº 4410 de fecha 29/09/2026",
+    "must_not_be": "invoice_number"
+   },
+   {
+    "text": "Recargo de equivalencia: no aplicable",
+    "must_not_be": "tax"
+   }
+  ]
+ },
+ {
+  "file": "doc_006.txt",
+  "doc_id": "A44",
+  "doc_type": "bill",
+  "language": "en",
+  "layout_family": "retail",
+  "tags": [
+   "tax_included",
+   "included_multi_rate",
+   "zero_and_standard",
+   "subtotal_not_printed",
+   "no_terms_days",
+   "ambiguous_numeric_date"
+  ],
+  "needs_person": false,
+  "vendor": "Lumen Coffee Roasters Ltd",
+  "vendor_aliases": [
+   "Lumen Coffee Roasters"
+  ],
+  "invoice_number": "LCR-26-4417",
+  "invoice_date": "2026-10-09",
+  "due_date": null,
+  "due_date_derived_from_terms": null,
+  "currency": "GBP",
+  "currency_exponent": 2,
+  "subtotal_minor": 41800,
+  "subtotal_printed": false,
+  "tax_minor": 2000,
+  "tax_printed": true,
+  "total_minor": 43800,
+  "computed_total_minor": 43800,
+  "amount_basis_of_lines": "gross",
+  "tax_mode": "included",
+  "tax_breakdown": [
+   {
+    "label": "VAT",
+    "rate_bps": 2000,
+    "base_minor": 12000,
+    "tax_minor": 2000
+   },
+   {
+    "label": "VAT",
+    "rate_bps": 0,
+    "base_minor": 31800,
+    "tax_minor": 0
+   }
+  ],
+  "line_items": [
+   {
+    "description": "Espresso blend, whole bean 1 kg",
+    "quantity": "12",
+    "unit_price": "19.50",
+    "amount_minor": 23400
+   },
+   {
+    "description": "Decaf blend, whole bean 1 kg",
+    "quantity": "4",
+    "unit_price": "21.00",
+    "amount_minor": 8400
+   },
+   {
+    "description": "Compostable cups 8oz, sleeve 50",
+    "quantity": "10",
+    "unit_price": "6.60",
+    "amount_minor": 6600
+   },
+   {
+    "description": "Branded tote bag",
+    "quantity": "6",
+    "unit_price": "9.00",
+    "amount_minor": 5400
+   }
+  ],
+  "payment_terms": "Pro forma, payment before dispatch",
+  "payment_terms_days": null,
+  "payment_terms_eom": false,
+  "po_number": null,
+  "addressed_to": "Harbourline Outdoor Supply Ltd",
+  "sign_convention": null,
+  "expected_findings": [],
+  "date_resolution": "day first, vendor country convention",
+  "duplicate_of": null,
+  "decoys": [
+   {
+    "text": "Roast date 2026-10-06   Batch R-0442",
+    "must_not_be": "invoice_date"
+   }
+  ]
+ },
+ {
+  "file": "doc_007.txt",
+  "doc_id": "A29",
+  "doc_type": "bill",
+  "language": "en",
+  "layout_family": "classic",
+  "tags": [
+   "gst",
+   "terms_45",
+   "d_mon_y_date",
+   "sgd",
+   "addressee_variant_ok"
+  ],
+  "needs_person": false,
+  "vendor": "Orchid Tech Components Pte Ltd",
+  "vendor_aliases": [
+   "Orchid Tech Components"
+  ],
+  "invoice_number": "OTC/26/09/1184",
+  "invoice_date": "2026-09-18",
+  "due_date": "2026-11-02",
+  "due_date_derived_from_terms": "2026-11-02",
+  "currency": "SGD",
+  "currency_exponent": 2,
+  "subtotal_minor": 228300,
+  "subtotal_printed": true,
+  "tax_minor": 20547,
+  "tax_printed": true,
+  "total_minor": 248847,
+  "computed_total_minor": 248847,
+  "amount_basis_of_lines": "net",
+  "tax_mode": "extra",
+  "tax_breakdown": [
+   {
+    "label": "GST",
+    "rate_bps": 900,
+    "base_minor": 228300,
+    "tax_minor": 20547
+   }
+  ],
+  "line_items": [
+   {
+    "description": "Capacitor 100uF 25V, reel of 2000",
+    "quantity": "6",
+    "unit_price": "88.00",
+    "amount_minor": 52800
+   },
+   {
+    "description": "Microcontroller ARM-M4 64-pin",
+    "quantity": "450",
+    "unit_price": "3.42",
+    "amount_minor": 153900
+   },
+   {
+    "description": "Connector header 2.54mm 40-pin",
+    "quantity": "1200",
+    "unit_price": "0.18",
+    "amount_minor": 21600
+   }
+  ],
+  "payment_terms": "Net 45",
+  "payment_terms_days": 45,
+  "payment_terms_eom": false,
+  "po_number": "PO-77155",
+  "addressed_to": "Harbourline Outdoor Supply Limited",
+  "sign_convention": null,
+  "expected_findings": [],
+  "duplicate_of": null,
+  "decoys": [
+   {
+    "text": "Sales order SO-009211   Packing list PL-4410",
+    "must_not_be": "invoice_number"
+   },
+   {
+    "text": "HS code 8532.22   Country of origin: MY",
+    "must_not_be": "total"
+   }
+  ]
+ },
+ {
+  "file": "doc_008.txt",
+  "doc_id": "A20",
+  "doc_type": "bill",
+  "language": "nl",
+  "layout_family": "long",
+  "tags": [
+   "long_table",
+   "multi_page",
+   "language_nl",
+   "decimal_comma",
+   "carried_forward_decoys"
+  ],
+  "needs_person": false,
+  "vendor": "Zuiderzee Logistiek BV",
+  "vendor_aliases": [
+   "Zuiderzee Logistiek"
+  ],
+  "invoice_number": "202610-0457",
+  "invoice_date": "2026-10-05",
+  "due_date": "2026-11-04",
+  "due_date_derived_from_terms": "2026-11-04",
+  "currency": "EUR",
+  "currency_exponent": 2,
+  "subtotal_minor": 300045,
+  "subtotal_printed": true,
+  "tax_minor": 63009,
+  "tax_printed": true,
+  "total_minor": 363054,
+  "computed_total_minor": 363054,
+  "amount_basis_of_lines": "net",
+  "tax_mode": "extra",
+  "tax_breakdown": [
+   {
+    "label": "BTW",
+    "rate_bps": 2100,
+    "base_minor": 300045,
+    "tax_minor": 63009
+   }
+  ],
+  "line_items": [
+   {
+    "description": "Pallet 01 Rotterdam - Lelystad, route R2",
+    "quantity": "1",
+    "unit_price": "91.0",
+    "amount_minor": 9100
+   },
+   {
+    "description": "Pallet 02 Rotterdam - Lelystad, route R3",
+    "quantity": "1",
+    "unit_price": "76.25",
+    "amount_minor": 7625
+   },
+   {
+    "description": "Pallet 03 Rotterdam - Lelystad, route R4",
+    "quantity": "1",
+    "unit_price": "104.4",
+    "amount_minor": 10440
+   },
+   {
+    "description": "Pallet 04 Rotterdam - Lelystad, route R1",
+    "quantity": "1",
+    "unit_price": "82.5",
+    "amount_minor": 8250
+   },
+   {
+    "description": "Pallet 05 Rotterdam - Lelystad, route R2",
+    "quantity": "1",
+    "unit_price": "91.0",
+    "amount_minor": 9100
+   },
+   {
+    "description": "Pallet 06 Rotterdam - Lelystad, route R3",
+    "quantity": "1",
+    "unit_price": "76.25",
+    "amount_minor": 7625
+   },
+   {
+    "description": "Pallet 07 Rotterdam - Lelystad, route R4",
+    "quantity": "1",
+    "unit_price": "104.4",
+    "amount_minor": 10440
+   },
+   {
+    "description": "Pallet 08 Rotterdam - Lelystad, route R1",
+    "quantity": "1",
+    "unit_price": "82.5",
+    "amount_minor": 8250
+   },
+   {
+    "description": "Pallet 09 Rotterdam - Lelystad, route R2",
+    "quantity": "1",
+    "unit_price": "91.0",
+    "amount_minor": 9100
+   },
+   {
+    "description": "Pallet 10 Rotterdam - Lelystad, route R3",
+    "quantity": "1",
+    "unit_price": "76.25",
+    "amount_minor": 7625
+   },
+   {
+    "description": "Pallet 11 Rotterdam - Lelystad, route R4",
+    "quantity": "1",
+    "unit_price": "104.4",
+    "amount_minor": 10440
+   },
+   {
+    "description": "Pallet 12 Rotterdam - Lelystad, route R1",
+    "quantity": "1",
+    "unit_price": "82.5",
+    "amount_minor": 8250
+   },
+   {
+    "description": "Pallet 13 Rotterdam - Lelystad, route R2",
+    "quantity": "1",
+    "unit_price": "91.0",
+    "amount_minor": 9100
+   },
+   {
+    "description": "Pallet 14 Rotterdam - Lelystad, route R3",
+    "quantity": "1",
+    "unit_price": "76.25",
+    "amount_minor": 7625
+   },
+   {
+    "description": "Pallet 15 Rotterdam - Lelystad, route R4",
+    "quantity": "1",
+    "unit_price": "104.4",
+    "amount_minor": 10440
+   },
+   {
+    "description": "Pallet 16 Rotterdam - Lelystad, route R1",
+    "quantity": "1",
+    "unit_price": "82.5",
+    "amount_minor": 8250
+   },
+   {
+    "description": "Pallet 17 Rotterdam - Lelystad, route R2",
+    "quantity": "1",
+    "unit_price": "91.0",
+    "amount_minor": 9100
+   },
+   {
+    "description": "Pallet 18 Rotterdam - Lelystad, route R3",
+    "quantity": "1",
+    "unit_price": "76.25",
+    "amount_minor": 7625
+   },
+   {
+    "description": "Pallet 19 Rotterdam - Lelystad, route R4",
+    "quantity": "1",
+    "unit_price": "104.4",
+    "amount_minor": 10440
+   },
+   {
+    "description": "Pallet 20 Rotterdam - Lelystad, route R1",
+    "quantity": "1",
+    "unit_price": "82.5",
+    "amount_minor": 8250
+   },
+   {
+    "description": "Pallet 21 Rotterdam - Lelystad, route R2",
+    "quantity": "1",
+    "unit_price": "91.0",
+    "amount_minor": 9100
+   },
+   {
+    "description": "Pallet 22 Rotterdam - Lelystad, route R3",
+    "quantity": "1",
+    "unit_price": "76.25",
+    "amount_minor": 7625
+   },
+   {
+    "description": "Pallet 23 Rotterdam - Lelystad, route R4",
+    "quantity": "1",
+    "unit_price": "104.4",
+    "amount_minor": 10440
+   },
+   {
+    "description": "Pallet 24 Rotterdam - Lelystad, route R1",
+    "quantity": "1",
+    "unit_price": "82.5",
+    "amount_minor": 8250
+   },
+   {
+    "description": "Pallet 25 Rotterdam - Lelystad, route R2",
+    "quantity": "1",
+    "unit_price": "91.0",
+    "amount_minor": 9100
+   },
+   {
+    "description": "Pallet 26 Rotterdam - Lelystad, route R3",
+    "quantity": "1",
+    "unit_price": "76.25",
+    "amount_minor": 7625
+   },
+   {
+    "description": "Pallet 27 Rotterdam - Lelystad, route R4",
+    "quantity": "1",
+    "unit_price": "104.4",
+    "amount_minor": 10440
+   },
+   {
+    "description": "Pallet 28 Rotterdam - Lelystad, route R1",
+    "quantity": "1",
+    "unit_price": "82.5",
+    "amount_minor": 8250
+   },
+   {
+    "description": "Pallet 29 Rotterdam - Lelystad, route R2",
+    "quantity": "1",
+    "unit_price": "91.0",
+    "amount_minor": 9100
+   },
+   {
+    "description": "Pallet 30 Rotterdam - Lelystad, route R3",
+    "quantity": "1",
+    "unit_price": "76.25",
+    "amount_minor": 7625
+   },
+   {
+    "description": "Pallet 31 Rotterdam - Lelystad, route R4",
+    "quantity": "1",
+    "unit_price": "104.4",
+    "amount_minor": 10440
+   },
+   {
+    "description": "Pallet 32 Rotterdam - Lelystad, route R1",
+    "quantity": "1",
+    "unit_price": "82.5",
+    "amount_minor": 8250
+   },
+   {
+    "description": "Pallet 33 Rotterdam - Lelystad, route R2",
+    "quantity": "1",
+    "unit_price": "91.0",
+    "amount_minor": 9100
+   },
+   {
+    "description": "Pallet 34 Rotterdam - Lelystad, route R3",
+    "quantity": "1",
+    "unit_price": "76.25",
+    "amount_minor": 7625
+   }
+  ],
+  "payment_terms": "Betaling binnen 30 dagen",
+  "payment_terms_days": 30,
+  "payment_terms_eom": false,
+  "po_number": "PO-77131",
+  "addressed_to": "Harbourline Outdoor Supply Ltd",
+  "sign_convention": null,
+  "expected_findings": [],
+  "duplicate_of": null,
+  "decoys": [
+   {
+    "text": "Total packages: 34   Total weight: 15840 kg",
+    "must_not_be": "total"
+   },
+   {
+    "text": "Chauffeur: J. de Test, kenteken 00-XXX-0",
+    "must_not_be": "invoice_number"
+   },
+   {
+    "text": "Over te dragen € 1.583,85",
+    "must_not_be": "subtotal"
+   },
+   {
+    "text": "Overgedragen € 1.583,85",
+    "must_not_be": "subtotal"
+   }
+  ]
+ },
+ {
+  "file": "doc_009.txt",
+  "doc_id": "H02",
+  "doc_type": "unknown",
+  "needs_person": true,
+  "needs_person_reason": "Text layer is broken OCR noise; fields cannot be trusted, a person must key them.",
+  "tags": [
+   "scan",
+   "garbled_text_layer",
+   "low_quality"
+  ],
+  "expected_findings": [
+   "unreadable_or_low_confidence"
+  ],
+  "vendor": null,
+  "invoice_number": null,
+  "invoice_date": null,
+  "due_date": null,
+  "currency": null,
+  "subtotal_minor": null,
+  "tax_minor": null,
+  "total_minor": null,
+  "line_items": [],
+  "payment_terms": null,
+  "duplicate_of": null,
+  "confident_wrong_extraction_is_failure": true
+ },
+ {
+  "file": "doc_010.txt",
+  "doc_id": "A06",
+  "doc_type": "bill",
+  "language": "en",
+  "layout_family": "saas",
+  "tags": [
+   "totals_top",
+   "saas",
+   "tax_extra",
+   "four_decimal_unit"
+  ],
+  "needs_person": false,
+  "vendor": "Brightwater Cloud, Inc.",
+  "vendor_aliases": [
+   "Brightwater Cloud"
+  ],
+  "invoice_number": "INV-2026-0098217",
+  "invoice_date": "2026-09-14",
+  "due_date": "2026-09-14",
+  "due_date_derived_from_terms": "2026-09-14",
+  "currency": "USD",
+  "currency_exponent": 2,
+  "subtotal_minor": 79550,
+  "subtotal_printed": true,
+  "tax_minor": 6762,
+  "tax_printed": true,
+  "total_minor": 86312,
+  "computed_total_minor": 86312,
+  "amount_basis_of_lines": "net",
+  "tax_mode": "extra",
+  "tax_breakdown": [
+   {
+    "label": "Sales tax",
+    "rate_bps": 850,
+    "base_minor": 79550,
+    "tax_minor": 6762
+   }
+  ],
+  "line_items": [
+   {
+    "description": "Compute instances (Aug 15 - Sep 14)",
+    "quantity": "1",
+    "unit_price": "612.40",
+    "amount_minor": 61240
+   },
+   {
+    "description": "Object storage, 2,400 GB-month",
+    "quantity": "2400",
+    "unit_price": "0.0230",
+    "amount_minor": 5520
+   },
+   {
+    "description": "Outbound data transfer, 310 GB",
+    "quantity": "310",
+    "unit_price": "0.0900",
+    "amount_minor": 2790
+   },
+   {
+    "description": "Premium support plan",
+    "quantity": "1",
+    "unit_price": "100.00",
+    "amount_minor": 10000
+   }
+  ],
+  "payment_terms": "Due on receipt",
+  "payment_terms_days": 0,
+  "payment_terms_eom": false,
+  "po_number": null,
+  "addressed_to": "Harbourline Outdoor Supply Ltd",
+  "sign_convention": null,
+  "expected_findings": [],
+  "duplicate_of": null,
+  "decoys": [
+   {
+    "text": "Total purchased with us this year: $6,840.12",
+    "must_not_be": "total"
+   },
+   {
+    "text": "Account ID: acct_0000AAAA1111",
+    "must_not_be": "invoice_number"
+   }
+  ]
+ },
+ {
+  "file": "doc_011.txt",
+  "doc_id": "A48",
+  "doc_type": "bill",
+  "language": "it",
+  "layout_family": "euro",
+  "tags": [
+   "language_it",
+   "decimal_comma",
+   "dmy_date"
+  ],
+  "needs_person": false,
+  "vendor": "Studio Bellini SRL",
+  "vendor_aliases": [
+   "Studio Bellini"
+  ],
+  "invoice_number": "112/2026",
+  "invoice_date": "2026-10-15",
+  "due_date": "2026-11-14",
+  "due_date_derived_from_terms": "2026-11-14",
+  "currency": "EUR",
+  "currency_exponent": 2,
+  "subtotal_minor": 278200,
+  "subtotal_printed": true,
+  "tax_minor": 61204,
+  "tax_printed": true,
+  "total_minor": 339404,
+  "computed_total_minor": 339404,
+  "amount_basis_of_lines": "net",
+  "tax_mode": "extra",
+  "tax_breakdown": [
+   {
+    "label": "IVA",
+    "rate_bps": 2200,
+    "base_minor": 278200,
+    "tax_minor": 61204
+   }
+  ],
+  "line_items": [
+   {
+    "description": "Progetto grafico catalogo autunno",
+    "quantity": "1",
+    "unit_price": "1850.00",
+    "amount_minor": 185000
+   },
+   {
+    "description": "Impaginazione, 36 pagine",
+    "quantity": "36",
+    "unit_price": "22.00",
+    "amount_minor": 79200
+   },
+   {
+    "description": "Stampe di prova",
+    "quantity": "4",
+    "unit_price": "35.00",
+    "amount_minor": 14000
+   }
+  ],
+  "payment_terms": "Bonifico bancario a 30 giorni data fattura",
+  "payment_terms_days": 30,
+  "payment_terms_eom": false,
+  "po_number": "ORD-8801",
+  "addressed_to": "Harbourline Outdoor Supply Ltd",
+  "sign_convention": null,
+  "expected_findings": [],
+  "duplicate_of": null,
+  "decoys": [
+   {
+    "text": "Bollo assolto in modo virtuale",
+    "must_not_be": "tax"
+   },
+   {
+    "text": "Rif. preventivo n. 51/2026 del 02/10/2026",
+    "must_not_be": "invoice_number"
+   }
+  ]
+ },
+ {
+  "file": "doc_012.txt",
+  "doc_id": "A10",
+  "doc_type": "bill",
+  "language": "de",
+  "layout_family": "euro",
+  "tags": [
+   "multi_rate",
+   "decimal_comma",
+   "language_de",
+   "tax_breakdown_table"
+  ],
+  "needs_person": false,
+  "vendor": "Kellerhoff Büromöbel GmbH",
+  "vendor_aliases": [
+   "Kellerhoff Büromöbel",
+   "Kellerhoff Bueromoebel GmbH"
+  ],
+  "invoice_number": "2026-100387",
+  "invoice_date": "2026-09-21",
+  "due_date": "2026-10-21",
+  "due_date_derived_from_terms": "2026-10-21",
+  "currency": "EUR",
+  "currency_exponent": 2,
+  "subtotal_minor": 303080,
+  "subtotal_printed": true,
+  "tax_minor": 56748,
+  "tax_printed": true,
+  "total_minor": 359828,
+  "computed_total_minor": 359828,
+  "amount_basis_of_lines": "net",
+  "tax_mode": "multi_rate",
+  "tax_breakdown": [
+   {
+    "label": "MwSt",
+    "rate_bps": 1900,
+    "base_minor": 296100,
+    "tax_minor": 56259
+   },
+   {
+    "label": "MwSt",
+    "rate_bps": 700,
+    "base_minor": 6980,
+    "tax_minor": 489
+   }
+  ],
+  "line_items": [
+   {
+    "description": "Bürodrehstuhl Modell Sigma, schwarz",
+    "quantity": "6",
+    "unit_price": "219.00",
+    "amount_minor": 131400
+   },
+   {
+    "description": "Höhenverstellbarer Schreibtisch 160x80",
+    "quantity": "3",
+    "unit_price": "489.00",
+    "amount_minor": 146700
+   },
+   {
+    "description": "Fachbuch Ergonomie am Arbeitsplatz",
+    "quantity": "2",
+    "unit_price": "34.90",
+    "amount_minor": 6980
+   },
+   {
+    "description": "Lieferung und Montage",
+    "quantity": "1",
+    "unit_price": "180.00",
+    "amount_minor": 18000
+   }
+  ],
+  "payment_terms": "14 Tage 2 % Skonto, 30 Tage netto",
+  "payment_terms_days": 30,
+  "payment_terms_eom": false,
+  "po_number": "B-45512",
+  "addressed_to": "Harbourline Outdoor Supply Ltd",
+  "sign_convention": null,
+  "expected_findings": [],
+  "duplicate_of": null,
+  "decoys": [
+   {
+    "text": "Lieferschein Nr. 3318 vom 18.09.2026",
+    "must_not_be": "invoice_number"
+   },
+   {
+    "text": "Handelsregister HRB 000001",
+    "must_not_be": "invoice_number"
+   }
+  ]
+ },
+ {
+  "file": "doc_013.txt",
+  "doc_id": "A04",
+  "doc_type": "bill",
+  "language": "en",
+  "layout_family": "classic",
+  "tags": [
+   "totals_bottom",
+   "tax_extra",
+   "context_dependent"
+  ],
+  "needs_person": false,
+  "vendor": "Northgate Packaging Ltd",
+  "vendor_aliases": [
+   "Northgate Packaging",
+   "NORTHGATE PACKAGING LTD"
+  ],
+  "invoice_number": "NP-2026-04561",
+  "invoice_date": "2026-10-16",
+  "due_date": "2026-11-15",
+  "due_date_derived_from_terms": "2026-11-15",
+  "currency": "GBP",
+  "currency_exponent": 2,
+  "subtotal_minor": 39840,
+  "subtotal_printed": true,
+  "tax_minor": 7968,
+  "tax_printed": true,
+  "total_minor": 47808,
+  "computed_total_minor": 47808,
+  "amount_basis_of_lines": "net",
+  "tax_mode": "extra",
+  "tax_breakdown": [
+   {
+    "label": "VAT",
+    "rate_bps": 2000,
+    "base_minor": 39840,
+    "tax_minor": 7968
+   }
+  ],
+  "line_items": [
+   {
+    "description": "Corrugated carton 600x400x400mm, 5 ply",
+    "quantity": "200",
+    "unit_price": "1.74",
+    "amount_minor": 34800
+   },
+   {
+    "description": "Packing tape 48mm x 66m, brown",
+    "quantity": "48",
+    "unit_price": "1.05",
+    "amount_minor": 5040
+   }
+  ],
+  "payment_terms": "Net 30 days",
+  "payment_terms_days": 30,
+  "payment_terms_eom": false,
+  "po_number": "PO-77203",
+  "addressed_to": "Harbourline Outdoor Supply Ltd",
+  "sign_convention": null,
+  "expected_findings": [
+   "changed_bank_details"
+  ],
+  "duplicate_of": null,
+  "decoys": [
+   {
+    "text": "Customer reference: HOS-WH-04",
+    "must_not_be": "invoice_number"
+   }
+  ],
+  "note": "Bank account differs from iban_on_file in context.json."
+ },
+ {
+  "file": "doc_014.txt",
+  "doc_id": "H03",
+  "doc_type": "unknown",
+  "needs_person": true,
+  "needs_person_reason": "Only the continuation page of a multi page invoice: no vendor, invoice number or date on this page.",
+  "tags": [
+   "page_two_only",
+   "missing_header"
+  ],
+  "expected_findings": [
+   "unreadable_or_low_confidence"
+  ],
+  "vendor": null,
+  "invoice_number": null,
+  "invoice_date": null,
+  "due_date": null,
+  "currency": null,
+  "subtotal_minor": null,
+  "tax_minor": null,
+  "total_minor": null,
+  "line_items": [],
+  "payment_terms": null,
+  "duplicate_of": null,
+  "confident_wrong_extraction_is_failure": true
+ },
+ {
+  "file": "doc_015.txt",
+  "doc_id": "A21",
+  "doc_type": "bill",
+  "language": "nl",
+  "layout_family": "long",
+  "tags": [
+   "reverse_charge",
+   "language_nl",
+   "decimal_comma"
+  ],
+  "needs_person": false,
+  "vendor": "Zuiderzee Logistiek BV",
+  "vendor_aliases": [
+   "Zuiderzee Logistiek"
+  ],
+  "invoice_number": "202610-0471",
+  "invoice_date": "2026-10-12",
+  "due_date": "2026-11-11",
+  "due_date_derived_from_terms": "2026-11-11",
+  "currency": "EUR",
+  "currency_exponent": 2,
+  "subtotal_minor": 127440,
+  "subtotal_printed": true,
+  "tax_minor": 0,
+  "tax_printed": true,
+  "total_minor": 127440,
+  "computed_total_minor": 127440,
+  "amount_basis_of_lines": "net",
+  "tax_mode": "reverse_charge",
+  "tax_breakdown": [
+   {
+    "label": "BTW",
+    "rate_bps": 0,
+    "base_minor": 127440,
+    "tax_minor": 0
+   }
+  ],
+  "line_items": [
+   {
+    "description": "Transport Lelystad - Dublin (ro-ro), 2 pallets",
+    "quantity": "1",
+    "unit_price": "1180.00",
+    "amount_minor": 118000
+   },
+   {
+    "description": "Brandstoftoeslag",
+    "quantity": "1",
+    "unit_price": "94.40",
+    "amount_minor": 9440
+   }
+  ],
+  "payment_terms": "Betaling binnen 30 dagen",
+  "payment_terms_days": 30,
+  "payment_terms_eom": false,
+  "po_number": null,
+  "addressed_to": "Harbourline Outdoor Supply Ltd",
+  "sign_convention": null,
+  "expected_findings": [],
+  "duplicate_of": null,
+  "decoys": [
+   {
+    "text": "BTW-nr afnemer: IE0000001A",
+    "must_not_be": "invoice_number"
+   }
+  ]
+ },
+ {
+  "file": "doc_016.txt",
+  "doc_id": "A12",
+  "doc_type": "credit_note",
+  "language": "de",
+  "layout_family": "euro",
+  "tags": [
+   "credit_note",
+   "decimal_comma",
+   "language_de",
+   "ambiguous_numeric_date"
+  ],
+  "needs_person": false,
+  "vendor": "Kellerhoff Büromöbel GmbH",
+  "vendor_aliases": [
+   "Kellerhoff Büromöbel",
+   "Kellerhoff Bueromoebel GmbH"
+  ],
+  "invoice_number": "GS-2026-00044",
+  "invoice_date": "2026-10-12",
+  "due_date": "2026-11-11",
+  "due_date_derived_from_terms": "2026-11-11",
+  "currency": "EUR",
+  "currency_exponent": 2,
+  "subtotal_minor": 24400,
+  "subtotal_printed": true,
+  "tax_minor": 4636,
+  "tax_printed": true,
+  "total_minor": 29036,
+  "computed_total_minor": 29036,
+  "amount_basis_of_lines": "net",
+  "tax_mode": "extra",
+  "tax_breakdown": [
+   {
+    "label": "MwSt",
+    "rate_bps": 1900,
+    "base_minor": 24400,
+    "tax_minor": 4636
+   }
+  ],
+  "line_items": [
+   {
+    "description": "Rücknahme Bürodrehstuhl Modell Sigma (defekt)",
+    "quantity": "1",
+    "unit_price": "219.00",
+    "amount_minor": 21900
+   },
+   {
+    "description": "Transportkostenerstattung",
+    "quantity": "1",
+    "unit_price": "25.00",
+    "amount_minor": 2500
+   }
+  ],
+  "payment_terms": "14 Tage 2 % Skonto, 30 Tage netto",
+  "payment_terms_days": 30,
+  "payment_terms_eom": false,
+  "po_number": "B-45512",
+  "addressed_to": "Harbourline Outdoor Supply Ltd",
+  "sign_convention": "credit amounts printed as: minus",
+  "expected_findings": [],
+  "date_resolution": "day first, vendor country convention",
+  "duplicate_of": null,
+  "decoys": [
+   {
+    "text": "Bezug: Rechnung 2026-100387 vom 21.09.2026",
+    "must_not_be": "invoice_number"
+   }
+  ],
+  "credit_refers_to_invoice": "2026-100387"
+ },
+ {
+  "file": "doc_017.txt",
+  "doc_id": "A16",
+  "doc_type": "bill",
+  "language": "fr",
+  "layout_family": "euro",
+  "tags": [
+   "line_sum_mismatch",
+   "language_fr"
+  ],
+  "needs_person": false,
+  "vendor": "Atelier Moreau SARL",
+  "vendor_aliases": [
+   "Atelier Moreau"
+  ],
+  "invoice_number": "F2026-0802",
+  "invoice_date": "2026-10-23",
+  "due_date": "2026-11-30",
+  "due_date_derived_from_terms": "2026-11-30",
+  "currency": "EUR",
+  "currency_exponent": 2,
+  "subtotal_minor": 275800,
+  "subtotal_printed": true,
+  "tax_minor": 55160,
+  "tax_printed": true,
+  "total_minor": 330960,
+  "computed_total_minor": 336960,
+  "amount_basis_of_lines": "net",
+  "tax_mode": "extra",
+  "tax_breakdown": [
+   {
+    "label": "TVA",
+    "rate_bps": 2000,
+    "base_minor": 275800,
+    "tax_minor": 55160
+   }
+  ],
+  "line_items": [
+   {
+    "description": "Tissu lin lavé, largeur 140 cm, bleu",
+    "quantity": "120",
+    "unit_price": "18.50",
+    "amount_minor": 222000
+   },
+   {
+    "description": "Doublure viscose 140 cm",
+    "quantity": "60",
+    "unit_price": "9.80",
+    "amount_minor": 58800
+   }
+  ],
+  "payment_terms": "Paiement à 30 jours fin de mois",
+  "payment_terms_days": 30,
+  "payment_terms_eom": true,
+  "po_number": null,
+  "addressed_to": "Harbourline Outdoor Supply Ltd",
+  "sign_convention": null,
+  "expected_findings": [
+   "line_sum_mismatch"
+  ],
+  "duplicate_of": null,
+  "decoys": [],
+  "note": "Printed subtotal is 50.00 below the sum of the lines; total follows the printed subtotal."
+ },
+ {
+  "file": "doc_018.txt",
+  "doc_id": "A27",
+  "doc_type": "credit_note",
+  "language": "en",
+  "layout_family": "letter",
+  "tags": [
+   "credit_note",
+   "letter",
+   "printed_positive"
+  ],
+  "needs_person": false,
+  "vendor": "Marlow & Finch LLP",
+  "vendor_aliases": [
+   "Marlow & Finch",
+   "Marlow and Finch LLP"
+  ],
+  "invoice_number": "CN-20261020",
+  "invoice_date": "2026-10-20",
+  "due_date": "2026-11-17",
+  "due_date_derived_from_terms": "2026-11-17",
+  "currency": "GBP",
+  "currency_exponent": 2,
+  "subtotal_minor": 30000,
+  "subtotal_printed": true,
+  "tax_minor": 6000,
+  "tax_printed": true,
+  "total_minor": 36000,
+  "computed_total_minor": 36000,
+  "amount_basis_of_lines": "net",
+  "tax_mode": "extra",
+  "tax_breakdown": [
+   {
+    "label": "VAT",
+    "rate_bps": 2000,
+    "base_minor": 30000,
+    "tax_minor": 6000
+   }
+  ],
+  "line_items": [
+   {
+    "description": "Reduction of fees agreed on invoice 20261117",
+    "quantity": "1",
+    "unit_price": "300.00",
+    "amount_minor": 30000
+   }
+  ],
+  "payment_terms": "Payment is due within 28 days",
+  "payment_terms_days": 28,
+  "payment_terms_eom": false,
+  "po_number": null,
+  "addressed_to": "Harbourline Outdoor Supply Ltd",
+  "sign_convention": "credit amounts printed as: pos",
+  "expected_findings": [],
+  "duplicate_of": null,
+  "decoys": [],
+  "credit_refers_to_invoice": "20261117"
+ },
+ {
+  "file": "doc_019.txt",
+  "doc_id": "A09",
+  "doc_type": "bill",
+  "language": "en",
+  "layout_family": "saas",
+  "tags": [
+   "totals_top",
+   "saas",
+   "multi_currency_print",
+   "zero_tax"
+  ],
+  "needs_person": false,
+  "vendor": "Brightwater Cloud, Inc.",
+  "vendor_aliases": [
+   "Brightwater Cloud"
+  ],
+  "invoice_number": "INV-2026-0099120",
+  "invoice_date": "2026-09-28",
+  "due_date": "2026-09-28",
+  "due_date_derived_from_terms": "2026-09-28",
+  "currency": "USD",
+  "currency_exponent": 2,
+  "subtotal_minor": 98000,
+  "subtotal_printed": true,
+  "tax_minor": 0,
+  "tax_printed": true,
+  "total_minor": 98000,
+  "computed_total_minor": 98000,
+  "amount_basis_of_lines": "net",
+  "tax_mode": "zero",
+  "tax_breakdown": [
+   {
+    "label": "Sales tax",
+    "rate_bps": 0,
+    "base_minor": 98000,
+    "tax_minor": 0
+   }
+  ],
+  "line_items": [
+   {
+    "description": "Compute instances (Sep 1 - Sep 28)",
+    "quantity": "1",
+    "unit_price": "880.00",
+    "amount_minor": 88000
+   },
+   {
+    "description": "Premium support plan",
+    "quantity": "1",
+    "unit_price": "100.00",
+    "amount_minor": 10000
+   }
+  ],
+  "payment_terms": "Due on receipt",
+  "payment_terms_days": 0,
+  "payment_terms_eom": false,
+  "po_number": null,
+  "addressed_to": "Harbourline Outdoor Supply Ltd",
+  "sign_convention": null,
+  "expected_findings": [],
+  "duplicate_of": null,
+  "decoys": [
+   {
+    "text": "Approximate GBP equivalent GBP 764.40 at rate 0.7800 (information only)",
+    "must_not_be": "total"
+   },
+   {
+    "text": "Approximate EUR equivalent EUR 899.60 at rate 0.9180 (information only)",
+    "must_not_be": "total"
+   }
+  ]
+ },
+ {
+  "file": "doc_020.txt",
+  "doc_id": "A41",
+  "doc_type": "bill",
+  "language": "en",
+  "layout_family": "classic",
+  "tags": [
+   "discount_terms",
+   "freight_line",
+   "mon_d_y_date",
+   "usd"
+  ],
+  "needs_person": false,
+  "vendor": "Delmar Industrial Supply Corp.",
+  "vendor_aliases": [
+   "Delmar Industrial Supply",
+   "DELMAR INDUSTRIAL SUPPLY CORP"
+  ],
+  "invoice_number": "88103451",
+  "invoice_date": "2026-09-29",
+  "due_date": "2026-10-29",
+  "due_date_derived_from_terms": "2026-10-29",
+  "currency": "USD",
+  "currency_exponent": 2,
+  "subtotal_minor": 58520,
+  "subtotal_printed": true,
+  "tax_minor": 3804,
+  "tax_printed": true,
+  "total_minor": 62324,
+  "computed_total_minor": 62324,
+  "amount_basis_of_lines": "net",
+  "tax_mode": "extra",
+  "tax_breakdown": [
+   {
+    "label": "Sales Tax",
+    "rate_bps": 650,
+    "base_minor": 58520,
+    "tax_minor": 3804
+   }
+  ],
+  "line_items": [
+   {
+    "description": "Hex bolt 3/8-16 x 2in, zinc, box 100",
+    "quantity": "30",
+    "unit_price": "11.40",
+    "amount_minor": 34200
+   },
+   {
+    "description": "Flat washer 3/8in, box 500",
+    "quantity": "20",
+    "unit_price": "8.95",
+    "amount_minor": 17900
+   },
+   {
+    "description": "Freight, prepaid and added",
+    "quantity": "1",
+    "unit_price": "64.20",
+    "amount_minor": 6420
+   }
+  ],
+  "payment_terms": "2/10 net 30",
+  "payment_terms_days": 30,
+  "payment_terms_eom": false,
+  "po_number": "PO-77162",
+  "addressed_to": "Harbourline Outdoor Supply Ltd",
+  "sign_convention": null,
+  "expected_findings": [],
+  "duplicate_of": null,
+  "decoys": [
+   {
+    "text": "Order no. 7731-A   Ship via Ground   Pro no. 00442211",
+    "must_not_be": "invoice_number"
+   },
+   {
+    "text": "Settlement discount: pay by Oct 9, 2026 to deduct 2%.",
+    "must_not_be": "due_date"
+   }
+  ]
+ },
+ {
+  "file": "doc_021.txt",
+  "doc_id": "A24",
+  "doc_type": "bill",
+  "language": "en",
+  "layout_family": "compact",
+  "tags": [
+   "compact",
+   "tax_exempt",
+   "flat_lines",
+   "ambiguous_numeric_date"
+  ],
+  "needs_person": false,
+  "vendor": "Pinecrest Janitorial Co",
+  "vendor_aliases": [
+   "Pinecrest Janitorial"
+  ],
+  "invoice_number": "5602",
+  "invoice_date": "2026-10-01",
+  "due_date": "2026-10-31",
+  "due_date_derived_from_terms": "2026-10-31",
+  "currency": "USD",
+  "currency_exponent": 2,
+  "subtotal_minor": 171000,
+  "subtotal_printed": true,
+  "tax_minor": 0,
+  "tax_printed": true,
+  "total_minor": 171000,
+  "computed_total_minor": 171000,
+  "amount_basis_of_lines": "net",
+  "tax_mode": "exempt",
+  "tax_breakdown": [
+   {
+    "label": "Sales tax",
+    "rate_bps": 0,
+    "base_minor": 171000,
+    "tax_minor": 0
+   }
+  ],
+  "line_items": [
+   {
+    "description": "Monthly janitorial contract, October",
+    "quantity": "1",
+    "unit_price": "1450.00",
+    "amount_minor": 145000
+   },
+   {
+    "description": "Carpet extraction, conference room",
+    "quantity": "1",
+    "unit_price": "260.00",
+    "amount_minor": 26000
+   }
+  ],
+  "payment_terms": "NET 30",
+  "payment_terms_days": 30,
+  "payment_terms_eom": false,
+  "po_number": null,
+  "addressed_to": "Harbourline Outdoor Supply Ltd",
+  "sign_convention": null,
+  "expected_findings": [],
+  "date_resolution": "month first, US vendor",
+  "duplicate_of": null,
+  "decoys": [
+   {
+    "text": "Sales tax exempt: certificate on file",
+    "must_not_be": "tax"
+   }
+  ]
+ },
+ {
+  "file": "doc_022.txt",
+  "doc_id": "A02",
+  "doc_type": "bill",
+  "language": "en",
+  "layout_family": "classic",
+  "tags": [
+   "totals_bottom",
+   "tax_extra",
+   "long_date"
+  ],
+  "needs_person": false,
+  "vendor": "Northgate Packaging Ltd",
+  "vendor_aliases": [
+   "Northgate Packaging",
+   "NORTHGATE PACKAGING LTD"
+  ],
+  "invoice_number": "NP-2026-04502",
+  "invoice_date": "2026-10-02",
+  "due_date": "2026-11-01",
+  "due_date_derived_from_terms": "2026-11-01",
+  "currency": "GBP",
+  "currency_exponent": 2,
+  "subtotal_minor": 45560,
+  "subtotal_printed": true,
+  "tax_minor": 9112,
+  "tax_printed": true,
+  "total_minor": 54672,
+  "computed_total_minor": 54672,
+  "amount_basis_of_lines": "net",
+  "tax_mode": "extra",
+  "tax_breakdown": [
+   {
+    "label": "VAT",
+    "rate_bps": 2000,
+    "base_minor": 45560,
+    "tax_minor": 9112
+   }
+  ],
+  "line_items": [
+   {
+    "description": "Kraft paper void fill 70gsm, 450mm",
+    "quantity": "20",
+    "unit_price": "9.95",
+    "amount_minor": 19900
+   },
+   {
+    "description": "Archive box 36x26x26cm, lidded",
+    "quantity": "150",
+    "unit_price": "1.38",
+    "amount_minor": 20700
+   },
+   {
+    "description": "Fragile label roll, 500 per roll",
+    "quantity": "8",
+    "unit_price": "6.20",
+    "amount_minor": 4960
+   }
+  ],
+  "payment_terms": "Net 30 days",
+  "payment_terms_days": 30,
+  "payment_terms_eom": false,
+  "po_number": "PO-77188",
+  "addressed_to": "Harbourline Outdoor Supply Ltd",
+  "sign_convention": null,
+  "expected_findings": [],
+  "duplicate_of": null,
+  "decoys": [
+   {
+    "text": "Total packages: 14   Total weight: 412 kg",
+    "must_not_be": "total"
+   },
+   {
+    "text": "Late payment: interest at 1.5% per month is charged on overdue balances.",
+    "must_not_be": "tax"
+   }
+  ]
+ },
+ {
+  "file": "doc_023.txt",
+  "doc_id": "A35",
+  "doc_type": "bill",
+  "language": "en",
+  "layout_family": "long",
+  "tags": [
+   "long_table",
+   "multi_page",
+   "nok",
+   "space_thousands",
+   "carried_forward_decoys",
+   "ambiguous_numeric_date"
+  ],
+  "needs_person": false,
+  "vendor": "Fjord Freight AS",
+  "vendor_aliases": [
+   "Fjord Freight"
+  ],
+  "invoice_number": "FF-2026-11874",
+  "invoice_date": "2026-10-08",
+  "due_date": "2026-10-29",
+  "due_date_derived_from_terms": "2026-10-29",
+  "currency": "NOK",
+  "currency_exponent": 2,
+  "subtotal_minor": 6594300,
+  "subtotal_printed": true,
+  "tax_minor": 1648575,
+  "tax_printed": true,
+  "total_minor": 8242875,
+  "computed_total_minor": 8242875,
+  "amount_basis_of_lines": "net",
+  "tax_mode": "extra",
+  "tax_breakdown": [
+   {
+    "label": "MVA",
+    "rate_bps": 2500,
+    "base_minor": 6594300,
+    "tax_minor": 1648575
+   }
+  ],
+  "line_items": [
+   {
+    "description": "Container 01 Bergen to Bristol (FCL 20ft)",
+    "quantity": "1",
+    "unit_price": "5610.50",
+    "amount_minor": 561050
+   },
+   {
+    "description": "Container 02 Bergen to Bristol (FCL 20ft)",
+    "quantity": "1",
+    "unit_price": "5395.25",
+    "amount_minor": 539525
+   },
+   {
+    "description": "Container 03 Bergen to Bristol (FCL 20ft)",
+    "quantity": "1",
+    "unit_price": "5480.00",
+    "amount_minor": 548000
+   },
+   {
+    "description": "Container 04 Bergen to Bristol (FCL 20ft)",
+    "quantity": "1",
+    "unit_price": "5610.50",
+    "amount_minor": 561050
+   },
+   {
+    "description": "Container 05 Bergen to Bristol (FCL 20ft)",
+    "quantity": "1",
+    "unit_price": "5395.25",
+    "amount_minor": 539525
+   },
+   {
+    "description": "Container 06 Bergen to Bristol (FCL 20ft)",
+    "quantity": "1",
+    "unit_price": "5480.00",
+    "amount_minor": 548000
+   },
+   {
+    "description": "Container 07 Bergen to Bristol (FCL 20ft)",
+    "quantity": "1",
+    "unit_price": "5610.50",
+    "amount_minor": 561050
+   },
+   {
+    "description": "Container 08 Bergen to Bristol (FCL 20ft)",
+    "quantity": "1",
+    "unit_price": "5395.25",
+    "amount_minor": 539525
+   },
+   {
+    "description": "Container 09 Bergen to Bristol (FCL 20ft)",
+    "quantity": "1",
+    "unit_price": "5480.00",
+    "amount_minor": 548000
+   },
+   {
+    "description": "Container 10 Bergen to Bristol (FCL 20ft)",
+    "quantity": "1",
+    "unit_price": "5610.50",
+    "amount_minor": 561050
+   },
+   {
+    "description": "Container 11 Bergen to Bristol (FCL 20ft)",
+    "quantity": "1",
+    "unit_price": "5395.25",
+    "amount_minor": 539525
+   },
+   {
+    "description": "Container 12 Bergen to Bristol (FCL 20ft)",
+    "quantity": "1",
+    "unit_price": "5480.00",
+    "amount_minor": 548000
+   }
+  ],
+  "payment_terms": "Net 21 days",
+  "payment_terms_days": 21,
+  "payment_terms_eom": false,
+  "po_number": "PO-77160",
+  "addressed_to": "Harbourline Outdoor Supply Ltd",
+  "sign_convention": null,
+  "expected_findings": [],
+  "date_resolution": "day first, vendor country convention",
+  "duplicate_of": null,
+  "decoys": [
+   {
+    "text": "Booking ref BK-000771   B/L no. FJF000118",
+    "must_not_be": "invoice_number"
+   },
+   {
+    "text": "Weight total 241,600 kg",
+    "must_not_be": "total"
+   },
+   {
+    "text": "Carried forward 43 977,25 NOK",
+    "must_not_be": "subtotal"
+   },
+   {
+    "text": "Brought forward 43 977,25 NOK",
+    "must_not_be": "subtotal"
+   }
+  ]
+ },
+ {
+  "file": "doc_024.txt",
+  "doc_id": "A18",
+  "doc_type": "bill",
+  "language": "es",
+  "layout_family": "totals_top",
+  "tags": [
+   "totals_top",
+   "multi_rate",
+   "language_es",
+   "three_rates"
+  ],
+  "needs_person": false,
+  "vendor": "Casa Verde Suministros SL",
+  "vendor_aliases": [
+   "Casa Verde Suministros",
+   "CASA VERDE SUMINISTROS S.L."
+  ],
+  "invoice_number": "FV-2026/0421",
+  "invoice_date": "2026-10-19",
+  "due_date": "2026-12-18",
+  "due_date_derived_from_terms": "2026-12-18",
+  "currency": "EUR",
+  "currency_exponent": 2,
+  "subtotal_minor": 90560,
+  "subtotal_printed": true,
+  "tax_minor": 10508,
+  "tax_printed": true,
+  "total_minor": 101068,
+  "computed_total_minor": 101068,
+  "amount_basis_of_lines": "net",
+  "tax_mode": "multi_rate",
+  "tax_breakdown": [
+   {
+    "label": "IVA",
+    "rate_bps": 2100,
+    "base_minor": 16800,
+    "tax_minor": 3528
+   },
+   {
+    "label": "IVA",
+    "rate_bps": 1000,
+    "base_minor": 67160,
+    "tax_minor": 6716
+   },
+   {
+    "label": "IVA",
+    "rate_bps": 400,
+    "base_minor": 6600,
+    "tax_minor": 264
+   }
+  ],
+  "line_items": [
+   {
+    "description": "Aceite de oliva virgen extra, garrafa 5 L",
+    "quantity": "12",
+    "unit_price": "31.80",
+    "amount_minor": 38160
+   },
+   {
+    "description": "Pan de molde integral, caja 12 ud",
+    "quantity": "20",
+    "unit_price": "14.50",
+    "amount_minor": 29000
+   },
+   {
+    "description": "Detergente lavavajillas industrial, 20 L",
+    "quantity": "4",
+    "unit_price": "42.00",
+    "amount_minor": 16800
+   },
+   {
+    "description": "Semillas de girasol para siembra, 1 kg",
+    "quantity": "10",
+    "unit_price": "6.60",
+    "amount_minor": 6600
+   }
+  ],
+  "payment_terms": "Pago a 60 días fecha factura",
+  "payment_terms_days": 60,
+  "payment_terms_eom": false,
+  "po_number": "OC-1201",
+  "addressed_to": "Harbourline Outdoor Supply Ltd",
+  "sign_convention": null,
+  "expected_findings": [],
+  "duplicate_of": null,
+  "decoys": []
+ },
+ {
+  "file": "doc_025.txt",
+  "doc_id": "A01",
+  "doc_type": "bill",
+  "language": "en",
+  "layout_family": "classic",
+  "tags": [
+   "totals_bottom",
+   "tax_extra",
+   "long_date",
+   "decoy_ref"
+  ],
+  "needs_person": false,
+  "vendor": "Northgate Packaging Ltd",
+  "vendor_aliases": [
+   "Northgate Packaging",
+   "NORTHGATE PACKAGING LTD"
+  ],
+  "invoice_number": "NP-2026-04417",
+  "invoice_date": "2026-09-14",
+  "due_date": "2026-10-14",
+  "due_date_derived_from_terms": "2026-10-14",
+  "currency": "GBP",
+  "currency_exponent": 2,
+  "subtotal_minor": 68560,
+  "subtotal_printed": true,
+  "tax_minor": 13712,
+  "tax_printed": true,
+  "total_minor": 82272,
+  "computed_total_minor": 82272,
+  "amount_basis_of_lines": "net",
+  "tax_mode": "extra",
+  "tax_breakdown": [
+   {
+    "label": "VAT",
+    "rate_bps": 2000,
+    "base_minor": 68560,
+    "tax_minor": 13712
+   }
+  ],
+  "line_items": [
+   {
+    "description": "Corrugated carton 400x300x250mm, 5 ply",
+    "quantity": "500",
+    "unit_price": "0.86",
+    "amount_minor": 43000
+   },
+   {
+    "description": "Packing tape 48mm x 66m, clear",
+    "quantity": "72",
+    "unit_price": "1.15",
+    "amount_minor": 8280
+   },
+   {
+    "description": "Bubble wrap roll 750mm x 50m",
+    "quantity": "12",
+    "unit_price": "14.40",
+    "amount_minor": 17280
+   }
+  ],
+  "payment_terms": "Net 30 days",
+  "payment_terms_days": 30,
+  "payment_terms_eom": false,
+  "po_number": "PO-77120",
+  "addressed_to": "Harbourline Outdoor Supply Ltd",
+  "sign_convention": null,
+  "expected_findings": [],
+  "duplicate_of": null,
+  "decoys": [
+   {
+    "text": "Delivery note: DN-20318",
+    "must_not_be": "invoice_number"
+   },
+   {
+    "text": "Customer reference: HOS-WH-04",
+    "must_not_be": "invoice_number"
+   }
+  ]
+ },
+ {
+  "file": "doc_026.txt",
+  "doc_id": "A33",
+  "doc_type": "bill",
+  "language": "en",
+  "layout_family": "compact",
+  "tags": [
+   "compact",
+   "utility",
+   "four_decimal_unit",
+   "state_tax"
+  ],
+  "needs_person": false,
+  "vendor": "Rowan Electric Cooperative",
+  "vendor_aliases": [
+   "Rowan Electric Co-op"
+  ],
+  "invoice_number": "0000482719",
+  "invoice_date": "2026-09-15",
+  "due_date": "2026-10-05",
+  "due_date_derived_from_terms": "2026-10-05",
+  "currency": "USD",
+  "currency_exponent": 2,
+  "subtotal_minor": 33070,
+  "subtotal_printed": true,
+  "tax_minor": 1984,
+  "tax_printed": true,
+  "total_minor": 35054,
+  "computed_total_minor": 35054,
+  "amount_basis_of_lines": "net",
+  "tax_mode": "extra",
+  "tax_breakdown": [
+   {
+    "label": "State tax",
+    "rate_bps": 600,
+    "base_minor": 33070,
+    "tax_minor": 1984
+   }
+  ],
+  "line_items": [
+   {
+    "description": "Energy charge, 1,840 kWh",
+    "quantity": "1840",
+    "unit_price": "0.1125",
+    "amount_minor": 20700
+   },
+   {
+    "description": "Customer charge, monthly",
+    "quantity": "1",
+    "unit_price": "28.50",
+    "amount_minor": 2850
+   },
+   {
+    "description": "Demand charge, 14 kW",
+    "quantity": "14",
+    "unit_price": "6.80",
+    "amount_minor": 9520
+   }
+  ],
+  "payment_terms": "DUE IN 20 DAYS",
+  "payment_terms_days": 20,
+  "payment_terms_eom": false,
+  "po_number": null,
+  "addressed_to": "Harbourline Outdoor Supply Ltd",
+  "sign_convention": null,
+  "expected_findings": [],
+  "duplicate_of": null,
+  "decoys": [
+   {
+    "text": "Previous balance $0.00   Payment received 08/28/2026 $412.60 thank you",
+    "must_not_be": "total"
+   },
+   {
+    "text": "Meter 00-4471-0392   Read 09/12/2026",
+    "must_not_be": "invoice_number"
+   }
+  ]
+ },
+ {
+  "file": "doc_027.txt",
+  "doc_id": "A36",
+  "doc_type": "bill",
+  "language": "en",
+  "layout_family": "long",
+  "tags": [
+   "currency_mismatch",
+   "context_dependent",
+   "long_date"
+  ],
+  "needs_person": false,
+  "vendor": "Fjord Freight AS",
+  "vendor_aliases": [
+   "Fjord Freight"
+  ],
+  "invoice_number": "FF-2026-11990",
+  "invoice_date": "2026-10-29",
+  "due_date": "2026-11-19",
+  "due_date_derived_from_terms": "2026-11-19",
+  "currency": "EUR",
+  "currency_exponent": 2,
+  "subtotal_minor": 73000,
+  "subtotal_printed": true,
+  "tax_minor": 18250,
+  "tax_printed": true,
+  "total_minor": 91250,
+  "computed_total_minor": 91250,
+  "amount_basis_of_lines": "net",
+  "tax_mode": "extra",
+  "tax_breakdown": [
+   {
+    "label": "MVA",
+    "rate_bps": 2500,
+    "base_minor": 73000,
+    "tax_minor": 18250
+   }
+  ],
+  "line_items": [
+   {
+    "description": "Customs clearance and documentation",
+    "quantity": "1",
+    "unit_price": "420.00",
+    "amount_minor": 42000
+   },
+   {
+    "description": "Port handling Bristol",
+    "quantity": "1",
+    "unit_price": "310.00",
+    "amount_minor": 31000
+   }
+  ],
+  "payment_terms": "Net 21 days",
+  "payment_terms_days": 21,
+  "payment_terms_eom": false,
+  "po_number": null,
+  "addressed_to": "Harbourline Outdoor Supply Ltd",
+  "sign_convention": null,
+  "expected_findings": [
+   "currency_mismatch"
+  ],
+  "duplicate_of": null,
+  "decoys": [],
+  "note": "Vendor master default currency is NOK; this bill is in EUR."
+ },
+ {
+  "file": "doc_028.txt",
+  "doc_id": "A45",
+  "doc_type": "bill",
+  "language": "en",
+  "layout_family": "retail",
+  "tags": [
+   "zero_tax",
+   "subtotal_not_printed"
+  ],
+  "needs_person": false,
+  "vendor": "Lumen Coffee Roasters Ltd",
+  "vendor_aliases": [
+   "Lumen Coffee Roasters"
+  ],
+  "invoice_number": "LCR-26-4502",
+  "invoice_date": "2026-10-30",
+  "due_date": null,
+  "due_date_derived_from_terms": null,
+  "currency": "GBP",
+  "currency_exponent": 2,
+  "subtotal_minor": 40700,
+  "subtotal_printed": false,
+  "tax_minor": 0,
+  "tax_printed": true,
+  "total_minor": 40700,
+  "computed_total_minor": 40700,
+  "amount_basis_of_lines": "net",
+  "tax_mode": "zero",
+  "tax_breakdown": [
+   {
+    "label": "VAT",
+    "rate_bps": 0,
+    "base_minor": 40700,
+    "tax_minor": 0
+   }
+  ],
+  "line_items": [
+   {
+    "description": "Single origin Ethiopia, whole bean 1 kg",
+    "quantity": "8",
+    "unit_price": "26.50",
+    "amount_minor": 21200
+   },
+   {
+    "description": "Espresso blend, whole bean 1 kg",
+    "quantity": "10",
+    "unit_price": "19.50",
+    "amount_minor": 19500
+   }
+  ],
+  "payment_terms": "Pro forma, payment before dispatch",
+  "payment_terms_days": null,
+  "payment_terms_eom": false,
+  "po_number": null,
+  "addressed_to": "Harbourline Outdoor Supply Ltd",
+  "sign_convention": null,
+  "expected_findings": [],
+  "duplicate_of": null,
+  "decoys": [
+   {
+    "text": "Loyalty balance 410 points",
+    "must_not_be": "total"
+   }
+  ]
+ },
+ {
+  "file": "doc_029.txt",
+  "doc_id": "A38",
+  "doc_type": "bill",
+  "language": "en",
+  "layout_family": "totals_top",
+  "tags": [
+   "totals_top",
+   "compound_tax",
+   "iso_date",
+   "cad"
+  ],
+  "needs_person": false,
+  "vendor": "Sunbeam Print & Sign",
+  "vendor_aliases": [
+   "Sunbeam Print and Sign"
+  ],
+  "invoice_number": "SS-0058831",
+  "invoice_date": "2026-10-06",
+  "due_date": "2026-10-21",
+  "due_date_derived_from_terms": "2026-10-21",
+  "currency": "CAD",
+  "currency_exponent": 2,
+  "subtotal_minor": 72150,
+  "subtotal_printed": true,
+  "tax_minor": 8659,
+  "tax_printed": true,
+  "total_minor": 80809,
+  "computed_total_minor": 80809,
+  "amount_basis_of_lines": "net",
+  "tax_mode": "multi_component",
+  "tax_breakdown": [
+   {
+    "label": "GST",
+    "rate_bps": 500,
+    "base_minor": 72150,
+    "tax_minor": 3608
+   },
+   {
+    "label": "PST",
+    "rate_bps": 700,
+    "base_minor": 72150,
+    "tax_minor": 5051
+   }
+  ],
+  "line_items": [
+   {
+    "description": "Vinyl banner 3ft x 8ft, full colour",
+    "quantity": "4",
+    "unit_price": "96.00",
+    "amount_minor": 38400
+   },
+   {
+    "description": "Window decal, die cut",
+    "quantity": "10",
+    "unit_price": "18.75",
+    "amount_minor": 18750
+   },
+   {
+    "description": "Installation, on site",
+    "quantity": "1",
+    "unit_price": "150.00",
+    "amount_minor": 15000
+   }
+  ],
+  "payment_terms": "Net 15",
+  "payment_terms_days": 15,
+  "payment_terms_eom": false,
+  "po_number": "PO-77171",
+  "addressed_to": "Harbourline Outdoor Supply Ltd",
+  "sign_convention": null,
+  "expected_findings": [],
+  "duplicate_of": null,
+  "decoys": [
+   {
+    "text": "Proof approved 2026-10-02 by M. Test",
+    "must_not_be": "invoice_date"
+   },
+   {
+    "text": "Job no. J-20991",
+    "must_not_be": "invoice_number"
+   }
+  ]
+ },
+ {
+  "file": "doc_030.txt",
+  "doc_id": "A26",
+  "doc_type": "bill",
+  "language": "en",
+  "layout_family": "letter",
+  "tags": [
+   "letter",
+   "mixed_vat_and_disbursements",
+   "hard_layout",
+   "ordinal_date"
+  ],
+  "needs_person": false,
+  "vendor": "Marlow & Finch LLP",
+  "vendor_aliases": [
+   "Marlow & Finch",
+   "Marlow and Finch LLP"
+  ],
+  "invoice_number": "20261117",
+  "invoice_date": "2026-09-17",
+  "due_date": "2026-10-15",
+  "due_date_derived_from_terms": "2026-10-15",
+  "currency": "GBP",
+  "currency_exponent": 2,
+  "subtotal_minor": 161775,
+  "subtotal_printed": true,
+  "tax_minor": 31625,
+  "tax_printed": true,
+  "total_minor": 193400,
+  "computed_total_minor": 193400,
+  "amount_basis_of_lines": "net",
+  "tax_mode": "extra",
+  "tax_breakdown": [
+   {
+    "label": "VAT",
+    "rate_bps": 2000,
+    "base_minor": 158125,
+    "tax_minor": 31625
+   },
+   {
+    "label": "VAT",
+    "rate_bps": 0,
+    "base_minor": 3650,
+    "tax_minor": 0
+   }
+  ],
+  "line_items": [
+   {
+    "description": "Review of lease terms and draft report",
+    "quantity": "4.5",
+    "unit_price": "275.00",
+    "amount_minor": 123750
+   },
+   {
+    "description": "Attendance on landlord's solicitors",
+    "quantity": "1.25",
+    "unit_price": "275.00",
+    "amount_minor": 34375
+   },
+   {
+    "description": "Land Registry official copies",
+    "quantity": "1",
+    "unit_price": "14.00",
+    "amount_minor": 1400
+   },
+   {
+    "description": "Courier charges",
+    "quantity": "1",
+    "unit_price": "22.50",
+    "amount_minor": 2250
+   }
+  ],
+  "payment_terms": "Payment is due within 28 days",
+  "payment_terms_days": 28,
+  "payment_terms_eom": false,
+  "po_number": "LEASE-2026",
+  "addressed_to": "Harbourline Outdoor Supply Ltd",
+  "sign_convention": null,
+  "expected_findings": [],
+  "duplicate_of": null,
+  "decoys": [
+   {
+    "text": "Note: our previous invoice 20260802 for 1,950.00 was paid on 14 August, thank you.",
+    "must_not_be": "invoice_number"
+   }
+  ]
+ },
+ {
+  "file": "doc_031.txt",
+  "doc_id": "A23",
+  "doc_type": "bill",
+  "language": "en",
+  "layout_family": "compact",
+  "tags": [
+   "compact",
+   "terms_only_no_due_date",
+   "short_invoice_number",
+   "ambiguous_numeric_date"
+  ],
+  "needs_person": false,
+  "vendor": "Pinecrest Janitorial Co",
+  "vendor_aliases": [
+   "Pinecrest Janitorial"
+  ],
+  "invoice_number": "5531",
+  "invoice_date": "2026-09-03",
+  "due_date": null,
+  "due_date_derived_from_terms": "2026-10-03",
+  "currency": "USD",
+  "currency_exponent": 2,
+  "subtotal_minor": 49850,
+  "subtotal_printed": true,
+  "tax_minor": 3614,
+  "tax_printed": true,
+  "total_minor": 53464,
+  "computed_total_minor": 53464,
+  "amount_basis_of_lines": "net",
+  "tax_mode": "extra",
+  "tax_breakdown": [
+   {
+    "label": "Sales tax",
+    "rate_bps": 725,
+    "base_minor": 49850,
+    "tax_minor": 3614
+   }
+  ],
+  "line_items": [
+   {
+    "description": "Floor service, office level 1",
+    "quantity": "4",
+    "unit_price": "85.00",
+    "amount_minor": 34000
+   },
+   {
+    "description": "Window cleaning, exterior",
+    "quantity": "1",
+    "unit_price": "140.00",
+    "amount_minor": 14000
+   },
+   {
+    "description": "Supplies surcharge",
+    "quantity": "1",
+    "unit_price": "18.50",
+    "amount_minor": 1850
+   }
+  ],
+  "payment_terms": "NET 30",
+  "payment_terms_days": 30,
+  "payment_terms_eom": false,
+  "po_number": null,
+  "addressed_to": "Harbourline Outdoor Supply Ltd",
+  "sign_convention": null,
+  "expected_findings": [],
+  "date_resolution": "month first, US vendor",
+  "duplicate_of": null,
+  "decoys": [
+   {
+    "text": "Service period 08/01/2026 to 08/31/2026",
+    "must_not_be": "invoice_date"
+   },
+   {
+    "text": "Route 12   Crew B",
+    "must_not_be": "invoice_number"
+   }
+  ],
+  "note": "Date 09/03/2026 is US format (3 September 2026); resolved by the 08/31/2026 service period line."
+ },
+ {
+  "file": "doc_032.txt",
+  "doc_id": "A49",
+  "doc_type": "bill",
+  "language": "it",
+  "layout_family": "euro",
+  "tags": [
+   "reverse_charge",
+   "language_it",
+   "decimal_comma",
+   "ambiguous_numeric_date"
+  ],
+  "needs_person": false,
+  "vendor": "Studio Bellini SRL",
+  "vendor_aliases": [
+   "Studio Bellini"
+  ],
+  "invoice_number": "119/2026",
+  "invoice_date": "2026-11-04",
+  "due_date": "2026-12-04",
+  "due_date_derived_from_terms": "2026-12-04",
+  "currency": "EUR",
+  "currency_exponent": 2,
+  "subtotal_minor": 240000,
+  "subtotal_printed": true,
+  "tax_minor": 0,
+  "tax_printed": true,
+  "total_minor": 240000,
+  "computed_total_minor": 240000,
+  "amount_basis_of_lines": "net",
+  "tax_mode": "reverse_charge",
+  "tax_breakdown": [
+   {
+    "label": "IVA",
+    "rate_bps": 0,
+    "base_minor": 240000,
+    "tax_minor": 0
+   }
+  ],
+  "line_items": [
+   {
+    "description": "Consulenza creativa, Londra - Milano",
+    "quantity": "1",
+    "unit_price": "2400.00",
+    "amount_minor": 240000
+   }
+  ],
+  "payment_terms": "Bonifico bancario a 30 giorni data fattura",
+  "payment_terms_days": 30,
+  "payment_terms_eom": false,
+  "po_number": null,
+  "addressed_to": "Harbourline Outdoor Supply Ltd",
+  "sign_convention": null,
+  "expected_findings": [],
+  "date_resolution": "day first, vendor country convention",
+  "duplicate_of": null,
+  "decoys": [
+   {
+    "text": "Cod. destinatario SDI 0000000",
+    "must_not_be": "invoice_number"
+   }
+  ]
+ },
+ {
+  "file": "doc_033.txt",
+  "doc_id": "A28",
+  "doc_type": "bill",
+  "language": "en",
+  "layout_family": "letter",
+  "tags": [
+   "letter",
+   "mixed_vat_and_disbursements"
+  ],
+  "needs_person": false,
+  "vendor": "Marlow & Finch LLP",
+  "vendor_aliases": [
+   "Marlow & Finch",
+   "Marlow and Finch LLP"
+  ],
+  "invoice_number": "20261122",
+  "invoice_date": "2026-10-30",
+  "due_date": "2026-11-27",
+  "due_date_derived_from_terms": "2026-11-27",
+  "currency": "GBP",
+  "currency_exponent": 2,
+  "subtotal_minor": 59200,
+  "subtotal_printed": true,
+  "tax_minor": 11000,
+  "tax_printed": true,
+  "total_minor": 70200,
+  "computed_total_minor": 70200,
+  "amount_basis_of_lines": "net",
+  "tax_mode": "extra",
+  "tax_breakdown": [
+   {
+    "label": "VAT",
+    "rate_bps": 2000,
+    "base_minor": 55000,
+    "tax_minor": 11000
+   },
+   {
+    "label": "VAT",
+    "rate_bps": 0,
+    "base_minor": 4200,
+    "tax_minor": 0
+   }
+  ],
+  "line_items": [
+   {
+    "description": "Advice on rent review mechanism",
+    "quantity": "2",
+    "unit_price": "275.00",
+    "amount_minor": 55000
+   },
+   {
+    "description": "Search fees",
+    "quantity": "1",
+    "unit_price": "42.00",
+    "amount_minor": 4200
+   }
+  ],
+  "payment_terms": "Payment is due within 28 days",
+  "payment_terms_days": 28,
+  "payment_terms_eom": false,
+  "po_number": null,
+  "addressed_to": "Harbourline Outdoor Supply Ltd",
+  "sign_convention": null,
+  "expected_findings": [],
+  "duplicate_of": null,
+  "decoys": [
+   {
+    "text": "Please quote client number 118-0042 on all payments.",
+    "must_not_be": "invoice_number"
+   }
+  ]
+ },
+ {
+  "file": "doc_034.txt",
+  "doc_id": "A03",
+  "doc_type": "bill",
+  "language": "en",
+  "layout_family": "classic",
+  "tags": [
+   "totals_bottom",
+   "tax_extra",
+   "context_dependent"
+  ],
+  "needs_person": false,
+  "vendor": "Northgate Packaging Ltd",
+  "vendor_aliases": [
+   "Northgate Packaging",
+   "NORTHGATE PACKAGING LTD"
+  ],
+  "invoice_number": "NP-2026-04530",
+  "invoice_date": "2026-10-09",
+  "due_date": "2026-11-08",
+  "due_date_derived_from_terms": "2026-11-08",
+  "currency": "GBP",
+  "currency_exponent": 2,
+  "subtotal_minor": 37260,
+  "subtotal_printed": true,
+  "tax_minor": 7452,
+  "tax_printed": true,
+  "total_minor": 44712,
+  "computed_total_minor": 44712,
+  "amount_basis_of_lines": "net",
+  "tax_mode": "extra",
+  "tax_breakdown": [
+   {
+    "label": "VAT",
+    "rate_bps": 2000,
+    "base_minor": 37260,
+    "tax_minor": 7452
+   }
+  ],
+  "line_items": [
+   {
+    "description": "Pallet wrap 500mm x 300m, 17 micron",
+    "quantity": "36",
+    "unit_price": "7.85",
+    "amount_minor": 28260
+   },
+   {
+    "description": "Strapping kit, polypropylene",
+    "quantity": "4",
+    "unit_price": "22.50",
+    "amount_minor": 9000
+   }
+  ],
+  "payment_terms": "Net 30 days",
+  "payment_terms_days": 30,
+  "payment_terms_eom": false,
+  "po_number": null,
+  "addressed_to": "Harbourline Outdoor Supply Ltd",
+  "sign_convention": null,
+  "expected_findings": [
+   "missing_po"
+  ],
+  "duplicate_of": null,
+  "decoys": [
+   {
+    "text": "Delivery note: DN-20377",
+    "must_not_be": "invoice_number"
+   }
+  ],
+  "note": "Vendor master says this vendor requires a PO on every bill; none printed."
+ },
+ {
+  "file": "doc_035.txt",
+  "doc_id": "A07",
+  "doc_type": "bill",
+  "language": "en",
+  "layout_family": "saas",
+  "tags": [
+   "totals_top",
+   "saas",
+   "zero_tax"
+  ],
+  "needs_person": false,
+  "vendor": "Brightwater Cloud, Inc.",
+  "vendor_aliases": [
+   "Brightwater Cloud"
+  ],
+  "invoice_number": "INV-2026-0100344",
+  "invoice_date": "2026-10-14",
+  "due_date": "2026-10-14",
+  "due_date_derived_from_terms": "2026-10-14",
+  "currency": "USD",
+  "currency_exponent": 2,
+  "subtotal_minor": 75450,
+  "subtotal_printed": true,
+  "tax_minor": 0,
+  "tax_printed": true,
+  "total_minor": 75450,
+  "computed_total_minor": 75450,
+  "amount_basis_of_lines": "net",
+  "tax_mode": "zero",
+  "tax_breakdown": [
+   {
+    "label": "Sales tax",
+    "rate_bps": 0,
+    "base_minor": 75450,
+    "tax_minor": 0
+   }
+  ],
+  "line_items": [
+   {
+    "description": "Compute instances (Sep 15 - Oct 14)",
+    "quantity": "1",
+    "unit_price": "598.15",
+    "amount_minor": 59815
+   },
+   {
+    "description": "Object storage, 2,450 GB-month",
+    "quantity": "2450",
+    "unit_price": "0.0230",
+    "amount_minor": 5635
+   },
+   {
+    "description": "Premium support plan",
+    "quantity": "1",
+    "unit_price": "100.00",
+    "amount_minor": 10000
+   }
+  ],
+  "payment_terms": "Due on receipt",
+  "payment_terms_days": 0,
+  "payment_terms_eom": false,
+  "po_number": null,
+  "addressed_to": "Harbourline Outdoor Supply Ltd",
+  "sign_convention": null,
+  "expected_findings": [],
+  "duplicate_of": null,
+  "decoys": [
+   {
+    "text": "Tax exempt certificate on file: TX-000-111",
+    "must_not_be": "tax"
+   }
+  ]
+ },
+ {
+  "file": "doc_036.txt",
+  "doc_id": "A11",
+  "doc_type": "bill",
+  "language": "de",
+  "layout_family": "euro",
+  "tags": [
+   "tax_extra",
+   "decimal_comma",
+   "language_de",
+   "ambiguous_numeric_date"
+  ],
+  "needs_person": false,
+  "vendor": "Kellerhoff Büromöbel GmbH",
+  "vendor_aliases": [
+   "Kellerhoff Büromöbel",
+   "Kellerhoff Bueromoebel GmbH"
+  ],
+  "invoice_number": "2026-100412",
+  "invoice_date": "2026-10-07",
+  "due_date": "2026-11-06",
+  "due_date_derived_from_terms": "2026-11-06",
+  "currency": "EUR",
+  "currency_exponent": 2,
+  "subtotal_minor": 203400,
+  "subtotal_printed": true,
+  "tax_minor": 38646,
+  "tax_printed": true,
+  "total_minor": 242046,
+  "computed_total_minor": 242046,
+  "amount_basis_of_lines": "net",
+  "tax_mode": "extra",
+  "tax_breakdown": [
+   {
+    "label": "MwSt",
+    "rate_bps": 1900,
+    "base_minor": 203400,
+    "tax_minor": 38646
+   }
+  ],
+  "line_items": [
+   {
+    "description": "Aktenschrank 4 OH, Metall, anthrazit",
+    "quantity": "4",
+    "unit_price": "312.50",
+    "amount_minor": 125000
+   },
+   {
+    "description": "Rollcontainer 3 Schübe",
+    "quantity": "8",
+    "unit_price": "98.00",
+    "amount_minor": 78400
+   }
+  ],
+  "payment_terms": "14 Tage 2 % Skonto, 30 Tage netto",
+  "payment_terms_days": 30,
+  "payment_terms_eom": false,
+  "po_number": "B-45533",
+  "addressed_to": "Harbourline Outdoor Supply Ltd",
+  "sign_convention": null,
+  "expected_findings": [],
+  "date_resolution": "day first, vendor country convention",
+  "duplicate_of": null,
+  "decoys": [
+   {
+    "text": "Skonto bei Zahlung bis 21.10.2026: 2 %",
+    "must_not_be": "due_date"
+   }
+  ]
+ },
+ {
+  "file": "doc_037.txt",
+  "doc_id": "A22",
+  "doc_type": "bill",
+  "language": "nl",
+  "layout_family": "long",
+  "tags": [
+   "wrong_addressee",
+   "language_nl",
+   "decimal_comma"
+  ],
+  "needs_person": false,
+  "vendor": "Zuiderzee Logistiek BV",
+  "vendor_aliases": [
+   "Zuiderzee Logistiek"
+  ],
+  "invoice_number": "202610-0493",
+  "invoice_date": "2026-10-20",
+  "due_date": "2026-11-19",
+  "due_date_derived_from_terms": "2026-11-19",
+  "currency": "EUR",
+  "currency_exponent": 2,
+  "subtotal_minor": 18900,
+  "subtotal_printed": true,
+  "tax_minor": 3969,
+  "tax_printed": true,
+  "total_minor": 22869,
+  "computed_total_minor": 22869,
+  "amount_basis_of_lines": "net",
+  "tax_mode": "extra",
+  "tax_breakdown": [
+   {
+    "label": "BTW",
+    "rate_bps": 2100,
+    "base_minor": 18900,
+    "tax_minor": 3969
+   }
+  ],
+  "line_items": [
+   {
+    "description": "Opslag pallets, week 41 (12 plaatsen)",
+    "quantity": "12",
+    "unit_price": "9.50",
+    "amount_minor": 11400
+   },
+   {
+    "description": "Handling in/uit, 12 pallets",
+    "quantity": "12",
+    "unit_price": "6.25",
+    "amount_minor": 7500
+   }
+  ],
+  "payment_terms": "Betaling binnen 30 dagen",
+  "payment_terms_days": 30,
+  "payment_terms_eom": false,
+  "po_number": null,
+  "addressed_to": "Kestrel Row Trading Ltd",
+  "sign_convention": null,
+  "expected_findings": [
+   "wrong_addressee"
+  ],
+  "duplicate_of": null,
+  "decoys": []
+ },
+ {
+  "file": "doc_038.txt",
+  "doc_id": "A05",
+  "doc_type": "bill",
+  "language": "en",
+  "layout_family": "classic",
+  "tags": [
+   "totals_bottom",
+   "tax_extra",
+   "long_date",
+   "decoy_ref",
+   "exact_duplicate"
+  ],
+  "needs_person": false,
+  "vendor": "Northgate Packaging Ltd",
+  "vendor_aliases": [
+   "Northgate Packaging",
+   "NORTHGATE PACKAGING LTD"
+  ],
+  "invoice_number": "NP-2026-04417",
+  "invoice_date": "2026-09-14",
+  "due_date": "2026-10-14",
+  "due_date_derived_from_terms": "2026-10-14",
+  "currency": "GBP",
+  "currency_exponent": 2,
+  "subtotal_minor": 68560,
+  "subtotal_printed": true,
+  "tax_minor": 13712,
+  "tax_printed": true,
+  "total_minor": 82272,
+  "computed_total_minor": 82272,
+  "amount_basis_of_lines": "net",
+  "tax_mode": "extra",
+  "tax_breakdown": [
+   {
+    "label": "VAT",
+    "rate_bps": 2000,
+    "base_minor": 68560,
+    "tax_minor": 13712
+   }
+  ],
+  "line_items": [
+   {
+    "description": "Corrugated carton 400x300x250mm, 5 ply",
+    "quantity": "500",
+    "unit_price": "0.86",
+    "amount_minor": 43000
+   },
+   {
+    "description": "Packing tape 48mm x 66m, clear",
+    "quantity": "72",
+    "unit_price": "1.15",
+    "amount_minor": 8280
+   },
+   {
+    "description": "Bubble wrap roll 750mm x 50m",
+    "quantity": "12",
+    "unit_price": "14.40",
+    "amount_minor": 17280
+   }
+  ],
+  "payment_terms": "Net 30 days",
+  "payment_terms_days": 30,
+  "payment_terms_eom": false,
+  "po_number": "PO-77120",
+  "addressed_to": "Harbourline Outdoor Supply Ltd",
+  "sign_convention": null,
+  "expected_findings": [
+   "duplicate_exact"
+  ],
+  "duplicate_of": "doc_025.txt",
+  "decoys": [
+   {
+    "text": "Delivery note: DN-20318",
+    "must_not_be": "invoice_number"
+   },
+   {
+    "text": "Customer reference: HOS-WH-04",
+    "must_not_be": "invoice_number"
+   }
+  ],
+  "note": "Byte identical to doc_025.txt. Pass if the copy is flagged as a duplicate OR merged into one Document at intake (spec 3.1 hashes files); the original is the other file."
+ },
+ {
+  "file": "doc_039.txt",
+  "doc_id": "A08",
+  "doc_type": "bill",
+  "language": "en",
+  "layout_family": "saas",
+  "tags": [
+   "totals_top",
+   "saas",
+   "context_dependent",
+   "anomalous_amount"
+  ],
+  "needs_person": false,
+  "vendor": "Brightwater Cloud, Inc.",
+  "vendor_aliases": [
+   "Brightwater Cloud"
+  ],
+  "invoice_number": "INV-2026-0101910",
+  "invoice_date": "2026-11-03",
+  "due_date": "2026-11-03",
+  "due_date_derived_from_terms": "2026-11-03",
+  "currency": "USD",
+  "currency_exponent": 2,
+  "subtotal_minor": 4140750,
+  "subtotal_printed": true,
+  "tax_minor": 351964,
+  "tax_printed": true,
+  "total_minor": 4492714,
+  "computed_total_minor": 4492714,
+  "amount_basis_of_lines": "net",
+  "tax_mode": "extra",
+  "tax_breakdown": [
+   {
+    "label": "Sales tax",
+    "rate_bps": 850,
+    "base_minor": 4140750,
+    "tax_minor": 351964
+   }
+  ],
+  "line_items": [
+   {
+    "description": "Compute instances (burst cluster, Oct 15 - Nov 3)",
+    "quantity": "1",
+    "unit_price": "41250.00",
+    "amount_minor": 4125000
+   },
+   {
+    "description": "Object storage, 2,500 GB-month",
+    "quantity": "2500",
+    "unit_price": "0.0230",
+    "amount_minor": 5750
+   },
+   {
+    "description": "Premium support plan",
+    "quantity": "1",
+    "unit_price": "100.00",
+    "amount_minor": 10000
+   }
+  ],
+  "payment_terms": "Due on receipt",
+  "payment_terms_days": 0,
+  "payment_terms_eom": false,
+  "po_number": null,
+  "addressed_to": "Harbourline Outdoor Supply Ltd",
+  "sign_convention": null,
+  "expected_findings": [
+   "amount_vs_history"
+  ],
+  "duplicate_of": null,
+  "decoys": [],
+  "note": "Far above vendor typical range in context.json."
+ },
+ {
+  "file": "doc_040.txt",
+  "doc_id": "A47",
+  "doc_type": "bill",
+  "language": "en",
+  "layout_family": "classic",
+  "tags": [
+   "zar",
+   "space_thousands",
+   "ymd_slash_date"
+  ],
+  "needs_person": false,
+  "vendor": "Basalt Security Services (Pty) Ltd",
+  "vendor_aliases": [
+   "Basalt Security Services"
+  ],
+  "invoice_number": "INV004529",
+  "invoice_date": "2026-10-29",
+  "due_date": "2026-11-28",
+  "due_date_derived_from_terms": "2026-11-28",
+  "currency": "ZAR",
+  "currency_exponent": 2,
+  "subtotal_minor": 923000,
+  "subtotal_printed": true,
+  "tax_minor": 138450,
+  "tax_printed": true,
+  "total_minor": 1061450,
+  "computed_total_minor": 1061450,
+  "amount_basis_of_lines": "net",
+  "tax_mode": "extra",
+  "tax_breakdown": [
+   {
+    "label": "VAT",
+    "rate_bps": 1500,
+    "base_minor": 923000,
+    "tax_minor": 138450
+   }
+  ],
+  "line_items": [
+   {
+    "description": "Armed response retainer, November",
+    "quantity": "1",
+    "unit_price": "8450.00",
+    "amount_minor": 845000
+   },
+   {
+    "description": "Alarm monitoring, 3 sites",
+    "quantity": "3",
+    "unit_price": "260.00",
+    "amount_minor": 78000
+   }
+  ],
+  "payment_terms": "Payable within 30 days",
+  "payment_terms_days": 30,
+  "payment_terms_eom": false,
+  "po_number": null,
+  "addressed_to": "Harbourline Outdoor Supply Ltd",
+  "sign_convention": null,
+  "expected_findings": [],
+  "duplicate_of": null,
+  "decoys": []
+ },
+ {
+  "file": "doc_041.txt",
+  "doc_id": "A42",
+  "doc_type": "bill",
+  "language": "en",
+  "layout_family": "classic",
+  "tags": [
+   "long_table",
+   "discount_terms",
+   "usd"
+  ],
+  "needs_person": false,
+  "vendor": "Delmar Industrial Supply Corp.",
+  "vendor_aliases": [
+   "Delmar Industrial Supply",
+   "DELMAR INDUSTRIAL SUPPLY CORP"
+  ],
+  "invoice_number": "88104780",
+  "invoice_date": "2026-10-20",
+  "due_date": "2026-11-19",
+  "due_date_derived_from_terms": "2026-11-19",
+  "currency": "USD",
+  "currency_exponent": 2,
+  "subtotal_minor": 694150,
+  "subtotal_printed": true,
+  "tax_minor": 45120,
+  "tax_printed": true,
+  "total_minor": 739270,
+  "computed_total_minor": 739270,
+  "amount_basis_of_lines": "net",
+  "tax_mode": "extra",
+  "tax_breakdown": [
+   {
+    "label": "Sales Tax",
+    "rate_bps": 650,
+    "base_minor": 694150,
+    "tax_minor": 45120
+   }
+  ],
+  "line_items": [
+   {
+    "description": "Industrial fastener assortment A",
+    "quantity": "3",
+    "unit_price": "11.35",
+    "amount_minor": 3405
+   },
+   {
+    "description": "Industrial fastener assortment B",
+    "quantity": "4",
+    "unit_price": "12.70",
+    "amount_minor": 5080
+   },
+   {
+    "description": "Industrial fastener assortment C",
+    "quantity": "5",
+    "unit_price": "14.05",
+    "amount_minor": 7025
+   },
+   {
+    "description": "Industrial fastener assortment D",
+    "quantity": "6",
+    "unit_price": "15.40",
+    "amount_minor": 9240
+   },
+   {
+    "description": "Industrial fastener assortment E",
+    "quantity": "7",
+    "unit_price": "16.75",
+    "amount_minor": 11725
+   },
+   {
+    "description": "Industrial fastener assortment F",
+    "quantity": "8",
+    "unit_price": "18.10",
+    "amount_minor": 14480
+   },
+   {
+    "description": "Industrial fastener assortment G",
+    "quantity": "9",
+    "unit_price": "19.45",
+    "amount_minor": 17505
+   },
+   {
+    "description": "Industrial fastener assortment H",
+    "quantity": "10",
+    "unit_price": "20.80",
+    "amount_minor": 20800
+   },
+   {
+    "description": "Industrial fastener assortment I",
+    "quantity": "11",
+    "unit_price": "22.15",
+    "amount_minor": 24365
+   },
+   {
+    "description": "Industrial fastener assortment J",
+    "quantity": "12",
+    "unit_price": "23.50",
+    "amount_minor": 28200
+   },
+   {
+    "description": "Industrial fastener assortment K",
+    "quantity": "13",
+    "unit_price": "24.85",
+    "amount_minor": 32305
+   },
+   {
+    "description": "Industrial fastener assortment L",
+    "quantity": "14",
+    "unit_price": "26.20",
+    "amount_minor": 36680
+   },
+   {
+    "description": "Industrial fastener assortment M",
+    "quantity": "15",
+    "unit_price": "27.55",
+    "amount_minor": 41325
+   },
+   {
+    "description": "Industrial fastener assortment N",
+    "quantity": "16",
+    "unit_price": "28.90",
+    "amount_minor": 46240
+   },
+   {
+    "description": "Industrial fastener assortment O",
+    "quantity": "17",
+    "unit_price": "30.25",
+    "amount_minor": 51425
+   },
+   {
+    "description": "Industrial fastener assortment P",
+    "quantity": "18",
+    "unit_price": "31.60",
+    "amount_minor": 56880
+   },
+   {
+    "description": "Industrial fastener assortment Q",
+    "quantity": "19",
+    "unit_price": "32.95",
+    "amount_minor": 62605
+   },
+   {
+    "description": "Industrial fastener assortment R",
+    "quantity": "20",
+    "unit_price": "34.30",
+    "amount_minor": 68600
+   },
+   {
+    "description": "Industrial fastener assortment S",
+    "quantity": "21",
+    "unit_price": "35.65",
+    "amount_minor": 74865
+   },
+   {
+    "description": "Industrial fastener assortment T",
+    "quantity": "22",
+    "unit_price": "37.00",
+    "amount_minor": 81400
+   }
+  ],
+  "payment_terms": "2/10 net 30",
+  "payment_terms_days": 30,
+  "payment_terms_eom": false,
+  "po_number": "PO-77190",
+  "addressed_to": "Harbourline Outdoor Supply Ltd",
+  "sign_convention": null,
+  "expected_findings": [],
+  "duplicate_of": null,
+  "decoys": [
+   {
+    "text": "Settlement discount: pay by Oct 30, 2026 to deduct 2%.",
+    "must_not_be": "due_date"
+   },
+   {
+    "text": "Order no. 7798-B   Ship via LTL",
+    "must_not_be": "invoice_number"
+   }
+  ]
+ },
+ {
+  "file": "doc_042.txt",
+  "doc_id": "A43",
+  "doc_type": "credit_note",
+  "language": "en",
+  "layout_family": "classic",
+  "tags": [
+   "credit_note",
+   "parentheses_negative",
+   "usd"
+  ],
+  "needs_person": false,
+  "vendor": "Delmar Industrial Supply Corp.",
+  "vendor_aliases": [
+   "Delmar Industrial Supply",
+   "DELMAR INDUSTRIAL SUPPLY CORP"
+  ],
+  "invoice_number": "88104955",
+  "invoice_date": "2026-10-26",
+  "due_date": "2026-11-25",
+  "due_date_derived_from_terms": "2026-11-25",
+  "currency": "USD",
+  "currency_exponent": 2,
+  "subtotal_minor": 11400,
+  "subtotal_printed": true,
+  "tax_minor": 741,
+  "tax_printed": true,
+  "total_minor": 12141,
+  "computed_total_minor": 12141,
+  "amount_basis_of_lines": "net",
+  "tax_mode": "extra",
+  "tax_breakdown": [
+   {
+    "label": "Sales Tax",
+    "rate_bps": 650,
+    "base_minor": 11400,
+    "tax_minor": 741
+   }
+  ],
+  "line_items": [
+   {
+    "description": "Return: hex bolt 3/8-16 x 2in, wrong grade",
+    "quantity": "10",
+    "unit_price": "11.40",
+    "amount_minor": 11400
+   }
+  ],
+  "payment_terms": "2/10 net 30",
+  "payment_terms_days": 30,
+  "payment_terms_eom": false,
+  "po_number": "PO-77162",
+  "addressed_to": "Harbourline Outdoor Supply Ltd",
+  "sign_convention": "credit amounts printed as: paren",
+  "expected_findings": [],
+  "duplicate_of": null,
+  "decoys": [],
+  "credit_refers_to_invoice": "88103451"
+ },
+ {
+  "file": "doc_043.txt",
+  "doc_id": "A32",
+  "doc_type": "bill",
+  "language": "en",
+  "layout_family": "retail",
+  "tags": [
+   "tax_included",
+   "included_multi_rate",
+   "subtotal_not_printed",
+   "retail"
+  ],
+  "needs_person": false,
+  "vendor": "Tallis Fuel Services",
+  "vendor_aliases": [
+   "Tallis Fuel Services Ltd"
+  ],
+  "invoice_number": "TFS-0091977",
+  "invoice_date": "2026-10-24",
+  "due_date": "2026-10-24",
+  "due_date_derived_from_terms": "2026-10-24",
+  "currency": "EUR",
+  "currency_exponent": 2,
+  "subtotal_minor": 40867,
+  "subtotal_printed": false,
+  "tax_minor": 5863,
+  "tax_printed": true,
+  "total_minor": 46730,
+  "computed_total_minor": 46730,
+  "amount_basis_of_lines": "gross",
+  "tax_mode": "included_multi_rate",
+  "tax_breakdown": [
+   {
+    "label": "VAT",
+    "rate_bps": 2300,
+    "base_minor": 4480,
+    "tax_minor": 838
+   },
+   {
+    "label": "VAT",
+    "rate_bps": 1350,
+    "base_minor": 42250,
+    "tax_minor": 5025
+   }
+  ],
+  "line_items": [
+   {
+    "description": "Heating oil, kerosene",
+    "quantity": "500",
+    "unit_price": "0.845",
+    "amount_minor": 42250
+   },
+   {
+    "description": "Delivery charge",
+    "quantity": "1",
+    "unit_price": "25.00",
+    "amount_minor": 2500
+   },
+   {
+    "description": "Tank gauge battery",
+    "quantity": "2",
+    "unit_price": "9.90",
+    "amount_minor": 1980
+   }
+  ],
+  "payment_terms": "Due on receipt",
+  "payment_terms_days": 0,
+  "payment_terms_eom": false,
+  "po_number": null,
+  "addressed_to": "Harbourline Outdoor Supply Ltd",
+  "sign_convention": null,
+  "expected_findings": [],
+  "duplicate_of": null,
+  "decoys": []
+ },
+ {
+  "file": "doc_044.txt",
+  "doc_id": "A19",
+  "doc_type": "bill",
+  "language": "es",
+  "layout_family": "totals_top",
+  "tags": [
+   "near_duplicate",
+   "totals_top",
+   "language_es",
+   "decimal_comma"
+  ],
+  "needs_person": false,
+  "vendor": "Casa Verde Suministros SL",
+  "vendor_aliases": [
+   "Casa Verde Suministros",
+   "CASA VERDE SUMINISTROS S.L."
+  ],
+  "invoice_number": "FV-2026-0388",
+  "invoice_date": "2026-09-30",
+  "due_date": "2026-11-29",
+  "due_date_derived_from_terms": "2026-11-29",
+  "currency": "EUR",
+  "currency_exponent": 2,
+  "subtotal_minor": 120570,
+  "subtotal_printed": true,
+  "tax_minor": 25320,
+  "tax_printed": true,
+  "total_minor": 145890,
+  "computed_total_minor": 145890,
+  "amount_basis_of_lines": "net",
+  "tax_mode": "extra",
+  "tax_breakdown": [
+   {
+    "label": "IVA",
+    "rate_bps": 2100,
+    "base_minor": 120570,
+    "tax_minor": 25320
+   }
+  ],
+  "line_items": [
+   {
+    "description": "Aceite de oliva virgen extra, garrafa 5 L",
+    "quantity": "24",
+    "unit_price": "31.80",
+    "amount_minor": 76320
+   },
+   {
+    "description": "Vinagre de Jerez reserva, caja 6x75 cl",
+    "quantity": "10",
+    "unit_price": "38.40",
+    "amount_minor": 38400
+   },
+   {
+    "description": "Servilletas de papel, pack 100",
+    "quantity": "30",
+    "unit_price": "1.95",
+    "amount_minor": 5850
+   }
+  ],
+  "payment_terms": "Pago a 60 días fecha factura",
+  "payment_terms_days": 60,
+  "payment_terms_eom": false,
+  "po_number": "OC-1182",
+  "addressed_to": "Harbourline Outdoor Supply Ltd",
+  "sign_convention": null,
+  "expected_findings": [
+   "duplicate_near"
+  ],
+  "duplicate_of": "doc_005.txt",
+  "decoys": [
+   {
+    "text": "Reenvío de factura por error de entrega (copia)",
+    "must_not_be": "invoice_number"
+   }
+  ],
+  "note": "Same vendor, same amounts, same date, invoice number punctuation differs (slash vs hyphen)."
+ },
+ {
+  "file": "doc_045.txt",
+  "doc_id": "A13",
+  "doc_type": "bill",
+  "language": "de",
+  "layout_family": "euro",
+  "tags": [
+   "total_mismatch",
+   "decimal_comma",
+   "language_de"
+  ],
+  "needs_person": false,
+  "vendor": "Kellerhoff Büromöbel GmbH",
+  "vendor_aliases": [
+   "Kellerhoff Büromöbel",
+   "Kellerhoff Bueromoebel GmbH"
+  ],
+  "invoice_number": "2026-100455",
+  "invoice_date": "2026-10-28",
+  "due_date": "2026-11-27",
+  "due_date_derived_from_terms": "2026-11-27",
+  "currency": "EUR",
+  "currency_exponent": 2,
+  "subtotal_minor": 323800,
+  "subtotal_printed": true,
+  "tax_minor": 61522,
+  "tax_printed": true,
+  "total_minor": 386322,
+  "computed_total_minor": 385322,
+  "amount_basis_of_lines": "net",
+  "tax_mode": "extra",
+  "tax_breakdown": [
+   {
+    "label": "MwSt",
+    "rate_bps": 1900,
+    "base_minor": 323800,
+    "tax_minor": 61522
+   }
+  ],
+  "line_items": [
+   {
+    "description": "Besprechungstisch 240x100, Eiche",
+    "quantity": "2",
+    "unit_price": "845.00",
+    "amount_minor": 169000
+   },
+   {
+    "description": "Konferenzstuhl Modell Delta",
+    "quantity": "12",
+    "unit_price": "129.00",
+    "amount_minor": 154800
+   }
+  ],
+  "payment_terms": "14 Tage 2 % Skonto, 30 Tage netto",
+  "payment_terms_days": 30,
+  "payment_terms_eom": false,
+  "po_number": "B-45560",
+  "addressed_to": "Harbourline Outdoor Supply Ltd",
+  "sign_convention": null,
+  "expected_findings": [
+   "total_mismatch"
+  ],
+  "duplicate_of": null,
+  "decoys": [],
+  "note": "Printed total is 10.00 higher than subtotal plus tax. Key holds the printed values."
+ },
+ {
+  "file": "doc_046.txt",
+  "doc_id": "A14",
+  "doc_type": "bill",
+  "language": "fr",
+  "layout_family": "euro",
+  "tags": [
+   "multi_rate",
+   "language_fr",
+   "space_thousands",
+   "long_date_fr"
+  ],
+  "needs_person": false,
+  "vendor": "Atelier Moreau SARL",
+  "vendor_aliases": [
+   "Atelier Moreau"
+  ],
+  "invoice_number": "F2026-0731",
+  "invoice_date": "2026-09-25",
+  "due_date": "2026-10-30",
+  "due_date_derived_from_terms": "2026-10-30",
+  "currency": "EUR",
+  "currency_exponent": 2,
+  "subtotal_minor": 171770,
+  "subtotal_printed": true,
+  "tax_minor": 32875,
+  "tax_printed": true,
+  "total_minor": 204645,
+  "computed_total_minor": 204645,
+  "amount_basis_of_lines": "net",
+  "tax_mode": "multi_rate",
+  "tax_breakdown": [
+   {
+    "label": "TVA",
+    "rate_bps": 2000,
+    "base_minor": 161570,
+    "tax_minor": 32314
+   },
+   {
+    "label": "TVA",
+    "rate_bps": 550,
+    "base_minor": 10200,
+    "tax_minor": 561
+   }
+  ],
+  "line_items": [
+   {
+    "description": "Tissu lin lavé, largeur 140 cm, naturel",
+    "quantity": "85",
+    "unit_price": "18.50",
+    "amount_minor": 157250
+   },
+   {
+    "description": "Boutons en corozo, lot de 100",
+    "quantity": "6",
+    "unit_price": "7.20",
+    "amount_minor": 4320
+   },
+   {
+    "description": "Livre : Teintures végétales, 2e édition",
+    "quantity": "3",
+    "unit_price": "34.00",
+    "amount_minor": 10200
+   }
+  ],
+  "payment_terms": "Paiement à 30 jours fin de mois",
+  "payment_terms_days": 30,
+  "payment_terms_eom": true,
+  "po_number": "BC-2209",
+  "addressed_to": "Harbourline Outdoor Supply Ltd",
+  "sign_convention": null,
+  "expected_findings": [],
+  "duplicate_of": null,
+  "decoys": [
+   {
+    "text": "Bon de livraison n° BL-55021 du 24 septembre 2026",
+    "must_not_be": "invoice_number"
+   },
+   {
+    "text": "Pénalité de retard : 3 fois le taux d'intérêt légal",
+    "must_not_be": "tax"
+   }
+  ]
+ },
+ {
+  "file": "doc_047.txt",
+  "doc_id": "A39",
+  "doc_type": "bill",
+  "language": "en",
+  "layout_family": "totals_top",
+  "tags": [
+   "totals_top",
+   "single_tax_line",
+   "iso_date",
+   "cad"
+  ],
+  "needs_person": false,
+  "vendor": "Sunbeam Print & Sign",
+  "vendor_aliases": [
+   "Sunbeam Print and Sign"
+  ],
+  "invoice_number": "SS-0059107",
+  "invoice_date": "2026-10-27",
+  "due_date": "2026-11-11",
+  "due_date_derived_from_terms": "2026-11-11",
+  "currency": "CAD",
+  "currency_exponent": 2,
+  "subtotal_minor": 29100,
+  "subtotal_printed": true,
+  "tax_minor": 1455,
+  "tax_printed": true,
+  "total_minor": 30555,
+  "computed_total_minor": 30555,
+  "amount_basis_of_lines": "net",
+  "tax_mode": "extra",
+  "tax_breakdown": [
+   {
+    "label": "GST",
+    "rate_bps": 500,
+    "base_minor": 29100,
+    "tax_minor": 1455
+   }
+  ],
+  "line_items": [
+   {
+    "description": "Business cards, 500 pcs, matte",
+    "quantity": "3",
+    "unit_price": "62.00",
+    "amount_minor": 18600
+   },
+   {
+    "description": "Design time",
+    "quantity": "1.5",
+    "unit_price": "70.00",
+    "amount_minor": 10500
+   }
+  ],
+  "payment_terms": "Net 15",
+  "payment_terms_days": 15,
+  "payment_terms_eom": false,
+  "po_number": null,
+  "addressed_to": "Harbourline Outdoor Supply Ltd",
+  "sign_convention": null,
+  "expected_findings": [],
+  "duplicate_of": null,
+  "decoys": []
+ },
+ {
+  "file": "doc_048.txt",
+  "doc_id": "A34",
+  "doc_type": "bill",
+  "language": "en",
+  "layout_family": "compact",
+  "tags": [
+   "compact",
+   "utility",
+   "state_tax"
+  ],
+  "needs_person": false,
+  "vendor": "Rowan Electric Cooperative",
+  "vendor_aliases": [
+   "Rowan Electric Co-op"
+  ],
+  "invoice_number": "0000491034",
+  "invoice_date": "2026-10-15",
+  "due_date": "2026-11-04",
+  "due_date_derived_from_terms": "2026-11-04",
+  "currency": "USD",
+  "currency_exponent": 2,
+  "subtotal_minor": 35719,
+  "subtotal_printed": true,
+  "tax_minor": 2143,
+  "tax_printed": true,
+  "total_minor": 37862,
+  "computed_total_minor": 37862,
+  "amount_basis_of_lines": "net",
+  "tax_mode": "extra",
+  "tax_breakdown": [
+   {
+    "label": "State tax",
+    "rate_bps": 600,
+    "base_minor": 35719,
+    "tax_minor": 2143
+   }
+  ],
+  "line_items": [
+   {
+    "description": "Energy charge, 2,015 kWh",
+    "quantity": "2015",
+    "unit_price": "0.1125",
+    "amount_minor": 22669
+   },
+   {
+    "description": "Customer charge, monthly",
+    "quantity": "1",
+    "unit_price": "28.50",
+    "amount_minor": 2850
+   },
+   {
+    "description": "Demand charge, 15 kW",
+    "quantity": "15",
+    "unit_price": "6.80",
+    "amount_minor": 10200
+   }
+  ],
+  "payment_terms": "DUE IN 20 DAYS",
+  "payment_terms_days": 20,
+  "payment_terms_eom": false,
+  "po_number": null,
+  "addressed_to": "Harbourline Outdoor Supply Ltd",
+  "sign_convention": null,
+  "expected_findings": [],
+  "duplicate_of": null,
+  "decoys": [
+   {
+    "text": "Average daily use 65 kWh   Last year 61 kWh",
+    "must_not_be": "total"
+   },
+   {
+    "text": "Budget billing balance: -$18.20",
+    "must_not_be": "total"
+   }
+  ]
+ },
+ {
+  "file": "doc_049.txt",
+  "doc_id": "H04",
+  "doc_type": "unknown",
+  "needs_person": true,
+  "needs_person_reason": "Informal cash note with no invoice number, no vendor name block and no date: below the confidence bar.",
+  "tags": [
+   "informal",
+   "handwritten_style",
+   "missing_fields"
+  ],
+  "expected_findings": [
+   "unreadable_or_low_confidence"
+  ],
+  "vendor": null,
+  "invoice_number": null,
+  "invoice_date": null,
+  "due_date": null,
+  "currency": null,
+  "subtotal_minor": null,
+  "tax_minor": null,
+  "total_minor": null,
+  "line_items": [],
+  "payment_terms": null,
+  "duplicate_of": null,
+  "confident_wrong_extraction_is_failure": true
+ },
+ {
+  "file": "doc_050.txt",
+  "doc_id": "A31",
+  "doc_type": "bill",
+  "language": "en",
+  "layout_family": "retail",
+  "tags": [
+   "tax_included",
+   "subtotal_not_printed",
+   "retail",
+   "three_decimal_unit",
+   "ambiguous_numeric_date"
+  ],
+  "needs_person": false,
+  "vendor": "Tallis Fuel Services",
+  "vendor_aliases": [
+   "Tallis Fuel Services Ltd"
+  ],
+  "invoice_number": "TFS-0090412",
+  "invoice_date": "2026-10-03",
+  "due_date": "2026-10-03",
+  "due_date_derived_from_terms": "2026-10-03",
+  "currency": "EUR",
+  "currency_exponent": 2,
+  "subtotal_minor": 123901,
+  "subtotal_printed": false,
+  "tax_minor": 28497,
+  "tax_printed": true,
+  "total_minor": 152398,
+  "computed_total_minor": 152398,
+  "amount_basis_of_lines": "gross",
+  "tax_mode": "included",
+  "tax_breakdown": [
+   {
+    "label": "VAT",
+    "rate_bps": 2300,
+    "base_minor": 152398,
+    "tax_minor": 28497
+   }
+  ],
+  "line_items": [
+   {
+    "description": "Diesel, white",
+    "quantity": "820",
+    "unit_price": "1.789",
+    "amount_minor": 146698
+   },
+   {
+    "description": "Lubricant 5L",
+    "quantity": "2",
+    "unit_price": "28.50",
+    "amount_minor": 5700
+   }
+  ],
+  "payment_terms": "Due on receipt",
+  "payment_terms_days": 0,
+  "payment_terms_eom": false,
+  "po_number": null,
+  "addressed_to": "Harbourline Outdoor Supply Ltd",
+  "sign_convention": null,
+  "expected_findings": [],
+  "date_resolution": "day first, vendor country convention",
+  "duplicate_of": null,
+  "decoys": [
+   {
+    "text": "Pump 4   Card ending 0000   Auth 004411",
+    "must_not_be": "invoice_number"
+   },
+   {
+    "text": "Fuel savings points this year: 2,410",
+    "must_not_be": "total"
+   }
+  ]
+ },
+ {
+  "file": "doc_051.txt",
+  "doc_id": "H01",
+  "doc_type": "unknown",
+  "needs_person": true,
+  "needs_person_reason": "No text layer (scanned image): the offline reader must say so and send the bill to manual entry.",
+  "tags": [
+   "scan",
+   "empty_text_layer"
+  ],
+  "expected_findings": [
+   "no_text_layer"
+  ],
+  "vendor": null,
+  "invoice_number": null,
+  "invoice_date": null,
+  "due_date": null,
+  "currency": null,
+  "subtotal_minor": null,
+  "tax_minor": null,
+  "total_minor": null,
+  "line_items": [],
+  "payment_terms": null,
+  "duplicate_of": null,
+  "confident_wrong_extraction_is_failure": true
+ },
+ {
+  "file": "doc_052.txt",
+  "doc_id": "A37",
+  "doc_type": "credit_note",
+  "language": "en",
+  "layout_family": "long",
+  "tags": [
+   "credit_note",
+   "nok",
+   "space_thousands"
+  ],
+  "needs_person": false,
+  "vendor": "Fjord Freight AS",
+  "vendor_aliases": [
+   "Fjord Freight"
+  ],
+  "invoice_number": "FC-2026-00071",
+  "invoice_date": "2026-10-30",
+  "due_date": "2026-11-20",
+  "due_date_derived_from_terms": "2026-11-20",
+  "currency": "NOK",
+  "currency_exponent": 2,
+  "subtotal_minor": 165000,
+  "subtotal_printed": true,
+  "tax_minor": 41250,
+  "tax_printed": true,
+  "total_minor": 206250,
+  "computed_total_minor": 206250,
+  "amount_basis_of_lines": "net",
+  "tax_mode": "extra",
+  "tax_breakdown": [
+   {
+    "label": "MVA",
+    "rate_bps": 2500,
+    "base_minor": 165000,
+    "tax_minor": 41250
+   }
+  ],
+  "line_items": [
+   {
+    "description": "Credit: container 04 demurrage waived",
+    "quantity": "1",
+    "unit_price": "1650.00",
+    "amount_minor": 165000
+   }
+  ],
+  "payment_terms": "Net 21 days",
+  "payment_terms_days": 21,
+  "payment_terms_eom": false,
+  "po_number": null,
+  "addressed_to": "Harbourline Outdoor Supply Ltd",
+  "sign_convention": "credit amounts printed as: minus",
+  "expected_findings": [],
+  "duplicate_of": null,
+  "decoys": [],
+  "credit_refers_to_invoice": "FF-2026-11874"
+ },
+ {
+  "file": "doc_053.txt",
+  "doc_id": "A50",
+  "doc_type": "bill",
+  "language": "en",
+  "layout_family": "classic",
+  "tags": [
+   "tax_rate_not_on_file",
+   "sgd"
+  ],
+  "needs_person": false,
+  "vendor": "Orchid Tech Components Pte Ltd",
+  "vendor_aliases": [
+   "Orchid Tech Components"
+  ],
+  "invoice_number": "OTC/26/11/1377",
+  "invoice_date": "2026-11-09",
+  "due_date": "2026-12-24",
+  "due_date_derived_from_terms": "2026-12-24",
+  "currency": "SGD",
+  "currency_exponent": 2,
+  "subtotal_minor": 188000,
+  "subtotal_printed": true,
+  "tax_minor": 13160,
+  "tax_printed": true,
+  "total_minor": 201160,
+  "computed_total_minor": 201160,
+  "amount_basis_of_lines": "net",
+  "tax_mode": "extra",
+  "tax_breakdown": [
+   {
+    "label": "GST",
+    "rate_bps": 700,
+    "base_minor": 188000,
+    "tax_minor": 13160
+   }
+  ],
+  "line_items": [
+   {
+    "description": "Resistor 10k 0603, reel of 5000",
+    "quantity": "40",
+    "unit_price": "21.50",
+    "amount_minor": 86000
+   },
+   {
+    "description": "Capacitor 10uF 16V, reel of 4000",
+    "quantity": "30",
+    "unit_price": "34.00",
+    "amount_minor": 102000
+   }
+  ],
+  "payment_terms": "Net 45",
+  "payment_terms_days": 45,
+  "payment_terms_eom": false,
+  "po_number": "PO-77201",
+  "addressed_to": "Harbourline Outdoor Supply Ltd",
+  "sign_convention": null,
+  "expected_findings": [
+   "tax_rate_sanity"
+  ],
+  "duplicate_of": null,
+  "decoys": [],
+  "note": "Label says GST 7% and the amount is 7.0% of the subtotal, so the bill is internally consistent, but 7% is not a rate on file for this vendor (context.json tax_rates_on_file_bps)."
+ }
+]

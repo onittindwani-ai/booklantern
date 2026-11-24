@@ -1,0 +1,35 @@
+Whitcombe & Ashe Solicitors
+Fourth Floor, 8 Example Row
+Birmingham B3 0XX
+VAT No. GB 000 0000 05
+
+CREDIT NOTE
+Invoice number: CN/2026/0021
+Date: 2026.11.06
+Matter: HOS-0007 Supply agreement
+Credit against invoice 2026/1/0942
+
+Harbourline Outdoor Supply Ltd
+12 Quay Street
+Bristol BS1 4XX
+United Kingdom
+
+Time entries and charges
+Date        Fee earner  Description                                              Hours    Rate     Amount
+---------------------------------------------------------------------------------------------------------
+01/11/2026  JK          Write off: time entry duplicated on invoice 2026/1/0942    0.8  185.00  148.00 CR
+
+                                                                 Total fees and disbursements  £148.00 CR
+                                                                 VAT 20% on £148.00             £29.60 CR
+                                                                 TOTAL PAYABLE                 £177.60 CR
+
+
+Bank details: Fictional Test Bank plc (client account)
+Sort 00-00-00  Acc 00000055
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+REMITTANCE ADVICE (detach and return with payment)
+Client: Harbourline Outdoor Supply Ltd
+Invoice ref: CN/2026/0021
+Amount enclosed: ______________
+Payment date: ____________

@@ -1,0 +1,35 @@
+Whitcombe & Ashe Solicitors
+Fourth Floor, 8 Example Row
+Birmingham B3 0XX
+VAT No. GB 000 0000 05
+
+INVOICE
+Invoice number: 2026/1/1011
+Date: 2026.11.05
+Matter: HOS-0011 Dispute
+
+Harbourline Outdoor Supply Ltd
+12 Quay Street
+Bristol BS1 4XX
+United Kingdom
+
+Time entries and charges
+Date        Fee earner  Description                                    Hours       Rate     Amount
+--------------------------------------------------------------------------------------------------
+28/10/2026  DA          Counsel brief and conference, litigation hold     62     310.00  19,220.00
+31/10/2026  DISB        Court issue fee                                    1  10,000.00  10,000.00
+
+                                                          Total fees and disbursements  £29,220.00
+                                                          VAT 20% on £19,220.00          £3,844.00
+                                                          TOTAL PAYABLE                 £33,064.00
+
+
+Bank details: Fictional Test Bank plc (client account)
+Sort 00-00-00  Acc 00000055
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+REMITTANCE ADVICE (detach and return with payment)
+Client: Harbourline Outdoor Supply Ltd
+Invoice ref: 2026/1/1011
+Amount enclosed: ______________
+Payment date: ____________

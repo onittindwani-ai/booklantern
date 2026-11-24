@@ -1,0 +1,2421 @@
+{
+ "fictional": true,
+ "company": {
+  "name": "Birchfield Supply Co",
+  "currency": "USD"
+ },
+ "as_of": "2026-12-01",
+ "vendors": [
+  {
+   "key": "V01",
+   "name": "Alderbank Packaging Ltd",
+   "addr": "14 Mill Lane, Fakeford",
+   "currency": "USD",
+   "tax_bp": 800,
+   "requires_po": false,
+   "account": "FICT-0101-2201",
+   "terms_days": 30
+  },
+  {
+   "key": "V02",
+   "name": "Brightwater Freight Services",
+   "addr": "2 Dock Road, Fakeport",
+   "currency": "USD",
+   "tax_bp": 0,
+   "requires_po": false,
+   "account": "FICT-0102-2202",
+   "terms_days": 14
+  },
+  {
+   "key": "V03",
+   "name": "Cobalt Office Supply",
+   "addr": "77 Park Row, Fakeford",
+   "currency": "USD",
+   "tax_bp": 700,
+   "requires_po": true,
+   "account": "FICT-0103-2203",
+   "terms_days": 30
+  },
+  {
+   "key": "V04",
+   "name": "Dunmore Industrial Parts",
+   "addr": "9 Forge Street, Fakeham",
+   "currency": "USD",
+   "tax_bp": 800,
+   "requires_po": true,
+   "account": "FICT-0104-2204",
+   "terms_days": 45
+  },
+  {
+   "key": "V05",
+   "name": "Eastgate Cleaning Co",
+   "addr": "31 East Gate, Fakeford",
+   "currency": "USD",
+   "tax_bp": 0,
+   "requires_po": false,
+   "account": "FICT-0105-2205",
+   "terms_days": 15
+  },
+  {
+   "key": "V06",
+   "name": "Fernhill IT Support",
+   "addr": "5 Fern Hill, Fakeham",
+   "currency": "USD",
+   "tax_bp": 1000,
+   "requires_po": false,
+   "account": "FICT-0106-2206",
+   "terms_days": 30
+  },
+  {
+   "key": "V07",
+   "name": "Gablemere Print Studio",
+   "addr": "Gablemere Weg 3, Fakestadt",
+   "currency": "EUR",
+   "tax_bp": 1900,
+   "requires_po": false,
+   "account": "FICT-0107-2207",
+   "terms_days": 30
+  },
+  {
+   "key": "V08",
+   "name": "Hollin Insurance Brokers",
+   "addr": "100 Cover Street, Fakeford",
+   "currency": "USD",
+   "tax_bp": 0,
+   "requires_po": false,
+   "account": "FICT-0108-2208",
+   "terms_days": 30
+  }
+ ],
+ "customers": [
+  {
+   "key": "C01",
+   "name": "Marlowe Bakery",
+   "email": "ap@marlowe-bakery.example.test",
+   "tz": "America/New_York",
+   "terms_days": 30,
+   "habit_days": 2,
+   "flag": ""
+  },
+  {
+   "key": "C02",
+   "name": "Northgate Dental Group",
+   "email": "billing@northgate-dental.example.test",
+   "tz": "America/Chicago",
+   "terms_days": 30,
+   "habit_days": 9,
+   "flag": ""
+  },
+  {
+   "key": "C03",
+   "name": "Oakridge Builders",
+   "email": "accounts@oakridge-builders.example.test",
+   "tz": "America/Denver",
+   "terms_days": 30,
+   "habit_days": 38,
+   "flag": "bankruptcy"
+  },
+  {
+   "key": "C04",
+   "name": "Pinewood Veterinary",
+   "email": "office@pinewood-vet.example.test",
+   "tz": "America/Los_Angeles",
+   "terms_days": 15,
+   "habit_days": -1,
+   "flag": ""
+  },
+  {
+   "key": "C05",
+   "name": "Quayside Cafe",
+   "email": "hello@quayside-cafe.example.test",
+   "tz": "America/New_York",
+   "terms_days": 15,
+   "habit_days": 14,
+   "flag": "opt_out"
+  },
+  {
+   "key": "C06",
+   "name": "Ravenscroft Legal",
+   "email": "finance@ravenscroft-legal.example.test",
+   "tz": "America/New_York",
+   "terms_days": 45,
+   "habit_days": 6,
+   "flag": ""
+  },
+  {
+   "key": "C07",
+   "name": "Stonebridge Gym",
+   "email": "admin@stonebridge-gym.example.test",
+   "tz": "America/Chicago",
+   "terms_days": 30,
+   "habit_days": 21,
+   "flag": ""
+  },
+  {
+   "key": "C08",
+   "name": "Tallow and Wick Candles",
+   "email": "pay@tallow-wick.example.test",
+   "tz": "America/Los_Angeles",
+   "terms_days": 30,
+   "habit_days": 4,
+   "flag": ""
+  },
+  {
+   "key": "C09",
+   "name": "Underhill Garage",
+   "email": "office@underhill-garage.example.test",
+   "tz": "America/Denver",
+   "terms_days": 30,
+   "habit_days": 17,
+   "flag": "dispute"
+  },
+  {
+   "key": "C10",
+   "name": "Vesper Florists",
+   "email": "books@vesper-florists.example.test",
+   "tz": "America/New_York",
+   "terms_days": 30,
+   "habit_days": 11,
+   "flag": ""
+  }
+ ],
+ "invoices": [
+  {
+   "customer": "C01",
+   "number": "INV-2001",
+   "issue": "2025-12-05",
+   "due": "2026-01-04",
+   "currency": "USD",
+   "total_minor": 963100,
+   "tax_minor": 0,
+   "paid_minor": 963100,
+   "paid_on": "2026-01-08",
+   "status": "paid",
+   "flag": ""
+  },
+  {
+   "customer": "C01",
+   "number": "INV-2002",
+   "issue": "2026-01-30",
+   "due": "2026-03-01",
+   "currency": "USD",
+   "total_minor": 1365800,
+   "tax_minor": 0,
+   "paid_minor": 1365800,
+   "paid_on": "2026-03-04",
+   "status": "paid",
+   "flag": ""
+  },
+  {
+   "customer": "C01",
+   "number": "INV-2003",
+   "issue": "2026-03-16",
+   "due": "2026-04-15",
+   "currency": "USD",
+   "total_minor": 358400,
+   "tax_minor": 0,
+   "paid_minor": 358400,
+   "paid_on": "2026-04-15",
+   "status": "paid",
+   "flag": ""
+  },
+  {
+   "customer": "C01",
+   "number": "INV-2004",
+   "issue": "2026-04-02",
+   "due": "2026-05-02",
+   "currency": "USD",
+   "total_minor": 1359500,
+   "tax_minor": 0,
+   "paid_minor": 1359500,
+   "paid_on": "2026-05-04",
+   "status": "paid",
+   "flag": ""
+  },
+  {
+   "customer": "C01",
+   "number": "INV-2005",
+   "issue": "2026-07-02",
+   "due": "2026-08-01",
+   "currency": "USD",
+   "total_minor": 960100,
+   "tax_minor": 0,
+   "paid_minor": 960100,
+   "paid_on": "2026-08-03",
+   "status": "paid",
+   "flag": ""
+  },
+  {
+   "customer": "C01",
+   "number": "INV-2006",
+   "issue": "2026-08-14",
+   "due": "2026-09-13",
+   "currency": "USD",
+   "total_minor": 475200,
+   "tax_minor": 0,
+   "paid_minor": 0,
+   "paid_on": null,
+   "status": "open",
+   "flag": ""
+  },
+  {
+   "customer": "C01",
+   "number": "INV-2007",
+   "issue": "2026-10-12",
+   "due": "2026-11-11",
+   "currency": "USD",
+   "total_minor": 681300,
+   "tax_minor": 0,
+   "paid_minor": 681300,
+   "paid_on": "2026-11-12",
+   "status": "paid",
+   "flag": ""
+  },
+  {
+   "customer": "C01",
+   "number": "INV-2008",
+   "issue": "2026-11-07",
+   "due": "2026-12-07",
+   "currency": "USD",
+   "total_minor": 476500,
+   "tax_minor": 0,
+   "paid_minor": 238250,
+   "paid_on": null,
+   "status": "open",
+   "flag": "",
+   "partial_on": "2026-11-22"
+  },
+  {
+   "customer": "C02",
+   "number": "INV-2009",
+   "issue": "2026-01-07",
+   "due": "2026-02-06",
+   "currency": "USD",
+   "total_minor": 361800,
+   "tax_minor": 0,
+   "paid_minor": 361800,
+   "paid_on": "2026-02-16",
+   "status": "paid",
+   "flag": ""
+  },
+  {
+   "customer": "C02",
+   "number": "INV-2010",
+   "issue": "2026-01-30",
+   "due": "2026-03-01",
+   "currency": "USD",
+   "total_minor": 476300,
+   "tax_minor": 0,
+   "paid_minor": 476300,
+   "paid_on": "2026-03-13",
+   "status": "paid",
+   "flag": ""
+  },
+  {
+   "customer": "C02",
+   "number": "INV-2011",
+   "issue": "2026-03-03",
+   "due": "2026-04-02",
+   "currency": "USD",
+   "total_minor": 133200,
+   "tax_minor": 0,
+   "paid_minor": 133200,
+   "paid_on": "2026-04-13",
+   "status": "paid",
+   "flag": ""
+  },
+  {
+   "customer": "C02",
+   "number": "INV-2012",
+   "issue": "2026-04-03",
+   "due": "2026-05-03",
+   "currency": "USD",
+   "total_minor": 681700,
+   "tax_minor": 0,
+   "paid_minor": 681700,
+   "paid_on": "2026-05-12",
+   "status": "paid",
+   "flag": ""
+  },
+  {
+   "customer": "C02",
+   "number": "INV-2013",
+   "issue": "2026-06-06",
+   "due": "2026-07-06",
+   "currency": "USD",
+   "total_minor": 1366700,
+   "tax_minor": 0,
+   "paid_minor": 1366700,
+   "paid_on": "2026-07-13",
+   "status": "paid",
+   "flag": ""
+  },
+  {
+   "customer": "C02",
+   "number": "INV-2014",
+   "issue": "2026-07-14",
+   "due": "2026-08-13",
+   "currency": "USD",
+   "total_minor": 473100,
+   "tax_minor": 0,
+   "paid_minor": 473100,
+   "paid_on": "2026-09-21",
+   "status": "paid",
+   "flag": ""
+  },
+  {
+   "customer": "C02",
+   "number": "INV-2015",
+   "issue": "2026-08-10",
+   "due": "2026-09-09",
+   "currency": "USD",
+   "total_minor": 477200,
+   "tax_minor": 0,
+   "paid_minor": 477200,
+   "paid_on": "2026-09-21",
+   "status": "paid",
+   "flag": ""
+  },
+  {
+   "customer": "C02",
+   "number": "INV-2016",
+   "issue": "2026-09-13",
+   "due": "2026-10-13",
+   "currency": "USD",
+   "total_minor": 187800,
+   "tax_minor": 0,
+   "paid_minor": 187800,
+   "paid_on": "2026-10-26",
+   "status": "paid",
+   "flag": ""
+  },
+  {
+   "customer": "C02",
+   "number": "INV-2017",
+   "issue": "2026-10-08",
+   "due": "2026-11-07",
+   "currency": "USD",
+   "total_minor": 1363400,
+   "tax_minor": 0,
+   "paid_minor": 681700,
+   "paid_on": null,
+   "status": "open",
+   "flag": "",
+   "partial_on": "2026-11-22"
+  },
+  {
+   "customer": "C02",
+   "number": "INV-2018",
+   "issue": "2026-10-30",
+   "due": "2026-11-29",
+   "currency": "USD",
+   "total_minor": 189500,
+   "tax_minor": 0,
+   "paid_minor": 0,
+   "paid_on": null,
+   "status": "open",
+   "flag": ""
+  },
+  {
+   "customer": "C03",
+   "number": "INV-2019",
+   "issue": "2025-12-31",
+   "due": "2026-01-30",
+   "currency": "USD",
+   "total_minor": 475700,
+   "tax_minor": 0,
+   "paid_minor": 475700,
+   "paid_on": "2026-03-09",
+   "status": "paid",
+   "flag": ""
+  },
+  {
+   "customer": "C03",
+   "number": "INV-2020",
+   "issue": "2026-02-12",
+   "due": "2026-03-14",
+   "currency": "USD",
+   "total_minor": 682500,
+   "tax_minor": 0,
+   "paid_minor": 682500,
+   "paid_on": "2026-04-20",
+   "status": "paid",
+   "flag": ""
+  },
+  {
+   "customer": "C03",
+   "number": "INV-2021",
+   "issue": "2026-04-07",
+   "due": "2026-05-07",
+   "currency": "USD",
+   "total_minor": 1358100,
+   "tax_minor": 0,
+   "paid_minor": 1358100,
+   "paid_on": "2026-06-17",
+   "status": "paid",
+   "flag": ""
+  },
+  {
+   "customer": "C03",
+   "number": "INV-2022",
+   "issue": "2026-06-19",
+   "due": "2026-07-19",
+   "currency": "USD",
+   "total_minor": 131100,
+   "tax_minor": 0,
+   "paid_minor": 131100,
+   "paid_on": "2026-08-28",
+   "status": "paid",
+   "flag": ""
+  },
+  {
+   "customer": "C03",
+   "number": "INV-2023",
+   "issue": "2026-07-02",
+   "due": "2026-08-01",
+   "currency": "USD",
+   "total_minor": 477000,
+   "tax_minor": 0,
+   "paid_minor": 477000,
+   "paid_on": "2026-09-11",
+   "status": "paid",
+   "flag": ""
+  },
+  {
+   "customer": "C03",
+   "number": "INV-2024",
+   "issue": "2026-08-13",
+   "due": "2026-09-12",
+   "currency": "USD",
+   "total_minor": 189700,
+   "tax_minor": 0,
+   "paid_minor": 189700,
+   "paid_on": "2026-10-22",
+   "status": "paid",
+   "flag": ""
+  },
+  {
+   "customer": "C03",
+   "number": "INV-2025",
+   "issue": "2026-10-11",
+   "due": "2026-11-10",
+   "currency": "USD",
+   "total_minor": 1362600,
+   "tax_minor": 0,
+   "paid_minor": 0,
+   "paid_on": null,
+   "status": "open",
+   "flag": ""
+  },
+  {
+   "customer": "C03",
+   "number": "INV-2026",
+   "issue": "2026-11-13",
+   "due": "2026-12-13",
+   "currency": "USD",
+   "total_minor": 130900,
+   "tax_minor": 0,
+   "paid_minor": 0,
+   "paid_on": null,
+   "status": "open",
+   "flag": ""
+  },
+  {
+   "customer": "C04",
+   "number": "INV-2027",
+   "issue": "2025-12-01",
+   "due": "2025-12-16",
+   "currency": "USD",
+   "total_minor": 1360000,
+   "tax_minor": 0,
+   "paid_minor": 1360000,
+   "paid_on": "2025-12-15",
+   "status": "paid",
+   "flag": ""
+  },
+  {
+   "customer": "C04",
+   "number": "INV-2028",
+   "issue": "2026-02-04",
+   "due": "2026-02-19",
+   "currency": "USD",
+   "total_minor": 185900,
+   "tax_minor": 0,
+   "paid_minor": 185900,
+   "paid_on": "2026-02-18",
+   "status": "paid",
+   "flag": ""
+  },
+  {
+   "customer": "C04",
+   "number": "INV-2029",
+   "issue": "2026-04-01",
+   "due": "2026-04-16",
+   "currency": "USD",
+   "total_minor": 675700,
+   "tax_minor": 0,
+   "paid_minor": 675700,
+   "paid_on": "2026-04-17",
+   "status": "paid",
+   "flag": ""
+  },
+  {
+   "customer": "C04",
+   "number": "INV-2030",
+   "issue": "2026-05-16",
+   "due": "2026-05-31",
+   "currency": "USD",
+   "total_minor": 675400,
+   "tax_minor": 0,
+   "paid_minor": 675400,
+   "paid_on": "2026-06-02",
+   "status": "paid",
+   "flag": ""
+  },
+  {
+   "customer": "C04",
+   "number": "INV-2031",
+   "issue": "2026-06-10",
+   "due": "2026-06-25",
+   "currency": "USD",
+   "total_minor": 1364300,
+   "tax_minor": 0,
+   "paid_minor": 1364300,
+   "paid_on": "2026-06-29",
+   "status": "paid",
+   "flag": ""
+  },
+  {
+   "customer": "C04",
+   "number": "INV-2032",
+   "issue": "2026-07-30",
+   "due": "2026-08-14",
+   "currency": "USD",
+   "total_minor": 969200,
+   "tax_minor": 0,
+   "paid_minor": 969200,
+   "paid_on": "2026-08-13",
+   "status": "paid",
+   "flag": ""
+  },
+  {
+   "customer": "C04",
+   "number": "INV-2033",
+   "issue": "2026-10-02",
+   "due": "2026-10-17",
+   "currency": "USD",
+   "total_minor": 358300,
+   "tax_minor": 0,
+   "paid_minor": 0,
+   "paid_on": null,
+   "status": "open",
+   "flag": ""
+  },
+  {
+   "customer": "C04",
+   "number": "INV-2034",
+   "issue": "2026-11-09",
+   "due": "2026-11-24",
+   "currency": "USD",
+   "total_minor": 1363600,
+   "tax_minor": 0,
+   "paid_minor": 1363600,
+   "paid_on": "2026-11-25",
+   "status": "paid",
+   "flag": ""
+  },
+  {
+   "customer": "C05",
+   "number": "INV-2035",
+   "issue": "2026-02-03",
+   "due": "2026-02-18",
+   "currency": "USD",
+   "total_minor": 128500,
+   "tax_minor": 0,
+   "paid_minor": 128500,
+   "paid_on": "2026-03-05",
+   "status": "paid",
+   "flag": ""
+  },
+  {
+   "customer": "C05",
+   "number": "INV-2036",
+   "issue": "2026-04-20",
+   "due": "2026-05-05",
+   "currency": "USD",
+   "total_minor": 468400,
+   "tax_minor": 0,
+   "paid_minor": 468400,
+   "paid_on": "2026-05-20",
+   "status": "paid",
+   "flag": ""
+  },
+  {
+   "customer": "C05",
+   "number": "INV-2037",
+   "issue": "2026-06-07",
+   "due": "2026-06-22",
+   "currency": "USD",
+   "total_minor": 675600,
+   "tax_minor": 0,
+   "paid_minor": 675600,
+   "paid_on": "2026-07-07",
+   "status": "paid",
+   "flag": ""
+  },
+  {
+   "customer": "C05",
+   "number": "INV-2038",
+   "issue": "2026-06-30",
+   "due": "2026-07-15",
+   "currency": "USD",
+   "total_minor": 133900,
+   "tax_minor": 0,
+   "paid_minor": 133900,
+   "paid_on": "2026-07-29",
+   "status": "paid",
+   "flag": ""
+  },
+  {
+   "customer": "C05",
+   "number": "INV-2039",
+   "issue": "2026-08-04",
+   "due": "2026-08-19",
+   "currency": "USD",
+   "total_minor": 469400,
+   "tax_minor": 0,
+   "paid_minor": 469400,
+   "paid_on": "2026-09-01",
+   "status": "paid",
+   "flag": ""
+  },
+  {
+   "customer": "C05",
+   "number": "INV-2040",
+   "issue": "2026-08-29",
+   "due": "2026-09-13",
+   "currency": "USD",
+   "total_minor": 131300,
+   "tax_minor": 0,
+   "paid_minor": 131300,
+   "paid_on": "2026-09-25",
+   "status": "paid",
+   "flag": ""
+  },
+  {
+   "customer": "C05",
+   "number": "INV-2041",
+   "issue": "2026-10-06",
+   "due": "2026-10-21",
+   "currency": "USD",
+   "total_minor": 1359300,
+   "tax_minor": 0,
+   "paid_minor": 0,
+   "paid_on": null,
+   "status": "open",
+   "flag": ""
+  },
+  {
+   "customer": "C05",
+   "number": "INV-2042",
+   "issue": "2026-11-13",
+   "due": "2026-11-28",
+   "currency": "USD",
+   "total_minor": 180900,
+   "tax_minor": 0,
+   "paid_minor": 0,
+   "paid_on": null,
+   "status": "open",
+   "flag": ""
+  },
+  {
+   "customer": "C06",
+   "number": "INV-2043",
+   "issue": "2026-02-17",
+   "due": "2026-04-03",
+   "currency": "USD",
+   "total_minor": 1362800,
+   "tax_minor": 0,
+   "paid_minor": 1362800,
+   "paid_on": "2026-05-11",
+   "status": "paid",
+   "flag": ""
+  },
+  {
+   "customer": "C06",
+   "number": "INV-2044",
+   "issue": "2026-03-21",
+   "due": "2026-05-05",
+   "currency": "USD",
+   "total_minor": 470300,
+   "tax_minor": 0,
+   "paid_minor": 470300,
+   "paid_on": "2026-05-11",
+   "status": "paid",
+   "flag": ""
+  },
+  {
+   "customer": "C06",
+   "number": "INV-2045",
+   "issue": "2026-06-04",
+   "due": "2026-07-19",
+   "currency": "USD",
+   "total_minor": 181100,
+   "tax_minor": 0,
+   "paid_minor": 181100,
+   "paid_on": "2026-07-27",
+   "status": "paid",
+   "flag": ""
+  },
+  {
+   "customer": "C06",
+   "number": "INV-2046",
+   "issue": "2026-08-02",
+   "due": "2026-09-16",
+   "currency": "USD",
+   "total_minor": 183100,
+   "tax_minor": 0,
+   "paid_minor": 183100,
+   "paid_on": "2026-09-25",
+   "status": "paid",
+   "flag": ""
+  },
+  {
+   "customer": "C06",
+   "number": "INV-2047",
+   "issue": "2026-09-09",
+   "due": "2026-10-24",
+   "currency": "USD",
+   "total_minor": 363200,
+   "tax_minor": 0,
+   "paid_minor": 363200,
+   "paid_on": "2026-10-29",
+   "status": "paid",
+   "flag": ""
+  },
+  {
+   "customer": "C06",
+   "number": "INV-2048",
+   "issue": "2026-09-27",
+   "due": "2026-11-11",
+   "currency": "USD",
+   "total_minor": 1363300,
+   "tax_minor": 0,
+   "paid_minor": 1363300,
+   "paid_on": "2026-11-18",
+   "status": "paid",
+   "flag": ""
+  },
+  {
+   "customer": "C06",
+   "number": "INV-2049",
+   "issue": "2026-11-15",
+   "due": "2026-12-30",
+   "currency": "USD",
+   "total_minor": 1366200,
+   "tax_minor": 0,
+   "paid_minor": 0,
+   "paid_on": null,
+   "status": "open",
+   "flag": "dispute"
+  },
+  {
+   "customer": "C07",
+   "number": "INV-2050",
+   "issue": "2025-12-18",
+   "due": "2026-01-17",
+   "currency": "USD",
+   "total_minor": 182800,
+   "tax_minor": 0,
+   "paid_minor": 182800,
+   "paid_on": "2026-02-10",
+   "status": "paid",
+   "flag": ""
+  },
+  {
+   "customer": "C07",
+   "number": "INV-2051",
+   "issue": "2026-01-09",
+   "due": "2026-02-08",
+   "currency": "USD",
+   "total_minor": 132700,
+   "tax_minor": 0,
+   "paid_minor": 132700,
+   "paid_on": "2026-02-27",
+   "status": "paid",
+   "flag": ""
+  },
+  {
+   "customer": "C07",
+   "number": "INV-2052",
+   "issue": "2026-03-08",
+   "due": "2026-04-07",
+   "currency": "USD",
+   "total_minor": 1367700,
+   "tax_minor": 0,
+   "paid_minor": 1367700,
+   "paid_on": "2026-04-27",
+   "status": "paid",
+   "flag": ""
+  },
+  {
+   "customer": "C07",
+   "number": "INV-2053",
+   "issue": "2026-04-09",
+   "due": "2026-05-09",
+   "currency": "USD",
+   "total_minor": 359500,
+   "tax_minor": 0,
+   "paid_minor": 359500,
+   "paid_on": "2026-06-01",
+   "status": "paid",
+   "flag": ""
+  },
+  {
+   "customer": "C07",
+   "number": "INV-2054",
+   "issue": "2026-05-04",
+   "due": "2026-06-03",
+   "currency": "USD",
+   "total_minor": 1363600,
+   "tax_minor": 0,
+   "paid_minor": 1363600,
+   "paid_on": "2026-06-25",
+   "status": "paid",
+   "flag": ""
+  },
+  {
+   "customer": "C07",
+   "number": "INV-2055",
+   "issue": "2026-05-30",
+   "due": "2026-06-29",
+   "currency": "USD",
+   "total_minor": 960300,
+   "tax_minor": 0,
+   "paid_minor": 960300,
+   "paid_on": "2026-07-20",
+   "status": "paid",
+   "flag": ""
+  },
+  {
+   "customer": "C07",
+   "number": "INV-2056",
+   "issue": "2026-07-13",
+   "due": "2026-08-12",
+   "currency": "USD",
+   "total_minor": 470800,
+   "tax_minor": 0,
+   "paid_minor": 470800,
+   "paid_on": "2026-09-07",
+   "status": "paid",
+   "flag": ""
+  },
+  {
+   "customer": "C07",
+   "number": "INV-2057",
+   "issue": "2026-08-08",
+   "due": "2026-09-07",
+   "currency": "USD",
+   "total_minor": 682200,
+   "tax_minor": 0,
+   "paid_minor": 682200,
+   "paid_on": "2026-09-28",
+   "status": "paid",
+   "flag": ""
+  },
+  {
+   "customer": "C07",
+   "number": "INV-2058",
+   "issue": "2026-09-07",
+   "due": "2026-10-07",
+   "currency": "USD",
+   "total_minor": 681200,
+   "tax_minor": 0,
+   "paid_minor": 681200,
+   "paid_on": "2026-10-26",
+   "status": "paid",
+   "flag": ""
+  },
+  {
+   "customer": "C07",
+   "number": "INV-2059",
+   "issue": "2026-09-28",
+   "due": "2026-10-28",
+   "currency": "USD",
+   "total_minor": 360100,
+   "tax_minor": 0,
+   "paid_minor": 360100,
+   "paid_on": "2026-11-17",
+   "status": "paid",
+   "flag": ""
+  },
+  {
+   "customer": "C07",
+   "number": "INV-2060",
+   "issue": "2026-10-30",
+   "due": "2026-11-29",
+   "currency": "USD",
+   "total_minor": 471400,
+   "tax_minor": 0,
+   "paid_minor": 0,
+   "paid_on": null,
+   "status": "open",
+   "flag": ""
+  },
+  {
+   "customer": "C08",
+   "number": "INV-2061",
+   "issue": "2026-02-14",
+   "due": "2026-03-16",
+   "currency": "USD",
+   "total_minor": 361600,
+   "tax_minor": 0,
+   "paid_minor": 361600,
+   "paid_on": "2026-03-20",
+   "status": "paid",
+   "flag": ""
+  },
+  {
+   "customer": "C08",
+   "number": "INV-2062",
+   "issue": "2026-03-13",
+   "due": "2026-04-12",
+   "currency": "USD",
+   "total_minor": 468800,
+   "tax_minor": 0,
+   "paid_minor": 468800,
+   "paid_on": "2026-04-14",
+   "status": "paid",
+   "flag": ""
+  },
+  {
+   "customer": "C08",
+   "number": "INV-2063",
+   "issue": "2026-04-07",
+   "due": "2026-05-07",
+   "currency": "USD",
+   "total_minor": 128600,
+   "tax_minor": 0,
+   "paid_minor": 128600,
+   "paid_on": "2026-05-11",
+   "status": "paid",
+   "flag": ""
+  },
+  {
+   "customer": "C08",
+   "number": "INV-2064",
+   "issue": "2026-07-15",
+   "due": "2026-08-14",
+   "currency": "USD",
+   "total_minor": 358900,
+   "tax_minor": 0,
+   "paid_minor": 358900,
+   "paid_on": "2026-08-20",
+   "status": "paid",
+   "flag": ""
+  },
+  {
+   "customer": "C08",
+   "number": "INV-2065",
+   "issue": "2026-08-13",
+   "due": "2026-09-12",
+   "currency": "USD",
+   "total_minor": 679900,
+   "tax_minor": 0,
+   "paid_minor": 679900,
+   "paid_on": "2026-09-14",
+   "status": "paid",
+   "flag": ""
+  },
+  {
+   "customer": "C08",
+   "number": "INV-2066",
+   "issue": "2026-09-14",
+   "due": "2026-10-14",
+   "currency": "USD",
+   "total_minor": 1361200,
+   "tax_minor": 0,
+   "paid_minor": 0,
+   "paid_on": null,
+   "status": "open",
+   "flag": ""
+  },
+  {
+   "customer": "C08",
+   "number": "INV-2067",
+   "issue": "2026-10-01",
+   "due": "2026-10-31",
+   "currency": "USD",
+   "total_minor": 132000,
+   "tax_minor": 0,
+   "paid_minor": 132000,
+   "paid_on": "2026-11-04",
+   "status": "paid",
+   "flag": ""
+  },
+  {
+   "customer": "C08",
+   "number": "INV-2068",
+   "issue": "2026-11-08",
+   "due": "2026-12-08",
+   "currency": "USD",
+   "total_minor": 675500,
+   "tax_minor": 0,
+   "paid_minor": 0,
+   "paid_on": null,
+   "status": "open",
+   "flag": ""
+  },
+  {
+   "customer": "C09",
+   "number": "INV-2069",
+   "issue": "2026-01-07",
+   "due": "2026-02-06",
+   "currency": "USD",
+   "total_minor": 129700,
+   "tax_minor": 0,
+   "paid_minor": 129700,
+   "paid_on": "2026-02-25",
+   "status": "paid",
+   "flag": ""
+  },
+  {
+   "customer": "C09",
+   "number": "INV-2070",
+   "issue": "2026-02-08",
+   "due": "2026-03-10",
+   "currency": "USD",
+   "total_minor": 186100,
+   "tax_minor": 0,
+   "paid_minor": 186100,
+   "paid_on": "2026-03-25",
+   "status": "paid",
+   "flag": ""
+  },
+  {
+   "customer": "C09",
+   "number": "INV-2071",
+   "issue": "2026-03-09",
+   "due": "2026-04-08",
+   "currency": "USD",
+   "total_minor": 962200,
+   "tax_minor": 0,
+   "paid_minor": 962200,
+   "paid_on": "2026-04-27",
+   "status": "paid",
+   "flag": ""
+  },
+  {
+   "customer": "C09",
+   "number": "INV-2072",
+   "issue": "2026-04-13",
+   "due": "2026-05-13",
+   "currency": "USD",
+   "total_minor": 183300,
+   "tax_minor": 0,
+   "paid_minor": 183300,
+   "paid_on": "2026-06-02",
+   "status": "paid",
+   "flag": ""
+  },
+  {
+   "customer": "C09",
+   "number": "INV-2073",
+   "issue": "2026-05-31",
+   "due": "2026-06-30",
+   "currency": "USD",
+   "total_minor": 188600,
+   "tax_minor": 0,
+   "paid_minor": 188600,
+   "paid_on": "2026-07-20",
+   "status": "paid",
+   "flag": ""
+  },
+  {
+   "customer": "C09",
+   "number": "INV-2074",
+   "issue": "2026-07-01",
+   "due": "2026-07-31",
+   "currency": "USD",
+   "total_minor": 361100,
+   "tax_minor": 0,
+   "paid_minor": 361100,
+   "paid_on": "2026-08-17",
+   "status": "paid",
+   "flag": ""
+  },
+  {
+   "customer": "C09",
+   "number": "INV-2075",
+   "issue": "2026-07-30",
+   "due": "2026-08-29",
+   "currency": "USD",
+   "total_minor": 967400,
+   "tax_minor": 0,
+   "paid_minor": 967400,
+   "paid_on": "2026-09-14",
+   "status": "paid",
+   "flag": ""
+  },
+  {
+   "customer": "C09",
+   "number": "INV-2076",
+   "issue": "2026-09-15",
+   "due": "2026-10-15",
+   "currency": "USD",
+   "total_minor": 128200,
+   "tax_minor": 0,
+   "paid_minor": 128200,
+   "paid_on": "2026-11-02",
+   "status": "paid",
+   "flag": ""
+  },
+  {
+   "customer": "C09",
+   "number": "INV-2077",
+   "issue": "2026-10-13",
+   "due": "2026-11-12",
+   "currency": "USD",
+   "total_minor": 135700,
+   "tax_minor": 0,
+   "paid_minor": 135700,
+   "paid_on": "2026-11-30",
+   "status": "paid",
+   "flag": ""
+  },
+  {
+   "customer": "C09",
+   "number": "INV-2078",
+   "issue": "2026-11-08",
+   "due": "2026-12-08",
+   "currency": "USD",
+   "total_minor": 358800,
+   "tax_minor": 0,
+   "paid_minor": 0,
+   "paid_on": null,
+   "status": "open",
+   "flag": "dispute"
+  },
+  {
+   "customer": "C10",
+   "number": "INV-2079",
+   "issue": "2026-01-04",
+   "due": "2026-02-03",
+   "currency": "USD",
+   "total_minor": 477900,
+   "tax_minor": 0,
+   "paid_minor": 477900,
+   "paid_on": "2026-02-13",
+   "status": "paid",
+   "flag": ""
+  },
+  {
+   "customer": "C10",
+   "number": "INV-2080",
+   "issue": "2026-03-13",
+   "due": "2026-04-12",
+   "currency": "USD",
+   "total_minor": 678100,
+   "tax_minor": 0,
+   "paid_minor": 678100,
+   "paid_on": "2026-04-23",
+   "status": "paid",
+   "flag": ""
+  },
+  {
+   "customer": "C10",
+   "number": "INV-2081",
+   "issue": "2026-04-06",
+   "due": "2026-05-06",
+   "currency": "USD",
+   "total_minor": 189400,
+   "tax_minor": 0,
+   "paid_minor": 189400,
+   "paid_on": "2026-05-18",
+   "status": "paid",
+   "flag": ""
+  },
+  {
+   "customer": "C10",
+   "number": "INV-2082",
+   "issue": "2026-06-02",
+   "due": "2026-07-02",
+   "currency": "USD",
+   "total_minor": 676900,
+   "tax_minor": 0,
+   "paid_minor": 676900,
+   "paid_on": "2026-07-13",
+   "status": "paid",
+   "flag": ""
+  },
+  {
+   "customer": "C10",
+   "number": "INV-2083",
+   "issue": "2026-07-06",
+   "due": "2026-08-05",
+   "currency": "USD",
+   "total_minor": 472500,
+   "tax_minor": 0,
+   "paid_minor": 472500,
+   "paid_on": "2026-08-14",
+   "status": "paid",
+   "flag": ""
+  },
+  {
+   "customer": "C10",
+   "number": "INV-2084",
+   "issue": "2026-09-03",
+   "due": "2026-10-03",
+   "currency": "USD",
+   "total_minor": 361300,
+   "tax_minor": 0,
+   "paid_minor": 361300,
+   "paid_on": "2026-10-19",
+   "status": "paid",
+   "flag": ""
+  },
+  {
+   "customer": "C10",
+   "number": "INV-2085",
+   "issue": "2026-10-03",
+   "due": "2026-11-02",
+   "currency": "USD",
+   "total_minor": 961400,
+   "tax_minor": 0,
+   "paid_minor": 0,
+   "paid_on": null,
+   "status": "open",
+   "flag": ""
+  },
+  {
+   "customer": "C10",
+   "number": "INV-2086",
+   "issue": "2026-11-11",
+   "due": "2026-12-11",
+   "currency": "USD",
+   "total_minor": 359900,
+   "tax_minor": 0,
+   "paid_minor": 0,
+   "paid_on": null,
+   "status": "open",
+   "flag": ""
+  }
+ ],
+ "bills_hist": [
+  {
+   "vendor": "V01",
+   "number": "01-5001",
+   "issue": "2026-05-09",
+   "due": "2026-06-08",
+   "currency": "USD",
+   "subtotal_minor": 115875,
+   "tax_minor": 9270,
+   "total_minor": 125145,
+   "paid_on": "2026-06-08"
+  },
+  {
+   "vendor": "V01",
+   "number": "01-5002",
+   "issue": "2026-06-07",
+   "due": "2026-07-07",
+   "currency": "USD",
+   "subtotal_minor": 72000,
+   "tax_minor": 5760,
+   "total_minor": 77760,
+   "paid_on": "2026-07-07"
+  },
+  {
+   "vendor": "V01",
+   "number": "01-5003",
+   "issue": "2026-07-09",
+   "due": "2026-08-08",
+   "currency": "USD",
+   "subtotal_minor": 69870,
+   "tax_minor": 5590,
+   "total_minor": 75460,
+   "paid_on": "2026-08-10"
+  },
+  {
+   "vendor": "V01",
+   "number": "01-5004",
+   "issue": "2026-08-10",
+   "due": "2026-09-09",
+   "currency": "USD",
+   "subtotal_minor": 112620,
+   "tax_minor": 9010,
+   "total_minor": 121630,
+   "paid_on": "2026-09-09"
+  },
+  {
+   "vendor": "V01",
+   "number": "01-5005",
+   "issue": "2026-09-08",
+   "due": "2026-10-08",
+   "currency": "USD",
+   "subtotal_minor": 101685,
+   "tax_minor": 8135,
+   "total_minor": 109820,
+   "paid_on": "2026-10-08"
+  },
+  {
+   "vendor": "V01",
+   "number": "01-5006",
+   "issue": "2026-10-06",
+   "due": "2026-11-05",
+   "currency": "USD",
+   "subtotal_minor": 171455,
+   "tax_minor": 13716,
+   "total_minor": 185171,
+   "paid_on": "2026-11-05"
+  },
+  {
+   "vendor": "V02",
+   "number": "02-5007",
+   "issue": "2026-05-09",
+   "due": "2026-05-23",
+   "currency": "USD",
+   "subtotal_minor": 17400,
+   "tax_minor": 0,
+   "total_minor": 17400,
+   "paid_on": "2026-05-25"
+  },
+  {
+   "vendor": "V02",
+   "number": "02-5008",
+   "issue": "2026-06-11",
+   "due": "2026-06-25",
+   "currency": "USD",
+   "subtotal_minor": 15000,
+   "tax_minor": 0,
+   "total_minor": 15000,
+   "paid_on": "2026-06-25"
+  },
+  {
+   "vendor": "V02",
+   "number": "02-5009",
+   "issue": "2026-07-08",
+   "due": "2026-07-22",
+   "currency": "USD",
+   "subtotal_minor": 17550,
+   "tax_minor": 0,
+   "total_minor": 17550,
+   "paid_on": "2026-07-22"
+  },
+  {
+   "vendor": "V02",
+   "number": "02-5010",
+   "issue": "2026-08-09",
+   "due": "2026-08-23",
+   "currency": "USD",
+   "subtotal_minor": 22500,
+   "tax_minor": 0,
+   "total_minor": 22500,
+   "paid_on": "2026-08-24"
+  },
+  {
+   "vendor": "V02",
+   "number": "02-5011",
+   "issue": "2026-09-08",
+   "due": "2026-09-22",
+   "currency": "USD",
+   "subtotal_minor": 14400,
+   "tax_minor": 0,
+   "total_minor": 14400,
+   "paid_on": "2026-09-22"
+  },
+  {
+   "vendor": "V02",
+   "number": "02-5012",
+   "issue": "2026-10-07",
+   "due": "2026-10-21",
+   "currency": "USD",
+   "subtotal_minor": 17250,
+   "tax_minor": 0,
+   "total_minor": 17250,
+   "paid_on": "2026-10-21"
+  },
+  {
+   "vendor": "V03",
+   "number": "03-5013",
+   "issue": "2026-05-10",
+   "due": "2026-06-09",
+   "currency": "USD",
+   "subtotal_minor": 23100,
+   "tax_minor": 1617,
+   "total_minor": 24717,
+   "paid_on": "2026-06-09"
+  },
+  {
+   "vendor": "V03",
+   "number": "03-5014",
+   "issue": "2026-06-07",
+   "due": "2026-07-07",
+   "currency": "USD",
+   "subtotal_minor": 28150,
+   "tax_minor": 1971,
+   "total_minor": 30121,
+   "paid_on": "2026-07-07"
+  },
+  {
+   "vendor": "V03",
+   "number": "03-5015",
+   "issue": "2026-07-09",
+   "due": "2026-08-08",
+   "currency": "USD",
+   "subtotal_minor": 35350,
+   "tax_minor": 2475,
+   "total_minor": 37825,
+   "paid_on": "2026-08-10"
+  },
+  {
+   "vendor": "V03",
+   "number": "03-5016",
+   "issue": "2026-08-07",
+   "due": "2026-09-06",
+   "currency": "USD",
+   "subtotal_minor": 32500,
+   "tax_minor": 2275,
+   "total_minor": 34775,
+   "paid_on": "2026-09-07"
+  },
+  {
+   "vendor": "V03",
+   "number": "03-5017",
+   "issue": "2026-09-05",
+   "due": "2026-10-05",
+   "currency": "USD",
+   "subtotal_minor": 31050,
+   "tax_minor": 2174,
+   "total_minor": 33224,
+   "paid_on": "2026-10-05"
+  },
+  {
+   "vendor": "V03",
+   "number": "03-5018",
+   "issue": "2026-10-07",
+   "due": "2026-11-06",
+   "currency": "USD",
+   "subtotal_minor": 26950,
+   "tax_minor": 1887,
+   "total_minor": 28837,
+   "paid_on": "2026-11-06"
+  },
+  {
+   "vendor": "V04",
+   "number": "04-5019",
+   "issue": "2026-05-12",
+   "due": "2026-06-26",
+   "currency": "USD",
+   "subtotal_minor": 57000,
+   "tax_minor": 4560,
+   "total_minor": 61560,
+   "paid_on": "2026-06-26"
+  },
+  {
+   "vendor": "V04",
+   "number": "04-5020",
+   "issue": "2026-06-11",
+   "due": "2026-07-26",
+   "currency": "USD",
+   "subtotal_minor": 49800,
+   "tax_minor": 3984,
+   "total_minor": 53784,
+   "paid_on": "2026-07-27"
+  },
+  {
+   "vendor": "V04",
+   "number": "04-5021",
+   "issue": "2026-07-11",
+   "due": "2026-08-25",
+   "currency": "USD",
+   "subtotal_minor": 56700,
+   "tax_minor": 4536,
+   "total_minor": 61236,
+   "paid_on": "2026-08-25"
+  },
+  {
+   "vendor": "V04",
+   "number": "04-5022",
+   "issue": "2026-08-06",
+   "due": "2026-09-20",
+   "currency": "USD",
+   "subtotal_minor": 65700,
+   "tax_minor": 5256,
+   "total_minor": 70956,
+   "paid_on": "2026-09-21"
+  },
+  {
+   "vendor": "V04",
+   "number": "04-5023",
+   "issue": "2026-09-05",
+   "due": "2026-10-20",
+   "currency": "USD",
+   "subtotal_minor": 56380,
+   "tax_minor": 4510,
+   "total_minor": 60890,
+   "paid_on": "2026-10-20"
+  },
+  {
+   "vendor": "V04",
+   "number": "04-5024",
+   "issue": "2026-10-08",
+   "due": "2026-11-22",
+   "currency": "USD",
+   "subtotal_minor": 51930,
+   "tax_minor": 4154,
+   "total_minor": 56084,
+   "paid_on": "2026-11-23"
+  },
+  {
+   "vendor": "V05",
+   "number": "05-5025",
+   "issue": "2026-05-10",
+   "due": "2026-05-25",
+   "currency": "USD",
+   "subtotal_minor": 121500,
+   "tax_minor": 0,
+   "total_minor": 121500,
+   "paid_on": "2026-05-25"
+  },
+  {
+   "vendor": "V05",
+   "number": "05-5026",
+   "issue": "2026-06-08",
+   "due": "2026-06-23",
+   "currency": "USD",
+   "subtotal_minor": 149500,
+   "tax_minor": 0,
+   "total_minor": 149500,
+   "paid_on": "2026-06-23"
+  },
+  {
+   "vendor": "V05",
+   "number": "05-5027",
+   "issue": "2026-07-08",
+   "due": "2026-07-23",
+   "currency": "USD",
+   "subtotal_minor": 177500,
+   "tax_minor": 0,
+   "total_minor": 177500,
+   "paid_on": "2026-07-23"
+  },
+  {
+   "vendor": "V05",
+   "number": "05-5028",
+   "issue": "2026-08-06",
+   "due": "2026-08-21",
+   "currency": "USD",
+   "subtotal_minor": 149500,
+   "tax_minor": 0,
+   "total_minor": 149500,
+   "paid_on": "2026-08-21"
+  },
+  {
+   "vendor": "V05",
+   "number": "05-5029",
+   "issue": "2026-09-09",
+   "due": "2026-09-24",
+   "currency": "USD",
+   "subtotal_minor": 149500,
+   "tax_minor": 0,
+   "total_minor": 149500,
+   "paid_on": "2026-09-24"
+  },
+  {
+   "vendor": "V05",
+   "number": "05-5030",
+   "issue": "2026-10-07",
+   "due": "2026-10-22",
+   "currency": "USD",
+   "subtotal_minor": 149500,
+   "tax_minor": 0,
+   "total_minor": 149500,
+   "paid_on": "2026-10-22"
+  },
+  {
+   "vendor": "V06",
+   "number": "06-5031",
+   "issue": "2026-05-12",
+   "due": "2026-06-11",
+   "currency": "USD",
+   "subtotal_minor": 24500,
+   "tax_minor": 2450,
+   "total_minor": 26950,
+   "paid_on": "2026-06-11"
+  },
+  {
+   "vendor": "V06",
+   "number": "06-5032",
+   "issue": "2026-06-10",
+   "due": "2026-07-10",
+   "currency": "USD",
+   "subtotal_minor": 24500,
+   "tax_minor": 2450,
+   "total_minor": 26950,
+   "paid_on": "2026-07-10"
+  },
+  {
+   "vendor": "V06",
+   "number": "06-5033",
+   "issue": "2026-07-08",
+   "due": "2026-08-07",
+   "currency": "USD",
+   "subtotal_minor": 24500,
+   "tax_minor": 2450,
+   "total_minor": 26950,
+   "paid_on": "2026-08-07"
+  },
+  {
+   "vendor": "V06",
+   "number": "06-5034",
+   "issue": "2026-08-08",
+   "due": "2026-09-07",
+   "currency": "USD",
+   "subtotal_minor": 29400,
+   "tax_minor": 2940,
+   "total_minor": 32340,
+   "paid_on": "2026-09-07"
+  },
+  {
+   "vendor": "V06",
+   "number": "06-5035",
+   "issue": "2026-09-08",
+   "due": "2026-10-08",
+   "currency": "USD",
+   "subtotal_minor": 14700,
+   "tax_minor": 1470,
+   "total_minor": 16170,
+   "paid_on": "2026-10-08"
+  },
+  {
+   "vendor": "V06",
+   "number": "06-5036",
+   "issue": "2026-10-05",
+   "due": "2026-11-04",
+   "currency": "USD",
+   "subtotal_minor": 34300,
+   "tax_minor": 3430,
+   "total_minor": 37730,
+   "paid_on": "2026-11-04"
+  },
+  {
+   "vendor": "V07",
+   "number": "07-5037",
+   "issue": "2026-05-09",
+   "due": "2026-06-08",
+   "currency": "EUR",
+   "subtotal_minor": 50600,
+   "tax_minor": 9614,
+   "total_minor": 60214,
+   "paid_on": "2026-06-08"
+  },
+  {
+   "vendor": "V07",
+   "number": "07-5038",
+   "issue": "2026-06-11",
+   "due": "2026-07-11",
+   "currency": "EUR",
+   "subtotal_minor": 72200,
+   "tax_minor": 13718,
+   "total_minor": 85918,
+   "paid_on": "2026-07-13"
+  },
+  {
+   "vendor": "V07",
+   "number": "07-5039",
+   "issue": "2026-07-11",
+   "due": "2026-08-10",
+   "currency": "EUR",
+   "subtotal_minor": 57800,
+   "tax_minor": 10982,
+   "total_minor": 68782,
+   "paid_on": "2026-08-10"
+  },
+  {
+   "vendor": "V07",
+   "number": "07-5040",
+   "issue": "2026-08-09",
+   "due": "2026-09-08",
+   "currency": "EUR",
+   "subtotal_minor": 57800,
+   "tax_minor": 10982,
+   "total_minor": 68782,
+   "paid_on": "2026-09-08"
+  },
+  {
+   "vendor": "V07",
+   "number": "07-5041",
+   "issue": "2026-09-06",
+   "due": "2026-10-06",
+   "currency": "EUR",
+   "subtotal_minor": 43400,
+   "tax_minor": 8246,
+   "total_minor": 51646,
+   "paid_on": "2026-10-06"
+  },
+  {
+   "vendor": "V07",
+   "number": "07-5042",
+   "issue": "2026-10-09",
+   "due": "2026-11-08",
+   "currency": "EUR",
+   "subtotal_minor": 43400,
+   "tax_minor": 8246,
+   "total_minor": 51646,
+   "paid_on": "2026-11-09"
+  },
+  {
+   "vendor": "V08",
+   "number": "08-5043",
+   "issue": "2026-05-11",
+   "due": "2026-06-10",
+   "currency": "USD",
+   "subtotal_minor": 43500,
+   "tax_minor": 0,
+   "total_minor": 43500,
+   "paid_on": "2026-06-10"
+  },
+  {
+   "vendor": "V08",
+   "number": "08-5044",
+   "issue": "2026-06-07",
+   "due": "2026-07-07",
+   "currency": "USD",
+   "subtotal_minor": 43500,
+   "tax_minor": 0,
+   "total_minor": 43500,
+   "paid_on": "2026-07-07"
+  },
+  {
+   "vendor": "V08",
+   "number": "08-5045",
+   "issue": "2026-07-11",
+   "due": "2026-08-10",
+   "currency": "USD",
+   "subtotal_minor": 43500,
+   "tax_minor": 0,
+   "total_minor": 43500,
+   "paid_on": "2026-08-10"
+  },
+  {
+   "vendor": "V08",
+   "number": "08-5046",
+   "issue": "2026-08-07",
+   "due": "2026-09-06",
+   "currency": "USD",
+   "subtotal_minor": 43500,
+   "tax_minor": 0,
+   "total_minor": 43500,
+   "paid_on": "2026-09-07"
+  },
+  {
+   "vendor": "V08",
+   "number": "08-5047",
+   "issue": "2026-09-06",
+   "due": "2026-10-06",
+   "currency": "USD",
+   "subtotal_minor": 43500,
+   "tax_minor": 0,
+   "total_minor": 43500,
+   "paid_on": "2026-10-06"
+  },
+  {
+   "vendor": "V08",
+   "number": "08-5048",
+   "issue": "2026-10-05",
+   "due": "2026-11-04",
+   "currency": "USD",
+   "subtotal_minor": 43500,
+   "tax_minor": 0,
+   "total_minor": 43500,
+   "paid_on": "2026-11-04"
+  }
+ ],
+ "bank_account": {
+  "name": "Operating account (fictional)",
+  "opening_minor": -15628882,
+  "opening_date": "2025-12-01"
+ },
+ "fx_rates_bp": {
+  "EUR": 10800
+ },
+ "bank_csv": "bank_statement.csv",
+ "recurring": [
+  {
+   "name": "Rent",
+   "direction": "out",
+   "amount_minor": 320000,
+   "cadence": "monthly",
+   "day": 1,
+   "match": "RENT MILLSIDE PROPERTIES"
+  },
+  {
+   "name": "Software subscription",
+   "direction": "out",
+   "amount_minor": 28900,
+   "cadence": "monthly",
+   "day": 5,
+   "match": "SOFTLAB SUBSCRIPTION"
+  },
+  {
+   "name": "Bank fee",
+   "direction": "out",
+   "amount_minor": 2500,
+   "cadence": "monthly",
+   "day": 27,
+   "match": "MONTHLY ACCOUNT FEE"
+  },
+  {
+   "name": "Payroll",
+   "direction": "out",
+   "amount_minor": 650000,
+   "cadence": "twice_monthly",
+   "day": 15,
+   "match": "PAYROLL BATCH"
+  }
+ ],
+ "promises": [
+  {
+   "invoice": "INV-2006",
+   "promised_on": "2026-12-06",
+   "amount_minor": 475200,
+   "status": "open"
+  },
+  {
+   "invoice": "INV-2066",
+   "promised_on": "2026-12-13",
+   "amount_minor": 1361200,
+   "status": "open"
+  },
+  {
+   "invoice": "INV-2033",
+   "promised_on": "2026-11-25",
+   "amount_minor": 358300,
+   "status": "broken"
+  }
+ ],
+ "reminders": [
+  {
+   "invoice": "INV-2006",
+   "step": 1,
+   "sent_on": "2026-09-14"
+  },
+  {
+   "invoice": "INV-2006",
+   "step": 2,
+   "sent_on": "2026-09-20"
+  },
+  {
+   "invoice": "INV-2006",
+   "step": 3,
+   "sent_on": "2026-09-27"
+  },
+  {
+   "invoice": "INV-2006",
+   "step": 4,
+   "sent_on": "2026-10-13"
+  },
+  {
+   "invoice": "INV-2017",
+   "step": 1,
+   "sent_on": "2026-11-08"
+  },
+  {
+   "invoice": "INV-2017",
+   "step": 2,
+   "sent_on": "2026-11-14"
+  },
+  {
+   "invoice": "INV-2017",
+   "step": 3,
+   "sent_on": "2026-11-21"
+  },
+  {
+   "invoice": "INV-2018",
+   "step": 1,
+   "sent_on": "2026-11-30"
+  },
+  {
+   "invoice": "INV-2033",
+   "step": 1,
+   "sent_on": "2026-10-18"
+  },
+  {
+   "invoice": "INV-2033",
+   "step": 2,
+   "sent_on": "2026-10-24"
+  },
+  {
+   "invoice": "INV-2033",
+   "step": 3,
+   "sent_on": "2026-10-31"
+  },
+  {
+   "invoice": "INV-2033",
+   "step": 4,
+   "sent_on": "2026-11-16"
+  },
+  {
+   "invoice": "INV-2060",
+   "step": 1,
+   "sent_on": "2026-11-30"
+  },
+  {
+   "invoice": "INV-2066",
+   "step": 1,
+   "sent_on": "2026-10-15"
+  },
+  {
+   "invoice": "INV-2066",
+   "step": 2,
+   "sent_on": "2026-10-21"
+  },
+  {
+   "invoice": "INV-2066",
+   "step": 3,
+   "sent_on": "2026-10-28"
+  },
+  {
+   "invoice": "INV-2066",
+   "step": 4,
+   "sent_on": "2026-11-13"
+  },
+  {
+   "invoice": "INV-2085",
+   "step": 1,
+   "sent_on": "2026-11-03"
+  },
+  {
+   "invoice": "INV-2085",
+   "step": 2,
+   "sent_on": "2026-11-09"
+  },
+  {
+   "invoice": "INV-2085",
+   "step": 3,
+   "sent_on": "2026-11-16"
+  }
+ ],
+ "documents": [
+  {
+   "id": "D001",
+   "file": "documents/D001.pdf",
+   "source": "inbox",
+   "from": "billing@alderbank.example.test",
+   "subject": "Invoice ALD-4000"
+  },
+  {
+   "id": "D002",
+   "file": "documents/D002.pdf",
+   "source": "inbox",
+   "from": "billing@brightwater.example.test",
+   "subject": "Invoice BRI-4001"
+  },
+  {
+   "id": "D003",
+   "file": "documents/D003.pdf",
+   "source": "upload",
+   "from": "billing@cobalt.example.test",
+   "subject": "Invoice COB-4002"
+  },
+  {
+   "id": "D004",
+   "file": "documents/D004.pdf",
+   "source": "inbox",
+   "from": "billing@dunmore.example.test",
+   "subject": "Invoice DUN-4003"
+  },
+  {
+   "id": "D005",
+   "file": "documents/D005.pdf",
+   "source": "inbox",
+   "from": "billing@eastgate.example.test",
+   "subject": "Invoice EAS-4004"
+  },
+  {
+   "id": "D006",
+   "file": "documents/D006.pdf",
+   "source": "upload",
+   "from": "billing@fernhill.example.test",
+   "subject": "Invoice FER-4005"
+  },
+  {
+   "id": "D007",
+   "file": "documents/D007.pdf",
+   "source": "inbox",
+   "from": "billing@gablemere.example.test",
+   "subject": "Invoice GAB-4006"
+  },
+  {
+   "id": "D008",
+   "file": "documents/D008.pdf",
+   "source": "inbox",
+   "from": "billing@hollin.example.test",
+   "subject": "Invoice HOL-4007"
+  },
+  {
+   "id": "D009",
+   "file": "documents/D009.pdf",
+   "source": "upload",
+   "from": "billing@alderbank.example.test",
+   "subject": "Invoice ALD-4008"
+  },
+  {
+   "id": "D010",
+   "file": "documents/D010.pdf",
+   "source": "inbox",
+   "from": "billing@brightwater.example.test",
+   "subject": "Invoice BRI-4009"
+  },
+  {
+   "id": "D011",
+   "file": "documents/D011.pdf",
+   "source": "inbox",
+   "from": "billing@cobalt.example.test",
+   "subject": "Invoice COB-4010"
+  },
+  {
+   "id": "D012",
+   "file": "documents/D012.pdf",
+   "source": "upload",
+   "from": "billing@dunmore.example.test",
+   "subject": "Invoice DUN-4011"
+  },
+  {
+   "id": "D013",
+   "file": "documents/D013.pdf",
+   "source": "inbox",
+   "from": "billing@eastgate.example.test",
+   "subject": "Invoice EAS-4012"
+  },
+  {
+   "id": "D014",
+   "file": "documents/D014.pdf",
+   "source": "inbox",
+   "from": "billing@fernhill.example.test",
+   "subject": "Invoice FER-4013"
+  },
+  {
+   "id": "D015",
+   "file": "documents/D015.pdf",
+   "source": "upload",
+   "from": "billing@gablemere.example.test",
+   "subject": "Invoice GAB-4014"
+  },
+  {
+   "id": "D016",
+   "file": "documents/D016.pdf",
+   "source": "inbox",
+   "from": "billing@hollin.example.test",
+   "subject": "Invoice HOL-4015"
+  },
+  {
+   "id": "D017",
+   "file": "documents/D017.pdf",
+   "source": "inbox",
+   "from": "billing@alderbank.example.test",
+   "subject": "Invoice ALD-4016"
+  },
+  {
+   "id": "D018",
+   "file": "documents/D018.pdf",
+   "source": "upload",
+   "from": "billing@brightwater.example.test",
+   "subject": "Invoice BRI-4017"
+  },
+  {
+   "id": "D019",
+   "file": "documents/D019.pdf",
+   "source": "inbox",
+   "from": "billing@cobalt.example.test",
+   "subject": "Invoice COB-4018"
+  },
+  {
+   "id": "D020",
+   "file": "documents/D020.pdf",
+   "source": "inbox",
+   "from": "billing@dunmore.example.test",
+   "subject": "Invoice DUN-4019"
+  },
+  {
+   "id": "D021",
+   "file": "documents/D021.pdf",
+   "source": "upload",
+   "from": "billing@eastgate.example.test",
+   "subject": "Invoice EAS-4020"
+  },
+  {
+   "id": "D022",
+   "file": "documents/D022.pdf",
+   "source": "inbox",
+   "from": "billing@fernhill.example.test",
+   "subject": "Invoice FER-4021"
+  },
+  {
+   "id": "D023",
+   "file": "documents/D023.pdf",
+   "source": "inbox",
+   "from": "billing@gablemere.example.test",
+   "subject": "Invoice GAB-4022"
+  },
+  {
+   "id": "D024",
+   "file": "documents/D024.pdf",
+   "source": "upload",
+   "from": "billing@hollin.example.test",
+   "subject": "Invoice HOL-4023"
+  },
+  {
+   "id": "D025",
+   "file": "documents/D025.pdf",
+   "source": "inbox",
+   "from": "billing@alderbank.example.test",
+   "subject": "Invoice ALD-4024"
+  },
+  {
+   "id": "D026",
+   "file": "documents/D026.pdf",
+   "source": "inbox",
+   "from": "billing@brightwater.example.test",
+   "subject": "Invoice BRI-4025"
+  },
+  {
+   "id": "D027",
+   "file": "documents/D027.pdf",
+   "source": "upload",
+   "from": "billing@cobalt.example.test",
+   "subject": "Invoice COB-4026"
+  },
+  {
+   "id": "D028",
+   "file": "documents/D028.pdf",
+   "source": "inbox",
+   "from": "billing@dunmore.example.test",
+   "subject": "Invoice DUN-4027"
+  },
+  {
+   "id": "D029",
+   "file": "documents/D029.pdf",
+   "source": "inbox",
+   "from": "billing@eastgate.example.test",
+   "subject": "Invoice EAS-4028"
+  },
+  {
+   "id": "D030",
+   "file": "documents/D030.pdf",
+   "source": "upload",
+   "from": "billing@fernhill.example.test",
+   "subject": "Invoice FER-4029"
+  },
+  {
+   "id": "D031",
+   "file": "documents/D031.pdf",
+   "source": "inbox",
+   "from": "billing@gablemere.example.test",
+   "subject": "Invoice GAB-4030"
+  },
+  {
+   "id": "D032",
+   "file": "documents/D032.pdf",
+   "source": "inbox",
+   "from": "billing@dunmore.example.test",
+   "subject": "Invoice DUN-4031"
+  },
+  {
+   "id": "D033",
+   "file": "documents/D033.pdf",
+   "source": "upload",
+   "from": "billing@cobalt.example.test",
+   "subject": "Invoice COB-4032"
+  },
+  {
+   "id": "D034",
+   "file": "documents/D034.pdf",
+   "source": "inbox",
+   "from": "billing@dunmore.example.test",
+   "subject": "Invoice DUN-4033"
+  },
+  {
+   "id": "D035",
+   "file": "documents/D035.pdf",
+   "source": "inbox",
+   "from": "billing@cobalt.example.test",
+   "subject": "Invoice COB-4034"
+  },
+  {
+   "id": "D036",
+   "file": "documents/D036.pdf",
+   "source": "upload",
+   "from": "billing@dunmore.example.test",
+   "subject": "Invoice DUN-4035"
+  },
+  {
+   "id": "D037",
+   "file": "documents/D037.pdf",
+   "source": "inbox",
+   "from": "billing@gablemere.example.test",
+   "subject": "Invoice GAB-4036"
+  },
+  {
+   "id": "D038",
+   "file": "documents/D038.pdf",
+   "source": "inbox",
+   "from": "billing@alderbank.example.test",
+   "subject": "Invoice ALD-4037"
+  },
+  {
+   "id": "D039",
+   "file": "documents/D039.pdf",
+   "source": "upload",
+   "from": "billing@gablemere.example.test",
+   "subject": "Invoice GAB-4038"
+  },
+  {
+   "id": "D040",
+   "file": "documents/D040.pdf",
+   "source": "inbox",
+   "from": "billing@hollin.example.test",
+   "subject": "Invoice HOL-4039"
+  },
+  {
+   "id": "D041",
+   "file": "documents/D041.pdf",
+   "source": "inbox",
+   "from": "billing@dunmore.example.test",
+   "subject": "Invoice DUN-4003"
+  },
+  {
+   "id": "D042",
+   "file": "documents/D042.pdf",
+   "source": "upload",
+   "from": "billing@brightwater.example.test",
+   "subject": "Invoice BRI-4009"
+  },
+  {
+   "id": "D043",
+   "file": "documents/D043.pdf",
+   "source": "inbox",
+   "from": "billing@fernhill.example.test",
+   "subject": "Invoice FER-4005A"
+  },
+  {
+   "id": "D044",
+   "file": "documents/D044.pdf",
+   "source": "inbox",
+   "from": "billing@eastgate.example.test",
+   "subject": "Invoice EAS-4021"
+  },
+  {
+   "id": "D045",
+   "file": "documents/D045.pdf",
+   "source": "upload",
+   "from": "billing@brightwater.example.test",
+   "subject": "Invoice BRI-4017"
+  },
+  {
+   "id": "D046",
+   "file": "documents/D046.pdf",
+   "source": "inbox",
+   "from": "billing@fernhill.example.test",
+   "subject": "Invoice FER-4045"
+  },
+  {
+   "id": "D047",
+   "file": "documents/D047.pdf",
+   "source": "inbox",
+   "from": "billing@gablemere.example.test",
+   "subject": "Invoice GAB-4046"
+  },
+  {
+   "id": "D048",
+   "file": "documents/D048.pdf",
+   "source": "upload",
+   "from": "billing@hollin.example.test",
+   "subject": "Invoice HOL-4047"
+  },
+  {
+   "id": "D049",
+   "file": "documents/D049.pdf",
+   "source": "inbox",
+   "from": "billing@alderbank.example.test",
+   "subject": "Invoice ALD-4048"
+  },
+  {
+   "id": "D050",
+   "file": "documents/D050.pdf",
+   "source": "inbox",
+   "from": "billing@brightwater.example.test",
+   "subject": "Invoice BRI-4049"
+  },
+  {
+   "id": "D051",
+   "file": "documents/D051.pdf",
+   "source": "upload",
+   "from": "billing@cobalt.example.test",
+   "subject": "Invoice COB-4050"
+  },
+  {
+   "id": "D052",
+   "file": "documents/D052.pdf",
+   "source": "inbox",
+   "from": "billing@dunmore.example.test",
+   "subject": "Invoice DUN-4051"
+  },
+  {
+   "id": "D053",
+   "file": "documents/D053.pdf",
+   "source": "inbox",
+   "from": "billing@eastgate.example.test",
+   "subject": "Invoice EAS-4052"
+  },
+  {
+   "id": "D054",
+   "file": "documents/D054.pdf",
+   "source": "upload",
+   "from": "billing@fernhill.example.test",
+   "subject": "Invoice FER-4053"
+  },
+  {
+   "id": "D055",
+   "file": "documents/D055.pdf",
+   "source": "inbox",
+   "from": "billing@dunmore.example.test",
+   "subject": "Invoice DUN-4100"
+  },
+  {
+   "id": "D056",
+   "file": "documents/D056.pdf",
+   "source": "inbox",
+   "from": "billing@eastgate.example.test",
+   "subject": "Invoice EAS-4101"
+  },
+  {
+   "id": "D057",
+   "file": "documents/D057.pdf",
+   "source": "upload",
+   "from": "billing@fernhill.example.test",
+   "subject": "Invoice FER-4102"
+  },
+  {
+   "id": "D058",
+   "file": "documents/D058.pdf",
+   "source": "inbox",
+   "from": "billing@gablemere.example.test",
+   "subject": "Invoice GAB-4103"
+  },
+  {
+   "id": "D059",
+   "file": "documents/D059.pdf",
+   "source": "inbox",
+   "from": "billing@hollin.example.test",
+   "subject": "Invoice HOL-4104"
+  },
+  {
+   "id": "D060",
+   "file": "documents/D060.pdf",
+   "source": "upload",
+   "from": "billing@alderbank.example.test",
+   "subject": "Invoice ALD-4105"
+  }
+ ]
+}

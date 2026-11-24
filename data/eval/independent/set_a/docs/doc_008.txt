@@ -1,0 +1,71 @@
+ZUIDERZEE LOGISTIEK BV    Pagina 1 van 2
+FACTUUR 202610-0457   5 oktober 2026
+
+Havenweg 8
+8232 JA Lelystad
+Nederland
+BTW NL000000001B01  |  KvK 00000001
+
+Factuurnummer         202610-0457                 Factuuradres
+Factuurdatum          5 oktober 2026              Harbourline Outdoor Supply Ltd
+Vervaldatum           4 november 2026             12 Quay Street
+Betalingsvoorwaarden  Betaling binnen 30 dagen    Bristol BS1 4XX
+Inkoopordernr         PO-77131                    United Kingdom
+Klantnr               ZZ-3041
+
+
+Omschrijving                              Aantal   Prijs  Bedrag
+----------------------------------------------------------------
+Pallet 01 Rotterdam - Lelystad, route R2       1   91,00   91,00
+Pallet 02 Rotterdam - Lelystad, route R3       1   76,25   76,25
+Pallet 03 Rotterdam - Lelystad, route R4       1  104,40  104,40
+Pallet 04 Rotterdam - Lelystad, route R1       1   82,50   82,50
+Pallet 05 Rotterdam - Lelystad, route R2       1   91,00   91,00
+Pallet 06 Rotterdam - Lelystad, route R3       1   76,25   76,25
+Pallet 07 Rotterdam - Lelystad, route R4       1  104,40  104,40
+Pallet 08 Rotterdam - Lelystad, route R1       1   82,50   82,50
+Pallet 09 Rotterdam - Lelystad, route R2       1   91,00   91,00
+Pallet 10 Rotterdam - Lelystad, route R3       1   76,25   76,25
+Pallet 11 Rotterdam - Lelystad, route R4       1  104,40  104,40
+Pallet 12 Rotterdam - Lelystad, route R1       1   82,50   82,50
+Pallet 13 Rotterdam - Lelystad, route R2       1   91,00   91,00
+Pallet 14 Rotterdam - Lelystad, route R3       1   76,25   76,25
+Pallet 15 Rotterdam - Lelystad, route R4       1  104,40  104,40
+Pallet 16 Rotterdam - Lelystad, route R1       1   82,50   82,50
+Pallet 17 Rotterdam - Lelystad, route R2       1   91,00   91,00
+Pallet 18 Rotterdam - Lelystad, route R3       1   76,25   76,25
+
+                                       Over te dragen € 1.583,85
+ZUIDERZEE LOGISTIEK BV    Pagina 2 van 2
+FACTUUR 202610-0457   5 oktober 2026
+
+Overgedragen € 1.583,85
+
+Omschrijving                              Aantal   Prijs  Bedrag
+----------------------------------------------------------------
+Pallet 19 Rotterdam - Lelystad, route R4       1  104,40  104,40
+Pallet 20 Rotterdam - Lelystad, route R1       1   82,50   82,50
+Pallet 21 Rotterdam - Lelystad, route R2       1   91,00   91,00
+Pallet 22 Rotterdam - Lelystad, route R3       1   76,25   76,25
+Pallet 23 Rotterdam - Lelystad, route R4       1  104,40  104,40
+Pallet 24 Rotterdam - Lelystad, route R1       1   82,50   82,50
+Pallet 25 Rotterdam - Lelystad, route R2       1   91,00   91,00
+Pallet 26 Rotterdam - Lelystad, route R3       1   76,25   76,25
+Pallet 27 Rotterdam - Lelystad, route R4       1  104,40  104,40
+Pallet 28 Rotterdam - Lelystad, route R1       1   82,50   82,50
+Pallet 29 Rotterdam - Lelystad, route R2       1   91,00   91,00
+Pallet 30 Rotterdam - Lelystad, route R3       1   76,25   76,25
+Pallet 31 Rotterdam - Lelystad, route R4       1  104,40  104,40
+Pallet 32 Rotterdam - Lelystad, route R1       1   82,50   82,50
+Pallet 33 Rotterdam - Lelystad, route R2       1   91,00   91,00
+Pallet 34 Rotterdam - Lelystad, route R3       1   76,25   76,25
+
+                                           Subtotaal  € 3.000,45
+                                           BTW 21%      € 630,09
+                                           TOTAL      € 3.630,54
+
+Total packages: 34   Total weight: 15840 kg
+Chauffeur: J. de Test, kenteken 00-XXX-0
+
+Bankgegevens: Fictieve Testbank NV
+IBAN NL00 FAKE 0000 0000 01

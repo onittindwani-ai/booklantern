@@ -1,0 +1,9 @@
+{
+  "status": "UNVERIFIED, from general knowledge, not from Intuit's page",
+  "method": "GET",
+  "path": "/v3/company/{realmId}/query",
+  "query": ["query", "minorversion"],
+  "query_text": "select * from Invoice where Balance > '0'",
+  "response_path": ["QueryResponse", "Invoice"],
+  "invoice_fields": ["Id", "DocNumber", "CustomerRef", "TotalAmt", "Balance", "DueDate", "CurrencyRef"]
+}

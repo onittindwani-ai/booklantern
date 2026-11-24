@@ -1,0 +1,26 @@
+PINECREST JANITORIAL CO
+88 Example Road
+Columbus, OH 43004
+Phone (614) 555-0177
+----------------------------------------------------------
+INVOICE # 5602
+DATE 10/01/2026    TERMS NET 30
+PLEASE PAY BY 10/31/2026
+CUSTOMER PJ-559
+----------------------------------------------------------
+BILL TO:
+Harbourline Outdoor Supply Ltd
+12 Quay Street
+Bristol BS1 4XX
+United Kingdom
+----------------------------------------------------------
+1 x Monthly janitorial contract, October @ 1,450.00 .. 1,450.00
+1 x Carpet extraction, conference room @ 260.00 ... 260.00
+----------------------------------------------------------
+SUBTOTAL ....................................... $1,710.00
+SALES TAX 0% ....................................... $0.00
+TOTAL .......................................... $1,710.00
+----------------------------------------------------------
+Sales tax exempt: certificate on file
+Bank details: Fictional Test Bank NA
+ROUTING 000000000 ACCT 000099887766

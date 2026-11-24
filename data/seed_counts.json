@@ -1,0 +1,29 @@
+{
+ "dev_documents": 60,
+ "dev_scans": 6,
+ "heldout_documents": 24,
+ "planted_document_problems": {
+  "wrong_total": 4,
+  "wrong_tax": 2,
+  "line_sum_mismatch": 2,
+  "bank_change": 2,
+  "amount_8x": 3,
+  "missing_po": 3,
+  "future_date": 2,
+  "currency_mismatch": 2,
+  "wrong_company": 2,
+  "duplicate_exact": 2,
+  "duplicate_near": 3
+ },
+ "vendors": 8,
+ "customers": 10,
+ "invoices": 86,
+ "open_invoices": 16,
+ "vendor_history_bills": 48,
+ "bank_lines": 184,
+ "bank_planted": {
+  "duplicate_lines": 3,
+  "unmatched_lines": 3,
+  "split_deposits": 2
+ }
+}

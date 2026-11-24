@@ -1,0 +1,35 @@
+Hartley Wholesale Foods Ltd
+Cold Store Road
+Leeds LS10 0XX
+VAT No. GB 000 0000 07
+
+INVOICE
+Invoice No: HW-0058102
+Invoice Date: 31-10-2026
+Due Date: 14-11-2026
+Payment Terms: Net 14 days from invoice date
+PO Number: PO-88043
+
+Harbourline Outdoor Supply Ltd
+12 Quay Street
+Bristol BS1 4XX
+United Kingdom
+
++----------------------------------------------------------+
+| ACCOUNT SUMMARY                                         |
+|  INV HW-0057720   10-10-2026                     £572.80|
++----------------------------------------------------------+
+
+Code  Description                 Qty  Unit Price  VAT  Amount
+--------------------------------------------------------------
+MLK2  Whole milk 2L, case 6        30        7.80   0%  234.00
+GLV   Disposable gloves, box 100   12        5.20  20%   62.40
+
+                                    Subtotal           £296.40
+                                    VAT 20% on £62.40   £12.48
+                                    VAT 0% on £234.00    £0.00
+                                    INVOICE TOTAL      £308.88
+
+
+Bank details: Fictional Test Bank plc
+Sort 00-00-00  Acc 00000123

@@ -1,0 +1,28 @@
+=====================================================================
+Kestrel Fibre Ltd    |   AMOUNT DUE  £498.00   |   PAY BY 23 Nov 2026
+=====================================================================
+
+Bill number     KF-3302288
+Bill date       9 Nov 2026
+Account         KF-2209-77
+Billing period  09 Nov - 08 Dec 2026
+Terms           Direct debit on due date
+
+Bill to:
+Quillfeather Books Ltd
+9 Example Passage
+York YO1 0XX
+United Kingdom
+
+Charge                                Units    Rate  Amount
+-----------------------------------------------------------
+Leased line 100 Mbps, monthly rental      1  165.00  165.00
+Installation, one off                     1  250.00  250.00
+
+                                     Subtotal       £415.00
+                                     Tax (20%)       £83.00
+                                     Total charges  £498.00
+
+
+Bank details: Fictional Test Bank plc
+Sort 00-00-00  Acc 00000077

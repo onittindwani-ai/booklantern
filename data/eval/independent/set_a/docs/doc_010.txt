@@ -1,0 +1,32 @@
+Brightwater Cloud, Inc.
+500 Example Plaza, Suite 12
+Austin, TX 78701
+
+Invoice INV-2026-0098217
+Amount due   $863.12   due Sep 14, 2026
+Date of issue   Sep 14, 2026
+Payment terms   Due on receipt
+
+Bill to
+Harbourline Outdoor Supply Ltd
+12 Quay Street
+Bristol BS1 4XX
+United Kingdom
+
+Description                            Qty   Unit Price   Amount
+----------------------------------------------------------------
+Compute instances (Aug 15 - Sep 14)      1       612.40   612.40
+Object storage, 2,400 GB-month        2400        0.023    55.20
+Outbound data transfer, 310 GB         310         0.09    27.90
+Premium support plan                     1       100.00   100.00
+
+                                         Subtotal        $795.50
+                                         Sales tax 8.5%   $67.62
+                                         Total           $863.12
+                                         Amount due      $863.12
+
+Total purchased with us this year: $6,840.12
+Account ID: acct_0000AAAA1111
+
+Bank details: Fictional Test Bank NA
+Routing 000000000  Account 000012345678

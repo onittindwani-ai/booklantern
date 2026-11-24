@@ -1,0 +1,34 @@
+TAX INVOICE
+
+Saffron Ridge Textiles Pvt Ltd
+Plot 14, Example Industrial Area
+Bengaluru 560001, Karnataka
+GSTIN : 99ZZZZZ0001Z1Z1
+Phone +91 80 5550 0001
+
+Invoice No.   : SRT/26-27/0455                      Buyer (Bill to)
+Dated         : 27-10-2026                          Harbourline Outdoor Supply Ltd
+Mode/Terms of Payment : Net 30 days                 12 Quay Street
+                                                    Bristol BS1 4XX
+Place of Supply : Gujarat (24)                      United Kingdom
+                                                    GSTIN/UIN : UNREGISTERED (overseas buyer)
+
+Sl  Description of Goods          HSN/SAC  Quantity    Rate       Amount
+------------------------------------------------------------------------
+ 1  Silk blend fabric 44in, dyed  500720    340 MTR  410.00  1,39,400.00
+ 2  Zip fasteners, 7in, per 100   960719     25 LOT  310.00     7,750.00
+
+                                          Taxable Value  Rs. 1,47,150.00
+                                          IGST @ 18%       Rs. 26,487.00
+                                          Total Tax        Rs. 26,487.00
+                                          Grand Total    Rs. 1,73,637.00
+
+Amount Chargeable (in words): Indian Rupees One Lakh Seventy Three Thousand Six Hundred and Thirty Seven Only
+Tax Amount (in words): Indian Rupees Twenty Six Thousand Four Hundred and Eighty Seven Only
+
+
+Declaration: We declare that this invoice shows the actual price of the goods described.
+
+Bank details: Fictional Test Bank of India
+A/c No. 000000000001  IFSC TEST0000001
+This is a Computer Generated Invoice

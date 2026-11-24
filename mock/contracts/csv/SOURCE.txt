@@ -1,0 +1,3 @@
+No vendor. The CSV adapter reads and writes this project's own file formats, so there is no outside contract to test against.
+invoices.csv (read): columns Number, Customer, Total, Balance, Due. draft-bills.csv (written): Vendor, Number, Issued, Due, Currency, Subtotal, Tax, Total (amounts in minor units).
+The columns are in docs/04 and the test in mock/tests/test_contracts.py keeps the adapter to them. CSV itself is RFC 4180 (Python's csv module).

@@ -1,0 +1,33 @@
+FAKTURA VAT nr FV/2026/11/0158
+Data wystawienia: 05.11.2026
+Data sprzedaży: 04.11.2026
+
+Sprzedawca:                                   Nabywca:
+Mazowsze Hurtownia Sp. z o.o.                 Harbourline Outdoor Supply Ltd
+ul. Testowa 15                                12 Quay Street
+00-001 Warszawa                               Bristol BS1 4XX
+Polska                                        United Kingdom
+NIP 000-000-00-01
+
+Lp  Nazwa towaru lub usługi            J.m.  Ilość  Cena netto  VAT  Wartość netto
+----------------------------------------------------------------------------------
+ 1  Olej rzepakowy 5 l, karton 4 szt.  szt.     30       96,20   8%       2 886,00
+ 2  Folia stretch 500 mm               szt.     25       27,90  23%         697,50
+ 3  Chleb pakowany, zgrzewka           szt.     15       41,00   5%         615,00
+
+Razem wg stawek VAT
+Stawka         Netto         VAT        Brutto
+----------------------------------------------
+23%       697,50 PLN  160,43 PLN    857,93 PLN
+8%      2 886,00 PLN  230,88 PLN  3 116,88 PLN
+5%        615,00 PLN   30,75 PLN    645,75 PLN
+
+                                                         Razem netto  4 198,50 PLN
+                                                         VAT            422,06 PLN
+                                                         Do zapłaty   4 620,56 PLN
+
+Warunki płatności: Przelew 14 dni
+Termin płatności: 19.11.2026
+
+Dane bankowe: Fikcyjny Bank Testowy SA
+PL00 0000 0000 0000 0000 0000 0001

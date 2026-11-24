@@ -1,0 +1,27 @@
+ZUIDERZEE LOGISTIEK BV    Pagina 1 van 1
+FACTUUR 202610-0493   20 oktober 2026
+
+Havenweg 8
+8232 JA Lelystad
+Nederland
+BTW NL000000001B01  |  KvK 00000001
+
+Factuurnummer         202610-0493                 Factuuradres
+Factuurdatum          20 oktober 2026             Kestrel Row Trading Ltd
+Vervaldatum           19 november 2026            Unit 3, Example Yard
+Betalingsvoorwaarden  Betaling binnen 30 dagen    Reading RG1 0XX
+Klantnr               ZZ-3041                     United Kingdom
+
+
+Omschrijving                           Aantal  Prijs  Bedrag
+------------------------------------------------------------
+Opslag pallets, week 41 (12 plaatsen)      12   9,50  114,00
+Handling in/uit, 12 pallets                12   6,25   75,00
+
+                                         Subtotaal  € 189,00
+                                         BTW 21%     € 39,69
+                                         TOTAL      € 228,69
+
+
+Bankgegevens: Fictieve Testbank NV
+IBAN NL00 FAKE 0000 0000 01

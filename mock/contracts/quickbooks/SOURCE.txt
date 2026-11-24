@@ -1,0 +1,7 @@
+Vendor: Intuit QuickBooks Online. Checked 2026-11-23, public pages only, no account.
+token_refresh.json: the OAuth 2.0 refresh grant. Endpoint from Intuit's discovery document and SDK readme (read 2026-11-23, see docs/facts/quickbooks.md). Form fields and
+Basic authorization header follow RFC 6749 section 6 and section 2.3.1 (the standard, from general knowledge, not fetched on that date). VERIFIED for the endpoint, UNVERIFIED for the response sample.
+bill_create.json and invoice_query.json: NOT from Intuit. Intuit's API reference pages (https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/bill and .../invoice)
+are script rendered; a page fetch on 2026-11-23 returned only the title "Intuit Developer", and the public PHP SDK readme holds no REST example. No OpenAPI file could be fetched.
+These two files hold what the adapter sends and reads, written from general knowledge of the API (UNVERIFIED), so the tests on them check that the adapter keeps to its own written contract,
+not that Intuit agrees. A person must check them against the API reference and a sandbox company before go live.

@@ -1,0 +1,33 @@
+TIDEWATER MARINE SUPPLY PTY LTD
+Lot 6, Harbour Industrial Estate
+Fremantle WA 6160
+Australia
+ABN 00 000 000 001
+
+ADJUSTMENT NOTE
+
+Invoice No    Invoice Date    Amount due (AUD)
+ADJ-0017      2 Nov 2026      -$136.40
+
+Due Date       Payment Terms
+16 Nov 2026    14 days from invoice date
+
+Bill To
+Harbourline Outdoor Supply Ltd
+12 Quay Street
+Bristol BS1 4XX
+United Kingdom
+
+Credit against invoice TM-118842
+Description                                 Qty   Unit Price   GST    Amount
+----------------------------------------------------------------------------
+Return: stainless shackle 8mm, wrong size    20         6.20     Y   -124.00
+
+Subtotal                        -$124.00
+GST 10%                          -$12.40
+Total (incl. GST)               -$136.40
+
+Original invoice TM-118842 dated 14 Oct 2026
+
+Bank details: Fictional Test Bank Ltd
+BSB 000-000  Account 00000001

@@ -1,0 +1,59 @@
+BRENNAN & DOYLE ELECTRICAL LTD
+Unit 12, Example Business Park
+Galway H91 0XX
+Ireland
+VAT IE0000002B
+
+
+*** INVOICE ***
+
+Invoice No     BD-48934                         Invoice to:
+Invoice Date   11-Nov-26                        Harbourline Outdoor Supply Ltd
+Due Date       11-Dec-26                        12 Quay Street
+Payment Terms  Net 30                           Bristol BS1 4XX
+PO Number      PO-88070                         United Kingdom
+Account        HOS-22
+
+Product  Description                                Qty   Price  VAT     Net
+----------------------------------------------------------------------------
+DB12     Distribution board 12 way                    3  112.00  A    336.00
+MCB32    MCB 32A type B                              18    7.10  A    127.80
+MCB16    MCB 16A type B                              24    6.40  A    153.60
+RCBO32   RCBO 32A 30mA                               10   29.80  A    298.00
+TE25     Twin and earth 2.5mm, 100m drum              6   88.00  A    528.00
+TE15     Twin and earth 1.5mm, 100m drum              5   61.50  A    307.50
+TR5050   Trunking 50x50, 3m length                   40    5.45  A    218.00
+CD20     Conduit 20mm, 3m length                     60    1.90  A    114.00
+BB35     Back box 35mm, metal                        80    0.85  A     68.00
+SK2W     Socket 2 gang 13A, white                    50    3.20  A    160.00
+LS2W     Light switch 2 way, white                   50    2.65  A    132.50
+DL8F     Downlight LED 8W, fire rated               120    4.35  A    522.00
+EM14     Emergency light, maintained                 14   36.00  A    504.00
+CC4      Cable clips 4mm, pack 100                   30    1.45  A     43.50
+HS08     Heat shrink assortment                       8   11.90  A     95.20
+TB30     Terminal block 30A, strip                   40    0.95  A     38.00
+ES10     Earth sleeving green/yellow, 10m            12    3.80  A     45.60
+GL20     Cable gland M20, pack 10                    20    4.70  A     94.00
+ISO63    Isolator 63A 4 pole                          6   41.00  A    246.00
+CT25     Contactor 25A 230V coil                      8   23.40  A    187.20
+TM24     Timer switch 24h DIN rail                    6   17.20  A    103.20
+SP02     Surge protector type 2                       4   58.00  A    232.00
+LT12     Label printer tape, 12mm                    10    7.30  A     73.00
+CT300    Cable tie 300mm, pack 100                   40    2.10  A     84.00
+TL03     Test lamp and probe set                      3   19.50  A     58.50
+BK18     Wiring regulations guide (printed matter)    4   24.00  B     96.00
+
+VAT analysis
+VAT code   Rate        Net        VAT      Gross
+------------------------------------------------
+A           23%  €4,769.60  €1,097.01  €5,866.61
+B         13.5%     €96.00     €12.96    €108.96
+
+                                                    Goods total    €4,865.60
+                                                    VAT total      €1,109.97
+                                                    INVOICE TOTAL  €5,975.57
+
+Delivery docket 0044219 - 3 pallets
+
+Bank details: Fictional Test Bank DAC
+IBAN IE00 FAKE 0000 0000 0002 02

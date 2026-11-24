@@ -1,0 +1,30 @@
+DELMAR INDUSTRIAL SUPPLY CORP.
+1200 Example Parkway
+Dayton, OH 45402
+Fax (937) 555-0188
+
+                                              INVOICE
+
+Invoice No     88103451                       Bill To:
+Invoice Date   Sep 29, 2026                   Harbourline Outdoor Supply Ltd
+Due Date       Oct 29, 2026                   12 Quay Street
+Payment Terms  2/10 net 30                    Bristol BS1 4XX
+PO Number      PO-77162                       United Kingdom
+Customer No    HLS-4410
+
+Code     Description                              Qty  Unit Price  Amount
+-------------------------------------------------------------------------
+HB-3816  Hex bolt 3/8-16 x 2in, zinc, box 100  30 box       11.40  342.00
+FW-38    Flat washer 3/8in, box 500            20 box        8.95  179.00
+FRT      Freight, prepaid and added                 1       64.20   64.20
+
+                                                  Subtotal        $585.20
+                                                  Sales Tax 6.5%   $38.04
+                                                  AMOUNT DUE      $623.24
+
+Notes:
+Order no. 7731-A   Ship via Ground   Pro no. 00442211
+Settlement discount: pay by Oct 9, 2026 to deduct 2%.
+
+Bank details: Fictional Test Bank NA
+Routing 000000000  Account 000055566677

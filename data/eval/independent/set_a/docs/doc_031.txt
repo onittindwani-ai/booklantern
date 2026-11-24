@@ -1,0 +1,27 @@
+PINECREST JANITORIAL CO
+88 Example Road
+Columbus, OH 43004
+Phone (614) 555-0177
+----------------------------------------------------------
+INVOICE # 5531
+DATE 09/03/2026    TERMS NET 30
+CUSTOMER PJ-559
+----------------------------------------------------------
+BILL TO:
+Harbourline Outdoor Supply Ltd
+12 Quay Street
+Bristol BS1 4XX
+United Kingdom
+----------------------------------------------------------
+4 x Floor service, office level 1 @ 85.00 ......... 340.00
+1 x Window cleaning, exterior @ 140.00 ............ 140.00
+1 x Supplies surcharge @ 18.50 ..................... 18.50
+----------------------------------------------------------
+SUBTOTAL ......................................... $498.50
+SALES TAX 7.25% ................................... $36.14
+TOTAL ............................................ $534.64
+----------------------------------------------------------
+Service period 08/01/2026 to 08/31/2026
+Route 12   Crew B
+Bank details: Fictional Test Bank NA
+ROUTING 000000000 ACCT 000099887766

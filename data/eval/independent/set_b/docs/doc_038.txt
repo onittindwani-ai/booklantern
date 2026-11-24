@@ -1,0 +1,35 @@
+TIDEWATER MARINE SUPPLY PTY LTD
+Lot 6, Harbour Industrial Estate
+Fremantle WA 6160
+Australia
+ABN 00 000 000 001
+
+INVOICE
+
+Invoice No    Invoice Date    Amount due (AUD)
+TM-118842     14 Oct 2026     $2,536.60
+
+Due Date       Payment Terms
+28 Oct 2026    14 days from invoice date
+
+Bill To
+Harbourline Outdoor Supply Ltd
+12 Quay Street
+Bristol BS1 4XX
+United Kingdom
+
+Description                              Qty   Unit Price   GST     Amount
+--------------------------------------------------------------------------
+Marine rope 12mm, 3-strand, per metre    240         3.85     Y     924.00
+Stainless shackle 8mm                     40         6.20     Y     248.00
+Anchor chain 8mm galvanised, per metre    60        18.90     Y   1,134.00
+
+Subtotal                       $2,306.00
+GST 10%                          $230.60
+Total (incl. GST)              $2,536.60
+
+Job ref: SLIP-0042   Vessel: MV Test Star
+ABN lookup date 2026-07-01
+
+Bank details: Fictional Test Bank Ltd
+BSB 000-000  Account 00000001

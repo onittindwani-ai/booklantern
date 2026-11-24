@@ -1,0 +1,30 @@
+LUMEN COFFEE ROASTERS LTD
+Unit 2, Mill Lane
+Bath BA1 0XX
+VAT 000 0000 03
+
+INVOICE / Tax invoice
+
+Invoice No     LCR-26-4502                        Bill To
+Invoice Date   30/10/2026                         Harbourline Outdoor Supply Ltd
+Payment Terms  Pro forma, payment before dispatch 12 Quay Street
+Account No     LC-091                             Bristol BS1 4XX
+                                                  United Kingdom
+
+
+Code   Description                                 Qty  Price incl. VAT   Total
+-------------------------------------------------------------------------------
+ETH-1  Single origin Ethiopia, whole bean 1 kg   8 bag            26.50  212.00
+ESP-1  Espresso blend, whole bean 1 kg          10 bag            19.50  195.00
+
+                                                  TOTAL (VAT included)  £407.00
+
+VAT summary (amounts include VAT)
+Rate    Gross    VAT      Net
+-----------------------------
+0%    £407.00  £0.00  £407.00
+
+Loyalty balance 410 points
+
+Bank details: Fictional Test Bank plc
+Sort 00-00-00  Acc 00000033

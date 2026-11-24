@@ -1,0 +1,35 @@
+Casa Verde Suministros SL
+Calle del Olivo 22
+46002 Valencia
+España
+NIF B00000001
+
+==============================================================
+ TOTAL FACTURA   1.458,90 EUR        Vencimiento: 29/11/2026
+==============================================================
+
+FACTURA FV-2026-0388
+Fecha de factura: 30/09/2026
+Condiciones de pago: Pago a 60 días fecha factura
+Nº de pedido: OC-1182
+Cliente nº: C-7734
+
+Facturar a
+Harbourline Outdoor Supply Ltd
+12 Quay Street
+Bristol BS1 4XX
+United Kingdom
+
+Descripción                                   Cant.   Precio unit.   Importe
+----------------------------------------------------------------------------
+Aceite de oliva virgen extra, garrafa 5 L     24 ud          31,80    763,20
+Vinagre de Jerez reserva, caja 6x75 cl      10 caja          38,40    384,00
+Servilletas de papel, pack 100                30 ud           1,95     58,50
+
+  Base imponible     1.205,70 EUR
+  IVA 21%              253,20 EUR
+
+Reenvío de factura por error de entrega (copia)
+
+Datos bancarios: Banco de Pruebas SA
+IBAN ES00 0000 0000 0000 0000 0001

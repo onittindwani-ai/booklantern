@@ -1,0 +1,30 @@
+FAKTURA KORYGUJĄCA nr KFV/2026/11/0009
+Data wystawienia: 12.11.2026
+Credit against invoice FV/2026/10/0142
+
+Sprzedawca:                                   Nabywca:
+Mazowsze Hurtownia Sp. z o.o.                 Harbourline Outdoor Supply Ltd
+ul. Testowa 15                                12 Quay Street
+00-001 Warszawa                               Bristol BS1 4XX
+Polska                                        United Kingdom
+NIP 000-000-00-01
+
+Lp  Nazwa towaru lub usługi               J.m.  Ilość  Cena netto  VAT  Wartość netto
+-------------------------------------------------------------------------------------
+ 1  Korekta ilości: mąka pszenna typ 550  szt.      4       78,50  23%        -314,00
+
+Razem wg stawek VAT
+Stawka       Netto        VAT      Brutto
+-----------------------------------------
+23%     314,00 PLN  72,22 PLN  386,22 PLN
+
+                                                             Razem netto  -314,00 PLN
+                                                             VAT           -72,22 PLN
+                                                             Do zapłaty   -386,22 PLN
+
+Warunki płatności: Przelew 14 dni
+Termin płatności: 26.11.2026
+Dotyczy faktury FV/2026/10/0142 z dnia 15.10.2026
+
+Dane bankowe: Fikcyjny Bank Testowy SA
+PL00 0000 0000 0000 0000 0000 0001

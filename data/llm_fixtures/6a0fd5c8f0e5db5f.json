@@ -1,0 +1,7 @@
+{
+  "text": "Over the next 13 weeks cash moves from $12,400.00 to $18,950.00. The lowest point is $9,800.00 in week 4. Expected cash from customers is $31,200.00, which is invoices already sent plus new sales at the recent average. Cash stays above zero. These figures come from the forecast code. A live model would add a short plain explanation here.",
+  "input_tokens": 150,
+  "output_tokens": 40,
+  "model": "claude-haiku-5-5",
+  "prompt_preview": "[task:explain_forecast]\nFACTS:\n{\"opening\": \"$12,400.00\", \"closing\": \"$18,950.00\", \"low\": \"$9,800.00\", \"low_week\": 4, \"receipts\": \"$31,200.00\", \"runs_out\": null,"
+}

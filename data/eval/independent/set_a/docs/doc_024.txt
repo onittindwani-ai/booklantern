@@ -1,0 +1,37 @@
+Casa Verde Suministros SL
+Calle del Olivo 22
+46002 Valencia
+España
+NIF B00000001
+
+===========================================================================
+ TOTAL FACTURA   1.010,68 EUR        Vencimiento: 18 de diciembre de 2026
+===========================================================================
+
+FACTURA FV-2026/0421
+Fecha de factura: 19 de octubre de 2026
+Condiciones de pago: Pago a 60 días fecha factura
+Nº de pedido: OC-1201
+Cliente nº: C-7734
+
+Facturar a
+Harbourline Outdoor Supply Ltd
+12 Quay Street
+Bristol BS1 4XX
+United Kingdom
+
+Descripción                                   Cant.   Precio unit.   Importe
+----------------------------------------------------------------------------
+Aceite de oliva virgen extra, garrafa 5 L     12 ud          31,80    381,60
+Pan de molde integral, caja 12 ud           20 caja          14,50    290,00
+Detergente lavavajillas industrial, 20 L       4 ud          42,00    168,00
+Semillas de girasol para siembra, 1 kg        10 kg           6,60     66,00
+
+  Base imponible       905,60 EUR
+  IVA 21%               35,28 EUR
+  IVA 10%               67,16 EUR
+  IVA 4%                 2,64 EUR
+
+
+Datos bancarios: Banco de Pruebas SA
+IBAN ES00 0000 0000 0000 0000 0001

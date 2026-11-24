@@ -1,0 +1,16 @@
+                         DUNMORE BAKERY EQUIPMENT CO.
+                              4400 Example Blvd
+                               Omaha, NE 68102
+******************************************************************************
+INV NO 0049221        DATE 11/08/26     TERMS NET30         
+SOLD TO: Harbourline Outdoor Supply Ltd, 12 Quay Street, Bristol BS1 4XX, United Kingdom
+******************************************************************************
+
+  QTY  ITEM DESCRIPTION                           UNIT       EXTENDED
+    4  PLANETARY MIXER BOWL 20QT                389.00       1,556.00
+    4  BOWL DOLLY                                92.50         370.00
+------------------------------------------------------------------------------
+                                                 MERCHANDISE        $1,926.00
+                                                SALES TAX 7%           $96.30
+                                               INVOICE TOTAL        $2,022.30
+******************************************************************************

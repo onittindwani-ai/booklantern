@@ -1,0 +1,23 @@
+# Glossary
+
+- **Accounts receivable (AR):** money customers owe you.
+- **Accounts payable (AP):** money you owe vendors.
+- **Aging:** grouping unpaid invoices by how many days past due they are.
+- **Basis point (bp):** one hundredth of a percent. 9500 bp is 95 percent. Used so no decimals touch money.
+- **Bill:** a document from a vendor asking you to pay.
+- **Draft mode:** Booklantern saves what it would do and does nothing outside the app.
+- **Draft bill:** an unfinished entry in your accounting system that a person still has to confirm there.
+- **Exception:** something the checks found that a person must look at.
+- **Extraction:** turning a document into fields.
+- **Held out set:** documents the reader was never tuned on, scored once.
+- **Invoice:** a document you send a customer asking them to pay.
+- **Kill switch (Pause all):** blocks every outgoing action at once.
+- **Exchange rate (manual):** how many units of the company currency one unit of another currency is worth, typed by a person with a date. Booklantern never fetches rates and never converts without one.
+- **Company currency:** the currency totals, aging and the forecast are shown in (`BASE_CURRENCY`).
+- **Minor unit:** the smallest unit of a currency, such as a cent.
+- **OCR:** reading text out of a picture. The offline reader has none.
+- **Promise to pay:** a date a customer said they will pay. Reminders pause until then.
+- **Reconciliation:** matching bank lines to invoices and bills.
+- **Reminder ladder:** a fixed set of reminders at set days, each firmer than the last.
+- **Stop rule:** a reason the ladder must not send, such as a payment or a dispute.
+- **UNVERIFIED:** written from documentation and never run against the real service.

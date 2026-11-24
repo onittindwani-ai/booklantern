@@ -1,0 +1,29 @@
+NORTHGATE PACKAGING LTD
+Unit 4, Severn Trading Estate
+Gloucester GL2 5XX
+VAT Reg No: GB 000 0000 01
+Tel 01452 555 0142 | accounts@northgate-pack.example
+
+                                              INVOICE
+
+Invoice No     NP-2026-04530                  Bill To:
+Invoice Date   9 October 2026                 Harbourline Outdoor Supply Ltd
+Due Date       8 November 2026                12 Quay Street
+Payment Terms  Net 30 days                    Bristol BS1 4XX
+Account No     HOU-2210                       United Kingdom
+
+
+Code     Description                              Qty  Unit Price  Amount
+-------------------------------------------------------------------------
+PW-5030  Pallet wrap 500mm x 300m, 17 micron  36 roll        7.85  282.60
+SK-0100  Strapping kit, polypropylene           4 kit       22.50   90.00
+
+                                                       Subtotal   £372.60
+                                                       VAT 20%     £74.52
+                                                       TOTAL DUE  £447.12
+
+Notes:
+Delivery note: DN-20377
+
+Bank details: Fictional Test Bank plc
+Sort 00-00-00  Acc 00000011  IBAN GB00 FAKE 0000 0000 0011 00

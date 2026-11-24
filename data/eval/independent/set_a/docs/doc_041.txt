@@ -1,0 +1,47 @@
+DELMAR INDUSTRIAL SUPPLY CORP.
+1200 Example Parkway
+Dayton, OH 45402
+Fax (937) 555-0188
+
+                                              INVOICE
+
+Invoice No     88104780                       Bill To:
+Invoice Date   Oct 20, 2026                   Harbourline Outdoor Supply Ltd
+Due Date       Nov 19, 2026                   12 Quay Street
+Payment Terms  2/10 net 30                    Bristol BS1 4XX
+PO Number      PO-77190                       United Kingdom
+Customer No    HLS-4410
+
+Code    Description                         Qty  Unit Price  Amount
+-------------------------------------------------------------------
+IF-001  Industrial fastener assortment A   3 ea       11.35   34.05
+IF-002  Industrial fastener assortment B   4 ea       12.70   50.80
+IF-003  Industrial fastener assortment C   5 ea       14.05   70.25
+IF-004  Industrial fastener assortment D   6 ea       15.40   92.40
+IF-005  Industrial fastener assortment E   7 ea       16.75  117.25
+IF-006  Industrial fastener assortment F   8 ea       18.10  144.80
+IF-007  Industrial fastener assortment G   9 ea       19.45  175.05
+IF-008  Industrial fastener assortment H  10 ea       20.80  208.00
+IF-009  Industrial fastener assortment I  11 ea       22.15  243.65
+IF-010  Industrial fastener assortment J  12 ea       23.50  282.00
+IF-011  Industrial fastener assortment K  13 ea       24.85  323.05
+IF-012  Industrial fastener assortment L  14 ea       26.20  366.80
+IF-013  Industrial fastener assortment M  15 ea       27.55  413.25
+IF-014  Industrial fastener assortment N  16 ea       28.90  462.40
+IF-015  Industrial fastener assortment O  17 ea       30.25  514.25
+IF-016  Industrial fastener assortment P  18 ea       31.60  568.80
+IF-017  Industrial fastener assortment Q  19 ea       32.95  626.05
+IF-018  Industrial fastener assortment R  20 ea       34.30  686.00
+IF-019  Industrial fastener assortment S  21 ea       35.65  748.65
+IF-020  Industrial fastener assortment T  22 ea       37.00  814.00
+
+                                          Subtotal        $6,941.50
+                                          Sales Tax 6.5%    $451.20
+                                          AMOUNT DUE      $7,392.70
+
+Notes:
+Settlement discount: pay by Oct 30, 2026 to deduct 2%.
+Order no. 7798-B   Ship via LTL
+
+Bank details: Fictional Test Bank NA
+Routing 000000000  Account 000055566677

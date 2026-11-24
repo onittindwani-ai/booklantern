@@ -1,0 +1,26 @@
+ORCHID TECH COMPONENTS PTE LTD
+21 Example Link, #04-12
+Singapore 000021
+GST Reg No: M0-0000001-0
+Tel +65 5550 0123
+
+                                              INVOICE
+
+Invoice No     OTC/26/10/1301                 Bill To:
+Invoice Date   21-Oct-2026                    Harbourline Outdoor Supply Ltd
+Due Date       05-Dec-2026                    12 Quay Street
+Payment Terms  Net 45                         Bristol BS1 4XX
+Customer Code  OT-3380                        United Kingdom
+
+
+Code    Description                     Qty  Unit Price  Amount
+---------------------------------------------------------------
+LDO-33  Voltage regulator LDO 3.3V  900 pcs        0.64  576.00
+XT-16   Crystal oscillator 16MHz    500 pcs        0.92  460.00
+
+                                        Subtotal     S$1,036.00
+                                        GST 9%          S$72.52
+                                        GRAND TOTAL  S$1,108.52
+
+Bank details: Fictional Test Bank Ltd
+Acct 000-000001-0  SWIFT TESTSGSG

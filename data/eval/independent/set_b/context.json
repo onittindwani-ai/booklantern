@@ -1,0 +1,253 @@
+{
+ "client_company": "Harbourline Outdoor Supply Ltd",
+ "client_name_variants_that_are_the_same_company": [
+  "Harbourline Outdoor Supply Limited",
+  "HARBOURLINE OUTDOOR SUPPLY LTD"
+ ],
+ "reference_today": "2026-11-23",
+ "vendor_master": {
+  "Eastgate Facilities Ltd": {
+   "default_currency": "GBP",
+   "requires_po": false,
+   "iban_on_file": "Sort 00-00-00  Acc 00000099",
+   "typical_total_minor_range": [
+    27000,
+    56250
+   ],
+   "tax_rates_on_file_bps": [
+    2000,
+    0
+   ]
+  },
+  "Fogo Azul Lda": {
+   "default_currency": "EUR",
+   "requires_po": false,
+   "iban_on_file": "IBAN PT50 0000 0000 0000 0000 0000 1",
+   "typical_total_minor_range": [
+    49845,
+    278595
+   ],
+   "tax_rates_on_file_bps": [
+    2300,
+    1300,
+    600
+   ]
+  },
+  "Dunmore Bakery Equipment Co.": {
+   "default_currency": "USD",
+   "requires_po": false,
+   "iban_on_file": null,
+   "typical_total_minor_range": [
+    151672,
+    881412
+   ],
+   "tax_rates_on_file_bps": [
+    700
+   ]
+  },
+  "Kestrel Fibre Ltd": {
+   "default_currency": "GBP",
+   "requires_po": false,
+   "iban_on_file": "Sort 00-00-00  Acc 00000077",
+   "typical_total_minor_range": [
+    37350,
+    78231
+   ],
+   "tax_rates_on_file_bps": [
+    2000
+   ]
+  },
+  "Tidewater Marine Supply Pty Ltd": {
+   "default_currency": "AUD",
+   "requires_po": false,
+   "iban_on_file": "BSB 000-000  Account 00000001",
+   "typical_total_minor_range": [
+    16764,
+    317075
+   ],
+   "tax_rates_on_file_bps": [
+    1000,
+    0
+   ]
+  },
+  "Cobblestone Building Supplies Ltd": {
+   "default_currency": "GBP",
+   "requires_po": true,
+   "iban_on_file": "Sort 00-00-00  Acc 00000044",
+   "typical_total_minor_range": [
+    35595,
+    96150
+   ],
+   "tax_rates_on_file_bps": [
+    2000,
+    0
+   ]
+  },
+  "Saffron Ridge Textiles Pvt Ltd": {
+   "default_currency": "INR",
+   "requires_po": false,
+   "iban_on_file": "A/c No. 000000000001  IFSC TEST0000001",
+   "typical_total_minor_range": [
+    13022775,
+    215681875
+   ],
+   "tax_rates_on_file_bps": [
+    1800,
+    900
+   ]
+  },
+  "Redfern Civil Contractors Ltd": {
+   "default_currency": "GBP",
+   "requires_po": true,
+   "iban_on_file": "Sort 00-00-00  Acc 00000066",
+   "typical_total_minor_range": [
+    2565000,
+    9112875
+   ],
+   "tax_rates_on_file_bps": [
+    2000,
+    0
+   ]
+  },
+  "Tern Cleaning Services Ltd": {
+   "default_currency": "GBP",
+   "requires_po": false,
+   "iban_on_file": "Sort 00-00-00  Acc 00000111",
+   "typical_total_minor_range": [
+    114876,
+    191460
+   ],
+   "tax_rates_on_file_bps": [
+    2000
+   ]
+  },
+  "星野精機株式会社": {
+   "default_currency": "JPY",
+   "requires_po": false,
+   "iban_on_file": "普通 0000001",
+   "typical_total_minor_range": [
+    48510,
+    153265
+   ],
+   "tax_rates_on_file_bps": [
+    1000,
+    800
+   ]
+  },
+  "Maple & Birch Stationers": {
+   "default_currency": "CAD",
+   "requires_po": false,
+   "iban_on_file": "Transit 00001 Inst 001 Acct 0000002",
+   "typical_total_minor_range": [
+    36846,
+    61410
+   ],
+   "tax_rates_on_file_bps": [
+    1500
+   ]
+  },
+  "Alpenrose Treuhand AG": {
+   "default_currency": "CHF",
+   "requires_po": false,
+   "iban_on_file": "CH00 0000 0000 0000 0000 1",
+   "typical_total_minor_range": [
+    192004,
+    768861
+   ],
+   "tax_rates_on_file_bps": [
+    810,
+    260
+   ]
+  },
+  "Mazowsze Hurtownia Sp. z o.o.": {
+   "default_currency": "PLN",
+   "requires_po": false,
+   "iban_on_file": "PL00 0000 0000 0000 0000 0000 0001",
+   "typical_total_minor_range": [
+    346542,
+    792735
+   ],
+   "tax_rates_on_file_bps": [
+    2300,
+    800,
+    500
+   ]
+  },
+  "Hartley Wholesale Foods Ltd": {
+   "default_currency": "GBP",
+   "requires_po": false,
+   "iban_on_file": "Sort 00-00-00  Acc 00000088",
+   "typical_total_minor_range": [
+    16732,
+    80430
+   ],
+   "tax_rates_on_file_bps": [
+    2000,
+    0
+   ]
+  },
+  "Voltaic Telecom, Inc.": {
+   "default_currency": "USD",
+   "requires_po": false,
+   "iban_on_file": "Remit to lockbox 000000 (fictional)",
+   "typical_total_minor_range": [
+    26385,
+    72032
+   ],
+   "tax_rates_on_file_bps": [
+    600,
+    315
+   ]
+  },
+  "Whitcombe & Ashe Solicitors": {
+   "default_currency": "GBP",
+   "requires_po": false,
+   "iban_on_file": "Sort 00-00-00  Acc 00000055",
+   "typical_total_minor_range": [
+    312975,
+    521625
+   ],
+   "tax_rates_on_file_bps": [
+    2000,
+    0
+   ]
+  },
+  "Brennan & Doyle Electrical Ltd": {
+   "default_currency": "EUR",
+   "requires_po": false,
+   "iban_on_file": "IBAN IE00 FAKE 0000 0000 0002 02",
+   "typical_total_minor_range": [
+    110903,
+    746946
+   ],
+   "tax_rates_on_file_bps": [
+    2300,
+    1350
+   ]
+  },
+  "Pacific Rim Freight Ltd": {
+   "default_currency": "USD",
+   "requires_po": false,
+   "iban_on_file": "Acct 000-000001-001",
+   "typical_total_minor_range": [
+    306750,
+    511250
+   ],
+   "tax_rates_on_file_bps": [
+    0
+   ]
+  },
+  "Indigo Bay Foods Pvt Ltd": {
+   "default_currency": "INR",
+   "requires_po": false,
+   "iban_on_file": "A/c No. 000000000002  IFSC TEST0000002",
+   "typical_total_minor_range": [
+    19007100,
+    31678500
+   ],
+   "tax_rates_on_file_bps": [
+    250
+   ]
+  }
+ }
+}

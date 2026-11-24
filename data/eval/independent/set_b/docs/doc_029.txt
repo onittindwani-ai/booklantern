@@ -1,0 +1,36 @@
+BRENNAN & DOYLE ELECTRICAL LTD
+Unit 12, Example Business Park
+Galway H91 0XX
+Ireland
+VAT IE0000002B
+
+
+*** INVOICE ***
+
+Invoice No     BD-48821                         Invoice to:
+Invoice Date   22-Oct-26                        Harbourline Outdoor Supply Ltd
+Due Date       21-Nov-26                        12 Quay Street
+Payment Terms  Net 30                           Bristol BS1 4XX
+PO Number      PO-88033                         United Kingdom
+Account        HOS-22
+
+Product  Description                                Qty  Price  VAT     Net
+---------------------------------------------------------------------------
+LP6040   LED panel 600x600 40W                       24  28.40  A    681.60
+C3C15    Cable 3C 1.5mm per 100m drum                 5  96.00  A    480.00
+MAN01    Electrical safety manual (printed matter)    2  22.00  B     44.00
+
+VAT analysis
+VAT code   Rate        Net      VAT      Gross
+----------------------------------------------
+A           23%  €1,161.60  €267.17  €1,428.77
+B         13.5%     €44.00    €5.94     €49.94
+
+                                                   Goods total    €1,205.60
+                                                   VAT total        €273.11
+                                                   INVOICE TOTAL  €1,478.71
+
+RECS certificate ref 001122
+
+Bank details: Fictional Test Bank DAC
+IBAN IE00 FAKE 0000 0000 0002 02

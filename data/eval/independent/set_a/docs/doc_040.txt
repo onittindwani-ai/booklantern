@@ -1,0 +1,26 @@
+BASALT SECURITY SERVICES (PTY) LTD
+9 Example Street
+Cape Town 8001
+South Africa
+VAT No. 4000000001
+
+                                              INVOICE
+
+Invoice No     INV004529                      Bill To:
+Invoice Date   2026/10/29                     Harbourline Outdoor Supply Ltd
+Due Date       2026/11/28                     12 Quay Street
+Payment Terms  Payable within 30 days         Bristol BS1 4XX
+Client No      BS-6120                        United Kingdom
+
+
+Description                           Qty  Unit Price    Amount
+---------------------------------------------------------------
+Armed response retainer, November       1    8 450,00  8 450,00
+Alarm monitoring, 3 sites          3 site      260,00    780,00
+
+                                          Subtotal   R 9 230,00
+                                          VAT 15%    R 1 384,50
+                                          TOTAL     R 10 614,50
+
+Bank details: Fictional Test Bank Ltd
+Branch 000000  Acct 0000000001

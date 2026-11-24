@@ -1,0 +1,8 @@
+{
+  "url": "https://oauth.platform.intuit.com/oauth2/v1/tokens/bearer",
+  "method": "POST",
+  "request_headers": {"Authorization": "Basic base64(client_id:client_secret)", "Accept": "application/json", "Content-Type": "application/x-www-form-urlencoded"},
+  "request_form": ["grant_type=refresh_token", "refresh_token"],
+  "response_fields": ["access_token", "refresh_token", "expires_in", "token_type"],
+  "scope": "com.intuit.quickbooks.accounting"
+}

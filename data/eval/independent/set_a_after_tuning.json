@@ -1,0 +1,633 @@
+{
+ "extractor": "offline-rules-v2 (not a language model)",
+ "documents": 53,
+ "readable_attempted": 49,
+ "hard_documents": 4,
+ "fields": {
+  "vendor": {
+   "correct": 49,
+   "total": 49,
+   "percent": 100.0
+  },
+  "invoice_number": {
+   "correct": 30,
+   "total": 49,
+   "percent": 61.2
+  },
+  "invoice_date": {
+   "correct": 49,
+   "total": 49,
+   "percent": 100.0
+  },
+  "due_date": {
+   "correct": 38,
+   "total": 49,
+   "percent": 77.6
+  },
+  "currency": {
+   "correct": 38,
+   "total": 49,
+   "percent": 77.6
+  },
+  "subtotal": {
+   "correct": 47,
+   "total": 49,
+   "percent": 95.9
+  },
+  "tax": {
+   "correct": 36,
+   "total": 49,
+   "percent": 73.5
+  },
+  "total": {
+   "correct": 44,
+   "total": 49,
+   "percent": 89.8
+  },
+  "line_amounts": {
+   "correct": 28,
+   "total": 49,
+   "percent": 57.1
+  }
+ },
+ "field_percent": 81.4,
+ "documents_all_fields_right": 7,
+ "documents_all_fields_right_percent": 14.3,
+ "hard": {
+  "passed": 4,
+  "total": 4,
+  "confident_on_hard": 0
+ },
+ "calibration": {
+  "under_50": {
+   "right": 9,
+   "total": 9,
+   "percent": 100.0
+  },
+  "50_to_79": {
+   "right": 112,
+   "total": 131,
+   "percent": 85.5
+  },
+  "80_up": {
+   "right": 205,
+   "total": 211,
+   "percent": 97.2
+  }
+ },
+ "confident_wrong_fields": 6,
+ "findings": {
+  "amount_vs_history": {
+   "found": 1,
+   "missed": 0,
+   "false_flags": 0
+  },
+  "changed_bank_details": {
+   "found": 1,
+   "missed": 0,
+   "false_flags": 27
+  },
+  "currency_mismatch": {
+   "found": 1,
+   "missed": 0,
+   "false_flags": 8
+  },
+  "duplicate_exact": {
+   "found": 1,
+   "missed": 0,
+   "false_flags": 0
+  },
+  "duplicate_near": {
+   "found": 0,
+   "missed": 1,
+   "false_flags": 0
+  },
+  "future_date": {
+   "found": 1,
+   "missed": 0,
+   "false_flags": 0
+  },
+  "line_sum_mismatch": {
+   "found": 1,
+   "missed": 0,
+   "false_flags": 10
+  },
+  "missing_po": {
+   "found": 1,
+   "missed": 0,
+   "false_flags": 0
+  },
+  "no_text_layer": {
+   "found": 1,
+   "missed": 0,
+   "false_flags": 3
+  },
+  "tax_rate_sanity": {
+   "found": 2,
+   "missed": 0,
+   "false_flags": 7
+  },
+  "total_mismatch": {
+   "found": 1,
+   "missed": 0,
+   "false_flags": 15
+  },
+  "unreadable_or_low_confidence": {
+   "found": 0,
+   "missed": 3,
+   "false_flags": 9
+  },
+  "wrong_addressee": {
+   "found": 1,
+   "missed": 0,
+   "false_flags": 0
+  }
+ },
+ "findings_found": 12,
+ "findings_expected": 16,
+ "false_flags_total": 79,
+ "other_codes_raised": {
+  "unknown_vendor": 9
+ },
+ "not_extracted": [
+  "payment_terms"
+ ],
+ "doc_type": {
+  "correct": 48,
+  "total": 49
+ },
+ "by_tag_all_fields_right": {
+  "addressee_variant_ok": {
+   "right": 0,
+   "total": 2
+  },
+  "ambiguous_numeric_date": {
+   "right": 0,
+   "total": 9
+  },
+  "anomalous_amount": {
+   "right": 0,
+   "total": 1
+  },
+  "cad": {
+   "right": 0,
+   "total": 2
+  },
+  "carried_forward_decoys": {
+   "right": 0,
+   "total": 2
+  },
+  "compact": {
+   "right": 0,
+   "total": 5
+  },
+  "compound_tax": {
+   "right": 0,
+   "total": 1
+  },
+  "context_dependent": {
+   "right": 3,
+   "total": 4
+  },
+  "credit_note": {
+   "right": 1,
+   "total": 4
+  },
+  "currency_mismatch": {
+   "right": 1,
+   "total": 1
+  },
+  "d_mon_y_date": {
+   "right": 0,
+   "total": 1
+  },
+  "decimal_comma": {
+   "right": 0,
+   "total": 11
+  },
+  "decoy_ref": {
+   "right": 2,
+   "total": 2
+  },
+  "discount_terms": {
+   "right": 0,
+   "total": 2
+  },
+  "dmy_date": {
+   "right": 0,
+   "total": 1
+  },
+  "eom_terms": {
+   "right": 0,
+   "total": 1
+  },
+  "exact_duplicate": {
+   "right": 1,
+   "total": 1
+  },
+  "flat_lines": {
+   "right": 0,
+   "total": 1
+  },
+  "four_decimal_unit": {
+   "right": 0,
+   "total": 2
+  },
+  "freight_line": {
+   "right": 0,
+   "total": 1
+  },
+  "future_date": {
+   "right": 0,
+   "total": 1
+  },
+  "gst": {
+   "right": 0,
+   "total": 1
+  },
+  "hard_layout": {
+   "right": 0,
+   "total": 1
+  },
+  "included_multi_rate": {
+   "right": 0,
+   "total": 2
+  },
+  "iso_date": {
+   "right": 0,
+   "total": 2
+  },
+  "language_de": {
+   "right": 0,
+   "total": 4
+  },
+  "language_es": {
+   "right": 0,
+   "total": 3
+  },
+  "language_fr": {
+   "right": 0,
+   "total": 3
+  },
+  "language_it": {
+   "right": 0,
+   "total": 2
+  },
+  "language_nl": {
+   "right": 0,
+   "total": 3
+  },
+  "letter": {
+   "right": 0,
+   "total": 3
+  },
+  "line_sum_mismatch": {
+   "right": 0,
+   "total": 1
+  },
+  "long_date": {
+   "right": 4,
+   "total": 4
+  },
+  "long_date_es": {
+   "right": 0,
+   "total": 1
+  },
+  "long_date_fr": {
+   "right": 0,
+   "total": 1
+  },
+  "long_table": {
+   "right": 0,
+   "total": 3
+  },
+  "mixed_vat_and_disbursements": {
+   "right": 0,
+   "total": 2
+  },
+  "mon_d_y_date": {
+   "right": 0,
+   "total": 1
+  },
+  "multi_currency_print": {
+   "right": 0,
+   "total": 1
+  },
+  "multi_page": {
+   "right": 0,
+   "total": 2
+  },
+  "multi_rate": {
+   "right": 0,
+   "total": 3
+  },
+  "near_duplicate": {
+   "right": 0,
+   "total": 1
+  },
+  "no_terms_days": {
+   "right": 0,
+   "total": 1
+  },
+  "nok": {
+   "right": 1,
+   "total": 2
+  },
+  "ordinal_date": {
+   "right": 0,
+   "total": 1
+  },
+  "parentheses_negative": {
+   "right": 0,
+   "total": 1
+  },
+  "printed_positive": {
+   "right": 0,
+   "total": 1
+  },
+  "retail": {
+   "right": 0,
+   "total": 2
+  },
+  "reverse_charge": {
+   "right": 0,
+   "total": 2
+  },
+  "saas": {
+   "right": 0,
+   "total": 4
+  },
+  "sgd": {
+   "right": 0,
+   "total": 3
+  },
+  "short_invoice_number": {
+   "right": 0,
+   "total": 1
+  },
+  "single_tax_line": {
+   "right": 0,
+   "total": 1
+  },
+  "space_thousands": {
+   "right": 1,
+   "total": 5
+  },
+  "state_tax": {
+   "right": 0,
+   "total": 2
+  },
+  "subtotal_not_printed": {
+   "right": 0,
+   "total": 4
+  },
+  "tax_breakdown_table": {
+   "right": 0,
+   "total": 1
+  },
+  "tax_exempt": {
+   "right": 0,
+   "total": 1
+  },
+  "tax_extra": {
+   "right": 5,
+   "total": 8
+  },
+  "tax_included": {
+   "right": 0,
+   "total": 3
+  },
+  "tax_rate_implied_vs_label": {
+   "right": 0,
+   "total": 1
+  },
+  "tax_rate_not_on_file": {
+   "right": 0,
+   "total": 1
+  },
+  "terms_45": {
+   "right": 0,
+   "total": 1
+  },
+  "terms_only_no_due_date": {
+   "right": 0,
+   "total": 1
+  },
+  "three_decimal_unit": {
+   "right": 0,
+   "total": 1
+  },
+  "three_rates": {
+   "right": 0,
+   "total": 1
+  },
+  "total_mismatch": {
+   "right": 0,
+   "total": 1
+  },
+  "totals_bottom": {
+   "right": 5,
+   "total": 5
+  },
+  "totals_top": {
+   "right": 0,
+   "total": 9
+  },
+  "usd": {
+   "right": 0,
+   "total": 3
+  },
+  "utility": {
+   "right": 0,
+   "total": 2
+  },
+  "wrong_addressee": {
+   "right": 0,
+   "total": 1
+  },
+  "ymd_slash_date": {
+   "right": 0,
+   "total": 2
+  },
+  "zar": {
+   "right": 0,
+   "total": 2
+  },
+  "zero_and_standard": {
+   "right": 0,
+   "total": 1
+  },
+  "zero_tax": {
+   "right": 0,
+   "total": 3
+  }
+ },
+ "failing_documents": {
+  "A15": [
+   "tax"
+  ],
+  "A46": [
+   "currency"
+  ],
+  "A30": [
+   "currency"
+  ],
+  "A25": [
+   "due_date",
+   "line_amounts"
+  ],
+  "A17": [
+   "invoice_number",
+   "total",
+   "line_amounts"
+  ],
+  "A44": [
+   "subtotal",
+   "tax",
+   "line_amounts"
+  ],
+  "A29": [
+   "currency"
+  ],
+  "A20": [
+   "invoice_number",
+   "line_amounts"
+  ],
+  "A06": [
+   "invoice_number",
+   "line_amounts"
+  ],
+  "A48": [
+   "tax"
+  ],
+  "A10": [
+   "invoice_number",
+   "due_date",
+   "tax"
+  ],
+  "A21": [
+   "invoice_number",
+   "line_amounts"
+  ],
+  "A12": [
+   "invoice_number",
+   "due_date",
+   "tax"
+  ],
+  "A16": [
+   "tax"
+  ],
+  "A27": [
+   "invoice_number",
+   "due_date"
+  ],
+  "A09": [
+   "invoice_number",
+   "currency",
+   "line_amounts"
+  ],
+  "A41": [
+   "currency",
+   "total"
+  ],
+  "A24": [
+   "due_date",
+   "line_amounts"
+  ],
+  "A35": [
+   "line_amounts"
+  ],
+  "A18": [
+   "invoice_number",
+   "total",
+   "line_amounts"
+  ],
+  "A33": [
+   "due_date",
+   "line_amounts"
+  ],
+  "A45": [
+   "subtotal",
+   "tax",
+   "line_amounts"
+  ],
+  "A38": [
+   "invoice_number",
+   "currency",
+   "line_amounts"
+  ],
+  "A26": [
+   "invoice_number",
+   "due_date",
+   "line_amounts"
+  ],
+  "A23": [
+   "line_amounts"
+  ],
+  "A49": [
+   "tax"
+  ],
+  "A28": [
+   "invoice_number",
+   "due_date"
+  ],
+  "A07": [
+   "invoice_number",
+   "line_amounts"
+  ],
+  "A11": [
+   "invoice_number",
+   "due_date",
+   "tax"
+  ],
+  "A22": [
+   "invoice_number",
+   "line_amounts"
+  ],
+  "A08": [
+   "invoice_number",
+   "line_amounts"
+  ],
+  "A47": [
+   "currency"
+  ],
+  "A42": [
+   "currency",
+   "total"
+  ],
+  "A43": [
+   "currency",
+   "total"
+  ],
+  "A32": [
+   "tax"
+  ],
+  "A19": [
+   "invoice_number",
+   "line_amounts"
+  ],
+  "A13": [
+   "invoice_number",
+   "due_date",
+   "tax"
+  ],
+  "A14": [
+   "tax"
+  ],
+  "A39": [
+   "invoice_number",
+   "currency",
+   "line_amounts"
+  ],
+  "A34": [
+   "due_date",
+   "line_amounts"
+  ],
+  "A31": [
+   "tax"
+  ],
+  "A50": [
+   "currency"
+  ]
+ }
+}

@@ -1,0 +1,7 @@
+{
+  "text": "{\"subject\": \"Invoice INV-1042: firm reminder\", \"body\": \"Invoice INV-1042 for $480.00, due on 2026-10-20, is now 14 days overdue. Please arrange payment this week or tell us when we can expect it.\"}",
+  "input_tokens": 150,
+  "output_tokens": 40,
+  "model": "claude-haiku-5-5",
+  "prompt_preview": "[task:write_reminder]\nFACTS:\n{\"number\": \"INV-1042\", \"amount\": \"$480.00\", \"due\": \"[phone]\", \"late\": 14, \"tone\": \"firm\"}\nEND\n\nReply with only JSON matching this s"
+}

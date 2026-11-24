@@ -1,0 +1,3877 @@
+{
+ "fictional": true,
+ "documents": {
+  "D001": {
+   "file": "documents/D001.pdf",
+   "layout": "A",
+   "scan": false,
+   "fields": {
+    "vendor": "Alderbank Packaging Ltd",
+    "number": "ALD-4000",
+    "issue_date": "2026-10-07",
+    "due_date": "2026-11-06",
+    "currency": "USD",
+    "po": "",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 79580,
+    "tax_minor": 6366,
+    "total_minor": 85946,
+    "bank_account": "FICT-0101-2201",
+    "tax_rate_bp": 800,
+    "line_totals_minor": [
+     7580,
+     72000
+    ]
+   },
+   "problems": [],
+   "duplicate_of": null
+  },
+  "D002": {
+   "file": "documents/D002.pdf",
+   "layout": "B",
+   "scan": false,
+   "fields": {
+    "vendor": "Brightwater Freight Services",
+    "number": "BRI-4001",
+    "issue_date": "2026-11-16",
+    "due_date": "2026-11-30",
+    "currency": "USD",
+    "po": "PO-4278",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 14850,
+    "tax_minor": 0,
+    "total_minor": 14850,
+    "bank_account": "FICT-0102-2202",
+    "tax_rate_bp": 0,
+    "line_totals_minor": [
+     7650,
+     7200
+    ]
+   },
+   "problems": [],
+   "duplicate_of": null
+  },
+  "D003": {
+   "file": "documents/D003.pdf",
+   "layout": "C",
+   "scan": false,
+   "fields": {
+    "vendor": "Cobalt Office Supply",
+    "number": "COB-4002",
+    "issue_date": "2026-11-22",
+    "due_date": "2026-12-22",
+    "currency": "USD",
+    "po": "PO-8556",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 26700,
+    "tax_minor": 1869,
+    "total_minor": 28569,
+    "bank_account": "FICT-0103-2203",
+    "tax_rate_bp": 700,
+    "line_totals_minor": [
+     2900,
+     23800
+    ]
+   },
+   "problems": [],
+   "duplicate_of": null
+  },
+  "D004": {
+   "file": "documents/D004.pdf",
+   "layout": "D",
+   "scan": false,
+   "fields": {
+    "vendor": "Dunmore Industrial Parts",
+    "number": "DUN-4003",
+    "issue_date": "2026-11-25",
+    "due_date": "2027-01-09",
+    "currency": "USD",
+    "po": "PO-7620",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 59450,
+    "tax_minor": 4756,
+    "total_minor": 64206,
+    "bank_account": "FICT-0104-2204",
+    "tax_rate_bp": 800,
+    "line_totals_minor": [
+     28200,
+     31250
+    ]
+   },
+   "problems": [],
+   "duplicate_of": null
+  },
+  "D005": {
+   "file": "documents/D005.pdf",
+   "layout": "A",
+   "scan": false,
+   "fields": {
+    "vendor": "Eastgate Cleaning Co",
+    "number": "EAS-4004",
+    "issue_date": "2026-10-12",
+    "due_date": "2026-10-27",
+    "currency": "USD",
+    "po": "PO-7296",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 121500,
+    "tax_minor": 0,
+    "total_minor": 121500,
+    "bank_account": "FICT-0105-2205",
+    "tax_rate_bp": 0,
+    "line_totals_minor": [
+     112000,
+     9500
+    ]
+   },
+   "problems": [],
+   "duplicate_of": null
+  },
+  "D006": {
+   "file": "documents/D006.pdf",
+   "layout": "B",
+   "scan": false,
+   "fields": {
+    "vendor": "Fernhill IT Support",
+    "number": "FER-4005",
+    "issue_date": "2026-10-28",
+    "due_date": "2026-11-27",
+    "currency": "USD",
+    "po": "",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 38000,
+    "tax_minor": 3800,
+    "total_minor": 41800,
+    "bank_account": "FICT-0106-2206",
+    "tax_rate_bp": 1000,
+    "line_totals_minor": [
+     38000
+    ]
+   },
+   "problems": [],
+   "duplicate_of": null
+  },
+  "D007": {
+   "file": "documents/D007.pdf",
+   "layout": "C",
+   "scan": false,
+   "fields": {
+    "vendor": "Gablemere Print Studio",
+    "number": "GAB-4006",
+    "issue_date": "2026-10-27",
+    "due_date": "2026-11-26",
+    "currency": "EUR",
+    "po": "",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 57800,
+    "tax_minor": 10982,
+    "total_minor": 68782,
+    "bank_account": "FICT-0107-2207",
+    "tax_rate_bp": 1900,
+    "line_totals_minor": [
+     29000,
+     28800
+    ]
+   },
+   "problems": [],
+   "duplicate_of": null
+  },
+  "D008": {
+   "file": "documents/D008.pdf",
+   "layout": "D",
+   "scan": false,
+   "fields": {
+    "vendor": "Hollin Insurance Brokers",
+    "number": "HOL-4007",
+    "issue_date": "2026-10-07",
+    "due_date": "2026-11-06",
+    "currency": "USD",
+    "po": "",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 43500,
+    "tax_minor": 0,
+    "total_minor": 43500,
+    "bank_account": "FICT-0108-2208",
+    "tax_rate_bp": 0,
+    "line_totals_minor": [
+     42000,
+     1500
+    ]
+   },
+   "problems": [],
+   "duplicate_of": null
+  },
+  "D009": {
+   "file": "documents/D009.pdf",
+   "layout": "A",
+   "scan": false,
+   "fields": {
+    "vendor": "Alderbank Packaging Ltd",
+    "number": "ALD-4008",
+    "issue_date": "2026-10-26",
+    "due_date": "2026-11-25",
+    "currency": "USD",
+    "po": "PO-8954",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 96000,
+    "tax_minor": 7680,
+    "total_minor": 103680,
+    "bank_account": "FICT-0101-2201",
+    "tax_rate_bp": 800,
+    "line_totals_minor": [
+     96000
+    ]
+   },
+   "problems": [],
+   "duplicate_of": null
+  },
+  "D010": {
+   "file": "documents/D010.pdf",
+   "layout": "B",
+   "scan": false,
+   "fields": {
+    "vendor": "Brightwater Freight Services",
+    "number": "BRI-4009",
+    "issue_date": "2026-11-02",
+    "due_date": "2026-11-16",
+    "currency": "USD",
+    "po": "PO-5526",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 12000,
+    "tax_minor": 0,
+    "total_minor": 12000,
+    "bank_account": "FICT-0102-2202",
+    "tax_rate_bp": 0,
+    "line_totals_minor": [
+     12000
+    ]
+   },
+   "problems": [],
+   "duplicate_of": null
+  },
+  "D011": {
+   "file": "documents/D011.pdf",
+   "layout": "C",
+   "scan": false,
+   "fields": {
+    "vendor": "Cobalt Office Supply",
+    "number": "COB-4010",
+    "issue_date": "2026-10-22",
+    "due_date": "2026-11-21",
+    "currency": "USD",
+    "po": "PO-8970",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 35350,
+    "tax_minor": 2475,
+    "total_minor": 37825,
+    "bank_account": "FICT-0103-2203",
+    "tax_rate_bp": 700,
+    "line_totals_minor": [
+     23800,
+     11550
+    ]
+   },
+   "problems": [],
+   "duplicate_of": null
+  },
+  "D012": {
+   "file": "documents/D012.pdf",
+   "layout": "D",
+   "scan": false,
+   "fields": {
+    "vendor": "Dunmore Industrial Parts",
+    "number": "DUN-4011",
+    "issue_date": "2026-10-27",
+    "due_date": "2026-12-11",
+    "currency": "USD",
+    "po": "PO-4342",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 51900,
+    "tax_minor": 4152,
+    "total_minor": 56052,
+    "bank_account": "FICT-0104-2204",
+    "tax_rate_bp": 800,
+    "line_totals_minor": [
+     37500,
+     14400
+    ]
+   },
+   "problems": [],
+   "duplicate_of": null
+  },
+  "D013": {
+   "file": "documents/D013.pdf",
+   "layout": "A",
+   "scan": false,
+   "fields": {
+    "vendor": "Eastgate Cleaning Co",
+    "number": "EAS-4012",
+    "issue_date": "2026-10-30",
+    "due_date": "2026-11-14",
+    "currency": "USD",
+    "po": "",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 121500,
+    "tax_minor": 0,
+    "total_minor": 121500,
+    "bank_account": "FICT-0105-2205",
+    "tax_rate_bp": 0,
+    "line_totals_minor": [
+     112000,
+     9500
+    ]
+   },
+   "problems": [],
+   "duplicate_of": null
+  },
+  "D014": {
+   "file": "documents/D014.pdf",
+   "layout": "B",
+   "scan": false,
+   "fields": {
+    "vendor": "Fernhill IT Support",
+    "number": "FER-4013",
+    "issue_date": "2026-11-16",
+    "due_date": "2026-12-16",
+    "currency": "USD",
+    "po": "",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 24500,
+    "tax_minor": 2450,
+    "total_minor": 26950,
+    "bank_account": "FICT-0106-2206",
+    "tax_rate_bp": 1000,
+    "line_totals_minor": [
+     24500
+    ]
+   },
+   "problems": [],
+   "duplicate_of": null
+  },
+  "D015": {
+   "file": "documents/D015.pdf",
+   "layout": "C",
+   "scan": false,
+   "fields": {
+    "vendor": "Gablemere Print Studio",
+    "number": "GAB-4014",
+    "issue_date": "2026-10-25",
+    "due_date": "2026-11-24",
+    "currency": "EUR",
+    "po": "",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 65000,
+    "tax_minor": 12350,
+    "total_minor": 77350,
+    "bank_account": "FICT-0107-2207",
+    "tax_rate_bp": 1900,
+    "line_totals_minor": [
+     29000,
+     36000
+    ]
+   },
+   "problems": [],
+   "duplicate_of": null
+  },
+  "D016": {
+   "file": "documents/D016.pdf",
+   "layout": "D",
+   "scan": false,
+   "fields": {
+    "vendor": "Hollin Insurance Brokers",
+    "number": "HOL-4015",
+    "issue_date": "2026-11-23",
+    "due_date": "2026-12-23",
+    "currency": "USD",
+    "po": "PO-2689",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 43500,
+    "tax_minor": 0,
+    "total_minor": 43500,
+    "bank_account": "FICT-0108-2208",
+    "tax_rate_bp": 0,
+    "line_totals_minor": [
+     1500,
+     42000
+    ]
+   },
+   "problems": [],
+   "duplicate_of": null
+  },
+  "D017": {
+   "file": "documents/D017.pdf",
+   "layout": "A",
+   "scan": false,
+   "fields": {
+    "vendor": "Alderbank Packaging Ltd",
+    "number": "ALD-4016",
+    "issue_date": "2026-11-15",
+    "due_date": "2026-12-15",
+    "currency": "USD",
+    "po": "",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 149685,
+    "tax_minor": 11975,
+    "total_minor": 161660,
+    "bank_account": "FICT-0101-2201",
+    "tax_rate_bp": 800,
+    "line_totals_minor": [
+     144000,
+     5685
+    ]
+   },
+   "problems": [],
+   "duplicate_of": null
+  },
+  "D018": {
+   "file": "documents/D018.pdf",
+   "layout": "B",
+   "scan": false,
+   "fields": {
+    "vendor": "Brightwater Freight Services",
+    "number": "BRI-4017",
+    "issue_date": "2026-10-07",
+    "due_date": "2026-10-21",
+    "currency": "USD",
+    "po": "PO-3636",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 15300,
+    "tax_minor": 0,
+    "total_minor": 15300,
+    "bank_account": "FICT-0102-2202",
+    "tax_rate_bp": 0,
+    "line_totals_minor": [
+     15300
+    ]
+   },
+   "problems": [],
+   "duplicate_of": null
+  },
+  "D019": {
+   "file": "documents/D019.pdf",
+   "layout": "C",
+   "scan": false,
+   "fields": {
+    "vendor": "Cobalt Office Supply",
+    "number": "COB-4018",
+    "issue_date": "2026-10-03",
+    "due_date": "2026-11-02",
+    "currency": "USD",
+    "po": "PO-5922",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 35350,
+    "tax_minor": 2475,
+    "total_minor": 37825,
+    "bank_account": "FICT-0103-2203",
+    "tax_rate_bp": 700,
+    "line_totals_minor": [
+     11550,
+     23800
+    ]
+   },
+   "problems": [],
+   "duplicate_of": null
+  },
+  "D020": {
+   "file": "documents/D020.pdf",
+   "layout": "D",
+   "scan": false,
+   "fields": {
+    "vendor": "Dunmore Industrial Parts",
+    "number": "DUN-4019",
+    "issue_date": "2026-11-01",
+    "due_date": "2026-12-16",
+    "currency": "USD",
+    "po": "PO-1075",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 49180,
+    "tax_minor": 3934,
+    "total_minor": 53114,
+    "bank_account": "FICT-0104-2204",
+    "tax_rate_bp": 800,
+    "line_totals_minor": [
+     34780,
+     14400
+    ]
+   },
+   "problems": [],
+   "duplicate_of": null
+  },
+  "D021": {
+   "file": "documents/D021.pdf",
+   "layout": "A",
+   "scan": false,
+   "fields": {
+    "vendor": "Eastgate Cleaning Co",
+    "number": "EAS-4020",
+    "issue_date": "2026-10-10",
+    "due_date": "2026-10-25",
+    "currency": "USD",
+    "po": "PO-5287",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 112000,
+    "tax_minor": 0,
+    "total_minor": 122000,
+    "bank_account": "FICT-0105-2205",
+    "tax_rate_bp": 0,
+    "line_totals_minor": [
+     112000
+    ]
+   },
+   "problems": [
+    "wrong_total"
+   ],
+   "duplicate_of": null
+  },
+  "D022": {
+   "file": "documents/D022.pdf",
+   "layout": "B",
+   "scan": false,
+   "fields": {
+    "vendor": "Fernhill IT Support",
+    "number": "FER-4021",
+    "issue_date": "2026-11-17",
+    "due_date": "2026-12-17",
+    "currency": "USD",
+    "po": "",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 24500,
+    "tax_minor": 2450,
+    "total_minor": 22450,
+    "bank_account": "FICT-0106-2206",
+    "tax_rate_bp": 1000,
+    "line_totals_minor": [
+     24500
+    ]
+   },
+   "problems": [
+    "wrong_total"
+   ],
+   "duplicate_of": null
+  },
+  "D023": {
+   "file": "documents/D023.pdf",
+   "layout": "C",
+   "scan": false,
+   "fields": {
+    "vendor": "Gablemere Print Studio",
+    "number": "GAB-4022",
+    "issue_date": "2026-10-26",
+    "due_date": "2026-11-25",
+    "currency": "EUR",
+    "po": "",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 65000,
+    "tax_minor": 12350,
+    "total_minor": 102350,
+    "bank_account": "FICT-0107-2207",
+    "tax_rate_bp": 1900,
+    "line_totals_minor": [
+     29000,
+     36000
+    ]
+   },
+   "problems": [
+    "wrong_total"
+   ],
+   "duplicate_of": null
+  },
+  "D024": {
+   "file": "documents/D024.pdf",
+   "layout": "D",
+   "scan": false,
+   "fields": {
+    "vendor": "Hollin Insurance Brokers",
+    "number": "HOL-4023",
+    "issue_date": "2026-10-08",
+    "due_date": "2026-11-07",
+    "currency": "USD",
+    "po": "",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 43500,
+    "tax_minor": 1405,
+    "total_minor": 44905,
+    "bank_account": "FICT-0108-2208",
+    "tax_rate_bp": 0,
+    "line_totals_minor": [
+     42000,
+     1500
+    ]
+   },
+   "problems": [
+    "wrong_tax"
+   ],
+   "duplicate_of": null
+  },
+  "D025": {
+   "file": "documents/D025.pdf",
+   "layout": "A",
+   "scan": false,
+   "fields": {
+    "vendor": "Alderbank Packaging Ltd",
+    "number": "ALD-4024",
+    "issue_date": "2026-11-27",
+    "due_date": "2026-12-27",
+    "currency": "USD",
+    "po": "",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 90180,
+    "tax_minor": 9117,
+    "total_minor": 99297,
+    "bank_account": "FICT-0101-2201",
+    "tax_rate_bp": 800,
+    "line_totals_minor": [
+     17055,
+     73125
+    ]
+   },
+   "problems": [
+    "wrong_tax"
+   ],
+   "duplicate_of": null
+  },
+  "D026": {
+   "file": "documents/D026.pdf",
+   "layout": "B",
+   "scan": false,
+   "fields": {
+    "vendor": "Brightwater Freight Services",
+    "number": "BRI-4025",
+    "issue_date": "2026-11-12",
+    "due_date": "2026-11-26",
+    "currency": "USD",
+    "po": "",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 20100,
+    "tax_minor": 0,
+    "total_minor": 20100,
+    "bank_account": "FICT-0102-2202",
+    "tax_rate_bp": 0,
+    "line_totals_minor": [
+     9800,
+     15300
+    ]
+   },
+   "problems": [
+    "line_sum_mismatch"
+   ],
+   "duplicate_of": null
+  },
+  "D027": {
+   "file": "documents/D027.pdf",
+   "layout": "C",
+   "scan": false,
+   "fields": {
+    "vendor": "Cobalt Office Supply",
+    "number": "COB-4026",
+    "issue_date": "2026-10-15",
+    "due_date": "2026-11-14",
+    "currency": "USD",
+    "po": "PO-1399",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 46900,
+    "tax_minor": 3283,
+    "total_minor": 50183,
+    "bank_account": "FICT-0103-2203",
+    "tax_rate_bp": 700,
+    "line_totals_minor": [
+     24900,
+     23800
+    ]
+   },
+   "problems": [
+    "line_sum_mismatch"
+   ],
+   "duplicate_of": null
+  },
+  "D028": {
+   "file": "documents/D028.pdf",
+   "layout": "D",
+   "scan": false,
+   "fields": {
+    "vendor": "Dunmore Industrial Parts",
+    "number": "DUN-4027",
+    "issue_date": "2026-10-19",
+    "due_date": "2026-12-03",
+    "currency": "USD",
+    "po": "PO-1583",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 82650,
+    "tax_minor": 6612,
+    "total_minor": 89262,
+    "bank_account": "FICT-927-7788",
+    "tax_rate_bp": 800,
+    "line_totals_minor": [
+     21600,
+     18750,
+     42300
+    ]
+   },
+   "problems": [
+    "bank_change"
+   ],
+   "duplicate_of": null
+  },
+  "D029": {
+   "file": "documents/D029.pdf",
+   "layout": "A",
+   "scan": false,
+   "fields": {
+    "vendor": "Eastgate Cleaning Co",
+    "number": "EAS-4028",
+    "issue_date": "2026-11-03",
+    "due_date": "2026-11-18",
+    "currency": "USD",
+    "po": "",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 121500,
+    "tax_minor": 0,
+    "total_minor": 121500,
+    "bank_account": "FICT-928-7788",
+    "tax_rate_bp": 0,
+    "line_totals_minor": [
+     9500,
+     112000
+    ]
+   },
+   "problems": [
+    "bank_change"
+   ],
+   "duplicate_of": null
+  },
+  "D030": {
+   "file": "documents/D030.pdf",
+   "layout": "B",
+   "scan": false,
+   "fields": {
+    "vendor": "Fernhill IT Support",
+    "number": "FER-4029",
+    "issue_date": "2026-11-12",
+    "due_date": "2026-12-12",
+    "currency": "USD",
+    "po": "",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 196000,
+    "tax_minor": 19600,
+    "total_minor": 215600,
+    "bank_account": "FICT-0106-2206",
+    "tax_rate_bp": 1000,
+    "line_totals_minor": [
+     196000
+    ]
+   },
+   "problems": [
+    "amount_8x"
+   ],
+   "duplicate_of": null
+  },
+  "D031": {
+   "file": "documents/D031.pdf",
+   "layout": "C",
+   "scan": false,
+   "fields": {
+    "vendor": "Gablemere Print Studio",
+    "number": "GAB-4030",
+    "issue_date": "2026-11-20",
+    "due_date": "2026-12-20",
+    "currency": "EUR",
+    "po": "",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 347200,
+    "tax_minor": 65968,
+    "total_minor": 413168,
+    "bank_account": "FICT-0107-2207",
+    "tax_rate_bp": 1900,
+    "line_totals_minor": [
+     115200,
+     232000
+    ]
+   },
+   "problems": [
+    "amount_8x"
+   ],
+   "duplicate_of": null
+  },
+  "D032": {
+   "file": "documents/D032.pdf",
+   "layout": "D",
+   "scan": false,
+   "fields": {
+    "vendor": "Dunmore Industrial Parts",
+    "number": "DUN-4031",
+    "issue_date": "2026-11-21",
+    "due_date": "2027-01-05",
+    "currency": "USD",
+    "po": "",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 88250,
+    "tax_minor": 7060,
+    "total_minor": 95310,
+    "bank_account": "FICT-0104-2204",
+    "tax_rate_bp": 800,
+    "line_totals_minor": [
+     31250,
+     28800,
+     28200
+    ]
+   },
+   "problems": [
+    "missing_po"
+   ],
+   "duplicate_of": null
+  },
+  "D033": {
+   "file": "documents/D033.pdf",
+   "layout": "A",
+   "scan": false,
+   "fields": {
+    "vendor": "Cobalt Office Supply",
+    "number": "COB-4032",
+    "issue_date": "2026-10-31",
+    "due_date": "2026-11-30",
+    "currency": "USD",
+    "po": "",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 30350,
+    "tax_minor": 2125,
+    "total_minor": 32475,
+    "bank_account": "FICT-0103-2203",
+    "tax_rate_bp": 700,
+    "line_totals_minor": [
+     23100,
+     7250
+    ]
+   },
+   "problems": [
+    "missing_po"
+   ],
+   "duplicate_of": null
+  },
+  "D034": {
+   "file": "documents/D034.pdf",
+   "layout": "B",
+   "scan": false,
+   "fields": {
+    "vendor": "Dunmore Industrial Parts",
+    "number": "DUN-4033",
+    "issue_date": "2026-10-17",
+    "due_date": "2026-12-01",
+    "currency": "USD",
+    "po": "",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 87950,
+    "tax_minor": 7036,
+    "total_minor": 94986,
+    "bank_account": "FICT-0104-2204",
+    "tax_rate_bp": 800,
+    "line_totals_minor": [
+     42300,
+     14400,
+     31250
+    ]
+   },
+   "problems": [
+    "missing_po"
+   ],
+   "duplicate_of": null
+  },
+  "D035": {
+   "file": "documents/D035.pdf",
+   "layout": "C",
+   "scan": false,
+   "fields": {
+    "vendor": "Cobalt Office Supply",
+    "number": "COB-4034",
+    "issue_date": "2026-12-11",
+    "due_date": "2027-01-10",
+    "currency": "USD",
+    "po": "PO-8138",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 21700,
+    "tax_minor": 1519,
+    "total_minor": 23219,
+    "bank_account": "FICT-0103-2203",
+    "tax_rate_bp": 700,
+    "line_totals_minor": [
+     10150,
+     11550
+    ]
+   },
+   "problems": [
+    "future_date"
+   ],
+   "duplicate_of": null
+  },
+  "D036": {
+   "file": "documents/D036.pdf",
+   "layout": "D",
+   "scan": false,
+   "fields": {
+    "vendor": "Dunmore Industrial Parts",
+    "number": "DUN-4035",
+    "issue_date": "2026-12-12",
+    "due_date": "2027-01-11",
+    "currency": "USD",
+    "po": "PO-6565",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 55100,
+    "tax_minor": 4408,
+    "total_minor": 59508,
+    "bank_account": "FICT-0104-2204",
+    "tax_rate_bp": 800,
+    "line_totals_minor": [
+     12500,
+     28200,
+     14400
+    ]
+   },
+   "problems": [
+    "future_date"
+   ],
+   "duplicate_of": null
+  },
+  "D037": {
+   "file": "documents/D037.pdf",
+   "layout": "A",
+   "scan": false,
+   "fields": {
+    "vendor": "Gablemere Print Studio",
+    "number": "GAB-4036",
+    "issue_date": "2026-10-25",
+    "due_date": "2026-11-24",
+    "currency": "USD",
+    "po": "PO-7459",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 50600,
+    "tax_minor": 9614,
+    "total_minor": 60214,
+    "bank_account": "FICT-0107-2207",
+    "tax_rate_bp": 1900,
+    "line_totals_minor": [
+     21600,
+     29000
+    ]
+   },
+   "problems": [
+    "currency_mismatch"
+   ],
+   "duplicate_of": null
+  },
+  "D038": {
+   "file": "documents/D038.pdf",
+   "layout": "B",
+   "scan": false,
+   "fields": {
+    "vendor": "Alderbank Packaging Ltd",
+    "number": "ALD-4037",
+    "issue_date": "2026-10-10",
+    "due_date": "2026-11-09",
+    "currency": "EUR",
+    "po": "PO-9399",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 144000,
+    "tax_minor": 11520,
+    "total_minor": 155520,
+    "bank_account": "FICT-0101-2201",
+    "tax_rate_bp": 800,
+    "line_totals_minor": [
+     144000
+    ]
+   },
+   "problems": [
+    "currency_mismatch"
+   ],
+   "duplicate_of": null
+  },
+  "D039": {
+   "file": "documents/D039.pdf",
+   "layout": "C",
+   "scan": false,
+   "fields": {
+    "vendor": "Gablemere Print Studio",
+    "number": "GAB-4038",
+    "issue_date": "2026-10-20",
+    "due_date": "2026-11-19",
+    "currency": "EUR",
+    "po": "PO-9636",
+    "bill_to": "Larkspur Trading Ltd",
+    "subtotal_minor": 57800,
+    "tax_minor": 10982,
+    "total_minor": 68782,
+    "bank_account": "FICT-0107-2207",
+    "tax_rate_bp": 1900,
+    "line_totals_minor": [
+     28800,
+     29000
+    ]
+   },
+   "problems": [
+    "wrong_company"
+   ],
+   "duplicate_of": null
+  },
+  "D040": {
+   "file": "documents/D040.pdf",
+   "layout": "D",
+   "scan": false,
+   "fields": {
+    "vendor": "Hollin Insurance Brokers",
+    "number": "HOL-4039",
+    "issue_date": "2026-10-14",
+    "due_date": "2026-11-13",
+    "currency": "USD",
+    "po": "PO-9552",
+    "bill_to": "Larkspur Trading Ltd",
+    "subtotal_minor": 43500,
+    "tax_minor": 0,
+    "total_minor": 43500,
+    "bank_account": "FICT-0108-2208",
+    "tax_rate_bp": 0,
+    "line_totals_minor": [
+     1500,
+     42000
+    ]
+   },
+   "problems": [
+    "wrong_company"
+   ],
+   "duplicate_of": null
+  },
+  "D041": {
+   "file": "documents/D041.pdf",
+   "layout": "A",
+   "scan": false,
+   "fields": {
+    "vendor": "Dunmore Industrial Parts",
+    "number": "DUN-4003",
+    "issue_date": "2026-11-25",
+    "due_date": "2027-01-09",
+    "currency": "USD",
+    "po": "PO-7620",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 59450,
+    "tax_minor": 4756,
+    "total_minor": 64206,
+    "bank_account": "FICT-0104-2204",
+    "tax_rate_bp": 800,
+    "line_totals_minor": [
+     28200,
+     31250
+    ]
+   },
+   "problems": [
+    "duplicate_exact"
+   ],
+   "duplicate_of": "D004"
+  },
+  "D042": {
+   "file": "documents/D042.pdf",
+   "layout": "C",
+   "scan": false,
+   "fields": {
+    "vendor": "Brightwater Freight Services",
+    "number": "BRI-4009",
+    "issue_date": "2026-11-02",
+    "due_date": "2026-11-16",
+    "currency": "USD",
+    "po": "PO-5526",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 12000,
+    "tax_minor": 0,
+    "total_minor": 12000,
+    "bank_account": "FICT-0102-2202",
+    "tax_rate_bp": 0,
+    "line_totals_minor": [
+     12000
+    ]
+   },
+   "problems": [
+    "duplicate_exact"
+   ],
+   "duplicate_of": "D010"
+  },
+  "D043": {
+   "file": "documents/D043.pdf",
+   "layout": "D",
+   "scan": false,
+   "fields": {
+    "vendor": "Fernhill IT Support",
+    "number": "FER-4005A",
+    "issue_date": "2026-10-28",
+    "due_date": "2026-11-27",
+    "currency": "USD",
+    "po": "",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 38000,
+    "tax_minor": 3800,
+    "total_minor": 41800,
+    "bank_account": "FICT-0106-2206",
+    "tax_rate_bp": 1000,
+    "line_totals_minor": [
+     38000
+    ]
+   },
+   "problems": [
+    "duplicate_near"
+   ],
+   "duplicate_of": "D006"
+  },
+  "D044": {
+   "file": "documents/D044.pdf",
+   "layout": "C",
+   "scan": false,
+   "fields": {
+    "vendor": "Eastgate Cleaning Co",
+    "number": "EAS-4021",
+    "issue_date": "2026-10-30",
+    "due_date": "2026-11-14",
+    "currency": "USD",
+    "po": "",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 121500,
+    "tax_minor": 0,
+    "total_minor": 121500,
+    "bank_account": "FICT-0105-2205",
+    "tax_rate_bp": 0,
+    "line_totals_minor": [
+     112000,
+     9500
+    ]
+   },
+   "problems": [
+    "duplicate_near"
+   ],
+   "duplicate_of": "D013"
+  },
+  "D045": {
+   "file": "documents/D045.pdf",
+   "layout": "D",
+   "scan": false,
+   "fields": {
+    "vendor": "Brightwater Freight Services",
+    "number": "BRI-4017",
+    "issue_date": "2026-10-08",
+    "due_date": "2026-10-22",
+    "currency": "USD",
+    "po": "PO-3636",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 15300,
+    "tax_minor": 0,
+    "total_minor": 15300,
+    "bank_account": "FICT-0102-2202",
+    "tax_rate_bp": 0,
+    "line_totals_minor": [
+     15300
+    ]
+   },
+   "problems": [
+    "duplicate_near"
+   ],
+   "duplicate_of": "D018"
+  },
+  "D046": {
+   "file": "documents/D046.pdf",
+   "layout": "B",
+   "scan": false,
+   "fields": {
+    "vendor": "Fernhill IT Support",
+    "number": "FER-4045",
+    "issue_date": "2026-10-16",
+    "due_date": "2026-11-15",
+    "currency": "USD",
+    "po": "",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 34300,
+    "tax_minor": 3430,
+    "total_minor": 37730,
+    "bank_account": "FICT-0106-2206",
+    "tax_rate_bp": 1000,
+    "line_totals_minor": [
+     34300
+    ]
+   },
+   "problems": [],
+   "duplicate_of": null
+  },
+  "D047": {
+   "file": "documents/D047.pdf",
+   "layout": "C",
+   "scan": false,
+   "fields": {
+    "vendor": "Gablemere Print Studio",
+    "number": "GAB-4046",
+    "issue_date": "2026-10-21",
+    "due_date": "2026-11-20",
+    "currency": "EUR",
+    "po": "",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 43400,
+    "tax_minor": 8246,
+    "total_minor": 51646,
+    "bank_account": "FICT-0107-2207",
+    "tax_rate_bp": 1900,
+    "line_totals_minor": [
+     29000,
+     14400
+    ]
+   },
+   "problems": [],
+   "duplicate_of": null
+  },
+  "D048": {
+   "file": "documents/D048.pdf",
+   "layout": "D",
+   "scan": false,
+   "fields": {
+    "vendor": "Hollin Insurance Brokers",
+    "number": "HOL-4047",
+    "issue_date": "2026-11-23",
+    "due_date": "2026-12-23",
+    "currency": "USD",
+    "po": "",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 42000,
+    "tax_minor": 0,
+    "total_minor": 42000,
+    "bank_account": "FICT-0108-2208",
+    "tax_rate_bp": 0,
+    "line_totals_minor": [
+     42000
+    ]
+   },
+   "problems": [],
+   "duplicate_of": null
+  },
+  "D049": {
+   "file": "documents/D049.pdf",
+   "layout": "A",
+   "scan": false,
+   "fields": {
+    "vendor": "Alderbank Packaging Ltd",
+    "number": "ALD-4048",
+    "issue_date": "2026-11-14",
+    "due_date": "2026-12-14",
+    "currency": "USD",
+    "po": "",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 107370,
+    "tax_minor": 8590,
+    "total_minor": 115960,
+    "bank_account": "FICT-0101-2201",
+    "tax_rate_bp": 800,
+    "line_totals_minor": [
+     96000,
+     11370
+    ]
+   },
+   "problems": [],
+   "duplicate_of": null
+  },
+  "D050": {
+   "file": "documents/D050.pdf",
+   "layout": "B",
+   "scan": false,
+   "fields": {
+    "vendor": "Brightwater Freight Services",
+    "number": "BRI-4049",
+    "issue_date": "2026-11-26",
+    "due_date": "2026-12-10",
+    "currency": "USD",
+    "po": "",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 17250,
+    "tax_minor": 0,
+    "total_minor": 17250,
+    "bank_account": "FICT-0102-2202",
+    "tax_rate_bp": 0,
+    "line_totals_minor": [
+     9600,
+     7650
+    ]
+   },
+   "problems": [],
+   "duplicate_of": null
+  },
+  "D051": {
+   "file": "documents/D051.pdf",
+   "layout": "C",
+   "scan": false,
+   "fields": {
+    "vendor": "Cobalt Office Supply",
+    "number": "COB-4050",
+    "issue_date": "2026-11-21",
+    "due_date": "2026-12-21",
+    "currency": "USD",
+    "po": "PO-3544",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 46450,
+    "tax_minor": 3252,
+    "total_minor": 49702,
+    "bank_account": "FICT-0103-2203",
+    "tax_rate_bp": 700,
+    "line_totals_minor": [
+     15400,
+     7250,
+     23800
+    ]
+   },
+   "problems": [],
+   "duplicate_of": null
+  },
+  "D052": {
+   "file": "documents/D052.pdf",
+   "layout": "D",
+   "scan": false,
+   "fields": {
+    "vendor": "Dunmore Industrial Parts",
+    "number": "DUN-4051",
+    "issue_date": "2026-10-18",
+    "due_date": "2026-12-02",
+    "currency": "USD",
+    "po": "PO-1852",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 41300,
+    "tax_minor": 3304,
+    "total_minor": 44604,
+    "bank_account": "FICT-0104-2204",
+    "tax_rate_bp": 800,
+    "line_totals_minor": [
+     28800,
+     12500
+    ]
+   },
+   "problems": [],
+   "duplicate_of": null
+  },
+  "D053": {
+   "file": "documents/D053.pdf",
+   "layout": "A",
+   "scan": false,
+   "fields": {
+    "vendor": "Eastgate Cleaning Co",
+    "number": "EAS-4052",
+    "issue_date": "2026-11-21",
+    "due_date": "2026-12-06",
+    "currency": "USD",
+    "po": "PO-6114",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 121500,
+    "tax_minor": 0,
+    "total_minor": 121500,
+    "bank_account": "FICT-0105-2205",
+    "tax_rate_bp": 0,
+    "line_totals_minor": [
+     9500,
+     112000
+    ]
+   },
+   "problems": [],
+   "duplicate_of": null
+  },
+  "D054": {
+   "file": "documents/D054.pdf",
+   "layout": "B",
+   "scan": false,
+   "fields": {
+    "vendor": "Fernhill IT Support",
+    "number": "FER-4053",
+    "issue_date": "2026-11-23",
+    "due_date": "2026-12-23",
+    "currency": "USD",
+    "po": "",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 24500,
+    "tax_minor": 2450,
+    "total_minor": 26950,
+    "bank_account": "FICT-0106-2206",
+    "tax_rate_bp": 1000,
+    "line_totals_minor": [
+     24500
+    ]
+   },
+   "problems": [],
+   "duplicate_of": null
+  },
+  "D055": {
+   "file": "documents/D055.pdf",
+   "layout": "S",
+   "scan": true,
+   "fields": {
+    "vendor": "Dunmore Industrial Parts",
+    "number": "DUN-4100",
+    "issue_date": "2026-11-14",
+    "due_date": "2026-12-29",
+    "currency": "USD",
+    "po": "PO-3264",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 36000,
+    "tax_minor": 2880,
+    "total_minor": 38880,
+    "bank_account": "FICT-0104-2204",
+    "tax_rate_bp": 800,
+    "line_totals_minor": [
+     36000
+    ]
+   },
+   "problems": [],
+   "duplicate_of": null
+  },
+  "D056": {
+   "file": "documents/D056.pdf",
+   "layout": "S",
+   "scan": true,
+   "fields": {
+    "vendor": "Eastgate Cleaning Co",
+    "number": "EAS-4101",
+    "issue_date": "2026-11-06",
+    "due_date": "2026-11-21",
+    "currency": "USD",
+    "po": "",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 112000,
+    "tax_minor": 0,
+    "total_minor": 112000,
+    "bank_account": "FICT-0105-2205",
+    "tax_rate_bp": 0,
+    "line_totals_minor": [
+     112000
+    ]
+   },
+   "problems": [],
+   "duplicate_of": null
+  },
+  "D057": {
+   "file": "documents/D057.pdf",
+   "layout": "S",
+   "scan": true,
+   "fields": {
+    "vendor": "Fernhill IT Support",
+    "number": "FER-4102",
+    "issue_date": "2026-11-09",
+    "due_date": "2026-12-09",
+    "currency": "USD",
+    "po": "PO-1427",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 38000,
+    "tax_minor": 3800,
+    "total_minor": 48800,
+    "bank_account": "FICT-0106-2206",
+    "tax_rate_bp": 1000,
+    "line_totals_minor": [
+     38000
+    ]
+   },
+   "problems": [
+    "wrong_total"
+   ],
+   "duplicate_of": null
+  },
+  "D058": {
+   "file": "documents/D058.pdf",
+   "layout": "S",
+   "scan": true,
+   "fields": {
+    "vendor": "Gablemere Print Studio",
+    "number": "GAB-4103",
+    "issue_date": "2026-10-25",
+    "due_date": "2026-11-24",
+    "currency": "EUR",
+    "po": "",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 43400,
+    "tax_minor": 8246,
+    "total_minor": 51646,
+    "bank_account": "FICT-0107-2207",
+    "tax_rate_bp": 1900,
+    "line_totals_minor": [
+     29000,
+     14400
+    ]
+   },
+   "problems": [],
+   "duplicate_of": null
+  },
+  "D059": {
+   "file": "documents/D059.pdf",
+   "layout": "S",
+   "scan": true,
+   "fields": {
+    "vendor": "Hollin Insurance Brokers",
+    "number": "HOL-4104",
+    "issue_date": "2026-10-27",
+    "due_date": "2026-11-26",
+    "currency": "USD",
+    "po": "",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 348000,
+    "tax_minor": 0,
+    "total_minor": 348000,
+    "bank_account": "FICT-0108-2208",
+    "tax_rate_bp": 0,
+    "line_totals_minor": [
+     12000,
+     336000
+    ]
+   },
+   "problems": [
+    "amount_8x"
+   ],
+   "duplicate_of": null
+  },
+  "D060": {
+   "file": "documents/D060.pdf",
+   "layout": "S",
+   "scan": true,
+   "fields": {
+    "vendor": "Alderbank Packaging Ltd",
+    "number": "ALD-4105",
+    "issue_date": "2026-10-28",
+    "due_date": "2026-11-27",
+    "currency": "USD",
+    "po": "",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 145125,
+    "tax_minor": 11610,
+    "total_minor": 156735,
+    "bank_account": "FICT-0101-2201",
+    "tax_rate_bp": 800,
+    "line_totals_minor": [
+     72000,
+     73125
+    ]
+   },
+   "problems": [],
+   "duplicate_of": null
+  }
+ },
+ "heldout": {
+  "H001": {
+   "file": "heldout/documents/H001.pdf",
+   "layout": "E",
+   "fields": {
+    "vendor": "Alderbank Packaging Ltd",
+    "number": "ALD-4200",
+    "issue_date": "2026-11-17",
+    "due_date": "2026-12-17",
+    "currency": "USD",
+    "po": "",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 165870,
+    "tax_minor": 13270,
+    "total_minor": 179140,
+    "bank_account": "FICT-0101-2201",
+    "tax_rate_bp": 800,
+    "line_totals_minor": [
+     96000,
+     58500,
+     11370
+    ]
+   }
+  },
+  "H002": {
+   "file": "heldout/documents/H002.pdf",
+   "layout": "F",
+   "fields": {
+    "vendor": "Fernhill IT Support",
+    "number": "FER-4201",
+    "issue_date": "2026-11-19",
+    "due_date": "2026-12-19",
+    "currency": "USD",
+    "po": "",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 14700,
+    "tax_minor": 1470,
+    "total_minor": 16170,
+    "bank_account": "FICT-0106-2206",
+    "tax_rate_bp": 1000,
+    "line_totals_minor": [
+     14700
+    ]
+   }
+  },
+  "H003": {
+   "file": "heldout/documents/H003.pdf",
+   "layout": "G",
+   "fields": {
+    "vendor": "Dunmore Industrial Parts",
+    "number": "DUN-4202",
+    "issue_date": "2026-11-07",
+    "due_date": "2026-12-22",
+    "currency": "USD",
+    "po": "PO-2985",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 73530,
+    "tax_minor": 5882,
+    "total_minor": 79412,
+    "bank_account": "FICT-0104-2204",
+    "tax_rate_bp": 800,
+    "line_totals_minor": [
+     31250,
+     21600,
+     20680
+    ]
+   }
+  },
+  "H004": {
+   "file": "heldout/documents/H004.pdf",
+   "layout": "H",
+   "fields": {
+    "vendor": "Gablemere Print Studio",
+    "number": "GAB-4203",
+    "issue_date": "2026-11-25",
+    "due_date": "2026-12-25",
+    "currency": "EUR",
+    "po": "",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 57800,
+    "tax_minor": 10982,
+    "total_minor": 68782,
+    "bank_account": "FICT-0107-2207",
+    "tax_rate_bp": 1900,
+    "line_totals_minor": [
+     28800,
+     29000
+    ]
+   }
+  },
+  "H005": {
+   "file": "heldout/documents/H005.pdf",
+   "layout": "E",
+   "fields": {
+    "vendor": "Gablemere Print Studio",
+    "number": "GAB-4204",
+    "issue_date": "2026-10-26",
+    "due_date": "2026-11-25",
+    "currency": "EUR",
+    "po": "PO-6825",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 50600,
+    "tax_minor": 9614,
+    "total_minor": 60214,
+    "bank_account": "FICT-0107-2207",
+    "tax_rate_bp": 1900,
+    "line_totals_minor": [
+     21600,
+     29000
+    ]
+   }
+  },
+  "H006": {
+   "file": "heldout/documents/H006.pdf",
+   "layout": "F",
+   "fields": {
+    "vendor": "Hollin Insurance Brokers",
+    "number": "HOL-4205",
+    "issue_date": "2026-10-12",
+    "due_date": "2026-11-11",
+    "currency": "USD",
+    "po": "",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 43500,
+    "tax_minor": 0,
+    "total_minor": 43500,
+    "bank_account": "FICT-0108-2208",
+    "tax_rate_bp": 0,
+    "line_totals_minor": [
+     1500,
+     42000
+    ]
+   }
+  },
+  "H007": {
+   "file": "heldout/documents/H007.pdf",
+   "layout": "G",
+   "fields": {
+    "vendor": "Eastgate Cleaning Co",
+    "number": "EAS-4206",
+    "issue_date": "2026-11-23",
+    "due_date": "2026-12-08",
+    "currency": "USD",
+    "po": "",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 121500,
+    "tax_minor": 0,
+    "total_minor": 121500,
+    "bank_account": "FICT-0105-2205",
+    "tax_rate_bp": 0,
+    "line_totals_minor": [
+     9500,
+     112000
+    ]
+   }
+  },
+  "H008": {
+   "file": "heldout/documents/H008.pdf",
+   "layout": "H",
+   "fields": {
+    "vendor": "Gablemere Print Studio",
+    "number": "GAB-4207",
+    "issue_date": "2026-11-18",
+    "due_date": "2026-12-18",
+    "currency": "EUR",
+    "po": "",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 65000,
+    "tax_minor": 12350,
+    "total_minor": 77350,
+    "bank_account": "FICT-0107-2207",
+    "tax_rate_bp": 1900,
+    "line_totals_minor": [
+     29000,
+     36000
+    ]
+   }
+  },
+  "H009": {
+   "file": "heldout/documents/H009.pdf",
+   "layout": "E",
+   "fields": {
+    "vendor": "Alderbank Packaging Ltd",
+    "number": "ALD-4208",
+    "issue_date": "2026-10-31",
+    "due_date": "2026-11-30",
+    "currency": "USD",
+    "po": "",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 128705,
+    "tax_minor": 10296,
+    "total_minor": 139001,
+    "bank_account": "FICT-0101-2201",
+    "tax_rate_bp": 800,
+    "line_totals_minor": [
+     7580,
+     48000,
+     73125
+    ]
+   }
+  },
+  "H010": {
+   "file": "heldout/documents/H010.pdf",
+   "layout": "F",
+   "fields": {
+    "vendor": "Fernhill IT Support",
+    "number": "FER-4209",
+    "issue_date": "2026-10-17",
+    "due_date": "2026-11-16",
+    "currency": "USD",
+    "po": "",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 29400,
+    "tax_minor": 2940,
+    "total_minor": 32340,
+    "bank_account": "FICT-0106-2206",
+    "tax_rate_bp": 1000,
+    "line_totals_minor": [
+     29400
+    ]
+   }
+  },
+  "H011": {
+   "file": "heldout/documents/H011.pdf",
+   "layout": "G",
+   "fields": {
+    "vendor": "Dunmore Industrial Parts",
+    "number": "DUN-4210",
+    "issue_date": "2026-11-01",
+    "due_date": "2026-12-16",
+    "currency": "USD",
+    "po": "PO-6765",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 49480,
+    "tax_minor": 3958,
+    "total_minor": 53438,
+    "bank_account": "FICT-0104-2204",
+    "tax_rate_bp": 800,
+    "line_totals_minor": [
+     28800,
+     20680
+    ]
+   }
+  },
+  "H012": {
+   "file": "heldout/documents/H012.pdf",
+   "layout": "H",
+   "fields": {
+    "vendor": "Gablemere Print Studio",
+    "number": "GAB-4211",
+    "issue_date": "2026-11-28",
+    "due_date": "2026-12-28",
+    "currency": "EUR",
+    "po": "",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 65000,
+    "tax_minor": 12350,
+    "total_minor": 77350,
+    "bank_account": "FICT-0107-2207",
+    "tax_rate_bp": 1900,
+    "line_totals_minor": [
+     36000,
+     29000
+    ]
+   }
+  },
+  "H013": {
+   "file": "heldout/documents/H013.pdf",
+   "layout": "E",
+   "fields": {
+    "vendor": "Gablemere Print Studio",
+    "number": "GAB-4212",
+    "issue_date": "2026-11-14",
+    "due_date": "2026-12-14",
+    "currency": "EUR",
+    "po": "",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 65000,
+    "tax_minor": 12350,
+    "total_minor": 77350,
+    "bank_account": "FICT-0107-2207",
+    "tax_rate_bp": 1900,
+    "line_totals_minor": [
+     36000,
+     29000
+    ]
+   }
+  },
+  "H014": {
+   "file": "heldout/documents/H014.pdf",
+   "layout": "F",
+   "fields": {
+    "vendor": "Hollin Insurance Brokers",
+    "number": "HOL-4213",
+    "issue_date": "2026-10-04",
+    "due_date": "2026-11-03",
+    "currency": "USD",
+    "po": "PO-3986",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 43500,
+    "tax_minor": 0,
+    "total_minor": 43500,
+    "bank_account": "FICT-0108-2208",
+    "tax_rate_bp": 0,
+    "line_totals_minor": [
+     42000,
+     1500
+    ]
+   }
+  },
+  "H015": {
+   "file": "heldout/documents/H015.pdf",
+   "layout": "G",
+   "fields": {
+    "vendor": "Eastgate Cleaning Co",
+    "number": "EAS-4214",
+    "issue_date": "2026-11-05",
+    "due_date": "2026-11-20",
+    "currency": "USD",
+    "po": "",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 121500,
+    "tax_minor": 0,
+    "total_minor": 121500,
+    "bank_account": "FICT-0105-2205",
+    "tax_rate_bp": 0,
+    "line_totals_minor": [
+     112000,
+     9500
+    ]
+   }
+  },
+  "H016": {
+   "file": "heldout/documents/H016.pdf",
+   "layout": "H",
+   "fields": {
+    "vendor": "Gablemere Print Studio",
+    "number": "GAB-4215",
+    "issue_date": "2026-10-30",
+    "due_date": "2026-11-29",
+    "currency": "EUR",
+    "po": "",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 57800,
+    "tax_minor": 10982,
+    "total_minor": 68782,
+    "bank_account": "FICT-0107-2207",
+    "tax_rate_bp": 1900,
+    "line_totals_minor": [
+     28800,
+     29000
+    ]
+   }
+  },
+  "H017": {
+   "file": "heldout/documents/H017.pdf",
+   "layout": "E",
+   "fields": {
+    "vendor": "Alderbank Packaging Ltd",
+    "number": "ALD-4216",
+    "issue_date": "2026-10-24",
+    "due_date": "2026-11-23",
+    "currency": "USD",
+    "po": "",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 95330,
+    "tax_minor": 7626,
+    "total_minor": 102956,
+    "bank_account": "FICT-0101-2201",
+    "tax_rate_bp": 800,
+    "line_totals_minor": [
+     7580,
+     87750
+    ]
+   }
+  },
+  "H018": {
+   "file": "heldout/documents/H018.pdf",
+   "layout": "F",
+   "fields": {
+    "vendor": "Fernhill IT Support",
+    "number": "FER-4217",
+    "issue_date": "2026-10-16",
+    "due_date": "2026-11-15",
+    "currency": "USD",
+    "po": "",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 29400,
+    "tax_minor": 2940,
+    "total_minor": 32340,
+    "bank_account": "FICT-0106-2206",
+    "tax_rate_bp": 1000,
+    "line_totals_minor": [
+     29400
+    ]
+   }
+  },
+  "H019": {
+   "file": "heldout/documents/H019.pdf",
+   "layout": "G",
+   "fields": {
+    "vendor": "Dunmore Industrial Parts",
+    "number": "DUN-4218",
+    "issue_date": "2026-11-25",
+    "due_date": "2027-01-09",
+    "currency": "USD",
+    "po": "PO-3897",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 65700,
+    "tax_minor": 5256,
+    "total_minor": 70956,
+    "bank_account": "FICT-0104-2204",
+    "tax_rate_bp": 800,
+    "line_totals_minor": [
+     37500,
+     28200
+    ]
+   }
+  },
+  "H020": {
+   "file": "heldout/documents/H020.pdf",
+   "layout": "H",
+   "fields": {
+    "vendor": "Gablemere Print Studio",
+    "number": "GAB-4219",
+    "issue_date": "2026-10-13",
+    "due_date": "2026-11-12",
+    "currency": "EUR",
+    "po": "PO-6226",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 57800,
+    "tax_minor": 10982,
+    "total_minor": 68782,
+    "bank_account": "FICT-0107-2207",
+    "tax_rate_bp": 1900,
+    "line_totals_minor": [
+     28800,
+     29000
+    ]
+   }
+  },
+  "H021": {
+   "file": "heldout/documents/H021.pdf",
+   "layout": "E",
+   "fields": {
+    "vendor": "Gablemere Print Studio",
+    "number": "GAB-4220",
+    "issue_date": "2026-10-11",
+    "due_date": "2026-11-10",
+    "currency": "EUR",
+    "po": "",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 65000,
+    "tax_minor": 12350,
+    "total_minor": 77350,
+    "bank_account": "FICT-0107-2207",
+    "tax_rate_bp": 1900,
+    "line_totals_minor": [
+     36000,
+     29000
+    ]
+   }
+  },
+  "H022": {
+   "file": "heldout/documents/H022.pdf",
+   "layout": "F",
+   "fields": {
+    "vendor": "Hollin Insurance Brokers",
+    "number": "HOL-4221",
+    "issue_date": "2026-10-26",
+    "due_date": "2026-11-25",
+    "currency": "USD",
+    "po": "PO-8279",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 43500,
+    "tax_minor": 0,
+    "total_minor": 43500,
+    "bank_account": "FICT-0108-2208",
+    "tax_rate_bp": 0,
+    "line_totals_minor": [
+     42000,
+     1500
+    ]
+   }
+  },
+  "H023": {
+   "file": "heldout/documents/H023.pdf",
+   "layout": "G",
+   "fields": {
+    "vendor": "Eastgate Cleaning Co",
+    "number": "EAS-4222",
+    "issue_date": "2026-10-30",
+    "due_date": "2026-11-14",
+    "currency": "USD",
+    "po": "PO-5257",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 93500,
+    "tax_minor": 0,
+    "total_minor": 93500,
+    "bank_account": "FICT-0105-2205",
+    "tax_rate_bp": 0,
+    "line_totals_minor": [
+     84000,
+     9500
+    ]
+   }
+  },
+  "H024": {
+   "file": "heldout/documents/H024.pdf",
+   "layout": "H",
+   "fields": {
+    "vendor": "Gablemere Print Studio",
+    "number": "GAB-4223",
+    "issue_date": "2026-11-09",
+    "due_date": "2026-12-09",
+    "currency": "EUR",
+    "po": "",
+    "bill_to": "Birchfield Supply Co",
+    "subtotal_minor": 57800,
+    "tax_minor": 10982,
+    "total_minor": 68782,
+    "bank_account": "FICT-0107-2207",
+    "tax_rate_bp": 1900,
+    "line_totals_minor": [
+     28800,
+     29000
+    ]
+   }
+  }
+ },
+ "reconciliation": {
+  "T0001": {
+   "kind": "invoice",
+   "targets": [
+    {
+     "type": "invoice",
+     "number": "INV-2027",
+     "amount_minor": 1360000
+    }
+   ]
+  },
+  "T0002": {
+   "kind": "invoice",
+   "targets": [
+    {
+     "type": "invoice",
+     "number": "INV-2001",
+     "amount_minor": 963100
+    }
+   ]
+  },
+  "T0003": {
+   "kind": "invoice",
+   "targets": [
+    {
+     "type": "invoice",
+     "number": "INV-2050",
+     "amount_minor": 182800
+    }
+   ]
+  },
+  "T0004": {
+   "kind": "invoice",
+   "targets": [
+    {
+     "type": "invoice",
+     "number": "INV-2079",
+     "amount_minor": 477900
+    }
+   ]
+  },
+  "T0005": {
+   "kind": "invoice",
+   "targets": [
+    {
+     "type": "invoice",
+     "number": "INV-2009",
+     "amount_minor": 361800
+    }
+   ]
+  },
+  "T0006": {
+   "kind": "invoice",
+   "targets": [
+    {
+     "type": "invoice",
+     "number": "INV-2028",
+     "amount_minor": 185900
+    }
+   ]
+  },
+  "T0007": {
+   "kind": "invoice",
+   "targets": [
+    {
+     "type": "invoice",
+     "number": "INV-2069",
+     "amount_minor": 129700
+    }
+   ]
+  },
+  "T0008": {
+   "kind": "invoice",
+   "targets": [
+    {
+     "type": "invoice",
+     "number": "INV-2051",
+     "amount_minor": 132700
+    }
+   ]
+  },
+  "T0009": {
+   "kind": "invoice",
+   "targets": [
+    {
+     "type": "invoice",
+     "number": "INV-2002",
+     "amount_minor": 1365800
+    }
+   ]
+  },
+  "T0010": {
+   "kind": "invoice",
+   "targets": [
+    {
+     "type": "invoice",
+     "number": "INV-2035",
+     "amount_minor": 128500
+    }
+   ]
+  },
+  "T0011": {
+   "kind": "invoice",
+   "targets": [
+    {
+     "type": "invoice",
+     "number": "INV-2019",
+     "amount_minor": 475700
+    }
+   ]
+  },
+  "T0012": {
+   "kind": "invoice",
+   "targets": [
+    {
+     "type": "invoice",
+     "number": "INV-2010",
+     "amount_minor": 476300
+    }
+   ]
+  },
+  "T0013": {
+   "kind": "invoice",
+   "targets": [
+    {
+     "type": "invoice",
+     "number": "INV-2061",
+     "amount_minor": 361600
+    }
+   ]
+  },
+  "T0014": {
+   "kind": "invoice",
+   "targets": [
+    {
+     "type": "invoice",
+     "number": "INV-2070",
+     "amount_minor": 186100
+    }
+   ]
+  },
+  "T0015": {
+   "kind": "split",
+   "targets": [
+    {
+     "type": "invoice",
+     "number": "INV-2043",
+     "amount_minor": 1362800
+    },
+    {
+     "type": "invoice",
+     "number": "INV-2044",
+     "amount_minor": 470300
+    }
+   ]
+  },
+  "T0016": {
+   "kind": "invoice",
+   "targets": [
+    {
+     "type": "invoice",
+     "number": "INV-2011",
+     "amount_minor": 133200
+    }
+   ]
+  },
+  "T0017": {
+   "kind": "invoice",
+   "targets": [
+    {
+     "type": "invoice",
+     "number": "INV-2062",
+     "amount_minor": 468800
+    }
+   ]
+  },
+  "T0018": {
+   "kind": "invoice",
+   "targets": [
+    {
+     "type": "invoice",
+     "number": "INV-2003",
+     "amount_minor": 358400
+    }
+   ]
+  },
+  "T0019": {
+   "kind": "invoice",
+   "targets": [
+    {
+     "type": "invoice",
+     "number": "INV-2029",
+     "amount_minor": 675700
+    }
+   ]
+  },
+  "T0020": {
+   "kind": "invoice",
+   "targets": [
+    {
+     "type": "invoice",
+     "number": "INV-2020",
+     "amount_minor": 682500
+    }
+   ]
+  },
+  "T0021": {
+   "kind": "invoice",
+   "targets": [
+    {
+     "type": "invoice",
+     "number": "INV-2080",
+     "amount_minor": 678100
+    }
+   ]
+  },
+  "T0022": {
+   "kind": "invoice",
+   "targets": [
+    {
+     "type": "invoice",
+     "number": "INV-2052",
+     "amount_minor": 1367700
+    }
+   ]
+  },
+  "T0023": {
+   "kind": "invoice",
+   "targets": [
+    {
+     "type": "invoice",
+     "number": "INV-2071",
+     "amount_minor": 962200
+    }
+   ]
+  },
+  "T0024": {
+   "kind": "invoice",
+   "targets": [
+    {
+     "type": "invoice",
+     "number": "INV-2004",
+     "amount_minor": 1359500
+    }
+   ]
+  },
+  "T0025": {
+   "kind": "invoice",
+   "targets": [
+    {
+     "type": "invoice",
+     "number": "INV-2063",
+     "amount_minor": 128600
+    }
+   ]
+  },
+  "T0026": {
+   "kind": "invoice",
+   "targets": [
+    {
+     "type": "invoice",
+     "number": "INV-2012",
+     "amount_minor": 681700
+    }
+   ]
+  },
+  "T0027": {
+   "kind": "invoice",
+   "targets": [
+    {
+     "type": "invoice",
+     "number": "INV-2081",
+     "amount_minor": 189400
+    }
+   ]
+  },
+  "T0028": {
+   "kind": "invoice",
+   "targets": [
+    {
+     "type": "invoice",
+     "number": "INV-2036",
+     "amount_minor": 468400
+    }
+   ]
+  },
+  "T0029": {
+   "kind": "invoice",
+   "targets": [
+    {
+     "type": "invoice",
+     "number": "INV-2053",
+     "amount_minor": 359500
+    }
+   ]
+  },
+  "T0030": {
+   "kind": "invoice",
+   "targets": [
+    {
+     "type": "invoice",
+     "number": "INV-2030",
+     "amount_minor": 675400
+    }
+   ]
+  },
+  "T0031": {
+   "kind": "invoice",
+   "targets": [
+    {
+     "type": "invoice",
+     "number": "INV-2072",
+     "amount_minor": 183300
+    }
+   ]
+  },
+  "T0032": {
+   "kind": "invoice",
+   "targets": [
+    {
+     "type": "invoice",
+     "number": "INV-2021",
+     "amount_minor": 1358100
+    }
+   ]
+  },
+  "T0033": {
+   "kind": "invoice",
+   "targets": [
+    {
+     "type": "invoice",
+     "number": "INV-2054",
+     "amount_minor": 1363600
+    }
+   ]
+  },
+  "T0034": {
+   "kind": "invoice",
+   "targets": [
+    {
+     "type": "invoice",
+     "number": "INV-2031",
+     "amount_minor": 1364300
+    }
+   ]
+  },
+  "T0035": {
+   "kind": "invoice",
+   "targets": [
+    {
+     "type": "invoice",
+     "number": "INV-2037",
+     "amount_minor": 675600
+    }
+   ]
+  },
+  "T0036": {
+   "kind": "invoice",
+   "targets": [
+    {
+     "type": "invoice",
+     "number": "INV-2013",
+     "amount_minor": 1366700
+    }
+   ]
+  },
+  "T0037": {
+   "kind": "invoice",
+   "targets": [
+    {
+     "type": "invoice",
+     "number": "INV-2082",
+     "amount_minor": 676900
+    }
+   ]
+  },
+  "T0038": {
+   "kind": "invoice",
+   "targets": [
+    {
+     "type": "invoice",
+     "number": "INV-2055",
+     "amount_minor": 960300
+    }
+   ]
+  },
+  "T0039": {
+   "kind": "invoice",
+   "targets": [
+    {
+     "type": "invoice",
+     "number": "INV-2073",
+     "amount_minor": 188600
+    }
+   ]
+  },
+  "T0040": {
+   "kind": "invoice",
+   "targets": [
+    {
+     "type": "invoice",
+     "number": "INV-2045",
+     "amount_minor": 181100
+    }
+   ]
+  },
+  "T0041": {
+   "kind": "invoice",
+   "targets": [
+    {
+     "type": "invoice",
+     "number": "INV-2038",
+     "amount_minor": 133900
+    }
+   ]
+  },
+  "T0042": {
+   "kind": "invoice",
+   "targets": [
+    {
+     "type": "invoice",
+     "number": "INV-2005",
+     "amount_minor": 960100
+    }
+   ]
+  },
+  "T0043": {
+   "kind": "invoice",
+   "targets": [
+    {
+     "type": "invoice",
+     "number": "INV-2032",
+     "amount_minor": 969200
+    }
+   ]
+  },
+  "T0044": {
+   "kind": "invoice",
+   "targets": [
+    {
+     "type": "invoice",
+     "number": "INV-2083",
+     "amount_minor": 472500
+    }
+   ]
+  },
+  "T0045": {
+   "kind": "invoice",
+   "targets": [
+    {
+     "type": "invoice",
+     "number": "INV-2074",
+     "amount_minor": 361100
+    }
+   ]
+  },
+  "T0046": {
+   "kind": "invoice",
+   "targets": [
+    {
+     "type": "invoice",
+     "number": "INV-2064",
+     "amount_minor": 358900
+    }
+   ]
+  },
+  "T0047": {
+   "kind": "split",
+   "targets": [
+    {
+     "type": "invoice",
+     "number": "INV-2014",
+     "amount_minor": 473100
+    },
+    {
+     "type": "invoice",
+     "number": "INV-2015",
+     "amount_minor": 477200
+    }
+   ]
+  },
+  "T0048": {
+   "kind": "invoice",
+   "targets": [
+    {
+     "type": "invoice",
+     "number": "INV-2022",
+     "amount_minor": 131100
+    }
+   ]
+  },
+  "T0049": {
+   "kind": "invoice",
+   "targets": [
+    {
+     "type": "invoice",
+     "number": "INV-2039",
+     "amount_minor": 469400
+    }
+   ]
+  },
+  "T0050": {
+   "kind": "invoice",
+   "targets": [
+    {
+     "type": "invoice",
+     "number": "INV-2056",
+     "amount_minor": 470800
+    }
+   ]
+  },
+  "T0051": {
+   "kind": "invoice",
+   "targets": [
+    {
+     "type": "invoice",
+     "number": "INV-2023",
+     "amount_minor": 477000
+    }
+   ]
+  },
+  "T0052": {
+   "kind": "invoice",
+   "targets": [
+    {
+     "type": "invoice",
+     "number": "INV-2065",
+     "amount_minor": 679900
+    }
+   ]
+  },
+  "T0053": {
+   "kind": "invoice",
+   "targets": [
+    {
+     "type": "invoice",
+     "number": "INV-2075",
+     "amount_minor": 967400
+    }
+   ]
+  },
+  "T0054": {
+   "kind": "invoice",
+   "targets": [
+    {
+     "type": "invoice",
+     "number": "INV-2040",
+     "amount_minor": 131300
+    }
+   ]
+  },
+  "T0055": {
+   "kind": "invoice",
+   "targets": [
+    {
+     "type": "invoice",
+     "number": "INV-2046",
+     "amount_minor": 183100
+    }
+   ]
+  },
+  "T0056": {
+   "kind": "invoice",
+   "targets": [
+    {
+     "type": "invoice",
+     "number": "INV-2057",
+     "amount_minor": 682200
+    }
+   ]
+  },
+  "T0057": {
+   "kind": "invoice",
+   "targets": [
+    {
+     "type": "invoice",
+     "number": "INV-2084",
+     "amount_minor": 361300
+    }
+   ]
+  },
+  "T0058": {
+   "kind": "invoice",
+   "targets": [
+    {
+     "type": "invoice",
+     "number": "INV-2024",
+     "amount_minor": 189700
+    }
+   ]
+  },
+  "T0059": {
+   "kind": "invoice",
+   "targets": [
+    {
+     "type": "invoice",
+     "number": "INV-2016",
+     "amount_minor": 187800
+    }
+   ]
+  },
+  "T0060": {
+   "kind": "invoice",
+   "targets": [
+    {
+     "type": "invoice",
+     "number": "INV-2058",
+     "amount_minor": 681200
+    }
+   ]
+  },
+  "T0061": {
+   "kind": "invoice",
+   "targets": [
+    {
+     "type": "invoice",
+     "number": "INV-2047",
+     "amount_minor": 363200
+    }
+   ]
+  },
+  "T0062": {
+   "kind": "invoice",
+   "targets": [
+    {
+     "type": "invoice",
+     "number": "INV-2076",
+     "amount_minor": 128200
+    }
+   ]
+  },
+  "T0063": {
+   "kind": "invoice",
+   "targets": [
+    {
+     "type": "invoice",
+     "number": "INV-2067",
+     "amount_minor": 132000
+    }
+   ]
+  },
+  "T0064": {
+   "kind": "invoice",
+   "targets": [
+    {
+     "type": "invoice",
+     "number": "INV-2007",
+     "amount_minor": 681300
+    }
+   ]
+  },
+  "T0065": {
+   "kind": "invoice",
+   "targets": [
+    {
+     "type": "invoice",
+     "number": "INV-2059",
+     "amount_minor": 360100
+    }
+   ]
+  },
+  "T0066": {
+   "kind": "invoice",
+   "targets": [
+    {
+     "type": "invoice",
+     "number": "INV-2048",
+     "amount_minor": 1363300
+    }
+   ]
+  },
+  "T0067": {
+   "kind": "invoice",
+   "targets": [
+    {
+     "type": "invoice",
+     "number": "INV-2034",
+     "amount_minor": 1363600
+    }
+   ]
+  },
+  "T0068": {
+   "kind": "invoice",
+   "targets": [
+    {
+     "type": "invoice",
+     "number": "INV-2077",
+     "amount_minor": 135700
+    }
+   ]
+  },
+  "T0069": {
+   "kind": "invoice",
+   "targets": [
+    {
+     "type": "invoice",
+     "number": "INV-2008",
+     "amount_minor": 238250
+    }
+   ]
+  },
+  "T0070": {
+   "kind": "invoice",
+   "targets": [
+    {
+     "type": "invoice",
+     "number": "INV-2017",
+     "amount_minor": 681700
+    }
+   ]
+  },
+  "T0071": {
+   "kind": "bill",
+   "targets": [
+    {
+     "type": "bill",
+     "number": "01-5001",
+     "amount_minor": 125145
+    }
+   ]
+  },
+  "T0072": {
+   "kind": "bill",
+   "targets": [
+    {
+     "type": "bill",
+     "number": "01-5002",
+     "amount_minor": 77760
+    }
+   ]
+  },
+  "T0073": {
+   "kind": "bill",
+   "targets": [
+    {
+     "type": "bill",
+     "number": "01-5003",
+     "amount_minor": 75460
+    }
+   ]
+  },
+  "T0074": {
+   "kind": "bill",
+   "targets": [
+    {
+     "type": "bill",
+     "number": "01-5004",
+     "amount_minor": 121630
+    }
+   ]
+  },
+  "T0075": {
+   "kind": "bill",
+   "targets": [
+    {
+     "type": "bill",
+     "number": "01-5005",
+     "amount_minor": 109820
+    }
+   ]
+  },
+  "T0076": {
+   "kind": "bill",
+   "targets": [
+    {
+     "type": "bill",
+     "number": "01-5006",
+     "amount_minor": 185171
+    }
+   ]
+  },
+  "T0077": {
+   "kind": "bill",
+   "targets": [
+    {
+     "type": "bill",
+     "number": "02-5007",
+     "amount_minor": 17400
+    }
+   ]
+  },
+  "T0078": {
+   "kind": "bill",
+   "targets": [
+    {
+     "type": "bill",
+     "number": "02-5008",
+     "amount_minor": 15000
+    }
+   ]
+  },
+  "T0079": {
+   "kind": "bill",
+   "targets": [
+    {
+     "type": "bill",
+     "number": "02-5009",
+     "amount_minor": 17550
+    }
+   ]
+  },
+  "T0080": {
+   "kind": "bill",
+   "targets": [
+    {
+     "type": "bill",
+     "number": "02-5010",
+     "amount_minor": 22500
+    }
+   ]
+  },
+  "T0081": {
+   "kind": "bill",
+   "targets": [
+    {
+     "type": "bill",
+     "number": "02-5011",
+     "amount_minor": 14400
+    }
+   ]
+  },
+  "T0082": {
+   "kind": "bill",
+   "targets": [
+    {
+     "type": "bill",
+     "number": "02-5012",
+     "amount_minor": 17250
+    }
+   ]
+  },
+  "T0083": {
+   "kind": "bill",
+   "targets": [
+    {
+     "type": "bill",
+     "number": "03-5013",
+     "amount_minor": 24717
+    }
+   ]
+  },
+  "T0084": {
+   "kind": "bill",
+   "targets": [
+    {
+     "type": "bill",
+     "number": "03-5014",
+     "amount_minor": 30121
+    }
+   ]
+  },
+  "T0085": {
+   "kind": "bill",
+   "targets": [
+    {
+     "type": "bill",
+     "number": "03-5015",
+     "amount_minor": 37825
+    }
+   ]
+  },
+  "T0086": {
+   "kind": "bill",
+   "targets": [
+    {
+     "type": "bill",
+     "number": "03-5016",
+     "amount_minor": 34775
+    }
+   ]
+  },
+  "T0087": {
+   "kind": "bill",
+   "targets": [
+    {
+     "type": "bill",
+     "number": "03-5017",
+     "amount_minor": 33224
+    }
+   ]
+  },
+  "T0088": {
+   "kind": "bill",
+   "targets": [
+    {
+     "type": "bill",
+     "number": "03-5018",
+     "amount_minor": 28837
+    }
+   ]
+  },
+  "T0089": {
+   "kind": "bill",
+   "targets": [
+    {
+     "type": "bill",
+     "number": "04-5019",
+     "amount_minor": 61560
+    }
+   ]
+  },
+  "T0090": {
+   "kind": "bill",
+   "targets": [
+    {
+     "type": "bill",
+     "number": "04-5020",
+     "amount_minor": 53784
+    }
+   ]
+  },
+  "T0091": {
+   "kind": "bill",
+   "targets": [
+    {
+     "type": "bill",
+     "number": "04-5021",
+     "amount_minor": 61236
+    }
+   ]
+  },
+  "T0092": {
+   "kind": "bill",
+   "targets": [
+    {
+     "type": "bill",
+     "number": "04-5022",
+     "amount_minor": 70956
+    }
+   ]
+  },
+  "T0093": {
+   "kind": "bill",
+   "targets": [
+    {
+     "type": "bill",
+     "number": "04-5023",
+     "amount_minor": 60890
+    }
+   ]
+  },
+  "T0094": {
+   "kind": "bill",
+   "targets": [
+    {
+     "type": "bill",
+     "number": "04-5024",
+     "amount_minor": 56084
+    }
+   ]
+  },
+  "T0095": {
+   "kind": "bill",
+   "targets": [
+    {
+     "type": "bill",
+     "number": "05-5025",
+     "amount_minor": 121500
+    }
+   ]
+  },
+  "T0096": {
+   "kind": "bill",
+   "targets": [
+    {
+     "type": "bill",
+     "number": "05-5026",
+     "amount_minor": 149500
+    }
+   ]
+  },
+  "T0097": {
+   "kind": "bill",
+   "targets": [
+    {
+     "type": "bill",
+     "number": "05-5027",
+     "amount_minor": 177500
+    }
+   ]
+  },
+  "T0098": {
+   "kind": "bill",
+   "targets": [
+    {
+     "type": "bill",
+     "number": "05-5028",
+     "amount_minor": 149500
+    }
+   ]
+  },
+  "T0099": {
+   "kind": "bill",
+   "targets": [
+    {
+     "type": "bill",
+     "number": "05-5029",
+     "amount_minor": 149500
+    }
+   ]
+  },
+  "T0100": {
+   "kind": "bill",
+   "targets": [
+    {
+     "type": "bill",
+     "number": "05-5030",
+     "amount_minor": 149500
+    }
+   ]
+  },
+  "T0101": {
+   "kind": "bill",
+   "targets": [
+    {
+     "type": "bill",
+     "number": "06-5031",
+     "amount_minor": 26950
+    }
+   ]
+  },
+  "T0102": {
+   "kind": "bill",
+   "targets": [
+    {
+     "type": "bill",
+     "number": "06-5032",
+     "amount_minor": 26950
+    }
+   ]
+  },
+  "T0103": {
+   "kind": "bill",
+   "targets": [
+    {
+     "type": "bill",
+     "number": "06-5033",
+     "amount_minor": 26950
+    }
+   ]
+  },
+  "T0104": {
+   "kind": "bill",
+   "targets": [
+    {
+     "type": "bill",
+     "number": "06-5034",
+     "amount_minor": 32340
+    }
+   ]
+  },
+  "T0105": {
+   "kind": "bill",
+   "targets": [
+    {
+     "type": "bill",
+     "number": "06-5035",
+     "amount_minor": 16170
+    }
+   ]
+  },
+  "T0106": {
+   "kind": "bill",
+   "targets": [
+    {
+     "type": "bill",
+     "number": "06-5036",
+     "amount_minor": 37730
+    }
+   ]
+  },
+  "T0107": {
+   "kind": "bill",
+   "targets": [
+    {
+     "type": "bill",
+     "number": "07-5037",
+     "amount_minor": 65031
+    }
+   ]
+  },
+  "T0108": {
+   "kind": "bill",
+   "targets": [
+    {
+     "type": "bill",
+     "number": "07-5038",
+     "amount_minor": 92791
+    }
+   ]
+  },
+  "T0109": {
+   "kind": "bill",
+   "targets": [
+    {
+     "type": "bill",
+     "number": "07-5039",
+     "amount_minor": 74285
+    }
+   ]
+  },
+  "T0110": {
+   "kind": "bill",
+   "targets": [
+    {
+     "type": "bill",
+     "number": "07-5040",
+     "amount_minor": 74285
+    }
+   ]
+  },
+  "T0111": {
+   "kind": "bill",
+   "targets": [
+    {
+     "type": "bill",
+     "number": "07-5041",
+     "amount_minor": 55778
+    }
+   ]
+  },
+  "T0112": {
+   "kind": "bill",
+   "targets": [
+    {
+     "type": "bill",
+     "number": "07-5042",
+     "amount_minor": 55778
+    }
+   ]
+  },
+  "T0113": {
+   "kind": "bill",
+   "targets": [
+    {
+     "type": "bill",
+     "number": "08-5043",
+     "amount_minor": 43500
+    }
+   ]
+  },
+  "T0114": {
+   "kind": "bill",
+   "targets": [
+    {
+     "type": "bill",
+     "number": "08-5044",
+     "amount_minor": 43500
+    }
+   ]
+  },
+  "T0115": {
+   "kind": "bill",
+   "targets": [
+    {
+     "type": "bill",
+     "number": "08-5045",
+     "amount_minor": 43500
+    }
+   ]
+  },
+  "T0116": {
+   "kind": "bill",
+   "targets": [
+    {
+     "type": "bill",
+     "number": "08-5046",
+     "amount_minor": 43500
+    }
+   ]
+  },
+  "T0117": {
+   "kind": "bill",
+   "targets": [
+    {
+     "type": "bill",
+     "number": "08-5047",
+     "amount_minor": 43500
+    }
+   ]
+  },
+  "T0118": {
+   "kind": "bill",
+   "targets": [
+    {
+     "type": "bill",
+     "number": "08-5048",
+     "amount_minor": 43500
+    }
+   ]
+  },
+  "T0119": {
+   "kind": "recurring",
+   "targets": [
+    {
+     "type": "recurring",
+     "name": "Rent"
+    }
+   ]
+  },
+  "T0120": {
+   "kind": "recurring",
+   "targets": [
+    {
+     "type": "recurring",
+     "name": "Rent"
+    }
+   ]
+  },
+  "T0121": {
+   "kind": "recurring",
+   "targets": [
+    {
+     "type": "recurring",
+     "name": "Rent"
+    }
+   ]
+  },
+  "T0122": {
+   "kind": "recurring",
+   "targets": [
+    {
+     "type": "recurring",
+     "name": "Rent"
+    }
+   ]
+  },
+  "T0123": {
+   "kind": "recurring",
+   "targets": [
+    {
+     "type": "recurring",
+     "name": "Rent"
+    }
+   ]
+  },
+  "T0124": {
+   "kind": "recurring",
+   "targets": [
+    {
+     "type": "recurring",
+     "name": "Rent"
+    }
+   ]
+  },
+  "T0125": {
+   "kind": "recurring",
+   "targets": [
+    {
+     "type": "recurring",
+     "name": "Rent"
+    }
+   ]
+  },
+  "T0126": {
+   "kind": "recurring",
+   "targets": [
+    {
+     "type": "recurring",
+     "name": "Rent"
+    }
+   ]
+  },
+  "T0127": {
+   "kind": "recurring",
+   "targets": [
+    {
+     "type": "recurring",
+     "name": "Rent"
+    }
+   ]
+  },
+  "T0128": {
+   "kind": "recurring",
+   "targets": [
+    {
+     "type": "recurring",
+     "name": "Rent"
+    }
+   ]
+  },
+  "T0129": {
+   "kind": "recurring",
+   "targets": [
+    {
+     "type": "recurring",
+     "name": "Rent"
+    }
+   ]
+  },
+  "T0130": {
+   "kind": "recurring",
+   "targets": [
+    {
+     "type": "recurring",
+     "name": "Rent"
+    }
+   ]
+  },
+  "T0131": {
+   "kind": "recurring",
+   "targets": [
+    {
+     "type": "recurring",
+     "name": "Payroll"
+    }
+   ]
+  },
+  "T0132": {
+   "kind": "recurring",
+   "targets": [
+    {
+     "type": "recurring",
+     "name": "Payroll"
+    }
+   ]
+  },
+  "T0133": {
+   "kind": "recurring",
+   "targets": [
+    {
+     "type": "recurring",
+     "name": "Payroll"
+    }
+   ]
+  },
+  "T0134": {
+   "kind": "recurring",
+   "targets": [
+    {
+     "type": "recurring",
+     "name": "Payroll"
+    }
+   ]
+  },
+  "T0135": {
+   "kind": "recurring",
+   "targets": [
+    {
+     "type": "recurring",
+     "name": "Payroll"
+    }
+   ]
+  },
+  "T0136": {
+   "kind": "recurring",
+   "targets": [
+    {
+     "type": "recurring",
+     "name": "Payroll"
+    }
+   ]
+  },
+  "T0137": {
+   "kind": "recurring",
+   "targets": [
+    {
+     "type": "recurring",
+     "name": "Payroll"
+    }
+   ]
+  },
+  "T0138": {
+   "kind": "recurring",
+   "targets": [
+    {
+     "type": "recurring",
+     "name": "Payroll"
+    }
+   ]
+  },
+  "T0139": {
+   "kind": "recurring",
+   "targets": [
+    {
+     "type": "recurring",
+     "name": "Payroll"
+    }
+   ]
+  },
+  "T0140": {
+   "kind": "recurring",
+   "targets": [
+    {
+     "type": "recurring",
+     "name": "Payroll"
+    }
+   ]
+  },
+  "T0141": {
+   "kind": "recurring",
+   "targets": [
+    {
+     "type": "recurring",
+     "name": "Payroll"
+    }
+   ]
+  },
+  "T0142": {
+   "kind": "recurring",
+   "targets": [
+    {
+     "type": "recurring",
+     "name": "Payroll"
+    }
+   ]
+  },
+  "T0143": {
+   "kind": "recurring",
+   "targets": [
+    {
+     "type": "recurring",
+     "name": "Payroll"
+    }
+   ]
+  },
+  "T0144": {
+   "kind": "recurring",
+   "targets": [
+    {
+     "type": "recurring",
+     "name": "Payroll"
+    }
+   ]
+  },
+  "T0145": {
+   "kind": "recurring",
+   "targets": [
+    {
+     "type": "recurring",
+     "name": "Payroll"
+    }
+   ]
+  },
+  "T0146": {
+   "kind": "recurring",
+   "targets": [
+    {
+     "type": "recurring",
+     "name": "Payroll"
+    }
+   ]
+  },
+  "T0147": {
+   "kind": "recurring",
+   "targets": [
+    {
+     "type": "recurring",
+     "name": "Payroll"
+    }
+   ]
+  },
+  "T0148": {
+   "kind": "recurring",
+   "targets": [
+    {
+     "type": "recurring",
+     "name": "Payroll"
+    }
+   ]
+  },
+  "T0149": {
+   "kind": "recurring",
+   "targets": [
+    {
+     "type": "recurring",
+     "name": "Payroll"
+    }
+   ]
+  },
+  "T0150": {
+   "kind": "recurring",
+   "targets": [
+    {
+     "type": "recurring",
+     "name": "Payroll"
+    }
+   ]
+  },
+  "T0151": {
+   "kind": "recurring",
+   "targets": [
+    {
+     "type": "recurring",
+     "name": "Payroll"
+    }
+   ]
+  },
+  "T0152": {
+   "kind": "recurring",
+   "targets": [
+    {
+     "type": "recurring",
+     "name": "Payroll"
+    }
+   ]
+  },
+  "T0153": {
+   "kind": "recurring",
+   "targets": [
+    {
+     "type": "recurring",
+     "name": "Payroll"
+    }
+   ]
+  },
+  "T0154": {
+   "kind": "recurring",
+   "targets": [
+    {
+     "type": "recurring",
+     "name": "Payroll"
+    }
+   ]
+  },
+  "T0155": {
+   "kind": "recurring",
+   "targets": [
+    {
+     "type": "recurring",
+     "name": "Software subscription"
+    }
+   ]
+  },
+  "T0156": {
+   "kind": "recurring",
+   "targets": [
+    {
+     "type": "recurring",
+     "name": "Software subscription"
+    }
+   ]
+  },
+  "T0157": {
+   "kind": "recurring",
+   "targets": [
+    {
+     "type": "recurring",
+     "name": "Software subscription"
+    }
+   ]
+  },
+  "T0158": {
+   "kind": "recurring",
+   "targets": [
+    {
+     "type": "recurring",
+     "name": "Software subscription"
+    }
+   ]
+  },
+  "T0159": {
+   "kind": "recurring",
+   "targets": [
+    {
+     "type": "recurring",
+     "name": "Software subscription"
+    }
+   ]
+  },
+  "T0160": {
+   "kind": "recurring",
+   "targets": [
+    {
+     "type": "recurring",
+     "name": "Software subscription"
+    }
+   ]
+  },
+  "T0161": {
+   "kind": "recurring",
+   "targets": [
+    {
+     "type": "recurring",
+     "name": "Software subscription"
+    }
+   ]
+  },
+  "T0162": {
+   "kind": "recurring",
+   "targets": [
+    {
+     "type": "recurring",
+     "name": "Software subscription"
+    }
+   ]
+  },
+  "T0163": {
+   "kind": "recurring",
+   "targets": [
+    {
+     "type": "recurring",
+     "name": "Software subscription"
+    }
+   ]
+  },
+  "T0164": {
+   "kind": "recurring",
+   "targets": [
+    {
+     "type": "recurring",
+     "name": "Software subscription"
+    }
+   ]
+  },
+  "T0165": {
+   "kind": "recurring",
+   "targets": [
+    {
+     "type": "recurring",
+     "name": "Software subscription"
+    }
+   ]
+  },
+  "T0166": {
+   "kind": "recurring",
+   "targets": [
+    {
+     "type": "recurring",
+     "name": "Software subscription"
+    }
+   ]
+  },
+  "T0167": {
+   "kind": "recurring",
+   "targets": [
+    {
+     "type": "recurring",
+     "name": "Bank fee"
+    }
+   ]
+  },
+  "T0168": {
+   "kind": "recurring",
+   "targets": [
+    {
+     "type": "recurring",
+     "name": "Bank fee"
+    }
+   ]
+  },
+  "T0169": {
+   "kind": "recurring",
+   "targets": [
+    {
+     "type": "recurring",
+     "name": "Bank fee"
+    }
+   ]
+  },
+  "T0170": {
+   "kind": "recurring",
+   "targets": [
+    {
+     "type": "recurring",
+     "name": "Bank fee"
+    }
+   ]
+  },
+  "T0171": {
+   "kind": "recurring",
+   "targets": [
+    {
+     "type": "recurring",
+     "name": "Bank fee"
+    }
+   ]
+  },
+  "T0172": {
+   "kind": "recurring",
+   "targets": [
+    {
+     "type": "recurring",
+     "name": "Bank fee"
+    }
+   ]
+  },
+  "T0173": {
+   "kind": "recurring",
+   "targets": [
+    {
+     "type": "recurring",
+     "name": "Bank fee"
+    }
+   ]
+  },
+  "T0174": {
+   "kind": "recurring",
+   "targets": [
+    {
+     "type": "recurring",
+     "name": "Bank fee"
+    }
+   ]
+  },
+  "T0175": {
+   "kind": "recurring",
+   "targets": [
+    {
+     "type": "recurring",
+     "name": "Bank fee"
+    }
+   ]
+  },
+  "T0176": {
+   "kind": "recurring",
+   "targets": [
+    {
+     "type": "recurring",
+     "name": "Bank fee"
+    }
+   ]
+  },
+  "T0177": {
+   "kind": "recurring",
+   "targets": [
+    {
+     "type": "recurring",
+     "name": "Bank fee"
+    }
+   ]
+  },
+  "T0178": {
+   "kind": "recurring",
+   "targets": [
+    {
+     "type": "recurring",
+     "name": "Bank fee"
+    }
+   ]
+  },
+  "T0179": {
+   "kind": "duplicate",
+   "targets": [],
+   "duplicate_of": "T0011"
+  },
+  "T0180": {
+   "kind": "duplicate",
+   "targets": [],
+   "duplicate_of": "T0061"
+  },
+  "T0181": {
+   "kind": "duplicate",
+   "targets": [],
+   "duplicate_of": "T0141"
+  },
+  "T0182": {
+   "kind": "none",
+   "targets": []
+  },
+  "T0183": {
+   "kind": "none",
+   "targets": []
+  },
+  "T0184": {
+   "kind": "none",
+   "targets": []
+  }
+ },
+ "aging": {
+  "as_of": "2026-12-01",
+  "buckets_minor": {
+   "current": 3129550,
+   "1-30": 3847500,
+   "31-60": 3078800,
+   "61-90": 475200,
+   "90+": 0
+  }
+ },
+ "collections": {
+  "promises": [
+   {
+    "invoice": "INV-2006",
+    "promised_on": "2026-12-06",
+    "amount_minor": 475200,
+    "status": "open"
+   },
+   {
+    "invoice": "INV-2066",
+    "promised_on": "2026-12-13",
+    "amount_minor": 1361200,
+    "status": "open"
+   },
+   {
+    "invoice": "INV-2033",
+    "promised_on": "2026-11-25",
+    "amount_minor": 358300,
+    "status": "broken"
+   }
+  ],
+  "disputes": [
+   "INV-2049",
+   "INV-2078"
+  ],
+  "bankruptcy_customers": [
+   "C03"
+  ],
+  "opt_out_customers": [
+   "C05"
+  ]
+ }
+}

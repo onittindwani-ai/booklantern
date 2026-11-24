@@ -1,0 +1,25 @@
+DELMAR INDUSTRIAL SUPPLY CORP.
+1200 Example Parkway
+Dayton, OH 45402
+Fax (937) 555-0188
+
+                                              CREDIT NOTE
+
+Invoice No     88104955                       Bill To:
+Invoice Date   Oct 26, 2026                   Harbourline Outdoor Supply Ltd
+Due Date       Nov 25, 2026                   12 Quay Street
+Payment Terms  2/10 net 30                    Bristol BS1 4XX
+PO Number      PO-77162                       United Kingdom
+Customer No    HLS-4410
+
+Credit against invoice 88103451
+Code     Description                                    Qty  Unit Price    Amount
+---------------------------------------------------------------------------------
+HB-3816  Return: hex bolt 3/8-16 x 2in, wrong grade  10 box       11.40  (114.00)
+
+                                                        Subtotal        ($114.00)
+                                                        Sales Tax 6.5%    ($7.41)
+                                                        AMOUNT DUE      ($121.41)
+
+Bank details: Fictional Test Bank NA
+Routing 000000000  Account 000055566677

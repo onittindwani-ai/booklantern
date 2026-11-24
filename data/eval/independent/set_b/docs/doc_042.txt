@@ -1,0 +1,35 @@
+TAX INVOICE
+
+Indigo Bay Foods Pvt Ltd
+Survey 22, Example Road
+Pune 411001, Maharashtra
+GSTIN : 99ZZZZZ0002Z2Z2
+
+
+Invoice No.   : IBF/2026/1190                       Buyer (Bill to)
+Dated         : 19-10-2026                          Harbourline Outdoor Supply Ltd
+Mode/Terms of Payment : Net 15 days                 12 Quay Street
+                                                    Bristol BS1 4XX
+Place of Supply : Karnataka (29)                    United Kingdom
+                                                    GSTIN/UIN : 99ZZZZZ0000Z9Z9
+
+Sl  Description of Goods              HSN/SAC  Quantity      Rate       Amount
+------------------------------------------------------------------------------
+ 1  Basmati rice 25kg bag             100630     80 BAG  2,150.00  1,72,000.00
+ 2  Cold pressed mustard oil 15L tin  151411     24 TIN  2,890.00    69,360.00
+
+                                                   Taxable Value  ₹2,41,360.00
+                                                   CGST @ 2.5%       ₹6,034.00
+                                                   SGST @ 2.5%       ₹6,034.00
+                                                   Total Tax        ₹12,068.00
+                                                   Grand Total    ₹2,53,428.00
+
+Amount Chargeable (in words): Indian Rupees Two Lakh Fifty Three Thousand Four Hundred and Twenty Eight Only
+Tax Amount (in words): Indian Rupees Twelve Thousand Sixty Eight Only
+
+
+Declaration: We declare that this invoice shows the actual price of the goods described.
+
+Bank details: Fictional Test Bank of India
+A/c No. 000000000002  IFSC TEST0000002
+This is a Computer Generated Invoice

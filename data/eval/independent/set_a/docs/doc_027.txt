@@ -1,0 +1,27 @@
+FJORD FREIGHT AS    Page 1 of 1
+INVOICE FF-2026-11990   29.10.2026
+
+Kaigata 5
+5003 Bergen
+Norway
+Org.nr 000 000 001 MVA
+
+Invoice No     FF-2026-11990                      Bill To
+Invoice Date   29.10.2026                         Harbourline Outdoor Supply Ltd
+Due Date       19.11.2026                         12 Quay Street
+Payment Terms  Net 21 days                        Bristol BS1 4XX
+Account No     HOS-17                             United Kingdom
+
+
+Description                          Qty  Unit Price  Amount
+------------------------------------------------------------
+Customs clearance and documentation    1      420,00  420,00
+Port handling Bristol                  1      310,00  310,00
+
+                                        Subtotal  730,00 EUR
+                                        MVA 25%   182,50 EUR
+                                        TOTAL     912,50 EUR
+
+
+Bank details: Fiktiv Testbank ASA
+IBAN NO00 0000 0000 001

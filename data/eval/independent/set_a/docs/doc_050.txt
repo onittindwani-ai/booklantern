@@ -1,0 +1,31 @@
+TALLIS FUEL SERVICES
+Dock Road, Cork
+Ireland
+VAT IE0000001A
+
+INVOICE / Tax receipt
+
+Invoice No     TFS-0090412                        Bill To
+Invoice Date   03/10/2026                         Harbourline Outdoor Supply Ltd
+Due Date       03/10/2026                         12 Quay Street
+Payment Terms  Due on receipt                     Bristol BS1 4XX
+Account No     TF-018                             United Kingdom
+
+
+Description      Qty  Price incl. VAT     Total
+-----------------------------------------------
+Diesel, white  820 l            1.789  1,466.98
+Lubricant 5L    2 ea            28.50     57.00
+
+                TOTAL (VAT included)  €1,523.98
+
+VAT summary (amounts include VAT)
+Rate      Gross      VAT        Net
+-----------------------------------
+23%   €1,523.98  €284.97  €1,239.01
+
+Pump 4   Card ending 0000   Auth 004411
+Fuel savings points this year: 2,410
+
+Bank details: Fictional Test Bank DAC
+IBAN IE00 FAKE 0000 0000 0001 01

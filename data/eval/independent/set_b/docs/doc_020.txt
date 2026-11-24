@@ -1,0 +1,16 @@
+                         DUNMORE BAKERY EQUIPMENT CO.
+                              4400 Example Blvd
+                               Omaha, NE 68102
+******************************************************************************
+INV NO 0049377        DATE 11/13/26     TERMS NET30         
+SOLD TO: Harbourline Outdoor Supply Ltd, 12 Quay Street, Bristol BS1 4XX, United Kingdom
+******************************************************************************
+
+  QTY  ITEM DESCRIPTION                           UNIT       EXTENDED
+    6  DECK OVEN STONE, 24X24                   133.00         798.00
+   12  OVEN THERMOMETER                          18.40         220.80
+------------------------------------------------------------------------------
+                                                 MERCHANDISE        $1,018.80
+                                                SALES TAX 7%           $71.32
+                                               INVOICE TOTAL        $1,065.12
+******************************************************************************

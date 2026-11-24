@@ -1,0 +1,31 @@
+ORCHID TECH COMPONENTS PTE LTD
+21 Example Link, #04-12
+Singapore 000021
+GST Reg No: M0-0000001-0
+Tel +65 5550 0123
+
+                                              INVOICE
+
+Invoice No     OTC/26/09/1184                 Bill To:
+Invoice Date   18-Sep-2026                    Harbourline Outdoor Supply Limited
+Due Date       02-Nov-2026                    12 Quay Street
+Payment Terms  Net 45                         Bristol BS1 4XX
+PO Number      PO-77155                       United Kingdom
+Customer Code  OT-3380
+
+Code     Description                             Qty  Unit Price    Amount
+--------------------------------------------------------------------------
+CAP-100  Capacitor 100uF 25V, reel of 2000    6 reel       88.00    528.00
+MCU-M4   Microcontroller ARM-M4 64-pin       450 pcs        3.42  1,539.00
+HDR-40   Connector header 2.54mm 40-pin     1200 pcs        0.18    216.00
+
+                                                   Subtotal     S$2,283.00
+                                                   GST 9%         S$205.47
+                                                   GRAND TOTAL  S$2,488.47
+
+Notes:
+Sales order SO-009211   Packing list PL-4410
+HS code 8532.22   Country of origin: MY
+
+Bank details: Fictional Test Bank Ltd
+Acct 000-000001-0  SWIFT TESTSGSG

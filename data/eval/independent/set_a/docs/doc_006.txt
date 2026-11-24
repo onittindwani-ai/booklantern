@@ -1,0 +1,33 @@
+LUMEN COFFEE ROASTERS LTD
+Unit 2, Mill Lane
+Bath BA1 0XX
+VAT 000 0000 03
+
+INVOICE / Tax invoice
+
+Invoice No     LCR-26-4417                        Bill To
+Invoice Date   09/10/2026                         Harbourline Outdoor Supply Ltd
+Payment Terms  Pro forma, payment before dispatch 12 Quay Street
+Account No     LC-091                             Bristol BS1 4XX
+                                                  United Kingdom
+
+
+Code   Description                         Qty  Price incl. VAT   Total
+-----------------------------------------------------------------------
+ESP-1  Espresso blend, whole bean 1 kg  12 bag            19.50  234.00
+DEC-1  Decaf blend, whole bean 1 kg      4 bag            21.00   84.00
+CUP-8  Compostable cups 8oz, sleeve 50   10 sl             6.60   66.00
+TOT-1  Branded tote bag                   6 ea             9.00   54.00
+
+                                          TOTAL (VAT included)  £438.00
+
+VAT summary (amounts include VAT)
+Rate    Gross     VAT      Net
+------------------------------
+20%   £120.00  £20.00  £100.00
+0%    £318.00   £0.00  £318.00
+
+Roast date 2026-10-06   Batch R-0442
+
+Bank details: Fictional Test Bank plc
+Sort 00-00-00  Acc 00000033

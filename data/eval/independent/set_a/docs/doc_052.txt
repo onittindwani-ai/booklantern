@@ -1,0 +1,27 @@
+FJORD FREIGHT AS    Page 1 of 1
+CREDIT NOTE FC-2026-00071   30.10.2026
+
+Kaigata 5
+5003 Bergen
+Norway
+Org.nr 000 000 001 MVA
+
+Invoice No     FC-2026-00071                      Bill To
+Invoice Date   30.10.2026                         Harbourline Outdoor Supply Ltd
+Due Date       20.11.2026                         12 Quay Street
+Payment Terms  Net 21 days                        Bristol BS1 4XX
+Account No     HOS-17                             United Kingdom
+
+Credit against invoice FF-2026-11874
+
+Description                            Qty  Unit Price     Amount
+-----------------------------------------------------------------
+Credit: container 04 demurrage waived    1    1 650,00  -1 650,00
+
+                                          Subtotal  -1 650,00 NOK
+                                          MVA 25%     -412,50 NOK
+                                          TOTAL     -2 062,50 NOK
+
+
+Bank details: Fiktiv Testbank ASA
+IBAN NO00 0000 0000 001

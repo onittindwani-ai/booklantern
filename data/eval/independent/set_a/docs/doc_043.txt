@@ -1,0 +1,31 @@
+TALLIS FUEL SERVICES
+Dock Road, Cork
+Ireland
+VAT IE0000001A
+
+INVOICE / Tax receipt
+
+Invoice No     TFS-0091977                        Bill To
+Invoice Date   24/10/2026                         Harbourline Outdoor Supply Ltd
+Due Date       24/10/2026                         12 Quay Street
+Payment Terms  Due on receipt                     Bristol BS1 4XX
+Account No     TF-018                             United Kingdom
+
+
+Description              Qty  Price incl. VAT   Total
+-----------------------------------------------------
+Heating oil, kerosene  500 l            0.845  422.50
+Delivery charge            1            25.00   25.00
+Tank gauge battery      2 ea             9.90   19.80
+
+                        TOTAL (VAT included)  €467.30
+
+VAT summary (amounts include VAT)
+Rate     Gross     VAT      Net
+-------------------------------
+23%     €44.80   €8.38   €36.42
+13.5%  €422.50  €50.25  €372.25
+
+
+Bank details: Fictional Test Bank DAC
+IBAN IE00 FAKE 0000 0000 0001 01

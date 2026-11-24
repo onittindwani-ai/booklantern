@@ -1,0 +1,19 @@
+                         DUNMORE BAKERY EQUIPMENT CO.
+                              4400 Example Blvd
+                               Omaha, NE 68102
+******************************************************************************
+INV NO 0048812        DATE 10/09/26     TERMS NET30         
+CUST PO PO-88011     ENTERED BY KH
+SOLD TO: Harbourline Outdoor Supply Ltd, 12 Quay Street, Bristol BS1 4XX, United Kingdom
+******************************************************************************
+
+  QTY  ITEM DESCRIPTION                           UNIT       EXTENDED
+    1  SPIRAL MIXER 80QT, REFURBISHED         5,980.00       5,980.00
+    2  DOUGH HOOK ASSEMBLY                      145.00         290.00
+    1  FREIGHT AND CRATING                      320.00         320.00
+------------------------------------------------------------------------------
+                                                 MERCHANDISE        $6,590.00
+                                                SALES TAX 7%          $461.30
+                                               INVOICE TOTAL        $7,051.30
+******************************************************************************
+SHIP DATE 10/07/2026  VIA FREIGHTLINER  PRO 0048812-X

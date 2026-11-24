@@ -1,0 +1,2529 @@
+{
+ "openapi": "3.1.0",
+ "info": {
+  "title": "Booklantern API",
+  "version": "1.0.0"
+ },
+ "paths": {
+  "/health": {
+   "get": {
+    "summary": "Health",
+    "operationId": "health_health_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     }
+    }
+   }
+  },
+  "/ready": {
+   "get": {
+    "summary": "Ready",
+    "operationId": "ready_ready_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/events/stream": {
+   "get": {
+    "summary": "Stream",
+    "operationId": "stream_api_events_stream_get",
+    "parameters": [
+     {
+      "name": "after",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "integer",
+       "default": 0,
+       "title": "After"
+      }
+     },
+     {
+      "name": "prefix",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Prefix"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/auth/login": {
+   "post": {
+    "tags": [
+     "auth"
+    ],
+    "summary": "Sign in with email and password",
+    "operationId": "login_api_auth_login_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/Login"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/auth/logout": {
+   "post": {
+    "tags": [
+     "auth"
+    ],
+    "summary": "End the session (the web app clears the cookie)",
+    "operationId": "logout_api_auth_logout_post",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/auth/me": {
+   "get": {
+    "tags": [
+     "auth"
+    ],
+    "summary": "Who is signed in",
+    "operationId": "me_api_auth_me_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/overview": {
+   "get": {
+    "tags": [
+     "read"
+    ],
+    "summary": "Numbers for the cash cockpit header",
+    "operationId": "overview_api_overview_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/forecast": {
+   "get": {
+    "tags": [
+     "read"
+    ],
+    "summary": "The 13 week forecast, with an optional scenario. Computed by code, deterministic.",
+    "operationId": "forecast_api_forecast_get",
+    "parameters": [
+     {
+      "name": "collect_delay_days",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "integer",
+       "maximum": 90,
+       "minimum": 0,
+       "default": 0,
+       "title": "Collect Delay Days"
+      }
+     },
+     {
+      "name": "pay_delay_days",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "integer",
+       "maximum": 90,
+       "minimum": 0,
+       "default": 0,
+       "title": "Pay Delay Days"
+      }
+     },
+     {
+      "name": "hire_monthly_minor",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "integer",
+       "maximum": 100000000,
+       "minimum": 0,
+       "default": 0,
+       "title": "Hire Monthly Minor"
+      }
+     },
+     {
+      "name": "hire_week",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "integer",
+       "maximum": 13,
+       "minimum": 1,
+       "default": 1,
+       "title": "Hire Week"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/forecast/explain": {
+   "get": {
+    "tags": [
+     "read"
+    ],
+    "summary": "A short written explanation of the forecast. The model only words numbers the code computed.",
+    "operationId": "forecast_explain_api_forecast_explain_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/overview/explain": {
+   "get": {
+    "tags": [
+     "read"
+    ],
+    "summary": "Two plain sentences about the month end counts. The model only words counts the code computed.",
+    "operationId": "overview_explain_api_overview_explain_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/documents": {
+   "get": {
+    "tags": [
+     "read"
+    ],
+    "summary": "Documents received",
+    "operationId": "documents_api_documents_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/documents/{doc_id}/extraction": {
+   "get": {
+    "tags": [
+     "read"
+    ],
+    "summary": "Fields, confidence and page boxes for one document",
+    "operationId": "extraction_api_documents__doc_id__extraction_get",
+    "parameters": [
+     {
+      "name": "doc_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "title": "Doc Id"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/documents/{doc_id}/page/{n}.png": {
+   "get": {
+    "tags": [
+     "read"
+    ],
+    "summary": "One page of a document as a picture, for the review screen",
+    "operationId": "page_image_api_documents__doc_id__page__n__png_get",
+    "parameters": [
+     {
+      "name": "doc_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "title": "Doc Id"
+      }
+     },
+     {
+      "name": "n",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "title": "N"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/bills": {
+   "get": {
+    "tags": [
+     "read"
+    ],
+    "summary": "Bills, newest first",
+    "operationId": "bills_api_bills_get",
+    "parameters": [
+     {
+      "name": "status",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Status"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/bills/{bill_id}": {
+   "get": {
+    "tags": [
+     "read"
+    ],
+    "summary": "One bill with its lines, findings and document",
+    "operationId": "bill_detail_api_bills__bill_id__get",
+    "parameters": [
+     {
+      "name": "bill_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "title": "Bill Id"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   },
+   "patch": {
+    "tags": [
+     "write"
+    ],
+    "summary": "Correct fields on a bill. The checks run again.",
+    "operationId": "patch_bill_api_bills__bill_id__patch",
+    "parameters": [
+     {
+      "name": "bill_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "title": "Bill Id"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/BillPatch"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/vendors": {
+   "get": {
+    "tags": [
+     "read"
+    ],
+    "summary": "Vendors",
+    "operationId": "vendors_api_vendors_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/customers": {
+   "get": {
+    "tags": [
+     "read"
+    ],
+    "summary": "Customers",
+    "operationId": "customers_api_customers_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/invoices": {
+   "get": {
+    "tags": [
+     "read"
+    ],
+    "summary": "Sales invoices",
+    "operationId": "invoices_api_invoices_get",
+    "parameters": [
+     {
+      "name": "status",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Status"
+      }
+     },
+     {
+      "name": "customer_id",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "integer"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Customer Id"
+      }
+     },
+     {
+      "name": "bucket",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Bucket"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/aging": {
+   "get": {
+    "tags": [
+     "read"
+    ],
+    "summary": "Receivables aging by bucket and customer",
+    "operationId": "aging_api_aging_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/collections": {
+   "get": {
+    "tags": [
+     "read"
+    ],
+    "summary": "Reminders, promises and what the ladder would do for each open invoice right now",
+    "operationId": "collections_view_api_collections_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/bank/transactions": {
+   "get": {
+    "tags": [
+     "read"
+    ],
+    "summary": "Bank lines",
+    "operationId": "bank_transactions_api_bank_transactions_get",
+    "parameters": [
+     {
+      "name": "status",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Status"
+      }
+     },
+     {
+      "name": "limit",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "integer",
+       "maximum": 6000,
+       "minimum": 1,
+       "default": 300,
+       "title": "Limit"
+      }
+     },
+     {
+      "name": "offset",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "integer",
+       "minimum": 0,
+       "default": 0,
+       "title": "Offset"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/bank/candidates": {
+   "get": {
+    "tags": [
+     "read"
+    ],
+    "summary": "Open invoices and bills a person could link a bank line to",
+    "operationId": "candidates_api_bank_candidates_get",
+    "parameters": [
+     {
+      "name": "txn_id",
+      "in": "query",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "title": "Txn Id"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/exceptions": {
+   "get": {
+    "tags": [
+     "read"
+    ],
+    "summary": "Exceptions that need a person",
+    "operationId": "exceptions_api_exceptions_get",
+    "parameters": [
+     {
+      "name": "status",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "string",
+       "default": "open",
+       "title": "Status"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/reports/summary": {
+   "get": {
+    "tags": [
+     "read"
+    ],
+    "summary": "Month end numbers",
+    "operationId": "report_summary_api_reports_summary_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/reports/month-end.pdf": {
+   "get": {
+    "tags": [
+     "read"
+    ],
+    "summary": "The month end pack as a PDF",
+    "operationId": "report_pdf_route_api_reports_month_end_pdf_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/documents/upload": {
+   "post": {
+    "tags": [
+     "write"
+    ],
+    "summary": "Upload a PDF or image as the raw request body. Send the file name in the x-filename header.",
+    "operationId": "upload_api_documents_upload_post",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/bills/{bill_id}/approve": {
+   "post": {
+    "tags": [
+     "write"
+    ],
+    "summary": "Approve a bill. A blocking finding needs a written reason.",
+    "operationId": "approve_bill_api_bills__bill_id__approve_post",
+    "parameters": [
+     {
+      "name": "bill_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "title": "Bill Id"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/ApproveIn"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/bills/{bill_id}/reject": {
+   "post": {
+    "tags": [
+     "write"
+    ],
+    "summary": "Reject a bill",
+    "operationId": "reject_bill_api_bills__bill_id__reject_post",
+    "parameters": [
+     {
+      "name": "bill_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "title": "Bill Id"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/RejectIn"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/bills/{bill_id}/post": {
+   "post": {
+    "tags": [
+     "write"
+    ],
+    "summary": "Post an approved bill to the accounting system as a draft. Does nothing in draft mode or with ACCOUNTING_WRITE off.",
+    "operationId": "post_bill_api_bills__bill_id__post_post",
+    "parameters": [
+     {
+      "name": "bill_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "title": "Bill Id"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/reminders/{reminder_id}/approve": {
+   "post": {
+    "tags": [
+     "write"
+    ],
+    "summary": "Approve a drafted reminder",
+    "operationId": "approve_reminder_api_reminders__reminder_id__approve_post",
+    "parameters": [
+     {
+      "name": "reminder_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "title": "Reminder Id"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/reminders/{reminder_id}/cancel": {
+   "post": {
+    "tags": [
+     "write"
+    ],
+    "summary": "Cancel a reminder that has not been sent",
+    "operationId": "cancel_reminder_api_reminders__reminder_id__cancel_post",
+    "parameters": [
+     {
+      "name": "reminder_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "title": "Reminder Id"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/invoices/{invoice_id}/promise": {
+   "post": {
+    "tags": [
+     "write"
+    ],
+    "summary": "Record a promise to pay",
+    "operationId": "promise_api_invoices__invoice_id__promise_post",
+    "parameters": [
+     {
+      "name": "invoice_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "title": "Invoice Id"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/PromiseIn"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/invoices/{invoice_id}/dispute": {
+   "post": {
+    "tags": [
+     "write"
+    ],
+    "summary": "Mark or clear a dispute. A dispute stops reminders.",
+    "operationId": "dispute_api_invoices__invoice_id__dispute_post",
+    "parameters": [
+     {
+      "name": "invoice_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "title": "Invoice Id"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/DisputeIn"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/customers/{customer_id}/opt-out": {
+   "post": {
+    "tags": [
+     "write"
+    ],
+    "summary": "Record that a customer asked to get no reminders",
+    "operationId": "opt_out_api_customers__customer_id__opt_out_post",
+    "parameters": [
+     {
+      "name": "customer_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "title": "Customer Id"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/OptOutIn"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/invoices/{invoice_id}/payment-link": {
+   "post": {
+    "tags": [
+     "write"
+    ],
+    "summary": "Make a payment link for an invoice. In draft mode this makes a placeholder and nothing at the payment provider.",
+    "operationId": "payment_link_api_invoices__invoice_id__payment_link_post",
+    "parameters": [
+     {
+      "name": "invoice_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "title": "Invoice Id"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/bank/import": {
+   "post": {
+    "tags": [
+     "write"
+    ],
+    "summary": "Import a bank statement CSV (text in the body). CSV only, no bank login.",
+    "operationId": "bank_import_api_bank_import_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/ImportIn"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/bank/match/run": {
+   "post": {
+    "tags": [
+     "write"
+    ],
+    "summary": "Run the matcher on lines that are not matched yet",
+    "operationId": "match_run_api_bank_match_run_post",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/bank/links": {
+   "post": {
+    "tags": [
+     "write"
+    ],
+    "summary": "Link a bank line to an invoice or bill by hand",
+    "operationId": "link_api_bank_links_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/LinkIn"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/bank/matches/{match_id}/confirm": {
+   "post": {
+    "tags": [
+     "write"
+    ],
+    "summary": "Confirm a suggested match",
+    "operationId": "confirm_api_bank_matches__match_id__confirm_post",
+    "parameters": [
+     {
+      "name": "match_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "title": "Match Id"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/bank/matches/{match_id}": {
+   "delete": {
+    "tags": [
+     "write"
+    ],
+    "summary": "Remove a match",
+    "operationId": "unlink_api_bank_matches__match_id__delete",
+    "parameters": [
+     {
+      "name": "match_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "title": "Match Id"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/exceptions/{exc_id}/resolve": {
+   "post": {
+    "tags": [
+     "write"
+    ],
+    "summary": "Mark an exception as dealt with. A blocking one needs a written reason.",
+    "operationId": "resolve_exception_api_exceptions__exc_id__resolve_post",
+    "parameters": [
+     {
+      "name": "exc_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "title": "Exc Id"
+      }
+     }
+    ],
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "anyOf": [
+         {
+          "$ref": "#/components/schemas/ResolveIn"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "title": "Body"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/approvals": {
+   "get": {
+    "tags": [
+     "admin"
+    ],
+    "summary": "Pending and recent approvals",
+    "operationId": "approvals_api_approvals_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/approvals/{approval_id}/decide": {
+   "post": {
+    "tags": [
+     "admin"
+    ],
+    "summary": "Approve or reject",
+    "operationId": "decide_approval_api_approvals__approval_id__decide_post",
+    "parameters": [
+     {
+      "name": "approval_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "title": "Approval Id"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/DecideIn"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/audit": {
+   "get": {
+    "tags": [
+     "admin"
+    ],
+    "summary": "Audit log, newest first",
+    "operationId": "audit_api_audit_get",
+    "parameters": [
+     {
+      "name": "limit",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "integer",
+       "maximum": 1000,
+       "minimum": 1,
+       "default": 100,
+       "title": "Limit"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/audit/verify": {
+   "get": {
+    "tags": [
+     "admin"
+    ],
+    "summary": "Check the audit chain has not been edited",
+    "operationId": "audit_verify_api_audit_verify_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/integrations": {
+   "get": {
+    "tags": [
+     "admin"
+    ],
+    "summary": "Every adapter, which one is selected, and what it needs",
+    "operationId": "integrations_api_integrations_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/integrations/{category}/test": {
+   "post": {
+    "tags": [
+     "admin"
+    ],
+    "summary": "Test the selected adapter in a category",
+    "operationId": "test_integration_api_integrations__category__test_post",
+    "parameters": [
+     {
+      "name": "category",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Category"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/settings": {
+   "get": {
+    "tags": [
+     "admin"
+    ],
+    "summary": "Mode, kill switch and config problems",
+    "operationId": "get_settings_api_settings_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     }
+    }
+   },
+   "post": {
+    "tags": [
+     "admin"
+    ],
+    "summary": "Turn the kill switch or draft mode on or off (owner only). The app can never switch live mode on.",
+    "operationId": "post_settings_api_settings_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/SettingsIn"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/fx-rates": {
+   "get": {
+    "tags": [
+     "admin"
+    ],
+    "summary": "Manual exchange rates, newest first for each currency",
+    "operationId": "fx_rates_api_fx_rates_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     }
+    }
+   },
+   "post": {
+    "tags": [
+     "admin"
+    ],
+    "summary": "Add a manual exchange rate (company currency for one unit of the other currency), or correct the one for the same day",
+    "operationId": "set_fx_rate_api_fx_rates_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/FxRateIn"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/demo/state": {
+   "get": {
+    "tags": [
+     "demo"
+    ],
+    "summary": "The demo clock",
+    "operationId": "state_api_demo_state_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/demo/reset": {
+   "post": {
+    "tags": [
+     "demo"
+    ],
+    "summary": "Reset to the seed data and a fresh clock",
+    "operationId": "reset_api_demo_reset_post",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/demo/tick": {
+   "post": {
+    "tags": [
+     "demo"
+    ],
+    "summary": "Run every job once, now",
+    "operationId": "tick_api_demo_tick_post",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/demo/advance": {
+   "post": {
+    "tags": [
+     "demo"
+    ],
+    "summary": "Move the demo clock forward",
+    "operationId": "advance_api_demo_advance_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/AdvanceIn"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/demo/stress-bank": {
+   "post": {
+    "tags": [
+     "demo"
+    ],
+    "summary": "Add many fictional bank lines, to check that long tables stay fast",
+    "operationId": "stress_api_demo_stress_bank_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/StressIn"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  }
+ },
+ "components": {
+  "schemas": {
+   "AdvanceIn": {
+    "properties": {
+     "hours": {
+      "type": "number",
+      "maximum": 720.0,
+      "minimum": 0.0,
+      "title": "Hours"
+     }
+    },
+    "type": "object",
+    "required": [
+     "hours"
+    ],
+    "title": "AdvanceIn"
+   },
+   "ApproveIn": {
+    "properties": {
+     "note": {
+      "type": "string",
+      "maxLength": 300,
+      "title": "Note",
+      "default": ""
+     }
+    },
+    "type": "object",
+    "title": "ApproveIn"
+   },
+   "BillPatch": {
+    "properties": {
+     "vendor": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 200
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Vendor"
+     },
+     "number": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 80
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Number"
+     },
+     "issue_date": {
+      "anyOf": [
+       {
+        "type": "string",
+        "format": "date"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Issue Date"
+     },
+     "due_date": {
+      "anyOf": [
+       {
+        "type": "string",
+        "format": "date"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Due Date"
+     },
+     "currency": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 3,
+        "minLength": 3
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Currency"
+     },
+     "po_number": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 60
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Po Number"
+     },
+     "bill_to": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 200
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Bill To"
+     },
+     "bank_account": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 80
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Bank Account"
+     },
+     "vendor_id": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Vendor Id"
+     },
+     "subtotal_minor": {
+      "anyOf": [
+       {
+        "type": "integer",
+        "maximum": 1000000000000.0,
+        "minimum": 0.0
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Subtotal Minor"
+     },
+     "tax_minor": {
+      "anyOf": [
+       {
+        "type": "integer",
+        "maximum": 1000000000000.0,
+        "minimum": 0.0
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Tax Minor"
+     },
+     "total_minor": {
+      "anyOf": [
+       {
+        "type": "integer",
+        "maximum": 1000000000000.0,
+        "minimum": 0.0
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Total Minor"
+     },
+     "lines": {
+      "anyOf": [
+       {
+        "items": {
+         "$ref": "#/components/schemas/LineIn"
+        },
+        "type": "array"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Lines"
+     }
+    },
+    "type": "object",
+    "title": "BillPatch"
+   },
+   "DecideIn": {
+    "properties": {
+     "approve": {
+      "type": "boolean",
+      "title": "Approve"
+     },
+     "note": {
+      "type": "string",
+      "maxLength": 500,
+      "title": "Note",
+      "default": ""
+     }
+    },
+    "type": "object",
+    "required": [
+     "approve"
+    ],
+    "title": "DecideIn"
+   },
+   "DisputeIn": {
+    "properties": {
+     "disputed": {
+      "type": "boolean",
+      "title": "Disputed"
+     },
+     "note": {
+      "type": "string",
+      "maxLength": 240,
+      "title": "Note",
+      "default": ""
+     }
+    },
+    "type": "object",
+    "required": [
+     "disputed"
+    ],
+    "title": "DisputeIn"
+   },
+   "FxRateIn": {
+    "properties": {
+     "currency": {
+      "type": "string",
+      "maxLength": 3,
+      "minLength": 3,
+      "title": "Currency"
+     },
+     "rate_date": {
+      "type": "string",
+      "format": "date",
+      "title": "Rate Date"
+     },
+     "rate": {
+      "type": "string",
+      "maxLength": 20,
+      "minLength": 1,
+      "title": "Rate"
+     },
+     "note": {
+      "type": "string",
+      "maxLength": 160,
+      "title": "Note",
+      "default": ""
+     }
+    },
+    "type": "object",
+    "required": [
+     "currency",
+     "rate_date",
+     "rate"
+    ],
+    "title": "FxRateIn"
+   },
+   "HTTPValidationError": {
+    "properties": {
+     "detail": {
+      "items": {
+       "$ref": "#/components/schemas/ValidationError"
+      },
+      "type": "array",
+      "title": "Detail"
+     }
+    },
+    "type": "object",
+    "title": "HTTPValidationError"
+   },
+   "ImportIn": {
+    "properties": {
+     "text": {
+      "type": "string",
+      "maxLength": 8000000,
+      "minLength": 1,
+      "title": "Text"
+     },
+     "name": {
+      "type": "string",
+      "maxLength": 80,
+      "title": "Name",
+      "default": "upload.csv"
+     }
+    },
+    "type": "object",
+    "required": [
+     "text"
+    ],
+    "title": "ImportIn"
+   },
+   "LineIn": {
+    "properties": {
+     "description": {
+      "type": "string",
+      "maxLength": 240,
+      "title": "Description"
+     },
+     "quantity_milli": {
+      "type": "integer",
+      "maximum": 1000000000.0,
+      "minimum": 0.0,
+      "title": "Quantity Milli"
+     },
+     "unit_minor": {
+      "type": "integer",
+      "title": "Unit Minor"
+     },
+     "total_minor": {
+      "type": "integer",
+      "title": "Total Minor"
+     }
+    },
+    "type": "object",
+    "required": [
+     "description",
+     "quantity_milli",
+     "unit_minor",
+     "total_minor"
+    ],
+    "title": "LineIn"
+   },
+   "LinkIn": {
+    "properties": {
+     "txn_id": {
+      "type": "integer",
+      "title": "Txn Id"
+     },
+     "kind": {
+      "type": "string",
+      "pattern": "^(invoice|bill)$",
+      "title": "Kind"
+     },
+     "target_id": {
+      "type": "integer",
+      "title": "Target Id"
+     },
+     "amount_minor": {
+      "type": "integer",
+      "maximum": 1000000000000.0,
+      "exclusiveMinimum": 0.0,
+      "title": "Amount Minor"
+     }
+    },
+    "type": "object",
+    "required": [
+     "txn_id",
+     "kind",
+     "target_id",
+     "amount_minor"
+    ],
+    "title": "LinkIn"
+   },
+   "Login": {
+    "properties": {
+     "email": {
+      "type": "string",
+      "title": "Email"
+     },
+     "password": {
+      "type": "string",
+      "title": "Password"
+     }
+    },
+    "type": "object",
+    "required": [
+     "email",
+     "password"
+    ],
+    "title": "Login"
+   },
+   "OptOutIn": {
+    "properties": {
+     "opted_out": {
+      "type": "boolean",
+      "title": "Opted Out"
+     }
+    },
+    "type": "object",
+    "required": [
+     "opted_out"
+    ],
+    "title": "OptOutIn"
+   },
+   "PromiseIn": {
+    "properties": {
+     "promised_on": {
+      "type": "string",
+      "format": "date",
+      "title": "Promised On"
+     },
+     "amount_minor": {
+      "type": "integer",
+      "maximum": 1000000000000.0,
+      "exclusiveMinimum": 0.0,
+      "title": "Amount Minor"
+     },
+     "note": {
+      "type": "string",
+      "maxLength": 240,
+      "title": "Note",
+      "default": ""
+     }
+    },
+    "type": "object",
+    "required": [
+     "promised_on",
+     "amount_minor"
+    ],
+    "title": "PromiseIn"
+   },
+   "RejectIn": {
+    "properties": {
+     "reason": {
+      "type": "string",
+      "maxLength": 300,
+      "minLength": 1,
+      "title": "Reason"
+     }
+    },
+    "type": "object",
+    "required": [
+     "reason"
+    ],
+    "title": "RejectIn"
+   },
+   "ResolveIn": {
+    "properties": {
+     "note": {
+      "type": "string",
+      "maxLength": 300,
+      "title": "Note",
+      "default": ""
+     }
+    },
+    "type": "object",
+    "title": "ResolveIn"
+   },
+   "SettingsIn": {
+    "properties": {
+     "kill_switch": {
+      "anyOf": [
+       {
+        "type": "boolean"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Kill Switch"
+     },
+     "force_draft": {
+      "anyOf": [
+       {
+        "type": "boolean"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Force Draft"
+     }
+    },
+    "type": "object",
+    "title": "SettingsIn"
+   },
+   "StressIn": {
+    "properties": {
+     "n": {
+      "type": "integer",
+      "maximum": 20000.0,
+      "minimum": 1.0,
+      "title": "N"
+     }
+    },
+    "type": "object",
+    "required": [
+     "n"
+    ],
+    "title": "StressIn"
+   },
+   "ValidationError": {
+    "properties": {
+     "loc": {
+      "items": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "integer"
+        }
+       ]
+      },
+      "type": "array",
+      "title": "Location"
+     },
+     "msg": {
+      "type": "string",
+      "title": "Message"
+     },
+     "type": {
+      "type": "string",
+      "title": "Error Type"
+     },
+     "input": {
+      "title": "Input"
+     },
+     "ctx": {
+      "type": "object",
+      "title": "Context"
+     }
+    },
+    "type": "object",
+    "required": [
+     "loc",
+     "msg",
+     "type"
+    ],
+    "title": "ValidationError"
+   }
+  }
+ }
+}

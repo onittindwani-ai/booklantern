@@ -1,0 +1,37 @@
+Hartley Wholesale Foods Ltd
+Cold Store Road
+Leeds LS10 0XX
+VAT No. GB 000 0000 07
+
+INVOICE
+Invoice No: HW-0057720
+Invoice Date: 10-10-2026
+Due Date: 24-10-2026
+Payment Terms: Net 14 days from invoice date
+PO Number: PO-88015
+
+Harbourline Outdoor Supply Ltd
+12 Quay Street
+Bristol BS1 4XX
+United Kingdom
+
++----------------------------------------------------------+
+| ACCOUNT SUMMARY                                         |
+|  INV HW-0056113   03-09-2026                   £1,204.50|
+|  INV HW-0056920   28-09-2026                     £388.20|
++----------------------------------------------------------+
+
+Code   Description                  Qty  Unit Price  VAT  Amount
+----------------------------------------------------------------
+EGG30  Free range eggs, tray of 30   40        4.95   0%  198.00
+BUT25  Salted butter 250g, case 40    6       52.00   0%  312.00
+FOIL   Catering foil 450mm x 75m      8       13.90  20%  111.20
+
+                                     Subtotal            £621.20
+                                     VAT 20% on £111.20   £22.24
+                                     VAT 0% on £510.00     £0.00
+                                     INVOICE TOTAL       £643.44
+
+
+Bank details: Fictional Test Bank plc
+Sort 00-00-00  Acc 00000088

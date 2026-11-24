@@ -1,0 +1,31 @@
+FATURA Nº FT 2026/412
+Data da fatura: 2026-10-20
+
+Emitente:                                     Cliente:
+Fogo Azul Lda                                 Harbourline Outdoor Supply Ltd
+Rua do Teste 18                               12 Quay Street
+4000-001 Porto                                Bristol BS1 4XX
+Portugal                                      United Kingdom
+NIF PT000000001
+
+Lp  Designação                           Un.  Qtd.  Preço unit.  VAT     Valor
+------------------------------------------------------------------------------
+ 1  Azeite virgem extra, garrafa 0,75 L  un    120         6,40  23%    768,00
+ 2  Vinho tinto reserva, caixa 6         cx     30        34,80  23%  1.044,00
+
+Resumo do IVA
+Taxa          Base         IVA         Total
+--------------------------------------------
+23%   1.812,00 EUR  416,76 EUR  2.228,76 EUR
+
+                                                   Total sem IVA  1.812,00 EUR
+                                                   IVA              416,76 EUR
+                                                   Total a pagar  2.228,76 EUR
+
+Condições de pagamento: Pagamento a 30 dias
+Vencimento: 2026-11-19
+ATCUD: 0000-000412
+Processado por programa certificado n.º 0000/AT
+
+Dados bancários: Banco Fictício SA
+IBAN PT50 0000 0000 0000 0000 0000 1

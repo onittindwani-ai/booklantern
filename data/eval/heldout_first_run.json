@@ -1,0 +1,76 @@
+{
+ "set": "heldout",
+ "documents": 24,
+ "readable": 24,
+ "unreadable_scans": [],
+ "fields": {
+  "vendor": {
+   "correct": 18,
+   "total": 24,
+   "accuracy": 75.0
+  },
+  "number": {
+   "correct": 0,
+   "total": 24,
+   "accuracy": 0.0
+  },
+  "issue_date": {
+   "correct": 0,
+   "total": 24,
+   "accuracy": 0.0
+  },
+  "due_date": {
+   "correct": 0,
+   "total": 24,
+   "accuracy": 0.0
+  },
+  "currency": {
+   "correct": 6,
+   "total": 24,
+   "accuracy": 25.0
+  },
+  "po": {
+   "correct": 16,
+   "total": 24,
+   "accuracy": 66.7
+  },
+  "bill_to": {
+   "correct": 0,
+   "total": 24,
+   "accuracy": 0.0
+  },
+  "subtotal_minor": {
+   "correct": 0,
+   "total": 24,
+   "accuracy": 0.0
+  },
+  "tax_minor": {
+   "correct": 12,
+   "total": 24,
+   "accuracy": 50.0
+  },
+  "total_minor": {
+   "correct": 6,
+   "total": 24,
+   "accuracy": 25.0
+  },
+  "bank_account": {
+   "correct": 24,
+   "total": 24,
+   "accuracy": 100.0
+  },
+  "tax_rate_bp": {
+   "correct": 12,
+   "total": 24,
+   "accuracy": 50.0
+  },
+  "line_totals": {
+   "correct": 24,
+   "total": 24,
+   "accuracy": 100.0
+  }
+ },
+ "field_accuracy_percent": 37.8,
+ "documents_fully_correct": 0,
+ "extractor": "booklantern.extraction.offline"
+}

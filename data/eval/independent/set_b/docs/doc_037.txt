@@ -1,0 +1,33 @@
+COBBLESTONE BUILDING SUPPLIES LTD
+Stone Yard, Mill Road
+Swindon SN2 0XX
+VAT No. GB 000 0000 04
+Trade counter 01793 555 0166
+
+*** INVOICE ***
+
+Invoice No     SI-0334901                       Invoice to:
+Invoice Date   30/10/2026                       Harbourline Outdoor Supply Ltd
+Due Date       30/11/2026                       12 Quay Street
+Payment Terms  Monthly account, 30 days from month end  Bristol BS1 4XX
+PO Number      PO-88052                         United Kingdom
+Account        HOS001
+
+Product  Description                    Qty  Price  VAT     Net
+---------------------------------------------------------------
+PB125    Plasterboard 12.5mm 2400x1200   60   6.85  A    411.00
+JC125    Jointing compound 12.5kg        10  11.40  A    114.00
+
+VAT analysis
+VAT code  Rate      Net      VAT    Gross
+-----------------------------------------
+A          20%  £525.00  £105.00  £630.00
+
+                                         Goods total    £525.00
+                                         VAT total      £105.00
+                                         INVOICE TOTAL  £630.00
+
+Delivery ticket 0072104
+
+Bank details: Fictional Test Bank plc
+Sort 00-00-00  Acc 00000044

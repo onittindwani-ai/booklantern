@@ -1,0 +1,31 @@
+COBBLESTONE BUILDING SUPPLIES LTD
+Stone Yard, Mill Road
+Swindon SN2 0XX
+VAT No. GB 000 0000 04
+Trade counter 01793 555 0166
+
+*** INVOICE ***
+
+Invoice No     SI-0335277                       Invoice to:
+Invoice Date   12/11/2026                       Harbourline Outdoor Supply Ltd
+Due Date       30/12/2026                       12 Quay Street
+Payment Terms  Monthly account, 30 days from month end  Bristol BS1 4XX
+Account        HOS001                           United Kingdom
+
+Product  Description                     Qty  Price  VAT     Net
+----------------------------------------------------------------
+TT47     Treated timber 47x100x3600       40   7.90  A    316.00
+DS45     Decking screws 4.5x60, box 500    6  13.25  A     79.50
+
+VAT analysis
+VAT code  Rate      Net     VAT    Gross
+----------------------------------------
+A          20%  £395.50  £79.10  £474.60
+
+                                          Goods total    £395.50
+                                          VAT total       £79.10
+                                          INVOICE TOTAL  £474.60
+
+
+Bank details: Fictional Test Bank plc
+Sort 00-00-00  Acc 00000044

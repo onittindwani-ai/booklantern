@@ -1,0 +1,31 @@
+Studio Bellini SRL | Via dei Test 14, 20121 Milano MI, Italia
+
+Harbourline Outdoor Supply Ltd                Data fattura: 04/11/2026
+12 Quay Street                                Cod. cliente: B-310
+Bristol BS1 4XX
+United Kingdom
+
+FATTURA n. 119/2026
+
+Pos  Descrizione                           Q.tà  Prezzo unitario  IVA   Importo
+-------------------------------------------------------------------------------
+  1  Consulenza creativa, Londra - Milano     1         2.400,00   0%  2.400,00
+
+                                                         Imponibile  2.400,00 €
+
+Aliquota IVA  Imponibile  Imposta
+---------------------------------
+0%            2.400,00 €   0,00 €
+
+                                                   Totale documento  2.400,00 €
+
+Inversione contabile (art. 17 DPR 633/72): IVA a carico del cessionario.
+Condizioni di pagamento: Bonifico bancario a 30 giorni data fattura
+Scadenza: 04/12/2026
+
+Cod. destinatario SDI 0000000
+
+----------------------------------------------------------------------
+Coordinate bancarie: Banca di Prova SpA
+IBAN IT00 X000 0000 0000 0000 0000 001
+P.IVA IT00000000001  |  C.F. 00000000001

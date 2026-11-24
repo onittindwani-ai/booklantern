@@ -1,0 +1,33 @@
+Sunbeam Print & Sign
+77 Example Avenue
+Vancouver BC V6B 0A0
+Canada
+GST/HST No. 000000001 RT0001
+
+============================================================
+ TOTAL DUE   $305.55        Due Date: 2026-11-11
+============================================================
+
+INVOICE SS-0059107
+Invoice Date: 2026-10-27
+Payment Terms: Net 15
+Account No: SS-2201
+
+Bill To
+Harbourline Outdoor Supply Ltd
+12 Quay Street
+Bristol BS1 4XX
+United Kingdom
+
+Description                         Qty   Unit Price   Amount
+-------------------------------------------------------------
+Business cards, 500 pcs, matte    3 box        62.00   186.00
+Design time                      1.5 hr        70.00   105.00
+
+  Subtotal          $291.00
+  GST 5%             $14.55
+  Total             $305.55
+
+
+Bank details: Fictional Test Bank of Canada
+Transit 00000 Inst 000 Acct 0000001

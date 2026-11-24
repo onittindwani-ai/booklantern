@@ -1,0 +1,35 @@
+TAX INVOICE
+
+Saffron Ridge Textiles Pvt Ltd
+Plot 14, Example Industrial Area
+Bengaluru 560001, Karnataka
+GSTIN : 99ZZZZZ0001Z1Z1
+Phone +91 80 5550 0001
+
+Invoice No.   : SRT/26-27/0471                      Buyer (Bill to)
+Dated         : 08-11-2026                          Harbourline Outdoor Supply Ltd
+Mode/Terms of Payment : Net 30 days                 12 Quay Street
+Buyer's Order No. : PO-90077                        Bristol BS1 4XX
+Place of Supply : Karnataka (29)                    United Kingdom
+                                                    GSTIN/UIN : 99ZZZZZ0000Z9Z9
+
+Sl  Description of Goods             HSN/SAC  Quantity    Rate        Amount
+----------------------------------------------------------------------------
+ 1  Cotton poplin fabric 58in, navy  520811   9500 MTR  148.00  14,06,000.00
+ 2  Cotton thread cone 5000m         520512    900 PCS   62.50     56,250.00
+
+                                             Taxable Value  Rs. 14,62,250.00
+                                             CGST @ 9%       Rs. 1,31,602.50
+                                             SGST @ 9%       Rs. 1,31,602.50
+                                             Total Tax       Rs. 2,63,205.00
+                                             Grand Total    Rs. 17,25,455.00
+
+Amount Chargeable (in words): Indian Rupees Seventeen Lakh Twenty Five Thousand Four Hundred and Fifty Five Only
+Tax Amount (in words): Indian Rupees Two Lakh Sixty Three Thousand Two Hundred and Five Only
+
+
+Declaration: We declare that this invoice shows the actual price of the goods described.
+
+Bank details: Fictional Test Bank of India
+A/c No. 000000000001  IFSC TEST0000001
+This is a Computer Generated Invoice

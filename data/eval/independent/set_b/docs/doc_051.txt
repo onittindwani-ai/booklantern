@@ -1,0 +1,39 @@
+Whitcombe & Ashe Solicitors
+Fourth Floor, 8 Example Row
+Birmingham B3 0XX
+VAT No. GB 000 0000 05
+
+INVOICE
+Invoice number: 2026/1/0942
+Date: 2026.10.13
+Matter: HOS-0007 Supply agreement
+
+Harbourline Outdoor Supply Ltd
+12 Quay Street
+Bristol BS1 4XX
+United Kingdom
+
+Time entries and charges
+Date        Fee earner  Description                              Hours    Rate    Amount
+----------------------------------------------------------------------------------------
+26/09/2026  DA          Initial advice and review of contract      3.2  310.00    992.00
+29/09/2026  DA          Drafting amendments to supply agreement    5.5  310.00  1,705.00
+02/10/2026  JK          Telephone attendance with counterparty     0.8  185.00    148.00
+05/10/2026  DISB        Company search fee                           1    9.00      9.00
+08/10/2026  DISB        Counsel's opinion (invoice 18/22)            1  750.00    750.00
+
+                                                 Total fees and disbursements  £3,604.00
+                                                 VAT 20% on £2,845.00            £569.00
+                                                 TOTAL PAYABLE                 £4,173.00
+
+Client account balance held: 2,000.00
+
+Bank details: Fictional Test Bank plc (client account)
+Sort 00-00-00  Acc 00000055
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+REMITTANCE ADVICE (detach and return with payment)
+Client: Harbourline Outdoor Supply Ltd
+Invoice ref: 2026/1/0942
+Amount enclosed: ______________
+Payment date: ____________

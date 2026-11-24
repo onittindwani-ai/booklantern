@@ -1,0 +1,38 @@
+COBBLESTONE BUILDING SUPPLIES LTD
+Stone Yard, Mill Road
+Swindon SN2 0XX
+VAT No. GB 000 0000 04
+Trade counter 01793 555 0166
+
+*** INVOICE ***
+
+Invoice No     SI-0334518                       Invoice to:
+Invoice Date   14/10/2026                       Harbourline Outdoor Supply Ltd
+Due Date       30/11/2026                       12 Quay Street
+Payment Terms  Monthly account, 30 days from month end  Bristol BS1 4XX
+PO Number      PO-88020                         United Kingdom
+Account        HOS001
+
+Product  Description                                        Qty   Price  VAT     Net
+------------------------------------------------------------------------------------
+CEM25    Cement 25kg bag, general purpose                    80    5.95  A    476.00
+SND85    Building sand, bulk bag 850kg                        4   46.00  A    184.00
+HV02C    Hi-vis vest, class 2 (zero rated children's size)    6    4.20  Z     25.20
+PAL      Pallet return credit (deposit)                       4  -12.00  Z    -48.00
+
+VAT analysis
+VAT code  Rate      Net      VAT    Gross
+-----------------------------------------
+A          20%  £660.00  £132.00  £792.00
+Z           0%  -£22.80    £0.00  -£22.80
+
+                                                              Goods total    £637.20
+                                                              VAT total      £132.00
+                                                              INVOICE TOTAL  £769.20
+
+Settlement discount: pay by 24/10/2026 to deduct 2%.
+Delivery ticket 0071882   Driver: test
+Weight 4,120 kg
+
+Bank details: Fictional Test Bank plc
+Sort 00-00-00  Acc 00000044

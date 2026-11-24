@@ -1,0 +1,30 @@
+REDFERN CIVIL CONTRACTORS LTD
+Depot Lane
+Doncaster DN4 0XX
+VAT No. GB 000 0000 06  |  CIS UTR 0000000001
+
+APPLICATION FOR PAYMENT / TAX INVOICE
+
+Invoice No     APP-014                              To:
+Invoice Date   October 31, 2026                     Harbourline Outdoor Supply Ltd
+Due Date       November 21, 2026                    12 Quay Street
+Payment Terms  Pay 21 days from certificate         Bristol BS1 4XX
+PO Number      PO-88007                             United Kingdom
+Contract: Warehouse extension, Unit 9
+
+Ref  Work item                                Qty       Rate  This claim
+------------------------------------------------------------------------
+A1   Groundworks, foundations (60% complete)    1  48,000.00   48,000.00
+A2   Drainage and services (25% complete)       1   9,750.00    9,750.00
+V3   Variation 3: additional piling             1   6,200.00    6,200.00
+RET  Less retention 5%                          1  -3,197.50   -3,197.50
+
+                                              Net this claim  £60,752.50
+                                              VAT 20%         £12,150.50
+                                              INVOICE TOTAL   £72,903.00
+
+Contract sum 250,000.00   Previously certified 118,500.00   Gross valuation to date 190,450.00
+Certificate no. IC-014 dated 29 October 2026
+
+Bank details: Fictional Test Bank plc
+Sort 00-00-00  Acc 00000066

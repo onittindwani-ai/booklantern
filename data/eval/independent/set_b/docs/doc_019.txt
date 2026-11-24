@@ -1,0 +1,32 @@
+FAKTURA VAT nr FV/2026/10/0142
+Data wystawienia: 15.10.2026
+Data sprzedaży: 14.10.2026
+
+Sprzedawca:                                   Nabywca:
+Mazowsze Hurtownia Sp. z o.o.                 Harbourline Outdoor Supply Ltd
+ul. Testowa 15                                12 Quay Street
+00-001 Warszawa                               Bristol BS1 4XX
+Polska                                        United Kingdom
+NIP 000-000-00-01
+
+Lp  Nazwa towaru lub usługi            J.m.  Ilość  Cena netto  VAT  Wartość netto
+----------------------------------------------------------------------------------
+ 1  Mąka pszenna typ 550, worek 25 kg  szt.     40       78,50  23%       3 140,00
+ 2  Cukier biały, worek 50 kg          szt.     12      168,00  23%       2 016,00
+
+Razem wg stawek VAT
+Stawka         Netto           VAT        Brutto
+------------------------------------------------
+23%     5 156,00 PLN  1 185,88 PLN  6 341,88 PLN
+
+                                                         Razem netto  5 156,00 PLN
+                                                         VAT          1 185,88 PLN
+                                                         Do zapłaty   6 341,88 PLN
+
+Warunki płatności: Przelew 14 dni
+Termin płatności: 29.10.2026
+Nr zamówienia klienta: ZK-88019
+Data sprzedaży: 14.10.2026
+
+Dane bankowe: Fikcyjny Bank Testowy SA
+PL00 0000 0000 0000 0000 0000 0001

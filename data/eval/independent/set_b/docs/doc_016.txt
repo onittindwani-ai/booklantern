@@ -1,0 +1,33 @@
+Maple & Birch Stationers
+200 rue Exemple
+Moncton NB E1C 0A0
+Canada
+NE TVH / HST 000000001 RT0001
+
+NOTE DE CRÉDIT / CREDIT NOTE
+
+No de facture / Invoice No.:  NC-1108
+Date / Date:  04-11-2026
+Échéance / Due:  04-12-2026
+Conditions / Terms:  Net 30 / Net 30 jours
+
+
+Credit against invoice MB-71204
+Facturé à / Bill to:
+Harbourline Outdoor Supply Ltd
+12 Quay Street
+Bristol BS1 4XX
+United Kingdom
+
+Description                      Qté / Qty  Prix / Price  Montant / Amount
+--------------------------------------------------------------------------
+Retour / Return: stylos à bille          3          9,80            -29,40
+
+                                           Sous-total / Subtotal  -29,40 $
+                                           TVH / HST 15%           -4,41 $
+                                           TOTAL                  -33,81 $
+
+Réf. facture / Ref. invoice: MB-71204
+
+Bank details: Fictional Test Bank of Canada
+Transit 00001 Inst 001 Acct 0000002

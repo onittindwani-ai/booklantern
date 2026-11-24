@@ -1,0 +1,29 @@
+NORTHGATE PACKAGING LTD
+Unit 4, Severn Trading Estate
+Gloucester GL2 5XX
+VAT Reg No: GB 000 0000 01
+Tel 01452 555 0142 | accounts@northgate-pack.example
+
+                                              INVOICE
+
+Invoice No     NP-2026-04561                  Bill To:
+Invoice Date   16 October 2026                Harbourline Outdoor Supply Ltd
+Due Date       15 November 2026               12 Quay Street
+Payment Terms  Net 30 days                    Bristol BS1 4XX
+PO Number      PO-77203                       United Kingdom
+Account No     HOU-2210
+
+Code      Description                                 Qty  Unit Price  Amount
+-----------------------------------------------------------------------------
+CB-6040   Corrugated carton 600x400x400mm, 5 ply  200 pcs        1.74  348.00
+PT-4866B  Packing tape 48mm x 66m, brown          48 roll        1.05   50.40
+
+                                                           Subtotal   £398.40
+                                                           VAT 20%     £79.68
+                                                           TOTAL DUE  £478.08
+
+Notes:
+Customer reference: HOS-WH-04
+
+Bank details: Fictional Test Bank plc
+Sort 00-00-00  Acc 00000099  IBAN GB00 FAKE 0000 0000 0099 00

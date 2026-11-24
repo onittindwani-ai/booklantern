@@ -1,0 +1,31 @@
+NORTHGATE PACKAGING LTD
+Unit 4, Severn Trading Estate
+Gloucester GL2 5XX
+VAT Reg No: GB 000 0000 01
+Tel 01452 555 0142 | accounts@northgate-pack.example
+
+                                              INVOICE
+
+Invoice No     NP-2026-04502                  Bill To:
+Invoice Date   2 October 2026                 Harbourline Outdoor Supply Ltd
+Due Date       1 November 2026                12 Quay Street
+Payment Terms  Net 30 days                    Bristol BS1 4XX
+PO Number      PO-77188                       United Kingdom
+Account No     HOU-2210
+
+Code     Description                             Qty  Unit Price  Amount
+------------------------------------------------------------------------
+KP-4570  Kraft paper void fill 70gsm, 450mm  20 roll        9.95  199.00
+AB-3626  Archive box 36x26x26cm, lidded      150 pcs        1.38  207.00
+FL-0500  Fragile label roll, 500 per roll     8 roll        6.20   49.60
+
+                                                      Subtotal   £455.60
+                                                      VAT 20%     £91.12
+                                                      TOTAL DUE  £546.72
+
+Notes:
+Total packages: 14   Total weight: 412 kg
+Late payment: interest at 1.5% per month is charged on overdue balances.
+
+Bank details: Fictional Test Bank plc
+Sort 00-00-00  Acc 00000011  IBAN GB00 FAKE 0000 0000 0011 00

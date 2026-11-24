@@ -1,0 +1,38 @@
+Sunbeam Print & Sign
+77 Example Avenue
+Vancouver BC V6B 0A0
+Canada
+GST/HST No. 000000001 RT0001
+
+============================================================
+ TOTAL DUE   $808.09        Due Date: 2026-10-21
+============================================================
+
+INVOICE SS-0058831
+Invoice Date: 2026-10-06
+Payment Terms: Net 15
+PO Number: PO-77171
+Account No: SS-2201
+
+Bill To
+Harbourline Outdoor Supply Ltd
+12 Quay Street
+Bristol BS1 4XX
+United Kingdom
+
+Description                             Qty   Unit Price   Amount
+-----------------------------------------------------------------
+Vinyl banner 3ft x 8ft, full colour    4 ea        96.00   384.00
+Window decal, die cut                 10 ea        18.75   187.50
+Installation, on site                     1       150.00   150.00
+
+  Subtotal          $721.50
+  GST 5%             $36.08
+  PST 7%             $50.51
+  Total             $808.09
+
+Proof approved 2026-10-02 by M. Test
+Job no. J-20991
+
+Bank details: Fictional Test Bank of Canada
+Transit 00000 Inst 000 Acct 0000001

@@ -1,0 +1,29 @@
+ZUIDERZEE LOGISTIEK BV    Pagina 1 van 1
+FACTUUR 202610-0471   12 oktober 2026
+
+Havenweg 8
+8232 JA Lelystad
+Nederland
+BTW NL000000001B01  |  KvK 00000001
+
+Factuurnummer         202610-0471                 Factuuradres
+Factuurdatum          12 oktober 2026             Harbourline Outdoor Supply Ltd
+Vervaldatum           11 november 2026            12 Quay Street
+Betalingsvoorwaarden  Betaling binnen 30 dagen    Bristol BS1 4XX
+Klantnr               ZZ-3041                     United Kingdom
+
+
+Omschrijving                                    Aantal     Prijs    Bedrag
+--------------------------------------------------------------------------
+Transport Lelystad - Dublin (ro-ro), 2 pallets       1  1.180,00  1.180,00
+Brandstoftoeslag                                     1     94,40     94,40
+
+                                                     Subtotaal  € 1.274,40
+                                                     BTW 0%         € 0,00
+                                                     TOTAL      € 1.274,40
+
+BTW-nr afnemer: IE0000001A
+BTW verlegd: de afnemer is de BTW verschuldigd.
+
+Bankgegevens: Fictieve Testbank NV
+IBAN NL00 FAKE 0000 0000 01

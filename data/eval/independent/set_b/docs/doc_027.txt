@@ -1,0 +1,33 @@
+===============================================================================
+Voltaic Telecom, Inc.    |   AMOUNT DUE  $576.26   |   PAY BY November 12, 2026
+===============================================================================
+
+Bill number     1184406
+Bill date       October 18, 2026
+Account         7700-1182-04
+Billing period  Sep 18 - Oct 17, 2026
+Terms           Due in 25 days
+
+Bill to:
+Harbourline Outdoor Supply Ltd
+12 Quay Street
+Bristol BS1 4XX
+United Kingdom
+
+Charge                              Units    Rate  Amount
+---------------------------------------------------------
+Business voice lines, 12 x monthly     12   24.95  299.40
+Long distance usage, 1,840 min       1840   0.012   22.08
+Toll free usage, 620 min              620  0.0185   11.47
+SIP trunk capacity, 30 channels        30    6.50  195.00
+
+                    Subtotal                      $527.95
+                    State sales tax (6%)           $31.68
+                    Regulatory surcharge (3.15%)   $16.63
+                    Total charges                 $576.26
+
+Call detail record file: CDR-2610.csv
+Prior month usage 2,205 min
+
+Bank details: Fictional Test Bank NA
+Remit to lockbox 000000 (fictional)

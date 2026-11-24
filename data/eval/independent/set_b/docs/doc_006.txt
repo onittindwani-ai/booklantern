@@ -1,0 +1,32 @@
+TIDEWATER MARINE SUPPLY PTY LTD
+Lot 6, Harbour Industrial Estate
+Fremantle WA 6160
+Australia
+ABN 00 000 000 001
+
+INVOICE
+
+Invoice No    Invoice Date    Amount due (AUD)
+TM-119050     9 Nov 2026      $223.52
+
+Due Date       Payment Terms                PO Number
+23 Nov 2026    14 days from invoice date    PO-88041
+
+Bill To
+Harbourline Outdoor Supply Ltd
+12 Quay Street
+Bristol BS1 4XX
+United Kingdom
+
+Description                   Qty   Unit Price   GST   Amount
+-------------------------------------------------------------
+Bilge pump 1100 GPH             2        74.00     Y   148.00
+Hose clamp 25-38mm, pack 10     6         9.20     Y    55.20
+
+Subtotal                         $203.20
+GST 10%                           $20.32
+Total (incl. GST)                $223.52
+
+
+Bank details: Fictional Test Bank Ltd
+BSB 000-000  Account 00000001

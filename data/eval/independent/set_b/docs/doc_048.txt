@@ -1,0 +1,32 @@
+Maple & Birch Stationers
+200 rue Exemple
+Moncton NB E1C 0A0
+Canada
+NE TVH / HST 000000001 RT0001
+
+FACTURE / INVOICE
+
+No de facture / Invoice No.:  MB-71204
+Date / Date:  21-10-2026
+Échéance / Due:  20-11-2026
+Conditions / Terms:  Net 30 / Net 30 jours
+No de commande / PO:  PO-88029
+
+Facturé à / Bill to:
+Harbourline Outdoor Supply Ltd
+12 Quay Street
+Bristol BS1 4XX
+United Kingdom
+
+Description                              Qté / Qty  Prix / Price  Montant / Amount
+----------------------------------------------------------------------------------
+Cahier à spirale / Spiral notebook A5          144          2,15            309,60
+Stylos à bille / Ballpoint pens, box 50         12          9,80            117,60
+
+                                                   Sous-total / Subtotal  427,20 $
+                                                   TVH / HST 15%           64,08 $
+                                                   TOTAL                  491,28 $
+
+
+Bank details: Fictional Test Bank of Canada
+Transit 00001 Inst 001 Acct 0000002

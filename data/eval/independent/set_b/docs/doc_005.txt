@@ -1,0 +1,30 @@
+====================================================================
+Kestrel Fibre Ltd    |   AMOUNT DUE  £625.85   |   PAY BY 9 Nov 2026
+====================================================================
+
+Bill number     KF-3301742
+Bill date       26 Oct 2026
+Account         KF-2209-77
+Billing period  26 Oct - 25 Nov 2026
+Terms           Direct debit on due date
+
+Bill to:
+Harbourline Outdoor Supply Ltd
+12 Quay Street
+Bristol BS1 4XX
+United Kingdom
+
+Charge                              Units    Rate  Amount
+---------------------------------------------------------
+Leased line 1 Gbps, monthly rental      1  485.00  485.00
+Static IP block /29, monthly            1   18.00   18.00
+Overage traffic, 412 GB               412   0.045   18.54
+
+                                   Subtotal       £521.54
+                                   Tax (20%)      £104.31
+                                   Total charges  £625.85
+
+Direct debit will be taken on 09 Nov 2026 (mandate 00000000AAAA)
+
+Bank details: Fictional Test Bank plc
+Sort 00-00-00  Acc 00000077

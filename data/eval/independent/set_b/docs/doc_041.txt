@@ -1,0 +1,33 @@
+Alpenrose Treuhand AG
+Bahnhofstrasse 99
+8001 Zürich
+Schweiz
+CHE-000.000.001 MWST
+
+Rechnungsnummer: RE-2026-0433                 Harbourline Outdoor Supply Ltd
+Rechnungsdatum: 29.10.26                      12 Quay Street
+Zahlungsbedingungen: 30 Tage netto            Bristol BS1 4XX
+                                              United Kingdom
+
+Rechnung RE-2026-0433
+Pos.  Bezeichnung                                 Menge  Einzelpreis    Betrag
+------------------------------------------------------------------------------
+   1  Buchhaltung Oktober, pauschal                   1     1'850.00  1'850.00
+   2  Fachbuch Steuern 2026 (reduzierter Satz)    2 Stk        96.00    192.00
+   3  Lohnabrechnung, 12 Mitarbeitende          12 Pers        28.00    336.00
+
+                                      Nettobetrag                 CHF 2'378.00
+                                      MWST 8.1% auf CHF 2'186.00    CHF 177.07
+                                      MWST 2.6% auf CHF 192.00        CHF 4.99
+                                      Total CHF                   CHF 2'560.06
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+Empfangsschein        Zahlteil
+Konto / Zahlbar an        CH00 0000 0000 0000 0000 1
+Alpenrose Treuhand AG
+Referenz                  21 00000 00003 13947 14300 09025
+Währung      Betrag
+CHF          CHF 2'560.06
+Zahlbar durch             Harbourline Outdoor Supply Ltd
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 

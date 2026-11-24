@@ -1,0 +1,52 @@
+Tern Cleaning Services Ltd
+Unit 5, Example Mews
+Exeter EX1 0XX
+
+Invoice
+
+Invoice number
+Invoice date
+Payment due
+Terms
+Purchase order
+Total due
+
+TW-90277
+3/11/2026
+3/12/2026
+30 days net
+PO-88050
+£1,531.68
+
+Billed to
+Harbourline Outdoor Supply Ltd
+12 Quay Street
+Bristol BS1 4XX
+United Kingdom
+
+Description
+Qty
+Price
+Line total
+
+Contract cleaning, October
+1
+1,180.00
+1,180.00
+
+Consumables restock
+1
+96.40
+96.40
+
+Net
+VAT
+Total
+
+£1,276.40
+£255.28
+£1,531.68
+
+Previous invoice TW-90112 paid 05 October 2026
+Bank details: Fictional Test Bank plc
+Sort 00-00-00  Acc 00000111

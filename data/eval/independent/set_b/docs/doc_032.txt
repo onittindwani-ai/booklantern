@@ -1,0 +1,34 @@
+Hartley Wholesale Foods Ltd
+Cold Store Road
+Leeds LS10 0XX
+VAT No. GB 000 0000 07
+
+INVOICE
+Invoice No: HW-0058400
+Invoice Date: 14-11-2026
+Due Date: 28-11-2026
+Payment Terms: Net 14 days from invoice date
+PO Number: PO-88067
+
+Harbourline Outdoor Supply Ltd
+12 Quay Street
+Bristol BS1 4XX
+United Kingdom
+
++----------------------------------------------------------+
+| ACCOUNT SUMMARY                                         |
++----------------------------------------------------------+
+
+Code   Description                     Qty  Unit Price  VAT  Amount
+-------------------------------------------------------------------
+OIL20  Sunflower oil 20L                 5       29.50   0%  147.50
+NAP2   Paper napkins 2 ply, case 2000    3       21.00  20%   63.00
+
+                                         Subtotal           £210.50
+                                         VAT 20% on £63.00   £12.60
+                                         VAT 0% on £147.50    £0.00
+                                         INVOICE TOTAL      £223.10
+
+
+Bank details: Fictional Test Bank plc
+Sort 00-00-00  Acc 00000088

@@ -1,0 +1,30 @@
+Atelier Moreau SARL | 14 rue des Tisserands, 69002 Lyon, France
+
+Harbourline Outdoor Supply Ltd                Date de facture: 23 octobre 2026
+12 Quay Street                                Code client: CL-0912
+Bristol BS1 4XX                               Tél. +33 4 00 00 00 01
+United Kingdom
+
+FACTURE n° F2026-0802
+
+Pos  Désignation                             Qté  Prix unitaire HT  Montant HT
+------------------------------------------------------------------------------
+  1  Tissu lin lavé, largeur 140 cm, bleu  120 m             18,50    2 220,00
+  2  Doublure viscose 140 cm                60 m              9,80      588,00
+
+                                                          Total HT  2 758,00 €
+
+Taux TVA     Base HT  Montant TVA
+---------------------------------
+20 %      2 758,00 €     551,60 €
+
+                                                         Total TTC  3 309,60 €
+
+Conditions de paiement: Paiement à 30 jours fin de mois
+Échéance: 30 novembre 2026
+
+
+----------------------------------------------------------------------
+Coordonnées bancaires: Banque Fictive SA
+IBAN FR00 0000 0000 0000 0000 0000 001
+N° TVA FR00 000000001  |  SIRET 000 000 001 00012
