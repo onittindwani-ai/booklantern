@@ -4,14 +4,25 @@
 
 | Thing | Status |
 | --- | --- |
-| Offline reader, checks, aging, reminders, reconciliation, forecast, API, web app | Built and tested here: <!--n:tests.passed-->219<!--/n--> Python tests and <!--n:e2e.tests-->41<!--/n--> browser tests passed, coverage <!--n:tests.coverage_percent-->92.9<!--/n--> percent. |
+| Offline reader, checks, aging, reminders, reconciliation, forecast, API, web app | Built and tested here: <!--n:tests.passed-->323<!--/n--> Python tests and <!--n:e2e.tests-->41<!--/n--> browser tests passed, coverage <!--n:tests.coverage_percent-->92.3<!--/n--> percent. |
 | QuickBooks, Stripe, IMAP adapters | Tested against stand in servers we wrote. **Never run against the real service.** |
 | Xero and Akaunting adapters | Written from documentation, mock tested only, tier B. |
 | Model path (a language model reads bills, words the forecast and the month summary, words reminders) | Real code behind the base wrapper, with a schema, the untrusted text boundary and checks by code. Run only against a **local fake server** and recorded answers made from it. **Never run with a real key, so how a real model reads real bills is UNVERIFIED.** |
-| Docker images and compose | Written, **never built** (no Docker daemon here). |
-| Vercel, Railway, Hetzner guides | **Never deployed.** |
+| Docker images and compose | The GitHub CI workflow builds both images and starts the whole stack (database, API, worker, web), and the API and the web app must answer. I did not run Docker on my own machine for this version. |
+| Vercel, Railway, Hetzner guides | **Never deployed.** No deploy to a real host was done, so the three guides are written from the vendors' docs and not run. |
 | Postgres migration | Run up, down and up on Postgres 17.7 once, in a throwaway cluster. One test is skipped unless you set `TEST_POSTGRES_URL`. |
 | Screen reader use | Not tested. Axe found no serious or critical problems, which is a code level check only. |
+
+## Things the code cannot do for you
+
+- **Opt outs are recorded by a person.** Every reminder says "reply to this email and we will stop them". Nothing reads the replies: someone must read the mailbox that receives them and press the opt out on the customer (Collections). If nobody does, the stop line is a promise you are not keeping.
+- **Vendors and customers have no page in the web app.** They are added through the owner only API routes, CSV imports or `tools/load_data.py` (`05`). Bill review and the bank pages are in the web app.
+- **A vendor's bank account on file is the check for changed payment details**, so it is only as good as what the owner typed. A bill with details and no account on file is flagged, and one with no details where an account is on file is held back.
+- **Bank details are read only from labelled lines**, such as a routing number and an account number, or an IBAN. An account number on its own is not taken for bank details, because it is usually the customer's own account with the vendor.
+- **PDFs are opened in the same process as the API**, with no separate process or memory limit. Accept bills only from mailboxes you control.
+- **No retention job.** Bills, bank lines and the audit log stay until you delete them.
+- **The Akaunting adapter sends no repeat key**, so post a bill from it once.
+- **A database error message can include the values of the failed query**, which may be bill text. Booklantern's own log lines never carry bill text, but this is set in the shared base (`make_engine` should hide statement parameters). It is a request to the maintainers of the shared base, not changed here. Keep logs private (`11`).
 
 ## The reader is weak on new layouts
 

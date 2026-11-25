@@ -9,15 +9,20 @@ from sqlalchemy.orm import Session
 
 from booklantern import bankservice, clock, collections, forecastservice, intake
 from booklantern.models import State
-from booklantern.seeding import DEFAULT_DATA, load_seed, read_seed
+from booklantern.seeding import data_dir as seed_data_dir, load_seed, read_seed
 from sendora_core.db import Base
 
 
 def data_dir(ctx) -> Path:
-    return Path(ctx.settings.seed_dir) if ctx.settings.seed_dir else DEFAULT_DATA
+    return seed_data_dir(ctx.settings.seed_dir)
 
 
 def reset(session: Session, ctx) -> dict:
+    """Erase every table and load the seed data. It exists only for a demo with no owner password: with a real owner it refuses, whatever route called it."""
+    if not ctx.settings.demo_shortcuts:
+        raise PermissionError("The demo reset is only available in demo mode with no owner password set.")
+    root = data_dir(ctx)
+    seed = read_seed(root)  # read the data BEFORE anything is erased: a missing folder must not leave an empty database
     session.rollback()
     session.close()
     # Empty every table and load the seed in ONE transaction. Dropping and recreating the tables left a moment with no tables,
@@ -27,8 +32,6 @@ def reset(session: Session, ctx) -> dict:
             s.execute(table.delete())
         clock.set_offset(s, 0.0)
         s.flush()
-        root = data_dir(ctx)
-        seed = read_seed(root)
         now = clock.now(s, True)
         info = load_seed(s, seed, now)
         imp = bankservice.import_csv(s, (root / seed["bank_csv"]).read_text(), "seed-statement")

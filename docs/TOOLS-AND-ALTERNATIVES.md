@@ -215,7 +215,7 @@ What Booklantern has for each: Railway: Guide and config written (not run); Verc
 - Reliability and upkeep (50): You do updates and backups.
 - Cost (85): Typically the cheapest, no price checked.
 - Data control (90): You choose the region and hold the data.
-- Integration depth (50): Compose file written, no Docker daemon was available here so images were never built.
+- Integration depth (50): Compose file written; the CI workflow builds the images and starts the stack on GitHub, and no real host was used.
 - Sources: https://docs.hetzner.com/ (checked not fetched, UNVERIFIED)
 
 **Recommendation by user type**

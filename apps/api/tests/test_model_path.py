@@ -378,5 +378,5 @@ def test_the_month_summary_route_uses_the_stand_in_by_default(seeded):
     # the route is read only and needs a signed in session in the real app; here the handler is called directly through the app factory's dependency overrides
     from booklantern.api import routes_read
     with seeded.factory() as s:
-        r = routes_read.overview_explain(s, seeded)
+        r = routes_read.overview_explain(s, seeded, {"user": "owner@example.test", "role": "owner"})
     assert r["writer"].startswith("offline stand in") and r["text"].startswith("Month end summary")

@@ -1,4 +1,6 @@
-# Replace the two names with your own DNS names. Caddy gets HTTPS certificates by itself.
+# Replace the name with your own DNS name. Caddy gets HTTPS certificates by itself.
+# Only the web app is published. It talks to the API on the private compose network, and the API port is bound to 127.0.0.1 on this server,
+# so there is deliberately no second public name for the API: the sign in page, the interactive docs and the schema stay off the internet.
 app.example.com {
 	encode zstd gzip
 	request_body {
@@ -13,16 +15,13 @@ app.example.com {
 	reverse_proxy 127.0.0.1:3000
 }
 
-api.example.com {
-	encode zstd gzip
-	request_body {
-		max_size 25MB
-	}
-	header {
-		Strict-Transport-Security "max-age=31536000"
-		X-Content-Type-Options "nosniff"
-		X-Frame-Options "DENY"
-		Referrer-Policy "strict-origin-when-cross-origin"
-	}
-	reverse_proxy 127.0.0.1:8000
-}
+# Only if the web app runs on Vercel (docs/06): its servers must reach the API over the internet, so publish it, and keep it narrow.
+# Do not enable this block for the all in one Docker setup above. Nothing in the API needs to be public for the web app on this server.
+# api.example.com {
+# 	request_body {
+# 		max_size 25MB
+# 	}
+# 	@private path /docs /openapi.json /redoc
+# 	respond @private 404
+# 	reverse_proxy 127.0.0.1:8000
+# }

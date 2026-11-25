@@ -18,10 +18,10 @@ This guide gives no price figures. It gives the shape of the offer, so you can p
 ## Onboarding checklist
 
 1. Run `02-BUSINESS-BASICS-CHECK.md` with the client.
-2. Make a fresh copy, `DEMO_MODE=false`, the client's company name and currency.
+2. Make a fresh copy, `DEMO_MODE=false`, the client's company name, address, reply address, currency and time zone (`04`).
 3. Connect the mailbox for bills and the accounting system in its sandbox (`03`, `04`).
 4. Import three months of the bank statement as CSV.
-5. Load real vendors and customers (see the CSV adapter).
+5. Load real vendors (with the bank account on file), customers, open invoices, the bank account and the chart of accounts with `tools/load_data.py` or the owner only API routes (`05`, "A real install"). The CSV accounting adapter does not load these.
 6. Agree the reminder ladder, the collection chances and the payment terms with the client in writing. The defaults are net 30, reminders at 1, 7, 14 and 30 days (friendly, firm, firmer, final) and 95, 90, 75, 50 and 20 percent chances by aging group.
 7. If any bill or invoice is in another currency, type the exchange rate with its date on the Reports page. Without a rate that item is left out and flagged, never guessed. Agree who updates the rates and how often.
 8. Trial in draft mode, then follow `09-GO-LIVE-CHECKLIST.md`.

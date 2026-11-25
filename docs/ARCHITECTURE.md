@@ -2,7 +2,7 @@
 
 ## Pieces
 
-- **API** (`apps/api`, FastAPI, SQLAlchemy 2, Alembic). Everything that matters happens here. <!--n:api_paths-->54<!--/n--> paths, <!--n:tables-->20<!--/n--> tables with the prefix `ll_`. The OpenAPI file is `docs/openapi.json`.
+- **API** (`apps/api`, FastAPI, SQLAlchemy 2, Alembic). Everything that matters happens here. <!--n:api_paths-->61<!--/n--> paths, <!--n:tables-->20<!--/n--> tables with the prefix `ll_`. The OpenAPI file is `docs/openapi.json`.
 - **Worker** (`python -m booklantern.worker`). Runs four jobs on a timer: read the mailbox, send or draft reminders, suggest bank matches, refresh the forecast.
 - **Web** (`apps/web`, Next.js 16, React 19, TanStack Query, the shared plain CSS kit). It never talks to vendors. It forwards to the API and adds a required header to every change.
 - **Base** (`packages/core-py`, `packages/ui-kit`). Shared with the other systems and never edited here: write guard, approvals, audit chain, job runner, text model wrapper, adapter registry.

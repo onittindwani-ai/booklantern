@@ -83,7 +83,8 @@ class QuickBooksAccounting:
             raise AdapterError("ACCOUNTING_WRITE is false, so no bill is posted to QuickBooks. This is the safe default.")
         body = {"VendorRef": {"name": bill.vendor_name, "value": "0"}, "DocNumber": bill.number, "TxnDate": bill.issue_date, "DueDate": bill.due_date, "PrivateNote": bill.memo,
                 "Line": [{"DetailType": "AccountBasedExpenseLineDetail", "Amount": to_major_number(ln["total_minor"], bill.currency), "Description": ln["description"], "AccountBasedExpenseLineDetail": {"AccountRef": {"value": "0"}}} for ln in bill.lines]}
-        return str(self._call("POST", "/bill", json=body)["Bill"]["Id"])
+        params = {"requestid": bill.idempotency_key[:50]} if bill.idempotency_key else {}  # QuickBooks answers a repeated request id with the first result
+        return str(self._call("POST", "/bill", json=body, params=params)["Bill"]["Id"])
 
     def healthcheck(self) -> tuple[bool, str]:
         try:

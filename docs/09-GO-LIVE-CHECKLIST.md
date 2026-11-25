@@ -11,7 +11,9 @@ Do these in order, one client at a time. Stay in draft mode until every box is t
 ## Settings
 
 - [ ] `DEMO_MODE=false`, a real `SESSION_SECRET`, an owner password hash, and a second approver.
-- [ ] `COMPANY_NAME`, currency, payment terms, reminder window and ladder are the client's real answers, not the defaults.
+- [ ] `COMPANY_NAME`, `COMPANY_ADDRESS`, `EMAIL_FROM`, `REPLY_TO`, `BASE_CURRENCY`, `DEFAULT_TIMEZONE`, payment terms, reminder window and ladder are the client's real answers, not the defaults. The app refuses `MODE=live` while the company name is the placeholder.
+- [ ] The vendors (with their bank accounts on file), customers, open invoices, bank account and chart of accounts are loaded (`05`, "A real install"), and a person checked a few bank accounts against the vendor's own paperwork.
+- [ ] Someone reads the mailbox that receives replies to reminders every working day, and records an opt out on the customer when one asks to stop.
 - [ ] `python tools/doctor.py --live` shows no FAIL.
 - [ ] `make check-env` shows no problem.
 

@@ -120,7 +120,10 @@ def test_imap_inbox_takes_pdf_attachments_only_and_smtp_sends():
         srv.store.deliver(m.as_bytes())
         s = S(imap_host=srv.host, imap_port=srv.imap_port, imap_use_ssl=False, smtp_user="demo", smtp_password="demo-password", smtp_host=srv.host, smtp_port=srv.smtp_port, smtp_use_tls=False, mode=Mode.LIVE)
         docs = ImapInbox(s).fetch_documents()
-        assert [d.file_name for d in docs] == ["inv.pdf"] and ImapInbox(s).fetch_documents() == []  # marked as seen
+        assert [d.file_name for d in docs] == ["inv.pdf"]
+        assert [d.file_name for d in ImapInbox(s).fetch_documents()] == ["inv.pdf"]  # reading alone does not mark it read: a crash before the bill is stored loses nothing
+        ImapInbox(s).acknowledge([d.ack for d in docs])
+        assert ImapInbox(s).fetch_documents() == []  # marked as seen once the caller says the document is stored
         SmtpSender(s).send(from_addr="accounts@us.example.test", to="ap@c.example.test", subject="Hi\r\nBcc: x@y", body="b")
         import email as _email
         assert _email.message_from_string(srv.store.outbox[0]["data"])["Bcc"] is None  # a line break in the subject cannot add a header

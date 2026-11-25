@@ -7,9 +7,9 @@ from pathlib import Path
 
 from booklantern.extraction.offline import extract as offline_extract
 from booklantern.extraction.schema import Extraction
+from booklantern.seeding import REPO_DATA as DATA  # a development tool: it needs a source checkout
 
 SCORED = ("vendor", "number", "issue_date", "due_date", "currency", "po", "bill_to", "subtotal_minor", "tax_minor", "total_minor", "bank_account", "tax_rate_bp")
-DATA = Path(__file__).resolve().parents[5] / "data"
 
 
 def _norm(v):

@@ -13,7 +13,8 @@ from sendora_core.db import Base, make_engine, make_session_factory  # noqa: E40
 
 
 def make_ctx(tmp_path, **kw) -> Ctx:
-    s = Settings(database_url=f"sqlite:///{tmp_path / 't.sqlite3'}", upload_dir=str(tmp_path / "up"), session_secret="test-secret-test-secret", _env_file=None, **kw)
+    kw.setdefault("session_secret", "test-secret-test-secret")
+    s = Settings(database_url=f"sqlite:///{tmp_path / 't.sqlite3'}", upload_dir=str(tmp_path / "up"), _env_file=None, **kw)
     eng = make_engine(s.database_url)
     Base.metadata.create_all(eng)
     return Ctx(s, make_session_factory(eng))

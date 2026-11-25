@@ -68,7 +68,7 @@ def integrations(ctx: Ctx = Depends(get_ctx)):
     for row in ctx.registry.describe():
         env = ENV_VARS.get((row["category"], row["name"]), [])
         out.append({**row, "selected": chosen.get(row["category"]) == row["name"], "env_vars": env, "configured": all(bool(getattr(st, v.lower(), "")) for v in env) if env else True})
-    return {"categories": list(CATEGORIES), "adapters": out, "demo_mode": st.demo_mode}
+    return {"categories": list(CATEGORIES), "adapters": out, "demo_mode": st.demo_shortcuts}
 
 
 @router.post("/integrations/{category}/test", summary="Test the selected adapter in a category")
@@ -83,7 +83,7 @@ def test_integration(category: str, ctx: Ctx = Depends(get_ctx), u: dict = Depen
 def get_settings(s: Session = Depends(db), ctx: Ctx = Depends(get_ctx)):
     eff = ctx.effective(s)
     st = ctx.settings
-    return {"mode": st.mode.value, "effective_mode": eff.mode.value, "kill_switch": eff.kill_switch, "demo_mode": st.demo_mode, "problems": st.problems(), "accounting_write": st.accounting_write,
+    return {"mode": st.mode.value, "effective_mode": eff.mode.value, "kill_switch": eff.kill_switch, "demo_mode": st.demo_shortcuts, "problems": st.problems(), "accounting_write": st.accounting_write,
             "company": st.company_name, "currency": st.base_currency, "window": f"{st.reminder_window_start:02d}:00 to {st.reminder_window_end:02d}:00 customer local time, weekdays",
             "llm": "live (UNVERIFIED)" if st.effective_llm_backend.value == "anthropic" else "offline stand in", "extractor": "offline rules (not a language model)" if st.extractor == "offline" else "live model (UNVERIFIED)",
             "collection_prob_bp": st.probs()}

@@ -11,7 +11,8 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from booklantern import bankservice, collections, forecastservice, fx as FX, fxservice, model_tasks, report_pdf, reminders as R
-from booklantern.api.deps import db, get_ctx
+from booklantern.api.deps import db, get_ctx, user
+from sendora_core.auth import WRITE_ROLES
 from booklantern.api.serializers import bill_row, customer_row, invoice_row, iso, reminder_row
 from booklantern.context import Ctx
 from booklantern.money import format_minor
@@ -19,6 +20,7 @@ from booklantern.models import BankTransaction, Bill, Customer, Document, Except
 from sendora_core.models import Approval
 
 router = APIRouter(prefix="/api", tags=["read"])
+MAX_RENDER_PIXELS = 4_000_000  # about 2000 x 2000: far more than the review screen shows
 
 
 @router.get("/overview", summary="Numbers for the cash cockpit header")
@@ -34,7 +36,7 @@ def overview(s: Session = Depends(db), ctx: Ctx = Depends(get_ctx)):
         rep.absorb(part)
     sm.update({"fx": rep.to_dict(with_items=False), "low_point_minor": res["low_point_minor"], "low_point_week": res["low_point_week"], "runs_out_in_week": res["runs_out_in_week"], "pending_approvals": s.query(Approval).filter_by(status="pending").count(),
                "overdue_minor": sum(v for k, v in ag["buckets_minor"].items() if k != "current"),
-               "payable_minor": payable, "demo_mode": ctx.settings.demo_mode})
+               "payable_minor": payable, "demo_mode": ctx.settings.demo_shortcuts})
     return sm
 
 
@@ -49,15 +51,16 @@ def forecast(collect_delay_days: int = Query(0, ge=0, le=90), pay_delay_days: in
 
 
 @router.get("/forecast/explain", summary="A short written explanation of the forecast. The model only words numbers the code computed.")
-def forecast_explain(s: Session = Depends(db), ctx: Ctx = Depends(get_ctx)):
-    return {"text": forecastservice.explain(s, ctx, forecastservice.compute(s, ctx)), "writer": "language model (UNVERIFIED)" if ctx.settings.effective_llm_backend.value == "anthropic" else "offline stand in (not a language model)"}
+def forecast_explain(s: Session = Depends(db), ctx: Ctx = Depends(get_ctx), u: dict = Depends(user)):
+    live = u["role"] in WRITE_ROLES  # a read only visitor gets the offline wording: opening a page must never cost money
+    return {"text": forecastservice.explain(s, ctx, forecastservice.compute(s, ctx), live), "writer": "language model (UNVERIFIED)" if ctx.settings.effective_llm_backend.value == "anthropic" else "offline stand in (not a language model)"}
 
 
 @router.get("/overview/explain", summary="Two plain sentences about the month end counts. The model only words counts the code computed.")
-def overview_explain(s: Session = Depends(db), ctx: Ctx = Depends(get_ctx)):
+def overview_explain(s: Session = Depends(db), ctx: Ctx = Depends(get_ctx), u: dict = Depends(user)):
     sm = report_pdf.summary(s, ctx)
     facts = {"open_invoices": sm["open_invoices"], "receivable": format_minor(sm["receivable_minor"], sm["currency"]), "bills_to_review": sm["bills_to_review"], "unmatched": sm["unmatched_lines"], "exceptions": sm["open_exceptions"]}
-    return {"text": model_tasks.summarise_month(ctx.llm(s), facts), "writer": "language model (UNVERIFIED)" if ctx.settings.effective_llm_backend.value == "anthropic" else "offline stand in (not a language model)"}
+    return {"text": model_tasks.summarise_month(ctx.llm(s, u["role"] in WRITE_ROLES), facts), "writer": "language model (UNVERIFIED)" if ctx.settings.effective_llm_backend.value == "anthropic" else "offline stand in (not a language model)"}
 
 
 @router.get("/documents", summary="Documents received")
@@ -84,17 +87,21 @@ def page_image(doc_id: int, n: int, s: Session = Depends(db)):
     if not p.exists():
         raise HTTPException(404, "No picture for this file.")
     if d.mime in ("image/png", "image/jpeg"):  # a photo or scan is already a picture: show it as it came
-        return Response(p.read_bytes(), media_type=d.mime, headers={"cache-control": "private, max-age=3600"})
+        return Response(p.read_bytes(), media_type=d.mime, headers={"cache-control": "private, no-store"})
     if d.mime != "application/pdf":
         raise HTTPException(404, "No picture for this file.")
     try:
-        img = pdfium.PdfDocument(p.read_bytes())[n - 1].render(scale=1.6).to_pil()
+        page = pdfium.PdfDocument(p.read_bytes())[n - 1]
+        w, h = page.get_size()
+        # A page that claims to be enormous must not ask for a huge picture: the scale is lowered until the picture is at most MAX_RENDER_PIXELS.
+        scale = min(1.6, (MAX_RENDER_PIXELS / max(w * h, 1.0)) ** 0.5)
+        img = page.render(scale=scale).to_pil()
     except Exception as exc:
         raise HTTPException(404, "This file could not be drawn.") from exc
     import io
     buf = io.BytesIO()
     img.save(buf, format="PNG")
-    return Response(buf.getvalue(), media_type="image/png", headers={"cache-control": "private, max-age=3600"})
+    return Response(buf.getvalue(), media_type="image/png", headers={"cache-control": "private, no-store"})
 
 
 @router.get("/bills", summary="Bills, newest first")

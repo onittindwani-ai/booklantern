@@ -41,6 +41,7 @@ class BillData:
     total: int
     line_totals: list[int]
     tax_rate_bp: int | None = None
+    vendor_name: str = ""  # the name as read from the document: it stands in for the vendor when the vendor list has no match
 
 
 @dataclass
@@ -99,11 +100,19 @@ def check_math(b: BillData, vendor: VendorData | None) -> list[Finding]:
     return out
 
 
+def same_vendor(a: BillData, b: BillData) -> bool:
+    """The same vendor: the same vendor record, or (when neither bill matched a vendor on the list) the same or a very close name as read.
+    Without this a bill from a vendor nobody entered would never be compared with its own copy."""
+    if a.vendor_id is not None or b.vendor_id is not None:
+        return a.vendor_id == b.vendor_id
+    return bool(a.vendor_name.strip() and b.vendor_name.strip()) and similar(a.vendor_name, b.vendor_name) >= 0.85
+
+
 def check_duplicates(b: BillData, others: list[BillData]) -> list[Finding]:
     """Compare against bills seen earlier. `others` must hold only bills received before this one, in order."""
     out: list[Finding] = []
     for o in others:
-        if o.id == b.id or o.vendor_id != b.vendor_id or o.vendor_id is None:
+        if o.id == b.id or not same_vendor(o, b):
             continue
         same_number = o.number.strip().casefold() == b.number.strip().casefold()
         if same_number and o.total == b.total and o.issue_date == b.issue_date and o.currency == b.currency:
@@ -131,6 +140,8 @@ def check_vendor_facts(b: BillData, vendor: VendorData | None, company: str, as_
     else:
         if vendor.bank_account and b.bank_account and norm_account(vendor.bank_account) != norm_account(b.bank_account):
             out.append(Finding("bank_detail_changed", "block", "The bank account on this bill is different from the one on file. Phone the vendor on a number you already have before paying."))
+        elif vendor.bank_account and not b.bank_account:
+            out.append(Finding("bank_details_not_read", "block", "This vendor has a bank account on file, but none could be read from this bill. The bill may show its details in a form the reader does not know, so a changed account would go unseen. Compare the page with the account on file before paying."))
         if vendor.requires_po and not b.po:
             out.append(Finding("missing_po", "warning", "This vendor's bills need a purchase order number and none was found."))
         if b.currency != vendor.currency:

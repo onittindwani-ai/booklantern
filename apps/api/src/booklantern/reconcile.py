@@ -5,7 +5,8 @@ Score (0 to 100, every part is named so the page can show why):
   invoice or bill number found in the description: 25 (digits only also count)     date in a believable window: 10
 A split (one deposit paying several invoices of one customer) is found by trying subsets of two to four of that customer's open
 invoices whose open amounts add up to the deposit exactly. Score 90.
-Auto confirm at 85 and above, suggest from 60, otherwise leave the line unmatched for a person.
+Auto confirm at 85 and above, but only when the name of the customer or vendor was also found in the description: an amount, a number and a date can all be copied
+by whoever writes the payment reference, so without a name a person confirms. Suggest from 60, otherwise leave the line unmatched for a person.
 A line that is identical to an earlier line of the same file is a possible duplicate and is never matched twice.
 """
 
@@ -20,6 +21,7 @@ from itertools import combinations
 from booklantern.fx import RateBook
 
 CONFIRM_AT, SUGGEST_AT = 85, 60
+MAX_SPLIT_CANDIDATES = 25  # open invoices of one customer tried in a split: 25 choose 4 is 12,650 sums, a few hundred thousand is where it would stall
 
 
 @dataclass
@@ -153,7 +155,8 @@ def match_all(txns: list[Txn], targets: list[Target], recurring: list[RecurringT
             sc, why, c, a = best
             alloc = min(a, left[(c.kind, c.id)])
             left[(c.kind, c.id)] -= alloc
-            out.append(Result(t.id, "matched" if sc >= CONFIRM_AT else "suggested", [Link(c.kind, c.id, alloc, sc, why)]))
+            named = name_score(t.description, c.party) > 0
+            out.append(Result(t.id, "matched" if sc >= CONFIRM_AT and named else "suggested", [Link(c.kind, c.id, alloc, sc, why if named or sc < CONFIRM_AT else why + "; no name found, so a person confirms")]))
             continue
         split = _split(t, pool, left)
         if split:
@@ -173,6 +176,7 @@ def _split(t: Txn, pool: list[Target], left: dict) -> list[Link] | None:
     for c in named:
         by_party.setdefault(c.party, []).append(c)
     for party, items in by_party.items():
+        items = sorted(items, key=lambda c: (c.due or date.max, c.id))[:MAX_SPLIT_CANDIDATES]
         for n in (2, 3, 4):
             for combo in combinations(items, n):
                 if sum(left[(c.kind, c.id)] for c in combo) == t.amount_minor:

@@ -1,7 +1,8 @@
 """A tiny fake SMTP and IMAP server for tests and the demo. Not a real mail server.
 
 SMTP: EHLO, AUTH PLAIN, MAIL, RCPT, DATA, RSET, NOOP, QUIT. Accepted messages land in `MailStore.outbox`.
-IMAP: CAPABILITY, LOGIN, SELECT, UID SEARCH (ALL, UNSEEN), UID FETCH (RFC822), UID STORE (flags), NOOP, LOGOUT.
+IMAP: CAPABILITY, LOGIN, SELECT, UID SEARCH (ALL, UNSEEN), UID FETCH (RFC822.SIZE, BODY.PEEK[], RFC822), UID STORE (flags), NOOP, LOGOUT.
+Only a plain RFC822 fetch marks a message read, as on a real server; BODY.PEEK[] does not.
 Messages in `MailStore.inbox` are what the IMAP client sees. It speaks only what Python's smtplib and imaplib send.
 """
 
@@ -114,11 +115,18 @@ class _IMAP(socketserver.StreamRequestHandler):
                     uid = int(a2.split(" ", 1)[0])
                     with self.store.lock:
                         msg = next((m for m in self.store.inbox if m["uid"] == uid), None)
+                    items = a2.split(" ", 1)[1].upper() if " " in a2 else ""
                     if msg is None:
                         self._w(tag.encode() + b" OK done\r\n")
+                    elif "RFC822.SIZE" in items:
+                        self._w(f"* {uid} FETCH (UID {uid} RFC822.SIZE {len(msg['raw'])})\r\n".encode() + tag.encode() + b" OK done\r\n")
                     else:
                         body = msg["raw"]
-                        self._w(f"* {uid} FETCH (UID {uid} RFC822 {{{len(body)}}}\r\n".encode() + body + b")\r\n" + tag.encode() + b" OK done\r\n")
+                        peek = "PEEK" in items
+                        if not peek:
+                            msg["seen"] = True
+                        label = "BODY[]" if peek else "RFC822"
+                        self._w(f"* {uid} FETCH (UID {uid} {label} {{{len(body)}}}\r\n".encode() + body + b")\r\n" + tag.encode() + b" OK done\r\n")
                 elif sub == "STORE":
                     uid = int(a2.split(" ", 1)[0])
                     with self.store.lock:

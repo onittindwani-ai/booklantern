@@ -9,7 +9,7 @@ Variable names and the numbered steps to get each value are in `04-ENVIRONMENT-V
 - **quickbooks** (QuickBooks Online). Tested against a stand in server. The sign in endpoints and scope were checked against Intuit's own pages on 2026-11-23. The bill and invoice paths, field names and the current minor version are UNVERIFIED because those pages could not be read.
 - **xero**. Written from documentation, mock tested only, tier B.
 - **akaunting**. Written from documentation, mock tested only, tier B.
-- **csv**. Reads vendors and invoices from files in a folder and writes a file a person imports by hand. Tested offline.
+- **csv**. Reads open invoices from `invoices.csv` (columns Number, Customer, Total, Balance, Due) in the folder `CSV_FOLDER` and writes approved bills to `draft-bills.csv` there, for a person to import by hand. It reads no vendors. Tested offline.
 
 Read only by default. Posting a draft bill needs three things together: `MODE=live`, `ACCOUNTING_WRITE=true` and a person approving that bill.
 

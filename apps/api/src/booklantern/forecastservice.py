@@ -74,12 +74,12 @@ def compute(session: Session, ctx, scenario: dict | None = None) -> dict:
     return res
 
 
-def explain(session: Session, ctx, res: dict) -> str:
+def explain(session: Session, ctx, res: dict, live: bool = True) -> str:
     """The model (or the offline stand in) only words numbers the code already computed."""
     f = lambda m: format_minor(m, ctx.settings.base_currency)  # noqa: E731
     facts = {"opening": f(res["opening_minor"]), "closing": f(res["closing_minor"]), "low": f(res["low_point_minor"]), "low_week": res["low_point_week"], "receipts": f(res["total_receipts_minor"]),
              "runs_out": res["runs_out_in_week"], "beyond": f(res["beyond_horizon_minor"]) if res["beyond_horizon_minor"] else "", "weeks": F.WEEKS}
-    return model_tasks.explain_forecast(ctx.llm(session), facts)
+    return model_tasks.explain_forecast(ctx.llm(session, live), facts)
 
 
 def save(session: Session, ctx, res: dict) -> Forecast:

@@ -1,6 +1,6 @@
 [project]
 name = "booklantern"
-version = "1.0.0"
+version = "1.0.1"
 description = "Booklantern: finance back office for a small business"
 requires-python = ">=3.12"
 license = { text = "MIT" }

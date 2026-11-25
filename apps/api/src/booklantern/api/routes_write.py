@@ -5,6 +5,7 @@ from __future__ import annotations
 from datetime import date
 
 from fastapi import APIRouter, Depends, HTTPException, Request
+from fastapi.concurrency import run_in_threadpool
 from pydantic import BaseModel, Field
 from sqlalchemy import select
 from sqlalchemy.orm import Session
@@ -13,6 +14,7 @@ from booklantern import bankservice, collections, intake, posting
 from booklantern.api.deps import db, get_ctx, writer
 from booklantern.context import Ctx
 from booklantern.exceptions import resolve
+from booklantern.money import CURRENCY_EXPONENT
 from booklantern.models import ExceptionItem, BankTransaction, Bill, BillLine, Customer, Document, Invoice, Match, Reminder
 from sendora_core.audit import record_audit
 
@@ -30,27 +32,50 @@ def _found(obj, what: str):
     return obj
 
 
-@router.post("/documents/upload", summary="Upload a PDF or image as the raw request body. Send the file name in the x-filename header.")
-async def upload(request: Request, s: Session = Depends(db), ctx: Ctx = Depends(get_ctx), u: dict = Depends(writer)):
-    data = await request.body()
-    if not data or len(data) > 15 * 1024 * 1024:
+MAX_UPLOAD = 15 * 1024 * 1024
+
+
+async def _bounded_body(request: Request, limit: int) -> bytes:
+    """The request body, read with a ceiling: a declared size over the limit is refused before a byte is read, and a body that is longer than it says is cut off."""
+    declared = request.headers.get("content-length")
+    if declared is not None and (not declared.isdigit() or int(declared) > limit):
         raise HTTPException(413, "The file is empty or larger than 15 MB.")
+    chunks: list[bytes] = []
+    total = 0
+    async for chunk in request.stream():
+        total += len(chunk)
+        if total > limit:
+            raise HTTPException(413, "The file is empty or larger than 15 MB.")
+        chunks.append(chunk)
+    return b"".join(chunks)
+
+
+def _store_and_read(s: Session, ctx: Ctx, name: str, data: bytes, who: str) -> dict:
     try:
-        doc = intake.ingest(s, ctx, request.headers.get("x-filename", "upload.pdf"), data, "upload")
+        doc = intake.ingest(s, ctx, name, data, "upload")
     except intake.UnsupportedFile as exc:
         raise HTTPException(415, str(exc)) from exc
     if doc is None:
         return {"duplicate": True}
     bill = intake.process_document(s, ctx, doc, data)
-    record_audit(s, u["user"], "document.uploaded", f"document:{doc.id}", {})
+    record_audit(s, who, "document.uploaded", f"document:{doc.id}", {})
     return {"duplicate": False, "document_id": doc.id, "bill_id": bill.id}
+
+
+@router.post("/documents/upload", summary="Upload a PDF or image as the raw request body. Send the file name in the x-filename header.")
+async def upload(request: Request, s: Session = Depends(db), ctx: Ctx = Depends(get_ctx), u: dict = Depends(writer)):
+    data = await _bounded_body(request, MAX_UPLOAD)
+    if not data:
+        raise HTTPException(413, "The file is empty or larger than 15 MB.")
+    # Reading a PDF is slow work: it runs in a worker thread, so the sign in page and every other request keep answering meanwhile.
+    return await run_in_threadpool(_store_and_read, s, ctx, request.headers.get("x-filename", "upload.pdf"), data, u["user"])
 
 
 class LineIn(BaseModel):
     description: str = Field(max_length=240)
     quantity_milli: int = Field(ge=0, le=10**9)
-    unit_minor: int
-    total_minor: int
+    unit_minor: int = Field(ge=0, le=10**12)
+    total_minor: int = Field(ge=0, le=10**12)
 
 
 class BillPatch(BaseModel):
@@ -66,7 +91,7 @@ class BillPatch(BaseModel):
     subtotal_minor: int | None = Field(default=None, ge=0, le=10**12)
     tax_minor: int | None = Field(default=None, ge=0, le=10**12)
     total_minor: int | None = Field(default=None, ge=0, le=10**12)
-    lines: list[LineIn] | None = None
+    lines: list[LineIn] | None = Field(default=None, max_length=500)
 
 
 @router.patch("/bills/{bill_id}", summary="Correct fields on a bill. The checks run again.")
@@ -81,6 +106,12 @@ def patch_bill(bill_id: int, body: BillPatch, s: Session = Depends(db), ctx: Ctx
             raise HTTPException(422, f"{k.replace('_minor', '').replace('_', ' ').capitalize()} cannot be empty. Leave the field as it was, or type a value.")
     if "currency" in changed:
         changed["currency"] = changed["currency"].upper()
+        if changed["currency"] not in CURRENCY_EXPONENT:
+            raise HTTPException(422, f"{changed['currency']} is not a currency this system knows. Use a three letter code such as USD, EUR or GBP.")
+    if changed.get("vendor_id") is not None:
+        from booklantern.models import Vendor
+        if s.get(Vendor, changed["vendor_id"]) is None:
+            raise HTTPException(422, "That vendor is not on the vendor list.")
     issue, due = changed.get("issue_date", b.issue_date), changed.get("due_date", b.due_date)
     if issue and due and due < issue:
         raise HTTPException(422, "The due date is before the bill date. Check both dates.")
@@ -117,7 +148,7 @@ class ApproveIn(BaseModel):
 @router.post("/bills/{bill_id}/approve", summary="Approve a bill. A blocking finding needs a written reason.")
 def approve_bill(bill_id: int, body: ApproveIn, s: Session = Depends(db), u: dict = Depends(writer)):
     try:
-        b = posting.approve(s, bill_id, u["user"], body.note)
+        b = posting.approve(s, bill_id, u["user"], body.note, u["role"])
     except posting.NoSuchBill as exc:
         raise HTTPException(404, str(exc)) from exc
     except ValueError as exc:
@@ -207,6 +238,8 @@ class OptOutIn(BaseModel):
 @router.post("/customers/{customer_id}/opt-out", summary="Record that a customer asked to get no reminders")
 def opt_out(customer_id: int, body: OptOutIn, s: Session = Depends(db), u: dict = Depends(writer)):
     _found(s.get(Customer, customer_id), "customer")
+    if not body.opted_out and u["role"] != "owner":
+        raise HTTPException(403, "Only the owner can switch reminders back on for a customer who asked to stop.")
     return {"opted_out": collections.set_opt_out(s, customer_id, body.opted_out, u["user"]).opted_out}
 
 
@@ -220,7 +253,7 @@ def payment_link(invoice_id: int, s: Session = Depends(db), ctx: Ctx = Depends(g
 
 class ImportIn(BaseModel):
     text: str = Field(min_length=1, max_length=8_000_000)
-    name: str = Field(default="upload.csv", max_length=80)
+    name: str = Field(default="upload.csv", max_length=40)
 
 
 @router.post("/bank/import", summary="Import a bank statement CSV (text in the body). CSV only, no bank login.")

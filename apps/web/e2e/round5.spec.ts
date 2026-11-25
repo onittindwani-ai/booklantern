@@ -295,7 +295,7 @@ test.describe("round 5: every fix from the walk through the screens", () => {
     await page.goto("/collections"); await page.waitForLoadState("networkidle");
     const row = page.locator(".ll-plan").filter({ hasText: "INV-2068" });
     await row.getByRole("button", { name: "Payment link" }).click();
-    await expect(page.getByText(/Payment link created|a placeholder link was saved/).first()).toBeVisible();
+    await expect(page.getByText(/Payment link created|so no link was saved/).first()).toBeVisible();
     await expect(row.getByText(/Link: /)).toContainText("INV-2068");
     await expect(row.getByRole("button", { name: "Copy link" })).toBeVisible();
     await page.context().close();

@@ -23,12 +23,13 @@ Press **Pause all**. It blocks every outgoing action at once. To stop even if th
 ## Backups
 
 - **SQLite:** `sqlite3 booklantern.sqlite3 ".backup backup.sqlite3"` while it runs, or stop the app and copy the file.
-- **Postgres:** `pg_dump --format=custom "$DATABASE_URL_PLAIN" > booklantern.dump` using the plain `postgresql://` form of the address. `deploy/hetzner/backup.sh` does it for you.
-- **Uploaded bills** live in `UPLOAD_DIR`. Back that folder up as well.
+- **Postgres, Docker:** `deploy/hetzner/backup.sh` does it for you. It can run from cron, writes the dump to a partial file and keeps it only when it is not empty, also saves the uploads as a tar file, keeps the newest 14 of each, and with `BACKUP_COPY_TO=user@host:/path/` copies them to another machine. A copy on the same disk is not a backup.
+- **Postgres, your own server:** `pg_dump --format=custom "postgresql://USER:PASSWORD@HOST:5432/booklantern" > booklantern.dump` (the plain `postgresql://` form of `DATABASE_URL`, without `+psycopg`).
+- **Uploaded bills** live in `UPLOAD_DIR`. In Docker that is the `uploads` volume, which `backup.sh` saves. Otherwise back that folder up as well.
 
 ## Restore (test this once)
 
-1. Make an empty database. 2. Postgres: `pg_restore --clean --if-exists -d "$DATABASE_URL_PLAIN" booklantern.dump`. SQLite: put the file back. 3. Start the API, open the Audit log and press Check the chain.
+1. Make an empty database. 2. Postgres: `pg_restore --clean --if-exists -d "postgresql://USER:PASSWORD@HOST:5432/booklantern" booklantern.dump`. In Docker: `docker compose exec -T db pg_restore --clean --if-exists -U booklantern -d booklantern < booklantern-DATE.dump`. SQLite: put the file back. Restore into a spare database first and look at it; a restore that was never tried is a hope, not a backup. 3. Start the API, open the Audit log and press Check the chain.
 
 ## Logs
 

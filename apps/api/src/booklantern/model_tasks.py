@@ -187,11 +187,14 @@ def verify_extraction(out: ExtractOut, text: str) -> Extraction:
     text_field("currency", out.currency, currency_check)
     text_field("bank_account", out.bank_account)
 
+    negative: list[str] = []  # amounts the model read as negative: shown as a blocking finding, never quietly turned into a payable bill
+
     def int_field(name: str, v: CitedInt) -> None:
         if v.value is None:
             return
         conf, reasons = base(v.confidence, bool(v.source), [])
         if v.value < 0:
+            negative.append(name)
             conf = _lower(conf, NOT_FOUND_CAP, reasons, "negative amount: amounts are kept as printed, without sign")
         if v.source and _norm(v.source) not in nt:
             conf = _lower(conf, NOT_FOUND_CAP, reasons, "the quoted source text is not in the document")
@@ -220,10 +223,14 @@ def verify_extraction(out: ExtractOut, text: str) -> Extraction:
     for ln in out.lines:
         if ln.quantity_milli and ln.unit_minor and line_total(ln.quantity_milli, ln.unit_minor) != ln.total_minor:
             notes.append(f"Line '{ln.description[:40]}': quantity times unit price does not equal the line amount.")
+        if ln.total_minor < 0:
+            negative.append("line")
         lines.append(LineItem(ln.description, ln.quantity_milli, ln.unit_minor, abs(ln.total_minor)))
     if lines and s and sum(x.total_minor for x in lines) != s.value:
         notes.append("The line amounts do not add up to the subtotal.")
-    if out.doc_type == "credit_note":
+    if negative:
+        fields["negative_amount"] = FieldValue(1, 90, None, 0, "sign", [f"the model read a negative amount ({', '.join(sorted(set(negative)))})"])
+    if out.doc_type == "credit_note" or negative:
         fields["doc_type"] = FieldValue("credit_note", 60, None, 0, "title", ["the model says this is a credit note"])
         notes.append("This looks like a credit note, not a bill to pay.")
     else:

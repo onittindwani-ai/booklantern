@@ -18,6 +18,8 @@ class InboundDocument:
     data: bytes
     from_addr: str = ""
     subject: str = ""
+    ref: str = ""  # a fixed reference, set only by the offline demo mailbox: a reference is never taken from text a sender wrote
+    ack: str = ""  # which mailbox message this came from: it is marked read only after the document is safely stored (see InboxAdapter.acknowledge)
 
 
 @dataclass
@@ -42,6 +44,7 @@ class DraftBill:
     tax_minor: int = 0
     total_minor: int = 0
     memo: str = ""
+    idempotency_key: str = ""  # the same key on a repeated call makes the accounting system return the first bill instead of creating a second one
 
 
 class AccountingAdapter(Protocol):
@@ -57,12 +60,23 @@ class PaymentsAdapter(Protocol):
 
 class InboxAdapter(Protocol):
     def fetch_documents(self) -> list[InboundDocument]: ...
+    def acknowledge(self, acks: list[str]) -> None: ...
     def healthcheck(self) -> tuple[bool, str]: ...
 
 
 class EmailSender(Protocol):
     def send(self, *, from_addr: str, to: str, subject: str, body: str) -> str: ...
     def healthcheck(self) -> tuple[bool, str]: ...
+
+
+def is_loopback(host: str) -> bool:
+    """True for this same computer (localhost, 127.x, ::1). Plain text mail connections are allowed only to such a host."""
+    if host.lower() == "localhost":
+        return True
+    try:
+        return ipaddress.ip_address(host.strip("[]")).is_loopback
+    except ValueError:
+        return False
 
 
 def safe_base_url(url: str, *, allow_http_local: bool = False) -> str:

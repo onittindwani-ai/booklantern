@@ -14,7 +14,9 @@ from sendora_core.audit import record_audit
 
 
 def import_csv(session: Session, text: str, batch: str, account_id: int | None = None) -> dict:
-    acct = session.get(BankAccount, account_id) if account_id else session.scalars(select(BankAccount)).first()
+    acct = session.get(BankAccount, account_id) if account_id else session.scalars(select(BankAccount).order_by(BankAccount.id)).first()
+    if acct is None:
+        raise bankcsv.CsvError("There is no bank account yet. Add one first (Bank accounts, or POST /api/bank/accounts) with its currency and opening balance.")
     rows = bankcsv.parse(text, acct.currency)
     for n, r in enumerate(rows, start=2):
         if r.currency.upper() != acct.currency.upper():
@@ -63,7 +65,9 @@ def _targets(session: Session) -> list[RC.Target]:
 
 def run_matching(session: Session, ctx) -> dict:
     """Match every line that is still unmatched. Auto matches at 85 and above, suggestions from 60, the rest become exceptions."""
-    todo = list(session.scalars(select(BankTransaction).where(BankTransaction.status.in_(("unmatched", "exception"))).order_by(BankTransaction.posted_on, BankTransaction.id)))
+    # The lines are locked while they are matched (Postgres: FOR UPDATE; SQLite has one writer anyway), so the API and the worker running at the same time
+    # cannot both match the same line, which would count one payment twice.
+    todo = list(session.scalars(select(BankTransaction).where(BankTransaction.status.in_(("unmatched", "exception"))).order_by(BankTransaction.posted_on, BankTransaction.id).with_for_update()))
     dup_ids = set(session.scalars(select(ExceptionItem.ref_id).where(ExceptionItem.ref_type == "bank_txn", ExceptionItem.kind == "possible_duplicate_line")))
     txns = [RC.Txn(t.id, t.posted_on, t.description, t.amount_minor, t.currency, t.id in dup_ids) for t in todo]
     rec = [RC.RecurringT(r.id, r.name, r.match_text, -r.amount_minor if r.direction == "out" else r.amount_minor) for r in session.scalars(select(RecurringItem))]
@@ -98,12 +102,24 @@ def confirm_match(session: Session, match_id: int, who: str) -> Match:
 
 
 def link_manually(session: Session, txn_id: int, kind: str, target_id: int, amount_minor: int, who: str) -> Match:
-    """A person links one bank line to an invoice or bill. The amount may be less than the line (a part payment) but never more than the line, and never more than is still open."""
-    t = session.get(BankTransaction, txn_id)
+    """A person links one bank line to an invoice or bill. The amount may be less than the line (a part payment) but never more than the line, and never more than is still open.
+    The line and the target must be in the same currency and the target must still be open. Both rows are locked while the sums are checked."""
+    t = session.scalars(select(BankTransaction).where(BankTransaction.id == txn_id).with_for_update()).first()
+    if t is None:
+        raise ValueError("No such bank line.")
+    model = Invoice if kind == "invoice" else Bill
+    tgt = session.scalars(select(model).where(model.id == target_id).with_for_update()).first()
+    if tgt is None:
+        raise ValueError(f"No such {kind}.")
+    if t.currency != tgt.currency:
+        raise ValueError(f"The bank line is in {t.currency} and the {kind} is in {tgt.currency}. A link between two currencies is not made by hand: add the exchange rate and let the matcher convert, or ask your accountant.")
+    if kind == "invoice" and tgt.status != "open":
+        raise ValueError("This invoice is not open, so it cannot take a payment.")
+    if kind == "bill" and tgt.status not in ("approved", "posted_draft", "needs_review"):
+        raise ValueError("This bill is not waiting to be paid (rejected or already paid), so it cannot take a payment.")
     used = int(session.scalar(select(func.coalesce(func.sum(Match.allocated_minor), 0)).where(Match.bank_txn_id == txn_id)) or 0)
     if amount_minor <= 0 or used + amount_minor > abs(t.amount_minor):
         raise ValueError("The linked amount cannot be more than the bank line.")
-    tgt = session.get(Invoice if kind == "invoice" else Bill, target_id)
     already = int(session.scalar(select(func.coalesce(func.sum(Match.allocated_minor), 0)).where(Match.invoice_id == target_id if kind == "invoice" else Match.bill_id == target_id)) or 0)
     if already + amount_minor > tgt.total_minor:
         raise ValueError("That would pay more than the amount on the document.")
@@ -116,8 +132,24 @@ def link_manually(session: Session, txn_id: int, kind: str, target_id: int, amou
 
 
 def unlink(session: Session, match_id: int, who: str) -> None:
+    """Remove a match. If it had already been turned into a payment, that payment is taken back too: the allocation goes, the invoice is open again when it no longer
+    holds its full amount, and a payment record with no allocation left is removed. Without this a wrongly confirmed match would leave an invoice paid for good."""
     m = session.get(Match, match_id)
     t = session.get(BankTransaction, m.bank_txn_id)
+    payment = session.scalars(select(Payment).where(Payment.bank_txn_id == t.id)).first()
+    if payment is not None and m.target_type != "recurring":
+        alloc = session.scalars(select(PaymentAllocation).where(PaymentAllocation.payment_id == payment.id, PaymentAllocation.invoice_id == m.invoice_id, PaymentAllocation.bill_id == m.bill_id,
+                                                                 PaymentAllocation.amount_minor == m.allocated_minor)).first()
+        if alloc is not None:
+            session.delete(alloc)
+            session.flush()
+            if m.invoice_id:
+                inv = session.get(Invoice, m.invoice_id)
+                inv.paid_minor = max(0, inv.paid_minor - m.allocated_minor)
+                if inv.status == "paid" and inv.paid_minor < inv.total_minor:
+                    inv.status, inv.paid_on = "open", None
+        if not session.scalars(select(PaymentAllocation).where(PaymentAllocation.payment_id == payment.id)).first():
+            session.delete(payment)
     session.delete(m)
     session.flush()
     if not session.scalars(select(Match).where(Match.bank_txn_id == t.id)).first():

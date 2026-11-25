@@ -42,7 +42,7 @@ export default function CollectionsPage() {
       else notify.success("Dispute cleared.");
       done();
     }, onError: (e: Error) => notify.error("Could not change the dispute", e.message) });
-  const link = useMutation({ mutationFn: (id: number) => post<{ url: string; real: boolean }>(`/invoices/${id}/payment-link`), onSuccess: (r) => { notify.success(r.real ? "Payment link created." : "Draft mode: a placeholder link was saved, nothing was created at the payment provider."); done(); }, onError: (e: Error) => notify.error("Could not make the payment link", e.message) });
+  const link = useMutation({ mutationFn: (id: number) => post<{ url: string; real: boolean }>(`/invoices/${id}/payment-link`), onSuccess: (r) => { notify.success(r.real ? "Payment link created." : "Draft mode: nothing was created at the payment provider, so no link was saved."); done(); }, onError: (e: Error) => notify.error("Could not make the payment link", e.message) });
   const savePromise = useMutation({ mutationFn: () => post(`/invoices/${promise!.id}/promise`, { promised_on: date, amount_minor: promise!.outstanding_minor, note }), onSuccess: () => { notify.success("Promise recorded. Reminders pause until that date."); setPromise(null); done(); }, onError: (e: Error) => notify.error("Could not save", e.message) });
   if (q.isError) return <div className="ll-page"><PageHead title="Collections" /><LoadError error={q.error} onRetry={() => q.refetch()} what="collections" /></div>;
   if (!q.data) return <div className="ll-page"><PageHead title="Collections" /><ListSkeleton /></div>;

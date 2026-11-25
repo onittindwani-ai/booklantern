@@ -14,6 +14,8 @@ from decimal import ROUND_HALF_UP, Decimal
 
 from booklantern.money import CURRENCY_EXPONENT
 
+MAX_DIGITS = 15  # same limit as limits.MAX_DIGITS (not imported: limits.py imports money, this module is read by the extractors)
+
 SYMBOL_CURRENCY = {"€": "EUR", "£": "GBP", "¥": "JPY", "円": "JPY", "₹": "INR", "zł": "PLN", "Kč": "CZK", "₩": "KRW", "R$": "BRL", "Fr.": "CHF", "Rs.": "INR", "Rs": "INR"}
 CODE_RE = re.compile(r"\b(" + "|".join(sorted(CURRENCY_EXPONENT, key=len, reverse=True)) + r")\b")
 _AMOUNT = re.compile(r"""(?P<neg1>[-\u2212(]\s?)?(?:[$€£¥₹₩]|R\$|Rs\.?|zł|Kč|Fr\.)?\s?(?P<num>\d{1,3}(?:[   '’]\d{3})+(?:[.,]\d+)?|\d[\d.,'’]*)(?P<tail>\)|\s?-(?!\d)|\s?CR\b|\s?DR\b)?""")
@@ -25,6 +27,8 @@ def to_minor_units(num: str, exp: int) -> int | None:
     s = re.sub(r"[   '’]", "", num).strip(".,")
     if not s or not re.fullmatch(r"[\d.,]+", s):
         return None
+    if len(re.sub(r"\D", "", s)) > MAX_DIGITS:
+        return None  # no real bill has an amount this long: it is not read, so it can never overflow a column
     last_dot, last_comma = s.rfind("."), s.rfind(",")
     dec = None
     if exp > 0:

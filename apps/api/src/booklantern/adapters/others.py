@@ -11,6 +11,7 @@ import httpx
 
 from booklantern.adapters.base import DraftBill, RemoteInvoice, safe_base_url
 from booklantern.money import parse_amount, to_major_number, to_minor
+from booklantern.util import csv_safe
 from sendora_core.adapters import AdapterError
 from sendora_core.safety import write_action
 
@@ -41,7 +42,8 @@ class XeroAccounting:
             raise AdapterError("ACCOUNTING_WRITE is false, so nothing is posted to Xero.")
         body = {"Type": "ACCPAY", "Status": "DRAFT", "InvoiceNumber": bill.number, "Contact": {"Name": bill.vendor_name}, "Date": bill.issue_date, "DueDate": bill.due_date, "CurrencyCode": bill.currency,
                 "LineItems": [{"Description": ln["description"], "Quantity": ln["quantity"], "UnitAmount": to_major_number(ln["unit_minor"], bill.currency)} for ln in bill.lines]}
-        r = self.client.post("/api.xro/2.0/Invoices", headers=self._h(), json=body)
+        headers = {**self._h(), **({"Idempotency-Key": bill.idempotency_key[:128]} if bill.idempotency_key else {})}
+        r = self.client.post("/api.xro/2.0/Invoices", headers=headers, json=body)
         if r.status_code >= 400:
             raise AdapterError(f"Xero answered {r.status_code} when creating the draft bill.")
         return str(r.json()["Invoices"][0]["InvoiceID"])
@@ -113,7 +115,7 @@ class CsvAccounting:
             w = csv.writer(f)
             if new:
                 w.writerow(["Vendor", "Number", "Issued", "Due", "Currency", "Subtotal", "Tax", "Total"])
-            w.writerow([bill.vendor_name, bill.number, bill.issue_date, bill.due_date, bill.currency, bill.subtotal_minor, bill.tax_minor, bill.total_minor])
+            w.writerow([csv_safe(v) for v in (bill.vendor_name, bill.number, bill.issue_date, bill.due_date, bill.currency, bill.subtotal_minor, bill.tax_minor, bill.total_minor)])
         return f"csv-row-{bill.number}"
 
     def healthcheck(self) -> tuple[bool, str]:

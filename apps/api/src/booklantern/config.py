@@ -2,9 +2,16 @@
 
 from __future__ import annotations
 
+import re
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
+
 from pydantic import Field
 
 from sendora_core.settings import BaseAppSettings, Mode
+
+DEFAULT_COMPANY_NAME = "Birchfield Supply Co"  # the made up demo company: a real install must name its own
+DEFAULT_EMAIL_FROM = "accounts@example.test"
+EMAIL_LIKE = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
 
 
 class Settings(BaseAppSettings):
@@ -19,8 +26,12 @@ class Settings(BaseAppSettings):
     viewer_password_hash: str | None = None
     login_burst: int = Field(default=5, ge=1, le=1000)  # sign in tries in a row before a short wait; the browser tests raise it
 
-    company_name: str = "Birchfield Supply Co"  # bills addressed to another name are flagged
-    base_currency: str = "USD"
+    company_name: str = Field(default=DEFAULT_COMPANY_NAME, max_length=120)  # COMPANY_NAME: bills addressed to another name are flagged; it also signs every reminder
+    company_address: str = Field(default="", max_length=300)  # COMPANY_ADDRESS: physical postal address, printed in the footer of every reminder email
+    reply_to: str = Field(default="", max_length=254)  # REPLY_TO: where customers answer a reminder, also the mailto in the List-Unsubscribe header (empty means EMAIL_FROM)
+    base_currency: str = Field(default="USD", min_length=3, max_length=3)  # BASE_CURRENCY
+    default_timezone: str = "America/New_York"  # DEFAULT_TIMEZONE: the time zone of a customer imported without one (reminders are sent in the customer's local hours)
+    log_level: str = Field(default="INFO", pattern="^(DEBUG|INFO|WARNING|ERROR)$")  # LOG_LEVEL
 
     accounting_adapter: str = "seed"  # seed, csv, quickbooks, xero, akaunting
     payments_adapter: str = "seed"  # seed or stripe
@@ -58,7 +69,7 @@ class Settings(BaseAppSettings):
     imap_host: str = ""
     imap_port: int = 993
     imap_use_ssl: bool = True
-    email_from: str = "accounts@example.test"
+    email_from: str = DEFAULT_EMAIL_FROM
 
     # Decided defaults for the collections ladder and the forecast. The implementer can change each one.
     reminder_window_start: int = Field(default=9, ge=0, le=23)
@@ -73,10 +84,37 @@ class Settings(BaseAppSettings):
     def probs(self) -> dict[str, int]:
         return {k.strip(): int(v) for k, v in (p.split("=") for p in self.collection_prob_bp.split(",") if "=" in p)}
 
+    def identity_problems(self) -> list[str]:
+        """What is still a placeholder in the business identity. A reminder goes out under the company's name, address and sender mailbox."""
+        out: list[str] = []
+        if self.company_name.strip() in {"", DEFAULT_COMPANY_NAME}:
+            out.append("COMPANY_NAME is still the made up demo name. Set your client's legal name: bills addressed to any other name are flagged, and reminders are signed with it.")
+        if self.email_adapter != "seed" and (self.email_from.strip() in {"", DEFAULT_EMAIL_FROM} or not EMAIL_LIKE.match(self.email_from)):
+            out.append("EMAIL_FROM is empty or still the example address. Set the mailbox reminders are sent from.")
+        if self.email_adapter != "seed" and len(self.company_address.strip()) < 10:
+            out.append("COMPANY_ADDRESS is empty. A reminder email carries the company's physical postal address in its footer.")
+        if self.reply_to and not EMAIL_LIKE.match(self.reply_to):
+            out.append("REPLY_TO is not an email address.")
+        try:
+            ZoneInfo(self.default_timezone)
+        except (ZoneInfoNotFoundError, ValueError, OSError):
+            out.append("DEFAULT_TIMEZONE is not a time zone name (for example America/New_York).")
+        return out
+
+    def runtime_errors(self) -> list[str]:
+        out = super().runtime_errors()
+        if self.mode is Mode.LIVE and not self.demo_mode:
+            out += self.identity_problems()
+        return list(dict.fromkeys(out))
+
     def problems(self) -> list[str]:
         out = [p for p in super().problems() if not (self.demo_mode and p.startswith("MODE is live while DEMO_MODE"))]
         if not self.demo_mode and not self.owner_password_hash:
             out.append("OWNER_PASSWORD_HASH is empty. Create one with tools/hash_password.py and set it before you run outside demo mode.")
+        if self.demo_mode and self.owner_password_hash:
+            out.append("DEMO_MODE is true but an owner password is set. The public demo password is switched off; set DEMO_MODE=false for a real install.")
+        if not self.demo_mode:
+            out += [p for p in self.identity_problems() if p not in out]
         if self.accounting_write and self.mode is not Mode.LIVE:
             out.append("ACCOUNTING_WRITE is true but MODE is draft, so nothing will be posted. That is safe, set MODE=live only when you mean it.")
         if self.accounting_adapter == "quickbooks" and not (self.qbo_client_id and self.qbo_client_secret and self.qbo_refresh_token and self.qbo_realm_id):

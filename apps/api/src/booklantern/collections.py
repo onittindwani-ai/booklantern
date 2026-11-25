@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import logging
 from datetime import date, datetime
 
 from sqlalchemy import select
@@ -9,11 +10,16 @@ from sqlalchemy.orm import Session
 
 from booklantern import aging, fx as FX, model_tasks, reminders as R
 from booklantern.models import Customer, Invoice, PromiseToPay, Reminder
-from booklantern.money import format_minor
+from booklantern.money import MoneyError, format_minor
+from booklantern.util import is_valid_email
+from sendora_core.adapters import AdapterError
 from sendora_core.approvals import request_approval
 from sendora_core.audit import record_audit
 from sendora_core.events import record_event
 from sendora_core.safety import SafetyError, guard_write
+
+log = logging.getLogger("booklantern.collections")
+DRAFT_LINK_PREFIX = "https://pay.example.test/draft/"  # a placeholder shown in draft mode: it is never stored on an invoice and never put in a reminder
 
 
 def cfg(settings) -> R.Config:
@@ -66,10 +72,25 @@ def default_wording(inv: Invoice, step_tone: str, now: datetime) -> tuple[str, s
     return f"Invoice {inv.number}: {step_tone} reminder", R.TONE_TEXT[step_tone].format(number=f["number"], amount=f["amount"], due=f["due"], late=f["late"])
 
 
-def render(inv: Invoice, step_tone: str, now: datetime, link: str = "", wording: tuple[str, str] | None = None) -> tuple[str, str]:
-    """The reminder subject and body. `wording` (subject, text) comes from a model that passed the checks in model_tasks.write_reminder; otherwise the default wording is used."""
+def footer(settings) -> str:
+    """Who is writing and how to stop it: the company's name, its postal address and one plain sentence. Added by code to every reminder, whatever wording was used."""
+    lines = ["--", settings.company_name.strip()]
+    if settings.company_address.strip():
+        lines.append(" ".join(settings.company_address.split()))
+    lines += ["", "If you would rather not get these reminders, reply to this email and say so, and we will stop them."]
+    return "\n".join(lines)
+
+
+def render(inv: Invoice, step_tone: str, now: datetime, link: str = "", wording: tuple[str, str] | None = None, settings=None) -> tuple[str, str]:
+    """The reminder subject and body. `wording` (subject, text) comes from a model that passed the checks in model_tasks.write_reminder; otherwise the default wording is used.
+    With `settings` the body is signed with the company name and ends with the compliance footer."""
     subject, text = wording or default_wording(inv, step_tone, now)
-    body = f"Hello {inv.customer.name},\n\n{text}\n" + (f"\nYou can pay online here: {link}\n" if link else "") + "\nThank you,\nAccounts\n\nReply STOP if you would rather not get these reminders."
+    if link.startswith(DRAFT_LINK_PREFIX):
+        link = ""  # a draft placeholder is not a page the customer can pay on
+    sign = settings.company_name.strip() if settings is not None else "Accounts"
+    body = f"Hello {inv.customer.name},\n\n{text}\n" + (f"\nYou can pay online here: {link}\n" if link else "") + f"\nThank you,\n{sign}"
+    if settings is not None:
+        body += "\n\n" + footer(settings)
     return subject, body
 
 
@@ -85,7 +106,11 @@ def plan_reminders(session: Session, ctx) -> dict:
                 wording = None
                 if eff.reminder_writer == "model":  # UNVERIFIED live; checked in code, falls back to the default wording, and a person still approves
                     wording = model_tasks.write_reminder(ctx.llm(session), reminder_facts(inv, d.tone, now), default_wording(inv, d.tone, now))
-                subj, body = render(inv, d.tone, now, inv.payment_link_url, wording)
+                try:
+                    subj, body = render(inv, d.tone, now, inv.payment_link_url, wording, eff)
+                except MoneyError:
+                    log.warning("reminder for invoice %s skipped: its currency is not one the system knows", inv.id)
+                    continue
                 r = Reminder(invoice_id=inv.id, step=d.step, tone=d.tone, scheduled_for=now, subject=subj, body=body, payment_link_url=inv.payment_link_url)
                 session.add(r)
                 session.flush()
@@ -108,7 +133,7 @@ def send_approved(session: Session, ctx) -> dict:
     """Send approved reminders. The rules are checked again now, because a payment, dispute or promise may have come in since approval."""
     eff, now = ctx.effective(session), ctx.now(session)
     sent = held = cancelled = 0
-    for r in session.scalars(select(Reminder).where(Reminder.status == "approved").order_by(Reminder.id)):
+    for r in list(session.scalars(select(Reminder).where(Reminder.status == "approved").order_by(Reminder.id))):
         inv = r.invoice
         why = R.still_allowed(state_for(session, inv), now, cfg(eff), eff.kill_switch)
         if why:
@@ -119,14 +144,23 @@ def send_approved(session: Session, ctx) -> dict:
         if d.action == "wait" and d.reason in ("quiet_hours", "min_gap"):
             held += 1
             continue
+        if not is_valid_email(inv.customer.email):
+            r.status, r.cancel_reason = "cancelled", "no_valid_email"
+            cancelled += 1
+            continue
         try:
             guard_write(eff, "email.send")
             ctx.adapters.email.send(from_addr=eff.email_from, to=inv.customer.email, subject=r.subject, body=r.body)
         except SafetyError:
             held += 1  # draft mode or kill switch: it stays approved and nothing leaves
             continue
+        except AdapterError as exc:
+            held += 1  # the mail server said no: this one stays approved, the others still go out
+            log.warning("reminder %s was not sent: %s", r.id, str(exc)[:200])
+            continue
         r.status, r.sent_at = "sent", now
         record_audit(session, "system", "reminder.sent", f"reminder:{r.id}", {"invoice": inv.number})
+        session.commit()  # saved at once, one reminder at a time: a failure later in the loop can never make this one go out again
         sent += 1
     return {"sent": sent, "held": held, "cancelled": cancelled}
 
@@ -135,6 +169,8 @@ def approve_reminder(session: Session, reminder_id: int, who: str) -> Reminder:
     r = session.get(Reminder, reminder_id)
     if r is None or r.status != "drafted":
         raise ValueError("This reminder is not waiting for approval.")
+    if not is_valid_email(r.invoice.customer.email):
+        raise ValueError(f"{r.invoice.customer.name} has no valid email address on file, so this reminder cannot be sent. Add the address first.")
     r.status = "approved"
     record_audit(session, who, "reminder.approved", f"reminder:{r.id}", {})
     return r
@@ -204,8 +240,9 @@ def create_payment_link(session: Session, ctx, invoice_id: int, who: str) -> dic
         url = ctx.adapters.payments.create_payment_link(invoice_number=inv.number, amount_minor=amount, currency=inv.currency, description=f"Invoice {inv.number}")
         real = True
     except SafetyError:
-        url, real = f"https://pay.example.test/draft/{inv.number}", False  # a placeholder: draft mode creates nothing at the payment provider
-    inv.payment_link_url = url
+        url, real = f"{DRAFT_LINK_PREFIX}{inv.number}", False  # a placeholder: draft mode creates nothing at the payment provider, and the placeholder is not stored
+    if real:
+        inv.payment_link_url = url
     record_audit(session, who, "payment_link.created", f"invoice:{inv.id}", {"real": real})
     record_event(session, "payment_link", "invoice", inv.id, {"real": real})
     return {"url": url, "real": real}
