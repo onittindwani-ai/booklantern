@@ -101,8 +101,24 @@ class Settings(BaseAppSettings):
             out.append("DEFAULT_TIMEZONE is not a time zone name (for example America/New_York).")
         return out
 
+    def account_problems(self) -> list[str]:
+        """The owner, the approver and the viewer are three different people. Two roles on one email would make one account silently replace the other (the owner's would be lost)."""
+        from sendora_core.auth import clean_email
+
+        named = [("OWNER_EMAIL", clean_email(self.owner_email)), ("APPROVER_EMAIL", clean_email(self.approver_email or "")), ("VIEWER_EMAIL", clean_email(self.viewer_email or ""))]
+        seen: dict[str, str] = {}
+        out: list[str] = []
+        for name, email in named:
+            if not email:
+                continue
+            if email in seen:
+                out.append(f"{name} is the same address as {seen[email]}. The owner, the approver and the viewer must be three different people, or one account would silently replace the other.")
+            else:
+                seen[email] = name
+        return out
+
     def runtime_errors(self) -> list[str]:
-        out = super().runtime_errors()
+        out = super().runtime_errors() + self.account_problems()
         if self.mode is Mode.LIVE and not self.demo_mode:
             out += self.identity_problems()
         return list(dict.fromkeys(out))

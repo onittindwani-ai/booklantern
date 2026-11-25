@@ -41,7 +41,6 @@ def login(body: Login, request: Request, ctx: Ctx = Depends(get_ctx)):
     try:
         request.app.state.login_ip_bucket.check(host)  # every try from one address, whatever email it names
         request.app.state.login_bucket.check(f"{host}:{email}")  # tries at one account from one address
-        request.app.state.login_account_bucket.check(email)  # tries at one account from anywhere
     except RateLimitExceeded as exc:
         raise HTTPException(429, str(exc)) from exc
     acc = _accounts(ctx).get(email)

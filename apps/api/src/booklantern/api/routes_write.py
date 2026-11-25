@@ -7,7 +7,7 @@ from datetime import date
 from fastapi import APIRouter, Depends, HTTPException, Request
 from fastapi.concurrency import run_in_threadpool
 from pydantic import BaseModel, Field
-from sqlalchemy import select
+from sqlalchemy import select, update
 from sqlalchemy.orm import Session
 
 from booklantern import bankservice, collections, intake, posting
@@ -33,6 +33,7 @@ def _found(obj, what: str):
 
 
 MAX_UPLOAD = 15 * 1024 * 1024
+EDITABLE = ("needs_review", "inbox")  # the states a bill may still be edited in
 
 
 async def _bounded_body(request: Request, limit: int) -> bytes:
@@ -97,8 +98,13 @@ class BillPatch(BaseModel):
 @router.patch("/bills/{bill_id}", summary="Correct fields on a bill. The checks run again.")
 def patch_bill(bill_id: int, body: BillPatch, s: Session = Depends(db), ctx: Ctx = Depends(get_ctx), u: dict = Depends(writer)):
     b = _found(s.get(Bill, bill_id), "bill")
-    if b.status not in ("needs_review", "inbox"):
+    if b.status not in EDITABLE:
         raise HTTPException(409, "Only a bill that is waiting for review can be edited.")
+    # The edit is claimed with one conditional UPDATE: a bill that was approved or rejected a moment ago is not touched, and on Postgres the row stays locked until this
+    # request ends, so an approval cannot slip in between and approve values the approver never saw.
+    claimed = s.execute(update(Bill).where(Bill.id == bill_id, Bill.status.in_(EDITABLE)).values(edited_by=u["user"]).execution_options(synchronize_session=False))
+    if claimed.rowcount != 1:
+        raise HTTPException(409, "This bill was approved or rejected a moment ago, so it can no longer be edited.")
     changed = body.model_dump(exclude_unset=True)
     lines = changed.pop("lines", None)
     for k in ("vendor", "number", "currency", "po_number", "bill_to", "bank_account", "subtotal_minor", "tax_minor", "total_minor"):
@@ -193,7 +199,7 @@ def approve_reminder(reminder_id: int, s: Session = Depends(db), u: dict = Depen
 @router.post("/reminders/{reminder_id}/cancel", summary="Cancel a reminder that has not been sent")
 def cancel_reminder(reminder_id: int, s: Session = Depends(db), u: dict = Depends(writer)):
     r = s.get(Reminder, reminder_id)
-    if r is None or r.status not in ("drafted", "approved"):
+    if r is None or r.status not in ("drafted", "approved", "sending"):  # "sending": it was being sent when the program stopped, and a person has looked at the sent mail
         raise HTTPException(409, "This reminder cannot be cancelled.")
     r.status, r.cancel_reason = "cancelled", "cancelled by a person"
     record_audit(s, u["user"], "reminder.cancelled", f"reminder:{r.id}", {})
@@ -322,9 +328,13 @@ def resolve_exception(exc_id: int, body: ResolveIn | None = None, s: Session = D
     row = _found(s.get(ExceptionItem, exc_id), "exception")
     if row.severity == "block" and not note:
         raise HTTPException(409, "This finding blocks approval. Write down why it is safe to close it.")
+    bill = s.get(Bill, row.ref_id) if row.ref_type == "bill" else None
+    own_edit = row.severity == "block" and bill is not None and u["user"] in posting.editors(s, bill)
+    if own_edit and u["role"] != "owner":
+        raise HTTPException(409, "You changed this bill yourself, so you cannot close a blocking finding on it. Someone else (or the owner) has to.")
     try:
         e = resolve(s, exc_id, u["user"])
     except ValueError as exc:
         raise HTTPException(404, str(exc)) from exc
-    record_audit(s, u["user"], "exception.resolved", f"exception:{e.id}", {"kind": e.kind, "note": note[:200]})
+    record_audit(s, u["user"], "exception.resolved", f"exception:{e.id}", {"kind": e.kind, "note": note[:200], "self_review": own_edit})
     return {"status": e.status}

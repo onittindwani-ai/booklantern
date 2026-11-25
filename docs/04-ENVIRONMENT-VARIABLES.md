@@ -12,7 +12,7 @@ Names only. No real value ever goes in a document, a commit or a screenshot. Cop
 | Local | Everything, in `.env` in the project folder. |
 | Vercel | Only `API_BASE_URL` for the web app (project settings, Environment Variables). |
 | Railway | Everything else, on the `api` service and the `worker` service. Use variable references so both read the same value. |
-| Hetzner | Everything, in `deploy/hetzner/.env` next to the compose file. Never commit it. |
+| Hetzner | Everything, in `.env` at the repository root next to `docker-compose.yml` (see `08-DEPLOY-HETZNER.md`). Never commit it. |
 
 **How each step was checked.** Steps marked VERIFIED were read from the vendor's page on the date shown. Steps marked UNVERIFIED come from our general knowledge of the vendor's screens and must be checked against the page when you do them. Costs are described in plain terms only, because prices change. Read the vendor's price page on the day you decide.
 
@@ -30,9 +30,9 @@ Names only. No real value ever goes in a document, a commit or a screenshot. Cop
 | `LOG_LEVEL` | no | `DEBUG`, `INFO` (default), `WARNING` or `ERROR`. Bill text and bank lines are never written to the log at any level. |
 | `KILL_SWITCH` | no | `true` blocks every outgoing action. There is also a Pause all button. |
 | `OWNER_EMAIL`, `OWNER_PASSWORD_HASH` | outside demo | Make the hash with `python tools/hash_password.py` and keep the single quotes around it. |
-| `APPROVER_EMAIL`, `APPROVER_PASSWORD_HASH` | recommended | A second person. Risky actions need someone other than the requester. |
+| `APPROVER_EMAIL`, `APPROVER_PASSWORD_HASH` | recommended | A second person, who must have a different address from the owner and the viewer (the app will not start otherwise). What a second person is needed for is listed in `13-SECURITY-AND-DATA.md`, in the bullet Who decides what. |
 | `VIEWER_EMAIL`, `VIEWER_PASSWORD_HASH` | optional | A read only login (an accountant, a client who only watches). It can see every page and change nothing. |
-| `LOGIN_BURST` | no | Sign in tries in a row before a short wait (default 5), counted for each account and, at eight times the number, for each network address. Leave it. Only the browser tests raise it. |
+| `LOGIN_BURST` | no | Sign in tries in a row before a short wait (default 5), counted for each account on each network address and, at six times the number (at least 30), for each network address alone. There is deliberately no limit on an account across all addresses, so a stranger can never keep the owner out. Leave it. Only the browser tests raise it. |
 | `HANDOFF_DIR`, `UPLOAD_DIR` | no | Folders for saved drafts and uploaded bills (defaults `./handoff` and `./uploads`). |
 | `SEED_DIR` | demo only | The folder that holds the demo data (`seed.json`). It is looked up here first, so an installed copy that has no repository next to it works. Not needed outside demo mode. |
 | `API_BASE_URL` | web only | The address of the API, no trailing slash. |

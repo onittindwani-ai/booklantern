@@ -148,6 +148,11 @@ def unlink(session: Session, match_id: int, who: str) -> None:
                 inv.paid_minor = max(0, inv.paid_minor - m.allocated_minor)
                 if inv.status == "paid" and inv.paid_minor < inv.total_minor:
                     inv.status, inv.paid_on = "open", None
+            elif m.bill_id:
+                bill = session.get(Bill, m.bill_id)
+                bill.paid_minor = max(0, bill.paid_minor - m.allocated_minor)
+                if bill.status == "paid" and bill.paid_minor < bill.total_minor:  # it was approved before it was paid (only such a bill is ever marked paid): payable again, in the state it had before the payment
+                    bill.status, bill.paid_on = ("posted_draft" if bill.posted_external_id else "approved"), None
         if not session.scalars(select(PaymentAllocation).where(PaymentAllocation.payment_id == payment.id)).first():
             session.delete(payment)
     session.delete(m)
@@ -176,4 +181,20 @@ def record_payments(session: Session) -> int:
             inv.paid_minor = min(got, inv.total_minor)
             if inv.paid_minor >= inv.total_minor:
                 inv.status = "paid"
+    _settle_bills(session)
     return n
+
+
+def _settle_bills(session: Session) -> None:
+    """Bills paid by a matched bank line: paid_minor follows the allocations, and a bill that holds its full amount is paid (with the date of its last payment).
+    Without this a paid bill stayed in payables and in the forecast, whose bank balance had already dropped, so the same money was counted twice."""
+    for bill in session.scalars(select(Bill).where(Bill.id.in_(select(PaymentAllocation.bill_id).where(PaymentAllocation.bill_id.is_not(None))), Bill.status.not_in(("rejected", "posting")))):
+        got = int(session.scalar(select(func.coalesce(func.sum(PaymentAllocation.amount_minor), 0)).where(PaymentAllocation.bill_id == bill.id)) or 0)
+        if got <= bill.paid_minor:
+            continue
+        bill.paid_minor = min(got, bill.total_minor)
+        # Only a bill a person already approved becomes paid. A bill still waiting for review keeps its status (the money went out, but approving it is still a person's decision
+        # and a taken back match must never turn it into an approved one).
+        if bill.paid_minor >= bill.total_minor and bill.status in ("approved", "posted_draft"):
+            last = session.scalar(select(func.max(Payment.paid_on)).join(PaymentAllocation, PaymentAllocation.payment_id == Payment.id).where(PaymentAllocation.bill_id == bill.id))
+            bill.status, bill.paid_on = "paid", last

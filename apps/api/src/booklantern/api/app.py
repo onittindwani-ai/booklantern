@@ -11,12 +11,14 @@ from fastapi.responses import JSONResponse
 from booklantern.api import routes_admin, routes_auth, routes_demo, routes_read, routes_setup, routes_write
 from booklantern.config import Settings
 from booklantern.context import Ctx
+from booklantern.dbupgrade import add_missing_columns
 from sendora_core.app import SESSION_COOKIE, create_base_app
 from sendora_core.auth import read_session_token
 from sendora_core.db import Base, make_engine, make_session_factory
 from sendora_core.ratelimit import TokenBucket
 
 PUBLIC = {"/api/auth/login", "/api/auth/logout"}
+SAFE_METHODS = {"GET", "HEAD", "OPTIONS"}
 
 
 def _holds_data(ctx: Ctx) -> bool:
@@ -56,6 +58,7 @@ def create_app(settings: Settings | None = None, ctx: Ctx | None = None) -> Fast
 
         if settings.database_url.startswith("sqlite"):
             Base.metadata.create_all(engine)  # SQLite zero setup path. Postgres uses `alembic upgrade head`.
+            add_missing_columns(engine)  # a database file made by an older version gets the columns added since
         ctx = Ctx(settings, make_session_factory(engine))
     _seed_if_empty(ctx)
     app = create_base_app(ctx.settings, ctx.factory)
@@ -67,18 +70,22 @@ def create_app(settings: Settings | None = None, ctx: Ctx | None = None) -> Fast
     app.state.login_bucket = TokenBucket(capacity=settings.login_burst, refill_per_sec=1 / 12)
     # And a wider limit per address alone, so changing the email in every try does not give a fresh set of tries.
     app.state.login_ip_bucket = TokenBucket(capacity=max(30, settings.login_burst * 6), refill_per_sec=1 / 3)
-    # And one per account whatever the address, so guesses spread over many addresses still run out. It is generous and refills every 30 seconds,
-    # so the owner is held up for at most a short while by someone hammering the account, never locked out.
-    app.state.login_account_bucket = TokenBucket(capacity=max(20, settings.login_burst * 4), refill_per_sec=1 / 30)
+    # There is deliberately NO bucket per account alone: it would let anyone who knows the owner's email keep the owner out of their own system from any address.
+    # Every limit above names the address of the person trying, so the owner, on their own address, is never held up by what a stranger does.
 
     @app.middleware("http")
     async def require_session(request: Request, call_next):
         p = request.url.path
         if p.startswith("/api/") and p not in PUBLIC:
-            token = request.cookies.get(SESSION_COOKIE) or request.headers.get("x-session")
+            header_token = request.headers.get("x-session")
+            token = request.cookies.get(SESSION_COOKIE) or header_token
             data = read_session_token(ctx.settings.session_secret, token) if token else None
             if data is None:
                 return JSONResponse({"error": {"code": "http_401", "message": "Sign in to continue."}}, 401)
+            # A change made with the browser's cookie alone is what a page on another site can cause. The web app adds this header (a page on another site cannot), and a
+            # caller that sends the session in the x-session header (the web app's own server, tools) is not using the cookie at all.
+            if request.method not in SAFE_METHODS and not header_token and request.headers.get("x-booklantern") != "1":
+                return JSONResponse({"error": {"code": "http_403", "message": "Missing request header (x-booklantern: 1). A change needs it when the session comes from the cookie."}}, 403)
             request.state.user = data
         return await call_next(request)
 

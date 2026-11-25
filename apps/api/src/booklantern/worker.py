@@ -9,6 +9,7 @@ import time
 
 from booklantern.config import Settings
 from booklantern.context import Ctx
+from booklantern.dbupgrade import add_missing_columns
 from booklantern.jobs import make_handlers, schedule_due
 from sendora_core.db import Base, make_engine, make_session_factory, session_scope
 from sendora_core.jobs import Worker
@@ -37,6 +38,7 @@ def main() -> None:
 
     if settings.database_url.startswith("sqlite"):
         Base.metadata.create_all(engine)
+        add_missing_columns(engine)
     ctx = Ctx(settings, make_session_factory(engine))
     worker = Worker(ctx.factory, make_handlers(ctx))
     stop = {"now": False}

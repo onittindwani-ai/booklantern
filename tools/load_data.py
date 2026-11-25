@@ -21,6 +21,7 @@ from pathlib import Path
 import _common  # noqa: F401
 from booklantern import setup_data
 from booklantern.config import Settings
+from booklantern.dbupgrade import add_missing_columns
 from sendora_core import models as _core  # noqa: F401
 from sendora_core.db import Base, make_engine, make_session_factory, session_scope
 import booklantern.models  # noqa: F401
@@ -54,6 +55,7 @@ def main(argv: list[str]) -> int:
     engine = make_engine(settings.database_url)
     if settings.database_url.startswith("sqlite"):
         Base.metadata.create_all(engine)
+        add_missing_columns(engine)
     factory = make_session_factory(engine)
     who = "command line"
     try:

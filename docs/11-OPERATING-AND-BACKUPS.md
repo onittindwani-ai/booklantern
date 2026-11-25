@@ -4,11 +4,12 @@
 
 - Open Invoice review. Approve, fix or reject the bills waiting.
 - Open Approvals and decide drafted reminders or other risky actions. The person who asked cannot approve it.
+- On a bill with a blocking finding, one person fixes or closes it and a different person approves it (the owner may do both with a written reason, which is logged). A closed finding opens again if the bill is edited again and the same check fires.
 - Open Exceptions and clear the list.
 
 ## Weekly
 
-- Import the new bank statement CSV on Reconciliation, check the Needs attention list.
+- Import the new bank statement CSV on Reconciliation, check the Needs attention list. A bill whose payment line is matched is marked paid (a part payment lowers what is still owed), and taking the match away makes it payable again.
 - Look at Collections: which invoices are waiting, which are stopped and why.
 - Audit log: press Check the chain. If it says broken, something changed history. Stop and look.
 

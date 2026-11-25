@@ -14,6 +14,11 @@ def raise_exception(session: Session, kind: str, severity: str, ref_type: str, r
         row = ExceptionItem(kind=kind, severity=severity, ref_type=ref_type, ref_id=ref_id, detail=detail[:400])
         session.add(row)
         session.flush()
+    elif row.status == "resolved" and severity == "block":
+        # The check fired again after someone closed it. A reason given for the bill as it was is not a reason for the bill as it is now, so a blocking
+        # finding opens again. (Who closed it earlier stays in the audit log.) A closed warning stays closed: a person accepted it.
+        row.status, row.severity, row.resolved_by, row.detail = "open", severity, "", detail[:400]
+        session.flush()
     return row
 
 

@@ -9,6 +9,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from booklantern import aging, fx as FX, model_tasks, reminders as R
+from booklantern.exceptions import raise_exception
 from booklantern.models import Customer, Invoice, PromiseToPay, Reminder
 from booklantern.money import MoneyError, format_minor
 from booklantern.util import is_valid_email
@@ -57,7 +58,7 @@ def aging_report(session: Session, as_of: date, rates: FX.RateBook | None = None
 
 def state_for(session: Session, inv: Invoice) -> R.InvoiceState:
     ps = [(p.promised_on, p.status) for p in session.scalars(select(PromiseToPay).where(PromiseToPay.invoice_id == inv.id))]
-    sent = [(r.step, r.sent_at.date()) for r in session.scalars(select(Reminder).where(Reminder.invoice_id == inv.id, Reminder.status == "sent"))]
+    sent = [(r.step, r.sent_at.date()) for r in session.scalars(select(Reminder).where(Reminder.invoice_id == inv.id, Reminder.status.in_(("sent", "sending"))))]
     c = inv.customer
     return R.InvoiceState(inv.id, inv.due_date, inv.total_minor - inv.paid_minor, inv.status, inv.disputed, c.opted_out, c.bankruptcy_flag, c.timezone, ps, sent)
 
@@ -101,7 +102,7 @@ def plan_reminders(session: Session, ctx) -> dict:
     for inv in session.scalars(select(Invoice).where(Invoice.status == "open").order_by(Invoice.id)):
         d = R.decide(state_for(session, inv), now, c, eff.mode.value, eff.kill_switch)
         if d.action in ("send", "draft"):
-            exists = session.scalars(select(Reminder).where(Reminder.invoice_id == inv.id, Reminder.step == d.step, Reminder.status.in_(("drafted", "approved", "sent")))).first()
+            exists = session.scalars(select(Reminder).where(Reminder.invoice_id == inv.id, Reminder.step == d.step, Reminder.status.in_(("drafted", "approved", "sending", "sent")))).first()
             if not exists:
                 wording = None
                 if eff.reminder_writer == "model":  # UNVERIFIED live; checked in code, falls back to the default wording, and a person still approves
@@ -133,6 +134,8 @@ def send_approved(session: Session, ctx) -> dict:
     """Send approved reminders. The rules are checked again now, because a payment, dispute or promise may have come in since approval."""
     eff, now = ctx.effective(session), ctx.now(session)
     sent = held = cancelled = 0
+    for r in list(session.scalars(select(Reminder).where(Reminder.status == "sending"))):  # left over from a stop in the middle of sending: it may or may not have gone out
+        raise_exception(session, "reminder_unconfirmed", "warning", "reminder", r.id, f"A reminder for invoice {r.invoice.number} was being sent when the program stopped. Look in the sent mail folder: if it went out, nothing more is needed; if it did not, write to the customer by hand. This system will not send this reminder again by itself. Mark this finding dealt with when you have looked.")
     for r in list(session.scalars(select(Reminder).where(Reminder.status == "approved").order_by(Reminder.id))):
         inv = r.invoice
         why = R.still_allowed(state_for(session, inv), now, cfg(eff), eff.kill_switch)
@@ -150,15 +153,22 @@ def send_approved(session: Session, ctx) -> dict:
             continue
         try:
             guard_write(eff, "email.send")
-            ctx.adapters.email.send(from_addr=eff.email_from, to=inv.customer.email, subject=r.subject, body=r.body)
         except SafetyError:
             held += 1  # draft mode or kill switch: it stays approved and nothing leaves
             continue
-        except AdapterError as exc:
-            held += 1  # the mail server said no: this one stays approved, the others still go out
+        # The intent is saved BEFORE the mail leaves. If the program stops after the mail went out but before "sent" was saved, the reminder is still "sending" and is never
+        # sent again by itself (a person is told to look), instead of going to the customer a second time.
+        r.status, r.sent_at = "sending", now
+        session.commit()
+        try:
+            ctx.adapters.email.send(from_addr=eff.email_from, to=inv.customer.email, subject=r.subject, body=r.body)
+        except (SafetyError, AdapterError) as exc:
+            r.status, r.sent_at = "approved", None  # nothing left: the reminder goes back and is tried again later, the others still go out
+            session.commit()
+            held += 1
             log.warning("reminder %s was not sent: %s", r.id, str(exc)[:200])
             continue
-        r.status, r.sent_at = "sent", now
+        r.status = "sent"
         record_audit(session, "system", "reminder.sent", f"reminder:{r.id}", {"invoice": inv.number})
         session.commit()  # saved at once, one reminder at a time: a failure later in the loop can never make this one go out again
         sent += 1

@@ -100,6 +100,12 @@ def check_math(b: BillData, vendor: VendorData | None) -> list[Finding]:
     return out
 
 
+def norm_number(s: str) -> str:
+    """A bill number with the punctuation, the case and the zero padding taken out, so INV-0042, inv 42 and Inv.42 are one number. Digits of different groups stay apart (1-42 is not 142)."""
+    parts = re.findall(r"[a-z]+|\d+", s.casefold())
+    return "".join(re.sub(r"^0+(?=\d)", "", p) if p.isdigit() else p for p in parts)
+
+
 def same_vendor(a: BillData, b: BillData) -> bool:
     """The same vendor: the same vendor record, or (when neither bill matched a vendor on the list) the same or a very close name as read.
     Without this a bill from a vendor nobody entered would never be compared with its own copy."""
@@ -114,9 +120,13 @@ def check_duplicates(b: BillData, others: list[BillData]) -> list[Finding]:
     for o in others:
         if o.id == b.id or not same_vendor(o, b):
             continue
-        same_number = o.number.strip().casefold() == b.number.strip().casefold()
-        if same_number and o.total == b.total and o.issue_date == b.issue_date and o.currency == b.currency:
-            out.append(Finding("duplicate_exact", "block", f"Same vendor, number, date and amount as bill {o.id}.", [o.id]))
+        number = norm_number(b.number)
+        # The same number and amount is the same bill on any date. Two bills with no readable number only count as one when their dates are the same as well (as before).
+        if norm_number(o.number) == number and o.total == b.total and o.currency == b.currency and (number or o.issue_date == b.issue_date):
+            if o.issue_date == b.issue_date:
+                out.append(Finding("duplicate_exact", "block", f"Same vendor, number, date and amount as bill {o.id}.", [o.id]))
+            else:  # the same bill sent again with another date, or with no date, is still the same bill
+                out.append(Finding("duplicate_exact", "block", f"Same vendor, number and amount as bill {o.id}, but a different bill date ({o.issue_date or 'none'} and {b.issue_date or 'none'}). The same bill sent again?", [o.id]))
             continue
         close_in_time = o.issue_date is not None and b.issue_date is not None and abs((o.issue_date - b.issue_date).days) <= NEAR_DAYS
         if o.total == b.total and o.currency == b.currency and similar(o.number, b.number) >= 0.85 and close_in_time:

@@ -3,7 +3,7 @@
 | What you see | What to do |
 | --- | --- |
 | The page says "Could not reach the server" | The API is not running or `API_BASE_URL` is wrong. Open `http://127.0.0.1:8000/health`. |
-| Sign in fails five times fast | There is a limit on quick sign ins, for each account and for each network address. Wait a minute. |
+| Sign in fails five times fast | There is a limit on quick sign ins, for each account on each network address and for each network address in total. Wait a minute. Someone else trying your email from another address does not count against you. |
 | The API will not start and names `SESSION_SECRET`, `OWNER_PASSWORD_HASH` or `COMPANY_NAME` | The app refuses unsafe settings: an example or short `SESSION_SECRET` with `DEMO_MODE=false`, demo mode on Postgres, or `MODE=live` with the placeholder company name. Fix the named value (`04`). |
 | Alembic says `DATABASE_URL is not set` | Put it in the environment or in `.env` (or name the file with `ENV_FILE`). Alembic never guesses a database. |
 | A bill says it needs review because of its amount | A total over about ten billion, a negative total or an unknown currency is blocked on purpose. Check the page and key the right value. |

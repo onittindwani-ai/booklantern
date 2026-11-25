@@ -101,14 +101,14 @@ def fake_docker(tmp_path):
     bin_dir = tmp_path / "bin"
     bin_dir.mkdir()
     d = bin_dir / "docker"
-    d.write_text("#!/bin/sh\ncase \"$*\" in\n  *pg_dump*) printf '%s' \"$FAKE_DUMP\" ;;\n  *tar*) printf 'tarbytes' ;;\nesac\n")
+    d.write_text("#!/bin/sh\ncase \"$*\" in\n  *pg_dump*) printf '%s' \"$FAKE_DUMP\" ;;\n  *tar*) [ -n \"${FAKE_TAR_FAIL:-}\" ] && exit 1; printf 'tarbytes' ;;\nesac\n")
     d.chmod(d.stat().st_mode | stat.S_IEXEC)
     return bin_dir
 
 
-def run_backup(tmp_path, dump):
+def run_backup(tmp_path, dump, **extra):
     out = tmp_path / "out"
-    env = {"PATH": f"{fake_docker(tmp_path)}:/usr/bin:/bin", "BACKUP_DIR": str(out), "FAKE_DUMP": dump, "HOME": str(tmp_path)}
+    env = {"PATH": f"{fake_docker(tmp_path)}:/usr/bin:/bin", "BACKUP_DIR": str(out), "FAKE_DUMP": dump, "HOME": str(tmp_path), **extra}
     r = subprocess.run(["sh", str(ROOT / "deploy" / "hetzner" / "backup.sh")], cwd="/", env=env, capture_output=True, text=True)  # cwd is not the repo, as under cron
     return r, out
 
@@ -118,8 +118,15 @@ def test_backup_works_from_any_folder_and_keeps_the_dump(tmp_path):
     assert r.returncode == 0, r.stderr
     assert [p.read_text() for p in out.glob("booklantern-*.dump")] == ["PGDMPdata"] and list(out.glob("uploads-*.tar"))
     assert not list(out.glob("*.partial"))
-    assert (out.stat().st_mode & 0o077) == 0 or True  # umask 077 applies to the files written
+    assert (out.stat().st_mode & 0o077) == 0  # umask 077 applies to the folder as well as to the files written
     assert all((p.stat().st_mode & 0o077) == 0 for p in out.glob("booklantern-*.dump"))
+
+
+def test_backup_fails_loudly_when_the_uploads_cannot_be_archived(tmp_path):
+    r, out = run_backup(tmp_path, "PGDMPdata", FAKE_TAR_FAIL="1")
+    assert r.returncode == 1 and "uploaded bills" in r.stderr  # it used to say nothing and exit 0, so a backup without the bills looked complete
+    assert [p.read_text() for p in out.glob("booklantern-*.dump")] == ["PGDMPdata"]  # the database dump that did succeed is kept
+    assert not list(out.glob("uploads-*")) and not list(out.glob("*.partial"))
 
 
 def test_backup_never_keeps_an_empty_dump(tmp_path):

@@ -26,6 +26,7 @@ VALIDATION_KINDS = {"line_sum_mismatch", "wrong_total", "wrong_tax", "duplicate_
                     "future_date", "wrong_company", "unreadable_document", "low_confidence", "tax_rate_differs"}
 
 
+MAX_READ_ATTEMPTS = 3  # a document whose reading was started this many times and never finished (the reader was killed, for example by memory) is given up on and goes to a person
 LOW_CONFIDENCE = 50  # a field read with less confidence than this is listed for a person
 
 
@@ -219,6 +220,14 @@ def run_intake(session: Session, ctx) -> dict:
     done = 0
     for doc_id in list(session.scalars(select(Document.id).where(Document.status == "new").order_by(Document.id))):
         doc = session.get(Document, doc_id)
+        if doc.read_attempts >= MAX_READ_ATTEMPTS:  # earlier tries never finished: the reader died on this file, so it must not block the queue again
+            doc.status, doc.has_text_layer = "unreadable", False
+            raise_exception(session, "unreadable_document", "warning", "document", doc_id, "Reading this file failed more than once (it may be damaged or built to exhaust the reader). Open the file and key the bill by hand.")
+            session.commit()
+            failed += 1
+            continue
+        doc.read_attempts += 1
+        session.commit()  # counted BEFORE the file is read: if the process is killed while reading, the next pass still knows this try happened
         try:
             process_document(session, ctx, doc)
             session.commit()

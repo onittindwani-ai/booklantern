@@ -47,9 +47,40 @@ class DraftBill:
     idempotency_key: str = ""  # the same key on a repeated call makes the accounting system return the first bill instead of creating a second one
 
 
+class PostedDraft(str):
+    """The id of the draft an accounting system made (it IS that id, as a string, so everything that used the plain id keeps working) plus what the system says about it.
+    `total_minor` is the total the vendor's own answer reports (None when the adapter cannot read one back): posting compares it with the approved total and refuses to
+    record success when they differ."""
+
+    total_minor: int | None
+    currency: str
+
+    def __new__(cls, external_id: str, total_minor: int | None = None, currency: str = "") -> "PostedDraft":
+        obj = super().__new__(cls, external_id)
+        obj.total_minor, obj.currency = total_minor, currency
+        return obj
+
+    @property
+    def external_id(self) -> str:
+        return str(self)
+
+
+def split_tax(lines: list[dict], tax_minor: int) -> list[int]:
+    """The tax shared over the lines in proportion to their totals, the parts adding up to the tax exactly (the last line takes the remainder)."""
+    if not lines or tax_minor <= 0:
+        return [0] * len(lines)
+    weights = [max(int(ln["total_minor"]), 0) for ln in lines]
+    whole = sum(weights)
+    if whole <= 0:
+        return [tax_minor] + [0] * (len(lines) - 1)
+    parts = [tax_minor * w // whole for w in weights]
+    parts[-1] += tax_minor - sum(parts)
+    return parts
+
+
 class AccountingAdapter(Protocol):
     def list_open_invoices(self) -> list[RemoteInvoice]: ...
-    def create_draft_bill(self, bill: DraftBill) -> str: ...
+    def create_draft_bill(self, bill: DraftBill) -> str | PostedDraft: ...
     def healthcheck(self) -> tuple[bool, str]: ...
 
 

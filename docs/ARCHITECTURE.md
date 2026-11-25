@@ -20,7 +20,7 @@ Amounts are whole numbers in the smallest unit (cents) plus a currency code. No 
 
 1. A file arrives by upload or the mailbox. It is hashed, so the same file twice is one document.
 2. The reader turns it into fields. Each field has a confidence and a box on the page (fractions of the page, so the screen can draw it at any size).
-3. Code validates: line sums, subtotal plus tax equals total, tax rate against the vendor's on file, duplicates (exact, and near: same amount, similar number, within 3 days), amount above 4 times the vendor's usual (needs at least 3 past bills), changed bank details, missing purchase order, date in the future, currency mismatch, wrong company. Each finding has a severity. A blocking one needs a written reason to approve.
+3. Code validates: line sums, subtotal plus tax equals total, tax rate against the vendor's on file, duplicates (the same vendor, bill number and amount on any date, with punctuation and zero padding in the number ignored, is blocking; near: same amount, similar number, within 3 days), amount above 4 times the vendor's usual (needs at least 3 past bills), changed bank details, missing purchase order, date in the future, currency mismatch, wrong company. Each finding has a severity. A blocking one needs a written reason to approve.
 4. A person reviews and approves. Approval makes a draft for the accounting adapter.
 
 ### How the offline reader scores confidence

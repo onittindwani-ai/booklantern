@@ -4,7 +4,7 @@
 2. Read `CHANGELOG.md`.
 3. `git pull`.
 4. Reinstall: `make install`, or `.venv/bin/pip install -c constraints.txt -e packages/core-py -e "apps/api[dev]"` (with a uv environment: `uv pip install --python .venv/bin/python -c constraints.txt -e packages/core-py -e "apps/api[dev]"`) then `pnpm install && pnpm build`.
-5. Migrate (Postgres): `cd apps/api && ../../.venv/bin/alembic upgrade head`. `alembic` reads `DATABASE_URL` from the environment or from `.env` (or the file named by `ENV_FILE`) and stops when it finds none. SQLite creates missing tables on start but does not change old ones, so across a schema change use Postgres. There is no export button: keep the old `.sqlite3` file as your backup (`11`).
+5. Migrate (Postgres): `cd apps/api && ../../.venv/bin/alembic upgrade head`. `alembic` reads `DATABASE_URL` from the environment or from `.env` (or the file named by `ENV_FILE`) and stops when it finds none. SQLite creates missing tables on start and adds the few columns that were added after release 1.0.0 (`booklantern.dbupgrade`), but it does not change anything else in old tables, so across any other schema change use Postgres. There is no export button: keep the old `.sqlite3` file as your backup (`11`).
 6. Restart the API, worker and web app.
 7. Run `python tools/doctor.py` and open the Audit log.
 

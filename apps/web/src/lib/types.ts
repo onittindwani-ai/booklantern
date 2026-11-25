@@ -19,6 +19,7 @@ export interface BillRow { fx: RowFx | null; id: number; vendor: string; vendor_
 export interface FieldValue { value: string | number | null; confidence: number; box: number[] | null; page: number; label: string; reasons: string[] }
 export interface LineRow { id: number; description: string; quantity_milli: number; unit_minor: number; total_minor: number }
 export interface BillDetail extends BillRow {
+  self_review: "" | "owner" | "blocked"; // the signed in person changed this bill or closed a finding on it: the owner needs a written reason, anyone else cannot approve it
   lines: LineRow[]; exceptions: { id: number; kind: string; severity: string; detail: string; status: string }[];
   vendor_record: { name: string; bank_account: string; currency: string; tax_rate_bp: number; requires_po: boolean } | null;
   document: { id: number; ref: string; pages: number; readable: boolean; extraction: { extractor: string; readable: boolean; notes: string[]; fields: Record<string, FieldValue>; lines: { description: string; total_minor: number; box: number[] | null }[] } } | null;

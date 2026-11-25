@@ -68,11 +68,12 @@ function Review({ id, queue }: { id: number; queue: BillRow[] }) {
   const editable = b.status === "needs_review" || b.status === "inbox";
   const idx = queue.findIndex((x) => x.id === id);
   const dirty = Object.keys(edits).length > 0;
-  const needNote = block.length > 0;
+  const ownWork = b.self_review === "owner";
+  const needNote = block.length > 0 || ownWork;
   const problems = Object.fromEntries(Object.entries(edits).map(([k, v]) => [k, fieldProblem(k, v)] as const).filter(([, m]) => m));
   const firstProblem = Object.values(problems)[0] ?? null;
   const missing = [!b.vendor.trim() && "vendor", !b.issue_date && "bill date", b.total_minor <= 0 && "total"].filter(Boolean) as string[];
-  const approveBlocked = dirty ? "Save your changes first" : missing.length ? `Fill in the ${missing.join(", ")} and save first` : needNote && !note.trim() ? "Write the reason first" : null;
+  const approveBlocked = dirty ? "Save your changes first" : missing.length ? `Fill in the ${missing.join(", ")} and save first` : b.self_review === "blocked" ? "You changed this bill or closed a finding on it. Someone else has to approve it" : needNote && !note.trim() ? "Write the reason first" : null;
   return (
     <div className="ll-stack">
       <div className="sx-row" style={{ flexWrap: "wrap" }}>
@@ -119,7 +120,7 @@ function Review({ id, queue }: { id: number; queue: BillRow[] }) {
           {editable ? (
             <Card title="Decide" headingLevel={3}>
               <div className="ll-stack">
-                <Field label={needNote ? "Why approve despite the blocking finding (required)" : "Note (optional)"} value={note} onChange={setNote} />
+                <Field label={block.length > 0 ? "Why approve despite the blocking finding (required)" : ownWork ? "Why approve a bill you changed yourself (required)" : "Note (optional)"} value={note} onChange={setNote} />
                 <div className="sx-row" style={{ flexWrap: "wrap" }}>
                   <Button disabled={!canWrite || !dirty || !!firstProblem} disabledReason={!canWrite ? "Your sign in can read but not change" : firstProblem ?? "Change a field first"} onClick={async () => { await save.mutateAsync(); }}>Save changes</Button>
                   <Button variant="primary" disabled={!canWrite || !!approveBlocked} disabledReason={!canWrite ? "Your sign in can read but not change" : approveBlocked ?? undefined} onClick={async () => { await approve.mutateAsync(); }}>Approve</Button>

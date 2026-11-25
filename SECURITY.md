@@ -41,13 +41,20 @@ Version 1.0.1 fixed what a stricter second self review found:
 10. Two clicks at the same moment could approve, reject or post one bill twice, or link one bank line twice. Each move is now a single conditional change, and the rows are locked while the sums are checked.
 11. The sign in route used the unpadded email for the account and the padded one for the limit, and did not limit by network address. Both now use one cleaned address and a second bucket by address.
 
+A further independent audit of the hardened code found these, fixed in the same release:
+
+12. A person could clear the finding their own edit had raised, then approve alone, and a closed finding never opened again. Whoever changed a bill or closed a finding on it can no longer approve it, an approver cannot close a blocking finding on their own edit, and a blocking finding opens again when the check fires after another edit. The owner may do both on their own work with a written reason, logged as `self_review`.
+13. A 1.4 KB PDF could use gigabytes of memory in the live reader's text layout, and a file that killed the reader was tried again every cycle. The layout is bounded, and a document whose reading was started three times and never finished goes to a person.
+14. The drafts sent to QuickBooks, Xero and Akaunting lacked the tax or the lines, and the total they returned was never compared. It is now, and a draft with another total sends the bill back to review.
+15. A change made with the cookie alone, with no body, did not need the custom header at the API. It does now. The sign in limit on an account across all addresses let a stranger keep the owner out, so it was removed (each address keeps its own limit).
+
 ## Not done, and known limits
 
 - No independent penetration test. No test against real vendor accounts. No deploy to a real host: the CI workflow builds the Docker images and starts the stack, nothing more.
 - PDFs are opened by a native library (pdfium) in the same process as the API, with no separate process or memory limit. A bug in it could be dangerous with a hostile file. Run the API in a container as a plain user, keep dependencies updated, and only accept bills from mailboxes you control.
 - The SSRF guard checks the address when the adapter is built. A host that changes its address afterwards (DNS rebinding) is not covered.
 - Rate limits are kept in memory in one process. Two API copies do not share them.
-- Sign in is one password per person. There is no second factor.
+- Sign in is one password per person. There is no second factor. Because no limit is kept on an account across all addresses (it would let a stranger lock the owner out), guesses spread over very many addresses are slowed only per address: use a long random owner password.
 - The API container trusts `X-Forwarded-For` only from the addresses in `FORWARDED_ALLOW_IPS` (default `127.0.0.1`; the compose file widens it to the private network that holds the web container). Keep the API behind your proxy, as the compose file does by binding to 127.0.0.1.
 - The hosting guides and every real vendor connection were never run (`docs/14-LIMITS-AND-HONEST-NOTES.md`). The Docker images are built and the stack is started by the CI workflow on GitHub, not on a real host.
 - Bills, bank lines and the audit log are kept until you delete them. There is no automatic retention job.

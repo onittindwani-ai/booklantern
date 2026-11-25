@@ -9,7 +9,7 @@ from pathlib import Path
 
 import httpx
 
-from booklantern.adapters.base import DraftBill, RemoteInvoice, safe_base_url
+from booklantern.adapters.base import DraftBill, PostedDraft, RemoteInvoice, safe_base_url, split_tax
 from booklantern.money import parse_amount, to_major_number, to_minor
 from booklantern.util import csv_safe
 from sendora_core.adapters import AdapterError
@@ -37,16 +37,20 @@ class XeroAccounting:
         return [RemoteInvoice(i.get("InvoiceNumber", ""), (i.get("Contact") or {}).get("Name", ""), to_minor(str(i.get("Total", 0)), i.get("CurrencyCode", "USD")), to_minor(str(i.get("AmountDue", 0)), i.get("CurrencyCode", "USD")), str(i.get("DueDate", ""))[:10], i.get("CurrencyCode", "USD")) for i in r.json().get("Invoices", [])]
 
     @write_action("accounting.create_draft_bill")
-    def create_draft_bill(self, bill: DraftBill) -> str:
+    def create_draft_bill(self, bill: DraftBill) -> PostedDraft:
         if not self.settings.accounting_write:
             raise AdapterError("ACCOUNTING_WRITE is false, so nothing is posted to Xero.")
-        body = {"Type": "ACCPAY", "Status": "DRAFT", "InvoiceNumber": bill.number, "Contact": {"Name": bill.vendor_name}, "Date": bill.issue_date, "DueDate": bill.due_date, "CurrencyCode": bill.currency,
-                "LineItems": [{"Description": ln["description"], "Quantity": ln["quantity"], "UnitAmount": to_major_number(ln["unit_minor"], bill.currency)} for ln in bill.lines]}
+        lines = bill.lines or [{"description": "Bill " + bill.number, "quantity": 1, "unit_minor": bill.subtotal_minor, "total_minor": bill.subtotal_minor}]
+        tax = split_tax(lines, bill.tax_minor)
+        body = {"Type": "ACCPAY", "Status": "DRAFT", "InvoiceNumber": bill.number, "Contact": {"Name": bill.vendor_name}, "Date": bill.issue_date, "DueDate": bill.due_date, "CurrencyCode": bill.currency, "LineAmountTypes": "Exclusive",
+                "LineItems": [{"Description": ln["description"], "Quantity": ln["quantity"], "UnitAmount": to_major_number(ln["unit_minor"], bill.currency), "TaxAmount": to_major_number(t, bill.currency)} for ln, t in zip(lines, tax)]}
         headers = {**self._h(), **({"Idempotency-Key": bill.idempotency_key[:128]} if bill.idempotency_key else {})}
         r = self.client.post("/api.xro/2.0/Invoices", headers=headers, json=body)
         if r.status_code >= 400:
             raise AdapterError(f"Xero answered {r.status_code} when creating the draft bill.")
-        return str(r.json()["Invoices"][0]["InvoiceID"])
+        made = r.json()["Invoices"][0]
+        returned = made.get("Total")
+        return PostedDraft(str(made["InvoiceID"]), to_minor(str(returned), bill.currency) if returned is not None else None, bill.currency)
 
     def healthcheck(self) -> tuple[bool, str]:
         try:
@@ -74,13 +78,20 @@ class AkauntingAccounting:
         return [RemoteInvoice(str(d.get("document_number", d.get("id"))), str((d.get("contact") or {}).get("name", "")), to_minor(str(d.get("amount", 0)), "USD"), to_minor(str(d.get("amount", 0)), "USD"), str(d.get("due_at", ""))[:10]) for d in r.json().get("data", [])]
 
     @write_action("accounting.create_draft_bill")
-    def create_draft_bill(self, bill: DraftBill) -> str:
+    def create_draft_bill(self, bill: DraftBill) -> PostedDraft:
         if not self.settings.accounting_write:
             raise AdapterError("ACCOUNTING_WRITE is false, so nothing is posted to Akaunting.")
-        r = self.client.post("/api/documents", headers=self._h(), json={"type": "bill", "contact_id": 0, "document_number": bill.number, "issued_at": bill.issue_date, "due_at": bill.due_date, "currency_code": bill.currency, "status": "draft"})
+        lines = bill.lines or [{"description": "Bill " + bill.number, "quantity": 1, "unit_minor": bill.subtotal_minor, "total_minor": bill.subtotal_minor}]
+        items = [{"name": ln["description"][:100] or "Item", "quantity": ln["quantity"], "price": to_major_number(ln["unit_minor"], bill.currency)} for ln in lines]
+        if bill.tax_minor:  # no tax record is invented: the tax printed on the bill goes in as its own line, so the draft carries the approved total
+            items.append({"name": "Tax as printed on the bill", "quantity": 1, "price": to_major_number(bill.tax_minor, bill.currency)})
+        r = self.client.post("/api/documents", headers=self._h(), json={"type": "bill", "contact_id": 0, "contact_name": bill.vendor_name, "document_number": bill.number, "issued_at": bill.issue_date, "due_at": bill.due_date,
+                                                                          "currency_code": bill.currency, "status": "draft", "items": items})
         if r.status_code >= 400:
             raise AdapterError(f"Akaunting answered {r.status_code} when creating the draft bill.")
-        return str(r.json()["data"]["id"])
+        made = r.json()["data"]
+        returned = made.get("amount")
+        return PostedDraft(str(made["id"]), to_minor(str(returned), bill.currency) if returned is not None else None, bill.currency)
 
     def healthcheck(self) -> tuple[bool, str]:
         try:
@@ -101,10 +112,20 @@ class CsvAccounting:
         if not p.exists():
             raise AdapterError(f"Put an invoices.csv file in {self.settings.csv_folder} with the columns Number, Customer, Total, Balance, Due.")
         out = []
-        for r in csv.DictReader(p.open()):
-            t, b = parse_amount(r["Total"]), parse_amount(r["Balance"])
-            if t and b:
-                out.append(RemoteInvoice(r["Number"], r["Customer"], t[0], b[0], r["Due"], t[1]))
+        need = ("Number", "Customer", "Total", "Balance", "Due")
+        with p.open(newline="", encoding="utf-8-sig") as f:
+            reader = csv.DictReader(f)
+            missing = [c for c in need if c not in (reader.fieldnames or [])]
+            if missing:
+                raise AdapterError(f"invoices.csv has no column {', '.join(missing)}. It needs the columns Number, Customer, Total, Balance, Due (the first line of the file).")
+            for n, r in enumerate(reader, start=2):
+                if not (r["Total"] or "").strip() or not (r["Balance"] or "").strip():
+                    continue  # a row with no amount is not an open invoice
+                t, b = parse_amount(r["Total"]), parse_amount(r["Balance"])
+                if t is None or b is None:
+                    raise AdapterError(f"invoices.csv line {n}: the Total or the Balance is not an amount ({(r['Total'] or '')[:20]!r}, {(r['Balance'] or '')[:20]!r}).")
+                if t[0] and b[0]:
+                    out.append(RemoteInvoice(r["Number"] or "", r["Customer"] or "", t[0], b[0], r["Due"] or "", t[1]))
         return out
 
     @write_action("accounting.create_draft_bill")

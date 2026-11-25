@@ -10,7 +10,7 @@ from fastapi import APIRouter, Depends, HTTPException, Query, Response
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from booklantern import bankservice, collections, forecastservice, fx as FX, fxservice, model_tasks, report_pdf, reminders as R
+from booklantern import bankservice, collections, posting, forecastservice, fx as FX, fxservice, model_tasks, report_pdf, reminders as R
 from booklantern.api.deps import db, get_ctx, user
 from sendora_core.auth import WRITE_ROLES
 from booklantern.api.serializers import bill_row, customer_row, invoice_row, iso, reminder_row
@@ -118,7 +118,7 @@ def bills(status: str | None = None, s: Session = Depends(db), ctx: Ctx = Depend
 
 
 @router.get("/bills/{bill_id}", summary="One bill with its lines, findings and document")
-def bill_detail(bill_id: int, s: Session = Depends(db), ctx: Ctx = Depends(get_ctx)):
+def bill_detail(bill_id: int, s: Session = Depends(db), ctx: Ctx = Depends(get_ctx), u: dict = Depends(user)):
     b = s.get(Bill, bill_id)
     if b is None:
         raise HTTPException(404, "No such bill.")
@@ -128,7 +128,8 @@ def bill_detail(bill_id: int, s: Session = Depends(db), ctx: Ctx = Depends(get_c
     out = bill_row(b, v, [{"kind": e["kind"], "severity": e["severity"]} for e in ex if e["status"] == "open"], fxservice.describe(ctx.rates(s), b.total_minor, b.currency, ctx.today(s)))
     out.update({"lines": [{"id": x.id, "description": x.description, "quantity_milli": x.quantity_milli, "unit_minor": x.unit_minor, "total_minor": x.total_minor} for x in b.lines], "exceptions": ex,
                 "vendor_record": {"name": v.name, "bank_account": v.bank_account, "currency": v.currency, "tax_rate_bp": v.tax_rate_bp, "requires_po": v.requires_po} if v else None,
-                "document": {"id": d.id, "ref": d.ref, "pages": d.page_count, "readable": d.has_text_layer, "extraction": d.extraction} if d else None})
+                "document": {"id": d.id, "ref": d.ref, "pages": d.page_count, "readable": d.has_text_layer, "extraction": d.extraction} if d else None,
+                "self_review": "" if not posting.self_review(s, b, u["user"]) else ("owner" if u["role"] == "owner" else "blocked")})  # "owner": needs a written reason, "blocked": someone else has to approve
     return out
 
 

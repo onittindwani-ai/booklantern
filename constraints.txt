@@ -1,6 +1,8 @@
 # Exact versions of every third party Python package the tests ran against.
 # Used by `make install`, the Docker image and CI (pip install -c constraints.txt ...).
-# Refresh after a deliberate upgrade: make constraints
+# Refresh after a deliberate upgrade with tools/make_constraints.py from the hub repository (docs/12-UPDATING.md), or by hand (no Makefile target does it): in a new empty
+# virtual environment run   pip install -e packages/core-py -e "apps/api[dev]" && pip freeze --exclude-editable
+# then replace the lines below with that list, run the tests, and commit the file.
 alembic==1.20.1
 annotated-doc==0.0.7
 annotated-types==0.8.0

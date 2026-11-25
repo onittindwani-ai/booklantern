@@ -61,16 +61,19 @@ def test_each_address_has_its_own_wider_limit(tmp_path):
     assert codes[0] == 401 and 429 in codes[30:]  # a new email every time never gets a fresh set of tries
 
 
-def test_guesses_spread_over_many_addresses_still_run_out(tmp_path):
+def test_guesses_spread_over_many_addresses_cannot_lock_the_owner_out(tmp_path):
+    """Changed in the second round: this test used to require a limit on the account whatever the address, which let a stranger who knows the owner's email keep the owner
+    out of their own system from any address. Every limit now names the address of the one trying, so each address is held to its own tries and the owner is never shut out."""
     ctx = real_ctx(tmp_path, login_burst=2)
     app = create_app(ctx.settings, ctx)
-    codes = []
-    for i in range(30):
+    for i in range(60):
         c = TestClient(app, base_url="http://api.test", client=(f"203.0.113.{i + 1}", 50000 + i))
-        codes.append(c.post("/api/auth/login", json={"email": "owner@example.test", "password": "wrong-password"}).status_code)
-    assert codes[0] == 401 and 429 in codes[20:]
-    other = TestClient(app, base_url="http://api.test", client=("198.51.100.5", 40000))
-    assert other.post("/api/auth/login", json={"email": "someone.else@example.test", "password": "x"}).status_code == 401
+        assert c.post("/api/auth/login", json={"email": "owner@example.test", "password": "wrong-password"}).status_code == 401
+    one = TestClient(app, base_url="http://api.test", client=("203.0.113.200", 50000))
+    codes = [one.post("/api/auth/login", json={"email": "owner@example.test", "password": "wrong-password"}).status_code for _ in range(6)]
+    assert codes[0] == 401 and 429 in codes  # one address still runs out of tries
+    owner = TestClient(app, base_url="http://api.test", client=("198.51.100.5", 40000))
+    assert owner.post("/api/auth/login", json={"email": "owner@example.test", "password": PASSWORD}).status_code == 200
 
 
 def test_unknown_accounts_cost_the_same_work_as_wrong_passwords(tmp_path, monkeypatch):

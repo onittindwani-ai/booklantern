@@ -20,8 +20,16 @@ if [ ! -s "$TMP_DUMP" ]; then
   exit 1
 fi
 mv -- "$TMP_DUMP" "$DUMP"
-docker compose exec -T api tar -C /data -cf - uploads > "$TMP_FILES" || true
-if [ -s "$TMP_FILES" ]; then mv -- "$TMP_FILES" "$FILES"; fi
+# The uploaded bills are part of the backup: a failed copy stops the script loudly (the database dump above is already safe on disk), it is never skipped quietly.
+if ! docker compose exec -T api tar -C /data -cf - uploads > "$TMP_FILES"; then
+  echo "backup incomplete: the database dump was written ($DUMP) but the uploaded bills could not be archived" >&2
+  exit 1
+fi
+if [ ! -s "$TMP_FILES" ]; then
+  echo "backup incomplete: the archive of the uploaded bills is empty" >&2
+  exit 1
+fi
+mv -- "$TMP_FILES" "$FILES"
 # keep the newest 14 of each
 ls -1t "$OUT"/booklantern-*.dump | tail -n +15 | while read -r old; do rm -f -- "$old"; done
 ls -1t "$OUT"/uploads-*.tar 2>/dev/null | tail -n +15 | while read -r old; do rm -f -- "$old"; done

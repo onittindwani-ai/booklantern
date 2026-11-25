@@ -13,7 +13,7 @@ import time
 
 import httpx
 
-from booklantern.adapters.base import DraftBill, RemoteInvoice, safe_base_url
+from booklantern.adapters.base import DraftBill, PostedDraft, RemoteInvoice, safe_base_url
 from booklantern.money import to_major_number, to_minor
 from sendora_core.adapters import AdapterError
 from sendora_core.safety import write_action
@@ -78,13 +78,18 @@ class QuickBooksAccounting:
         return out
 
     @write_action("accounting.create_draft_bill")
-    def create_draft_bill(self, bill: DraftBill) -> str:
+    def create_draft_bill(self, bill: DraftBill) -> PostedDraft:
         if not self.settings.accounting_write:
             raise AdapterError("ACCOUNTING_WRITE is false, so no bill is posted to QuickBooks. This is the safe default.")
-        body = {"VendorRef": {"name": bill.vendor_name, "value": "0"}, "DocNumber": bill.number, "TxnDate": bill.issue_date, "DueDate": bill.due_date, "PrivateNote": bill.memo,
-                "Line": [{"DetailType": "AccountBasedExpenseLineDetail", "Amount": to_major_number(ln["total_minor"], bill.currency), "Description": ln["description"], "AccountBasedExpenseLineDetail": {"AccountRef": {"value": "0"}}} for ln in bill.lines]}
+        lines = bill.lines or [{"description": "Bill " + bill.number, "total_minor": bill.subtotal_minor}]  # a bill with no readable lines is still posted, with its subtotal on one line
+        body = {"VendorRef": {"name": bill.vendor_name, "value": "0"}, "DocNumber": bill.number, "TxnDate": bill.issue_date, "DueDate": bill.due_date, "PrivateNote": bill.memo, "CurrencyRef": {"value": bill.currency},
+                "Line": [{"DetailType": "AccountBasedExpenseLineDetail", "Amount": to_major_number(ln["total_minor"], bill.currency), "Description": ln["description"], "AccountBasedExpenseLineDetail": {"AccountRef": {"value": "0"}}} for ln in lines]}
+        if bill.tax_minor:
+            body["TxnTaxDetail"] = {"TotalTax": to_major_number(bill.tax_minor, bill.currency)}  # the tax as printed on the bill, so the draft carries the approved total (field name UNVERIFIED)
         params = {"requestid": bill.idempotency_key[:50]} if bill.idempotency_key else {}  # QuickBooks answers a repeated request id with the first result
-        return str(self._call("POST", "/bill", json=body, params=params)["Bill"]["Id"])
+        made = self._call("POST", "/bill", json=body, params=params)["Bill"]
+        returned = made.get("TotalAmt")
+        return PostedDraft(str(made["Id"]), to_minor(str(returned), bill.currency) if returned is not None else None, bill.currency)
 
     def healthcheck(self) -> tuple[bool, str]:
         try:
