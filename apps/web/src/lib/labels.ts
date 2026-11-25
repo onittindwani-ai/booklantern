@@ -24,12 +24,19 @@ export const FINDING: Record<string, { label: string; help: string }> = {
   low_confidence: { label: "Low confidence", help: "At least one field is unsure." },
   possible_duplicate_line: { label: "Duplicate bank line", help: "An identical line comes earlier in the file." },
   unmatched_line: { label: "Bank line not matched", help: "Nothing fits this line." },
+  tax_rate_differs: { label: "Tax rate differs from the usual", help: "The printed tax rate is not one this vendor's bills usually carry. A comparison only, not tax advice." },
+  sender_not_allowed: { label: "Sender not on the list", help: "The bill came by email from an address that is not in INTAKE_ALLOWED_SENDERS. Check with the vendor before approving." },
+  post_outcome_unknown: { label: "Posting outcome unclear", help: "The accounting system did not answer clearly, so nobody knows whether it made the draft. Look for it there, then say what you found on the bill." },
+  reminder_unconfirmed: { label: "Reminder may or may not have gone", help: "The mail connection failed after the message was handed over. Look in the sent folder before anything is done by hand." },
+  reminder_refused: { label: "Reminder not sent", help: "The mail server refused it or failed too many times. Check the customer's address." },
+  stop_reply: { label: "Customer asked to stop", help: "A message that asks to stop the reminders is waiting, unread, in the mailbox. Switch reminders off for that customer on the Collections page if that is what they want." },
+  customer_reply: { label: "Customer replied", help: "A customer answered by email. The message is still unread in the mailbox." },
 };
 export const finding = (k: string) => FINDING[k] ?? { label: k.replace(/_/g, " "), help: "" };
 export const sevTone = (s: string): BadgeTone => (s === "block" ? "danger" : s === "warning" ? "warning" : "neutral");
 
 export const BILL_STATE: Record<string, { label: string; tone: BadgeTone }> = {
-  inbox: { label: "New", tone: "neutral" }, needs_review: { label: "Needs review", tone: "warning" }, approved: { label: "Approved", tone: "accent" },
+  inbox: { label: "New", tone: "neutral" }, posting: { label: "Posting: outcome unclear", tone: "danger" }, needs_review: { label: "Needs review", tone: "warning" }, approved: { label: "Approved", tone: "accent" },
   posted_draft: { label: "Posted as draft", tone: "success" }, paid: { label: "Paid", tone: "success" }, rejected: { label: "Rejected", tone: "neutral" },
 };
 export const FIELD_LABEL: Record<string, string> = {

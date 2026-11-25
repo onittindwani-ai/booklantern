@@ -1,6 +1,6 @@
 """A tiny fake SMTP and IMAP server for tests and the demo. Not a real mail server.
 
-SMTP: EHLO, AUTH PLAIN, MAIL, RCPT, DATA, RSET, NOOP, QUIT. Accepted messages land in `MailStore.outbox`.
+SMTP: EHLO, AUTH PLAIN, MAIL, RCPT, DATA, RSET, NOOP, QUIT. Accepted messages land in `MailStore.outbox`. `MailStore.drop_after_data`, `quit_reply` and `rcpt_reply` switch on faults.
 IMAP: CAPABILITY, LOGIN, SELECT, UID SEARCH (ALL, UNSEEN), UID FETCH (RFC822.SIZE, BODY.PEEK[], RFC822), UID STORE (flags), NOOP, LOGOUT.
 Only a plain RFC822 fetch marks a message read, as on a real server; BODY.PEEK[] does not.
 Messages in `MailStore.inbox` are what the IMAP client sees. It speaks only what Python's smtplib and imaplib send.
@@ -20,6 +20,10 @@ class MailStore:
     inbox: list[dict] = field(default_factory=list)  # visible to IMAP: {"uid","raw","seen"}
     lock: threading.Lock = field(default_factory=threading.Lock)
     users: dict[str, str] = field(default_factory=lambda: {"demo": "demo-password"})
+    # Faults for tests (all off by default): the server takes the message and then drops the line without answering; it answers QUIT with an error; it refuses every recipient.
+    drop_after_data: bool = False
+    quit_reply: str = "221 bye"
+    rcpt_reply: str = "250 ok"
 
     def deliver(self, raw: bytes) -> int:
         with self.lock:
@@ -52,6 +56,9 @@ class _SMTP(socketserver.StreamRequestHandler):
                 mail_from, rcpts = line.split(":", 1)[1].strip().strip("<>").split(">")[0], []
                 self._w("250 ok")
             elif cmd == "RCPT":
+                if not self.store.rcpt_reply.startswith("250"):
+                    self._w(self.store.rcpt_reply)
+                    continue
                 rcpts.append(line.split(":", 1)[1].strip().strip("<>").split(">")[0])
                 self._w("250 ok")
             elif cmd == "DATA":
@@ -64,11 +71,13 @@ class _SMTP(socketserver.StreamRequestHandler):
                     chunks.append(row[1:] if row.startswith(b"..") else row)
                 with self.store.lock:
                     self.store.outbox.append({"from": mail_from, "to": list(rcpts), "data": b"".join(chunks).decode(errors="replace")})
+                if self.store.drop_after_data:
+                    return  # the message is stored and the connection ends with no answer
                 self._w("250 queued")
             elif cmd in ("RSET", "NOOP"):
                 self._w("250 ok")
             elif cmd == "QUIT":
-                self._w("221 bye")
+                self._w(self.store.quit_reply)
                 return
             else:
                 self._w("502 not supported")

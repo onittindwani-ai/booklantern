@@ -21,6 +21,9 @@ export default function ReconcilePage() {
   const [dragOver, setDragOver] = useState<string | null>(null);
   const [csv, setCsv] = useState("");
   const [fileKey, setFileKey] = useState(0);
+  const [acct, setAcct] = useState("");
+  const accts = useQuery({ queryKey: ["bank-accounts"], queryFn: () => get<{ id: number; name: string; currency: string }[]>("/bank/accounts") });
+  const manyAccounts = (accts.data?.length ?? 0) > 1; // with more than one bank account the statement must say which one it belongs to
   const bank = useQuery({ queryKey: ["bank", f], queryFn: () => get<BankPage>(f === "table" ? "/bank/transactions?limit=6000" : `/bank/transactions?limit=300${f === "all" ? "" : `&status=${f}`}`) });
   const cand = useQuery({ queryKey: ["cand", sel], enabled: sel !== null, queryFn: () => get<Candidate[]>(`/bank/candidates?txn_id=${sel}`) });
   const refresh = () => { qc.invalidateQueries(); };
@@ -34,7 +37,7 @@ export default function ReconcilePage() {
   });
   const confirm = useMutation({ mutationFn: (id: number) => post(`/bank/matches/${id}/confirm`), onSuccess: () => { notify.success("Match confirmed."); refresh(); }, onError: (e: Error) => notify.error("Could not confirm", e.message) });
   const unlink = useMutation({ mutationFn: (id: number) => api(`/bank/matches/${id}`, { method: "DELETE" }), onSuccess: () => { notify.info("Match removed."); refresh(); }, onError: (e: Error) => notify.error("Could not remove", e.message) });
-  const imp = useMutation({ mutationFn: () => post<{ added: number; skipped_already_imported: number; possible_duplicates: number }>("/bank/import", { text: csv, name: "statement.csv" }), onSuccess: (r) => { notify.success(`Imported ${r.added} ${r.added === 1 ? "line" : "lines"}${r.skipped_already_imported ? `, skipped ${r.skipped_already_imported} already here` : ""}${r.possible_duplicates ? `, ${r.possible_duplicates} look like duplicates (see Exceptions)` : ""}.`); setCsv(""); setFileKey((k) => k + 1); refresh(); }, onError: (e: Error) => notify.error("Could not import", e.message) });
+  const imp = useMutation({ mutationFn: () => post<{ added: number; skipped_already_imported: number; possible_duplicates: number }>("/bank/import", { text: csv, name: "statement.csv", ...(acct ? { account_id: Number(acct) } : {}) }), onSuccess: (r) => { notify.success(`Imported ${r.added} ${r.added === 1 ? "line" : "lines"}${r.skipped_already_imported ? `, skipped ${r.skipped_already_imported} already here` : ""}${r.possible_duplicates ? `, ${r.possible_duplicates} look like duplicates (see Exceptions)` : ""}.`); setCsv(""); setFileKey((k) => k + 1); refresh(); }, onError: (e: Error) => notify.error("Could not import", e.message) });
   const rows = bank.data?.rows ?? [];
   const current = rows.find((r) => r.id === sel) ?? null;
   const dropOn = (c: Candidate, txnId: number) => { const t = rows.find((r) => r.id === txnId); if (t) link.mutate({ txn: t, c }); };
@@ -42,7 +45,17 @@ export default function ReconcilePage() {
     <div className="ll-page">
       <PageHead title="Reconciliation" sub="Bank lines on the left, open invoices and bills on the right. Drag a line onto one, or select a line and press L on a row to link it. Statements come in as CSV files only." />
       <Card title="Import a bank statement (CSV)">
-        <div className="sx-row"><CsvFileInput key={fileKey} onText={setCsv} required={["Date", "Description", "Amount"]} noun="bank line" /><Button variant="primary" disabled={!canWrite || !csv} disabledReason={!canWrite ? "Your sign in can read but not change" : "Choose a CSV file first"} onClick={async () => { await imp.mutateAsync(); }}>Import</Button></div>
+        <div className="sx-row">
+          {manyAccounts ? (
+            <label className="sx-label" style={{ display: "grid", gap: 5 }}>Bank account
+              <select className="ll-select" value={acct} onChange={(e) => setAcct(e.target.value)}>
+                <option value="">Choose the account</option>
+                {accts.data!.map((a) => <option key={a.id} value={a.id}>{a.name} ({a.currency})</option>)}
+              </select></label>
+          ) : null}
+          <CsvFileInput key={fileKey} onText={setCsv} required={["Date", "Description", "Amount"]} noun="bank line" />
+          <Button variant="primary" disabled={!canWrite || !csv || (manyAccounts && !acct)} disabledReason={!canWrite ? "Your sign in can read but not change" : !csv ? "Choose a CSV file first" : "Choose the bank account first"} onClick={async () => { await imp.mutateAsync(); }}>Import</Button>
+        </div>
       </Card>
       <FilterBar><SegmentedControl label="Show" value={f} onChange={setF} options={FILTERS} /></FilterBar>
       {f === "table" && bank.data ? (

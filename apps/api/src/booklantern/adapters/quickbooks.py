@@ -23,6 +23,8 @@ PRODUCTION = "https://quickbooks.api.intuit.com"
 
 
 class QuickBooksAccounting:
+    carries_idempotency_key = True  # the bill request carries `requestid`, which QuickBooks answers with the first result when it is repeated
+
     def __init__(self, settings, client: httpx.Client | None = None, token_client: httpx.Client | None = None):
         self.settings = settings
         for n in ("qbo_client_id", "qbo_client_secret", "qbo_refresh_token", "qbo_realm_id"):

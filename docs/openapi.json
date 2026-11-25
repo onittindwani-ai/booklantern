@@ -989,7 +989,7 @@
     "tags": [
      "write"
     ],
-    "summary": "Approve a bill. A blocking finding needs a written reason.",
+    "summary": "Approve a bill. A blocking finding needs a written reason (at least 12 characters in 2 words). Send the etag from GET /api/bills/{id} to refuse a bill that changed meanwhile.",
     "operationId": "approve_bill_api_bills__bill_id__approve_post",
     "parameters": [
      {
@@ -1008,6 +1008,56 @@
       "application/json": {
        "schema": {
         "$ref": "#/components/schemas/ApproveIn"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/bills/{bill_id}/post-outcome": {
+   "post": {
+    "tags": [
+     "write"
+    ],
+    "summary": "Say what happened after a post whose outcome was unclear: the draft is in the accounting system (give its id) or it is not.",
+    "operationId": "post_outcome_api_bills__bill_id__post_outcome_post",
+    "parameters": [
+     {
+      "name": "bill_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "title": "Bill Id"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/PostOutcomeIn"
        }
       }
      }
@@ -1761,7 +1811,7 @@
     "tags": [
      "setup"
     ],
-    "summary": "Import open sales invoices from CSV text (owner only). Columns: number, customer, issue_date, due_date, total, currency, paid.",
+    "summary": "Import open sales invoices from CSV text (owner only). Columns: number, customer, issue_date, due_date, total, currency, paid, paid_on.",
     "operationId": "import_invoices_api_invoices_import_post",
     "requestBody": {
      "content": {
@@ -2436,6 +2486,18 @@
       "maxLength": 300,
       "title": "Note",
       "default": ""
+     },
+     "etag": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 64
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Etag"
      }
     },
     "type": "object",
@@ -2796,6 +2858,18 @@
       "maxLength": 40,
       "title": "Name",
       "default": "upload.csv"
+     },
+     "account_id": {
+      "anyOf": [
+       {
+        "type": "integer",
+        "minimum": 1.0
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Account Id"
      }
     },
     "type": "object",
@@ -2902,6 +2976,32 @@
      "opted_out"
     ],
     "title": "OptOutIn"
+   },
+   "PostOutcomeIn": {
+    "properties": {
+     "posted": {
+      "type": "boolean",
+      "title": "Posted"
+     },
+     "external_id": {
+      "type": "string",
+      "maxLength": 80,
+      "title": "External Id",
+      "default": ""
+     },
+     "note": {
+      "type": "string",
+      "maxLength": 300,
+      "minLength": 1,
+      "title": "Note"
+     }
+    },
+    "type": "object",
+    "required": [
+     "posted",
+     "note"
+    ],
+    "title": "PostOutcomeIn"
    },
    "PromiseIn": {
     "properties": {

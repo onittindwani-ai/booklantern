@@ -3,7 +3,7 @@
 Score (0 to 100, every part is named so the page can show why):
   amount equals what is still open: 50     name of the customer or vendor found in the description (fuzzy): up to 30
   invoice or bill number found in the description: 25 (digits only also count)     date in a believable window: 10
-A split (one deposit paying several invoices of one customer) is found by trying subsets of two to four of that customer's open
+A deposit marked as a part payment scores at least 55, and 5 more when it is exactly a half, a third or a quarter of what is open. A split (one deposit paying several invoices of one customer) is found by trying subsets of two to four of that customer's open
 invoices whose open amounts add up to the deposit exactly. Score 90.
 Auto confirm at 85 and above, but only when the name of the customer or vendor was also found in the description: an amount, a number and a date can all be copied
 by whoever writes the payment reference, so without a name a person confirms. Suggest from 60, otherwise leave the line unmatched for a person.
@@ -44,6 +44,7 @@ class Target:
     issue: date | None
     due: date | None
     currency: str = "USD"
+    settled: bool = False  # already marked paid in the books: a bank line may still be linked to it (a statement that covers old payments), but an open document always comes first
 
 
 @dataclass
@@ -138,7 +139,8 @@ def match_all(txns: list[Txn], targets: list[Target], recurring: list[RecurringT
         want_kind = "invoice" if t.amount_minor > 0 else "bill"
         pool = [c for c in targets if c.kind == want_kind and left[(c.kind, c.id)] > 0]
         amt = abs(t.amount_minor)
-        best: tuple[int, str, Target, int] | None = None
+        best_open: tuple[int, str, Target, int] | None = None
+        best_settled: tuple[int, str, Target, int] | None = None
         for c in pool:
             a, note = _in_target_ccy(amt, t.currency, c, t.posted_on, rates)
             if a is None:
@@ -149,14 +151,29 @@ def match_all(txns: list[Txn], targets: list[Target], recurring: list[RecurringT
             partial = a < left[(c.kind, c.id)] and name_score(t.description, c.party) and ("part" in t.description.casefold())
             if partial:
                 sc, why = max(sc, 55), why + "; marked as a part payment"
-            if best is None or (sc, -(c.due or date.max).toordinal()) > (best[0], -(best[2].due or date.max).toordinal()):
-                best = (sc, why, c, a)
-        if best and best[0] >= SUGGEST_AT - 5 and (best[0] >= SUGGEST_AT or "part payment" in best[1]):
+                if left[(c.kind, c.id)] % a == 0:  # exactly a half, a third, a quarter of what is open: of two invoices of one customer, the one it divides is the likelier
+                    sc, why = sc + 5, why + f"; exactly 1/{left[(c.kind, c.id)] // a} of the open amount"
+            if c.settled:
+                why += "; already marked paid in the books"
+            cand = (sc, why, c, a)
+            if c.settled:
+                if best_settled is None or (sc, -(c.due or date.max).toordinal()) > (best_settled[0], -(best_settled[2].due or date.max).toordinal()):
+                    best_settled = cand
+            elif best_open is None or (sc, -(c.due or date.max).toordinal()) > (best_open[0], -(best_open[2].due or date.max).toordinal()):
+                best_open = cand
+        # An open invoice or bill that fits always wins over one that is already marked paid: a later deposit of the same amount from the same customer pays the one that is still open.
+        best = next((b for b in (best_open, best_settled) if b and b[0] >= SUGGEST_AT - 5 and (b[0] >= SUGGEST_AT or "part payment" in b[1])), None)
+        if best:
             sc, why, c, a = best
             alloc = min(a, left[(c.kind, c.id)])
             left[(c.kind, c.id)] -= alloc
             named = name_score(t.description, c.party) > 0
-            out.append(Result(t.id, "matched" if sc >= CONFIRM_AT and named else "suggested", [Link(c.kind, c.id, alloc, sc, why if named or sc < CONFIRM_AT else why + "; no name found, so a person confirms")]))
+            # A line that fits a document already marked paid is confirmed by itself only when it also names that document's number (a statement that covers old payments does).
+            # A repeat deposit of the same amount with no number is not: a person looks, because the real open invoice may be the one it pays.
+            unproven = c.settled and f"number {c.number} in the description" not in why
+            if unproven:
+                why += "; no document number on the line, so a person confirms"
+            out.append(Result(t.id, "matched" if sc >= CONFIRM_AT and named and not unproven else "suggested", [Link(c.kind, c.id, alloc, sc, why if named or sc < CONFIRM_AT or unproven else why + "; no name found, so a person confirms")]))
             continue
         split = _split(t, pool, left)
         if split:

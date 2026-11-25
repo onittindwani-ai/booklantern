@@ -5,7 +5,7 @@
   python3 tools/check_docs.py --fix    also rewrite quoted counts from data/counts.json
 
 Checks: no em or en dashes, no local paths or private links, GitHub links are the repo home page only, every quoted count
-(<!--n:path-->value<!--/n-->) equals data/counts.json, every relative link in the Markdown points at a file that exists,
+(<!--n:path-->value<!--/n-->) equals data/counts.json, data/counts.json itself still fits the code (tables, API paths, test count), every relative link in the Markdown points at a file that exists,
 no leftover words from other systems.
 """
 
@@ -33,10 +33,28 @@ def lookup(counts: dict, path: str):
     return cur
 
 
+def count_problems(counts: dict) -> list[str]:
+    """Numbers in data/counts.json that can be measured in a second, compared with the repository: tables, API paths and operations, and a floor for the Python test count (every test
+    function is at least one test). A counts file that was not regenerated after the code changed is reported here instead of being quoted in the docs."""
+    out: list[str] = []
+    tables = len(re.findall(r'__tablename__ = "ll_', (ROOT / "apps/api/src/booklantern/models.py").read_text()))
+    if counts.get("tables") != tables:
+        out.append(f"data/counts.json says {counts.get('tables')} tables, models.py has {tables}. Run python3 tools/make_counts.py")
+    api = json.loads((ROOT / "docs" / "openapi.json").read_text())
+    ops = sum(1 for v in api["paths"].values() for k in v if k in ("get", "post", "put", "patch", "delete"))
+    if counts.get("api_paths") != len(api["paths"]) or counts.get("api_operations") != ops:
+        out.append(f"data/counts.json says {counts.get('api_paths')} API paths and {counts.get('api_operations')} operations, docs/openapi.json has {len(api['paths'])} and {ops}. Run python3 tools/make_counts.py")
+    funcs = sum(len(re.findall(r"^\s*(?:async )?def test_", f.read_text(), re.M)) for d in ("apps/api/tests", "mock/tests", "tools/tests") for f in (ROOT / d).glob("*.py"))
+    ran = int(counts.get("tests", {}).get("passed", 0)) + int(counts.get("tests", {}).get("skipped", 0))
+    if ran < funcs:
+        out.append(f"data/counts.json says {ran} Python tests ran, but the repository has {funcs} test functions. Run python3 tools/make_counts.py")
+    return out
+
+
 def main(argv: list[str]) -> int:
     fix = "--fix" in argv
     counts = json.loads((ROOT / "data" / "counts.json").read_text())
-    bad: list[str] = []
+    bad: list[str] = count_problems(counts)
     for f in sorted(set(FILES)):
         rel = f.relative_to(ROOT)
         text = f.read_text(encoding="utf-8")

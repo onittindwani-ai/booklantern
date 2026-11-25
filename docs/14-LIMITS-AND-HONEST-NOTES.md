@@ -4,7 +4,7 @@
 
 | Thing | Status |
 | --- | --- |
-| Offline reader, checks, aging, reminders, reconciliation, forecast, API, web app | Built and tested here: <!--n:tests.passed-->323<!--/n--> Python tests and <!--n:e2e.tests-->41<!--/n--> browser tests passed, coverage <!--n:tests.coverage_percent-->92.3<!--/n--> percent. |
+| Offline reader, checks, aging, reminders, reconciliation, forecast, API, web app | Built and tested here: <!--n:tests.passed-->425<!--/n--> Python tests and <!--n:e2e.tests-->41<!--/n--> browser tests passed, coverage <!--n:tests.coverage_percent-->92.3<!--/n--> percent. |
 | QuickBooks, Stripe, IMAP adapters | Tested against stand in servers we wrote. **Never run against the real service.** |
 | Xero and Akaunting adapters | Written from documentation, mock tested only, tier B. |
 | Model path (a language model reads bills, words the forecast and the month summary, words reminders) | Real code behind the base wrapper, with a schema, the untrusted text boundary and checks by code. Run only against a **local fake server** and recorded answers made from it. **Never run with a real key, so how a real model reads real bills is UNVERIFIED.** |
@@ -15,13 +15,18 @@
 
 ## Things the code cannot do for you
 
-- **Opt outs are recorded by a person.** Every reminder says "reply to this email and we will stop them". Nothing reads the replies: someone must read the mailbox that receives them and press the opt out on the customer (Collections). If nobody does, the stop line is a promise you are not keeping.
+- **Opt outs are recorded by a person.** Every reminder says "reply to this email and we will stop them". Nothing switches reminders off by itself from a reply. Set `REPLY_TO` to a mailbox a person reads (live mode refuses an empty `REPLY_TO` when the bills mailbox is also the sender). If the replies do land in the bills mailbox anyway, the poller leaves them unread and shows a reply from a customer, or one that asks to stop, on the Exceptions page; a person then presses the opt out on the customer (Collections). If nobody looks, the stop line is a promise you are not keeping.
 - **Vendors and customers have no page in the web app.** They are added through the owner only API routes, CSV imports or `tools/load_data.py` (`05`). Bill review and the bank pages are in the web app.
 - **A vendor's bank account on file is the check for changed payment details**, so it is only as good as what the owner typed. A bill with details and no account on file is flagged, and one with no details where an account is on file is held back.
 - **Bank details are read only from labelled lines**, such as a routing number and an account number, or an IBAN. An account number on its own is not taken for bank details, because it is usually the customer's own account with the vendor.
 - **PDFs are opened in the same process as the API**, with no separate process or memory limit. Accept bills only from mailboxes you control.
 - **No retention job.** Bills, bank lines and the audit log stay until you delete them.
-- **The Akaunting adapter sends no repeat key**, so post a bill from it once.
+- **Only QuickBooks and Xero carry a repeat key.** A repeated post to them returns the first draft, never a second one. Akaunting and the CSV adapter cannot recognise a repeat, so when a post to them ends unclear (a timeout after the request went out) the bill stays in `posting` with a blocking finding, nothing is posted again by itself, and a person looks in the accounting system and says on the bill whether the draft is there.
+- **A bank line may be linked to an invoice or bill that is already marked paid** (a statement can cover payments the books already hold), but an open one always wins when both fit, and linking changes nothing about the paid one. A deposit of the same amount for an invoice that was really paid twice is therefore shown with the reason "already marked paid in the books", for a person to look at.
+- **A reason typed for an override is checked for its shape, not its truth.** At least 12 characters, 2 words and 5 different letters or digits. Whether it is honest is for the person who reads the audit log.
+- **`INTAKE_ALLOWED_SENDERS` trusts the From line**, which a sender can forge. It makes a stranger's bill blocked by default; it does not prove who sent it.
+- **The interactive API page (`/docs`) is off in a real install** (`DEMO_MODE=false`); the list of routes is in `docs/openapi.json`.
+- **Mail that is not a bill stays in the bills mailbox unread**, up to the poller's memory of 5,000 messages. Use a mailbox where bills are the only thing that arrives.
 - **A database error message can include the values of the failed query**, which may be bill text. Booklantern's own log lines never carry bill text, but this is set in the shared base (`make_engine` should hide statement parameters). It is a request to the maintainers of the shared base, not changed here. Keep logs private (`11`).
 
 ## The reader is weak on new layouts

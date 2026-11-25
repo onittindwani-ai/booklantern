@@ -49,7 +49,7 @@ Never send a reminder when: the invoice is paid or voided; the customer opted ou
 
 ## 7. API (all under /api, session required except login)
 
-auth (login, logout, me), overview, documents (list, upload, detail, page image, extract), bills (list, detail, patch fields, approve, reject, post draft), vendors, customers, invoices (list, detail), aging (summary and drill down), collections (reminders list, approve, send, promises, dispute, opt out), payments link, bank (transactions list, CSV import, matches suggest, link, unlink), exceptions (list, resolve), forecast (get, scenario run), reports (month end pack PDF), integrations (list, test), approvals, audit, settings, events stream, demo (reset, tick, advance).
+auth (login, logout, me), overview, documents (list, upload, detail, page image, extract), bills (list, detail, patch fields, approve, reject, post draft, say what happened after an unclear post), vendors, customers, invoices (list, detail), aging (summary and drill down), collections (reminders list, approve, send, promises, dispute, opt out), payments link, bank (transactions list, CSV import, matches suggest, link, unlink), exceptions (list, resolve), forecast (get, scenario run), reports (month end pack PDF), integrations (list, test), approvals, audit, settings, events stream, demo (reset, tick, advance).
 
 ## 8. Pages
 

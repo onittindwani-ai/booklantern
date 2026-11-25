@@ -48,8 +48,10 @@ def load_seed(session: Session, seed: dict, now: datetime) -> dict:
     session.flush()
     invs: dict[str, Invoice] = {}
     for i in seed["invoices"]:
+        # An invoice with `partial_on` is part paid by a deposit that is on the bank statement. It starts with nothing paid and the matcher applies that deposit, as it would on a real install:
+        # loading the part payment as well would count the same money twice.
         inv = Invoice(customer_id=customers[i["customer"]].id, number=i["number"], issue_date=date.fromisoformat(i["issue"]), due_date=date.fromisoformat(i["due"]), currency=i["currency"], total_minor=i["total_minor"],
-                      paid_minor=i["paid_minor"], status="paid" if i["status"] == "paid" else "open", disputed=i["flag"] == "dispute", dispute_note="Customer says the delivery was short." if i["flag"] == "dispute" else "",
+                      paid_minor=0 if i.get("partial_on") else i["paid_minor"], status="paid" if i["status"] == "paid" else "open", disputed=i["flag"] == "dispute", dispute_note="Customer says the delivery was short." if i["flag"] == "dispute" else "",
                       paid_on=date.fromisoformat(i["paid_on"]) if i["paid_on"] else None)
         invs[i["number"]] = inv
         session.add(inv)

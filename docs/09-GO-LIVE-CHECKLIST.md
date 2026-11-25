@@ -13,7 +13,8 @@ Do these in order, one client at a time. Stay in draft mode until every box is t
 - [ ] `DEMO_MODE=false`, a real `SESSION_SECRET`, an owner password hash, and a second approver.
 - [ ] `COMPANY_NAME`, `COMPANY_ADDRESS`, `EMAIL_FROM`, `REPLY_TO`, `BASE_CURRENCY`, `DEFAULT_TIMEZONE`, payment terms, reminder window and ladder are the client's real answers, not the defaults. The app refuses `MODE=live` while the company name is the placeholder.
 - [ ] The vendors (with their bank accounts on file), customers, open invoices, bank account and chart of accounts are loaded (`05`, "A real install"), and a person checked a few bank accounts against the vendor's own paperwork.
-- [ ] Someone reads the mailbox that receives replies to reminders every working day, and records an opt out on the customer when one asks to stop.
+- [ ] `REPLY_TO` is a mailbox a person reads, and it is not the mailbox bills arrive in (the app refuses `MODE=live` otherwise). Someone reads it every working day and records an opt out on the customer when one asks to stop. A message with no bill in it that reaches the bills mailbox stays unread there and, from a customer or asking to stop, is shown on the Exceptions page.
+- [ ] `INTAKE_ALLOWED_SENDERS` lists the addresses or domains your vendors send bills from, if you can (empty means anyone who knows the address). The bills mailbox is used for bills only.
 - [ ] `python tools/doctor.py --live` shows no FAIL.
 - [ ] `make check-env` shows no problem.
 

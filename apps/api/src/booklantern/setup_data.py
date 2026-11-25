@@ -184,8 +184,9 @@ def import_customers(session: Session, settings, who: str, text: str) -> ImportR
 # ----- open invoices -----
 
 def import_invoices(session: Session, settings, who: str, text: str) -> ImportReport:
-    """Columns: number, customer (the name as on the customer list), issue_date, due_date (both 2026-03-14), total, currency (default the company currency), paid (default 0).
-    Totals are written as on the invoice (1,250.00). An invoice number already in the system is left as it is."""
+    """Columns: number, customer (the name as on the customer list), issue_date, due_date (both 2026-03-14), total, currency (default the company currency), paid (default 0), paid_on (the day
+    the last payment came, 2026-03-14, optional). Totals are written as on the invoice (1,250.00). An invoice number already in the system is left as it is.
+    A fully paid invoice with no paid_on keeps no payment date, so it does not distort how late this customer usually pays."""
     rep = ImportReport()
     customers = {c.name.lower(): c for c in session.scalars(select(Customer))}
     have = set(session.scalars(select(Invoice.number)))
@@ -213,8 +214,16 @@ def import_invoices(session: Session, settings, who: str, text: str) -> ImportRe
         paid = parse_amount(r["paid"], cur) if r.get("paid") else (0, cur)
         if total is None or paid is None or not 0 < total[0] <= limits.MAX_MINOR or not 0 <= paid[0] <= total[0]:
             raise SetupError(f"{where}: the total must be an amount above zero, and what is paid cannot be more than the total.")
+        paid_on = None
+        if r.get("paid_on"):
+            try:
+                paid_on = date.fromisoformat(r["paid_on"])
+            except ValueError:
+                raise SetupError(f"{where}: paid_on must look like 2026-03-14.") from None
+            if paid_on < issue:
+                raise SetupError(f"{where}: paid_on is before the invoice date.")
         todo.append(Invoice(customer_id=cust.id, number=number, issue_date=issue, due_date=due, currency=cur, total_minor=total[0], paid_minor=paid[0], status="paid" if paid[0] >= total[0] else "open",
-                            paid_on=issue if paid[0] >= total[0] else None))
+                            paid_on=paid_on if paid[0] >= total[0] else None))
     session.add_all(todo)
     session.flush()
     rep.added = len(todo)

@@ -5,10 +5,22 @@ from __future__ import annotations
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from booklantern.models import ExceptionItem
+from booklantern.models import Bill, ExceptionItem
+
+
+def _remember_block(session: Session, ref_type: str, ref_id: int) -> None:
+    """A bill that has ever carried a blocking finding keeps `had_block`, whatever happens to the finding later. Editing the bill so the check passes closes the finding,
+    but it must not switch off the rule that the person who made that edit cannot also approve it."""
+    if ref_type == "bill":
+        bill = session.get(Bill, ref_id)
+        if bill is not None and not bill.had_block:
+            bill.had_block = True
+            session.flush()
 
 
 def raise_exception(session: Session, kind: str, severity: str, ref_type: str, ref_id: int, detail: str) -> ExceptionItem:
+    if severity == "block":
+        _remember_block(session, ref_type, ref_id)
     row = session.scalars(select(ExceptionItem).where(ExceptionItem.kind == kind, ExceptionItem.ref_type == ref_type, ExceptionItem.ref_id == ref_id)).first()
     if row is None:
         row = ExceptionItem(kind=kind, severity=severity, ref_type=ref_type, ref_id=ref_id, detail=detail[:400])
@@ -23,7 +35,10 @@ def raise_exception(session: Session, kind: str, severity: str, ref_type: str, r
 
 
 def clear_open(session: Session, ref_type: str, ref_id: int, kinds: set[str]) -> None:
-    for row in session.scalars(select(ExceptionItem).where(ExceptionItem.ref_type == ref_type, ExceptionItem.ref_id == ref_id, ExceptionItem.status == "open", ExceptionItem.kind.in_(kinds))):
+    rows = list(session.scalars(select(ExceptionItem).where(ExceptionItem.ref_type == ref_type, ExceptionItem.ref_id == ref_id, ExceptionItem.status == "open", ExceptionItem.kind.in_(kinds))))
+    for row in rows:
+        if row.severity == "block":
+            _remember_block(session, ref_type, ref_id)  # a blocking row is about to be removed: the bill still remembers it had one
         session.delete(row)
     session.flush()
 

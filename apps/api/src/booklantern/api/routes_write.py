@@ -64,7 +64,7 @@ def _store_and_read(s: Session, ctx: Ctx, name: str, data: bytes, who: str) -> d
 
 
 @router.post("/documents/upload", summary="Upload a PDF or image as the raw request body. Send the file name in the x-filename header.")
-async def upload(request: Request, s: Session = Depends(db), ctx: Ctx = Depends(get_ctx), u: dict = Depends(writer)):
+async def upload(request: Request, s: Session = Depends(db, scope="function"), ctx: Ctx = Depends(get_ctx), u: dict = Depends(writer)):
     data = await _bounded_body(request, MAX_UPLOAD)
     if not data:
         raise HTTPException(413, "The file is empty or larger than 15 MB.")
@@ -96,7 +96,7 @@ class BillPatch(BaseModel):
 
 
 @router.patch("/bills/{bill_id}", summary="Correct fields on a bill. The checks run again.")
-def patch_bill(bill_id: int, body: BillPatch, s: Session = Depends(db), ctx: Ctx = Depends(get_ctx), u: dict = Depends(writer)):
+def patch_bill(bill_id: int, body: BillPatch, s: Session = Depends(db, scope="function"), ctx: Ctx = Depends(get_ctx), u: dict = Depends(writer)):
     b = _found(s.get(Bill, bill_id), "bill")
     if b.status not in EDITABLE:
         raise HTTPException(409, "Only a bill that is waiting for review can be edited.")
@@ -149,12 +149,13 @@ def _set_vendor(s: Session, b: Bill, name: str) -> None:
 
 class ApproveIn(BaseModel):
     note: str = Field(default="", max_length=300)
+    etag: str | None = Field(default=None, max_length=64)  # the fingerprint the page loaded with the bill (GET /api/bills/{id}): when it is sent and the bill is different now, nothing is approved
 
 
-@router.post("/bills/{bill_id}/approve", summary="Approve a bill. A blocking finding needs a written reason.")
-def approve_bill(bill_id: int, body: ApproveIn, s: Session = Depends(db), u: dict = Depends(writer)):
+@router.post("/bills/{bill_id}/approve", summary="Approve a bill. A blocking finding needs a written reason (at least 12 characters in 2 words). Send the etag from GET /api/bills/{id} to refuse a bill that changed meanwhile.")
+def approve_bill(bill_id: int, body: ApproveIn, s: Session = Depends(db, scope="function"), u: dict = Depends(writer)):
     try:
-        b = posting.approve(s, bill_id, u["user"], body.note, u["role"])
+        b = posting.approve(s, bill_id, u["user"], body.note, u["role"], body.etag)
     except posting.NoSuchBill as exc:
         raise HTTPException(404, str(exc)) from exc
     except ValueError as exc:
@@ -162,12 +163,29 @@ def approve_bill(bill_id: int, body: ApproveIn, s: Session = Depends(db), u: dic
     return {"status": b.status}
 
 
+class PostOutcomeIn(BaseModel):
+    posted: bool
+    external_id: str = Field(default="", max_length=80)
+    note: str = Field(min_length=1, max_length=300)
+
+
+@router.post("/bills/{bill_id}/post-outcome", summary="Say what happened after a post whose outcome was unclear: the draft is in the accounting system (give its id) or it is not.")
+def post_outcome(bill_id: int, body: PostOutcomeIn, s: Session = Depends(db, scope="function"), u: dict = Depends(writer)):
+    try:
+        b = posting.resolve_unknown_post(s, bill_id, u["user"], body.posted, body.external_id, body.note)
+    except posting.NoSuchBill as exc:
+        raise HTTPException(404, str(exc)) from exc
+    except ValueError as exc:
+        raise _bad(exc) from exc
+    return {"status": b.status, "external_id": b.posted_external_id}
+
+
 class RejectIn(BaseModel):
     reason: str = Field(min_length=1, max_length=300)
 
 
 @router.post("/bills/{bill_id}/reject", summary="Reject a bill")
-def reject_bill(bill_id: int, body: RejectIn, s: Session = Depends(db), u: dict = Depends(writer)):
+def reject_bill(bill_id: int, body: RejectIn, s: Session = Depends(db, scope="function"), u: dict = Depends(writer)):
     try:
         return {"status": posting.reject(s, bill_id, u["user"], body.reason).status}
     except posting.NoSuchBill as exc:
@@ -177,7 +195,7 @@ def reject_bill(bill_id: int, body: RejectIn, s: Session = Depends(db), u: dict 
 
 
 @router.post("/bills/{bill_id}/post", summary="Post an approved bill to the accounting system as a draft. Does nothing in draft mode or with ACCOUNTING_WRITE off.")
-def post_bill(bill_id: int, s: Session = Depends(db), ctx: Ctx = Depends(get_ctx), u: dict = Depends(writer)):
+def post_bill(bill_id: int, s: Session = Depends(db, scope="function"), ctx: Ctx = Depends(get_ctx), u: dict = Depends(writer)):
     try:
         return posting.post_draft(s, ctx, bill_id, u["user"])
     except posting.NoSuchBill as exc:
@@ -187,7 +205,7 @@ def post_bill(bill_id: int, s: Session = Depends(db), ctx: Ctx = Depends(get_ctx
 
 
 @router.post("/reminders/{reminder_id}/approve", summary="Approve a drafted reminder")
-def approve_reminder(reminder_id: int, s: Session = Depends(db), u: dict = Depends(writer)):
+def approve_reminder(reminder_id: int, s: Session = Depends(db, scope="function"), u: dict = Depends(writer)):
     try:
         r = collections.approve_reminder(s, reminder_id, u["user"])
         collections.close_approval(s, reminder_id, True, u["user"], u["role"])
@@ -197,7 +215,7 @@ def approve_reminder(reminder_id: int, s: Session = Depends(db), u: dict = Depen
 
 
 @router.post("/reminders/{reminder_id}/cancel", summary="Cancel a reminder that has not been sent")
-def cancel_reminder(reminder_id: int, s: Session = Depends(db), u: dict = Depends(writer)):
+def cancel_reminder(reminder_id: int, s: Session = Depends(db, scope="function"), u: dict = Depends(writer)):
     r = s.get(Reminder, reminder_id)
     if r is None or r.status not in ("drafted", "approved", "sending"):  # "sending": it was being sent when the program stopped, and a person has looked at the sent mail
         raise HTTPException(409, "This reminder cannot be cancelled.")
@@ -214,7 +232,7 @@ class PromiseIn(BaseModel):
 
 
 @router.post("/invoices/{invoice_id}/promise", summary="Record a promise to pay")
-def promise(invoice_id: int, body: PromiseIn, s: Session = Depends(db), ctx: Ctx = Depends(get_ctx), u: dict = Depends(writer)):
+def promise(invoice_id: int, body: PromiseIn, s: Session = Depends(db, scope="function"), ctx: Ctx = Depends(get_ctx), u: dict = Depends(writer)):
     inv = _found(s.get(Invoice, invoice_id), "invoice")
     if inv.status != "open":
         raise HTTPException(409, "This invoice is already paid, so there is nothing to promise.")
@@ -232,7 +250,7 @@ class DisputeIn(BaseModel):
 
 
 @router.post("/invoices/{invoice_id}/dispute", summary="Mark or clear a dispute. A dispute stops reminders.")
-def dispute(invoice_id: int, body: DisputeIn, s: Session = Depends(db), u: dict = Depends(writer)):
+def dispute(invoice_id: int, body: DisputeIn, s: Session = Depends(db, scope="function"), u: dict = Depends(writer)):
     _found(s.get(Invoice, invoice_id), "invoice")
     return {"disputed": collections.set_dispute(s, invoice_id, body.disputed, body.note, u["user"]).disputed}
 
@@ -242,7 +260,7 @@ class OptOutIn(BaseModel):
 
 
 @router.post("/customers/{customer_id}/opt-out", summary="Record that a customer asked to get no reminders")
-def opt_out(customer_id: int, body: OptOutIn, s: Session = Depends(db), u: dict = Depends(writer)):
+def opt_out(customer_id: int, body: OptOutIn, s: Session = Depends(db, scope="function"), u: dict = Depends(writer)):
     _found(s.get(Customer, customer_id), "customer")
     if not body.opted_out and u["role"] != "owner":
         raise HTTPException(403, "Only the owner can switch reminders back on for a customer who asked to stop.")
@@ -250,7 +268,7 @@ def opt_out(customer_id: int, body: OptOutIn, s: Session = Depends(db), u: dict 
 
 
 @router.post("/invoices/{invoice_id}/payment-link", summary="Make a payment link for an invoice. In draft mode this makes a placeholder and nothing at the payment provider.")
-def payment_link(invoice_id: int, s: Session = Depends(db), ctx: Ctx = Depends(get_ctx), u: dict = Depends(writer)):
+def payment_link(invoice_id: int, s: Session = Depends(db, scope="function"), ctx: Ctx = Depends(get_ctx), u: dict = Depends(writer)):
     inv = _found(s.get(Invoice, invoice_id), "invoice")
     if inv.status != "open":
         raise HTTPException(409, "This invoice is already paid, so it needs no payment link.")
@@ -260,13 +278,14 @@ def payment_link(invoice_id: int, s: Session = Depends(db), ctx: Ctx = Depends(g
 class ImportIn(BaseModel):
     text: str = Field(min_length=1, max_length=8_000_000)
     name: str = Field(default="upload.csv", max_length=40)
+    account_id: int | None = Field(default=None, ge=1)  # which bank account the statement belongs to; needed when there is more than one
 
 
 @router.post("/bank/import", summary="Import a bank statement CSV (text in the body). CSV only, no bank login.")
-def bank_import(body: ImportIn, s: Session = Depends(db), ctx: Ctx = Depends(get_ctx), u: dict = Depends(writer)):
+def bank_import(body: ImportIn, s: Session = Depends(db, scope="function"), ctx: Ctx = Depends(get_ctx), u: dict = Depends(writer)):
     from booklantern.bankcsv import CsvError
     try:
-        r = bankservice.import_csv(s, body.text, body.name)
+        r = bankservice.import_csv(s, body.text, body.name, body.account_id)
     except CsvError as exc:
         raise HTTPException(422, str(exc)) from exc
     r["matching"] = bankservice.run_matching(s, ctx)
@@ -276,7 +295,7 @@ def bank_import(body: ImportIn, s: Session = Depends(db), ctx: Ctx = Depends(get
 
 
 @router.post("/bank/match/run", summary="Run the matcher on lines that are not matched yet")
-def match_run(s: Session = Depends(db), ctx: Ctx = Depends(get_ctx), u: dict = Depends(writer)):
+def match_run(s: Session = Depends(db, scope="function"), ctx: Ctx = Depends(get_ctx), u: dict = Depends(writer)):
     r = bankservice.run_matching(s, ctx)
     bankservice.record_payments(s)
     return r
@@ -290,7 +309,7 @@ class LinkIn(BaseModel):
 
 
 @router.post("/bank/links", summary="Link a bank line to an invoice or bill by hand")
-def link(body: LinkIn, s: Session = Depends(db), u: dict = Depends(writer)):
+def link(body: LinkIn, s: Session = Depends(db, scope="function"), u: dict = Depends(writer)):
     t = _found(s.get(BankTransaction, body.txn_id), "bank line")
     _found(s.get(Invoice if body.kind == "invoice" else Bill, body.target_id), body.kind)
     if (t.amount_minor > 0) != (body.kind == "invoice"):
@@ -304,7 +323,7 @@ def link(body: LinkIn, s: Session = Depends(db), u: dict = Depends(writer)):
 
 
 @router.post("/bank/matches/{match_id}/confirm", summary="Confirm a suggested match")
-def confirm(match_id: int, s: Session = Depends(db), u: dict = Depends(writer)):
+def confirm(match_id: int, s: Session = Depends(db, scope="function"), u: dict = Depends(writer)):
     _found(s.get(Match, match_id), "match")
     bankservice.confirm_match(s, match_id, u["user"])
     bankservice.record_payments(s)
@@ -312,7 +331,7 @@ def confirm(match_id: int, s: Session = Depends(db), u: dict = Depends(writer)):
 
 
 @router.delete("/bank/matches/{match_id}", summary="Remove a match")
-def unlink(match_id: int, s: Session = Depends(db), u: dict = Depends(writer)):
+def unlink(match_id: int, s: Session = Depends(db, scope="function"), u: dict = Depends(writer)):
     _found(s.get(Match, match_id), "match")
     bankservice.unlink(s, match_id, u["user"])
     return {"ok": True}
@@ -323,11 +342,11 @@ class ResolveIn(BaseModel):
 
 
 @router.post("/exceptions/{exc_id}/resolve", summary="Mark an exception as dealt with. A blocking one needs a written reason.")
-def resolve_exception(exc_id: int, body: ResolveIn | None = None, s: Session = Depends(db), u: dict = Depends(writer)):
+def resolve_exception(exc_id: int, body: ResolveIn | None = None, s: Session = Depends(db, scope="function"), u: dict = Depends(writer)):
     note = (body.note if body else "").strip()
     row = _found(s.get(ExceptionItem, exc_id), "exception")
-    if row.severity == "block" and not note:
-        raise HTTPException(409, "This finding blocks approval. Write down why it is safe to close it.")
+    if row.severity == "block" and not posting.real_reason(note):
+        raise HTTPException(409, "This finding blocks approval. Write down why it is safe to close it. " + posting.REASON_HELP)
     bill = s.get(Bill, row.ref_id) if row.ref_type == "bill" else None
     own_edit = row.severity == "block" and bill is not None and u["user"] in posting.editors(s, bill)
     if own_edit and u["role"] != "owner":

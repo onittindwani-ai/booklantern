@@ -11,6 +11,15 @@ from urllib.parse import urlparse
 from sendora_core.adapters import AdapterError
 
 
+class OutcomeUnknown(AdapterError):
+    """A call that may or may not have taken effect: the request (or the mail's text) had left when the answer was lost, or the server failed after it started. Whoever called must not
+    simply try again unless the other side can recognise a repeat."""
+
+
+class PermanentFailure(AdapterError):
+    """The other side said no and will say no again (a mail server refusing the address, for example). Trying again changes nothing."""
+
+
 @dataclass
 class InboundDocument:
     external_id: str
@@ -20,6 +29,15 @@ class InboundDocument:
     subject: str = ""
     ref: str = ""  # a fixed reference, set only by the offline demo mailbox: a reference is never taken from text a sender wrote
     ack: str = ""  # which mailbox message this came from: it is marked read only after the document is safely stored (see InboxAdapter.acknowledge)
+
+
+@dataclass
+class InboundNote:
+    """A message that came to the intake mailbox with no bill in it (a customer's answer to a reminder, for example). It is left unread in the mailbox and shown to a person."""
+    uid: str
+    from_addr: str
+    subject: str
+    snippet: str
 
 
 @dataclass
@@ -92,6 +110,7 @@ class PaymentsAdapter(Protocol):
 class InboxAdapter(Protocol):
     def fetch_documents(self) -> list[InboundDocument]: ...
     def acknowledge(self, acks: list[str]) -> None: ...
+    def take_notes(self) -> list[InboundNote]: ...
     def healthcheck(self) -> tuple[bool, str]: ...
 
 

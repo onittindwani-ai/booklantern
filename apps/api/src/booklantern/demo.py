@@ -36,6 +36,13 @@ def reset(session: Session, ctx) -> dict:
         info = load_seed(s, seed, now)
         imp = bankservice.import_csv(s, (root / seed["bank_csv"]).read_text(), "seed-statement")
         match = bankservice.run_matching(s, ctx)
+        # The two part payments on the demo statement are only suggestions (a part payment always is). The demo opens with them confirmed, as a person would on the first day,
+        # so the open balances it shows are the ones the seed describes. Their invoices were loaded with nothing paid (see seeding.load_seed): confirming applies each deposit once.
+        from sqlalchemy import select
+
+        from booklantern.models import Match
+        for m in list(s.scalars(select(Match).where(Match.status == "suggested", Match.reason.like("%marked as a part payment%")))):
+            bankservice.confirm_match(s, m.id, "demo seed")
         bankservice.record_payments(s)
         uploaded = 0
         for d in seed["documents"]:

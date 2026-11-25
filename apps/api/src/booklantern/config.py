@@ -70,6 +70,9 @@ class Settings(BaseAppSettings):
     imap_port: int = 993
     imap_use_ssl: bool = True
     email_from: str = DEFAULT_EMAIL_FROM
+    # INTAKE_ALLOWED_SENDERS: comma separated addresses or @domains whose mail may bring bills. Empty means any sender (anyone who knows the intake address can then send a bill).
+    # A bill from another sender is still stored, but it carries a blocking finding. A From line can be forged, so this narrows the door, it does not lock it.
+    intake_allowed_senders: str = Field(default="", max_length=2000)
 
     # Decided defaults for the collections ladder and the forecast. The implementer can change each one.
     reminder_window_start: int = Field(default=9, ge=0, le=23)
@@ -84,6 +87,40 @@ class Settings(BaseAppSettings):
     def probs(self) -> dict[str, int]:
         return {k.strip(): int(v) for k, v in (p.split("=") for p in self.collection_prob_bp.split(",") if "=" in p)}
 
+    def allowed_senders(self) -> list[str]:
+        return [x.strip().casefold() for x in self.intake_allowed_senders.replace(";", ",").split(",") if x.strip()]
+
+    def sender_allowed(self, address: str) -> bool:
+        """True when INTAKE_ALLOWED_SENDERS is empty, or the address is listed (exactly, or by its @domain)."""
+        allowed = self.allowed_senders()
+        a = (address or "").strip().casefold()
+        return not allowed or a in allowed or ("@" in a and f"@{a.rsplit('@', 1)[1]}" in allowed)
+
+    def reply_loop_problems(self) -> list[str]:
+        """Customers answer a reminder. When the answer goes to the very mailbox the intake poller reads, a person may never see it (a "stop" reply sat among the bills)."""
+        if self.inbox_adapter != "imap" or self.email_adapter != "smtp":
+            return []
+        reply = self.reply_to.strip().casefold()
+        if not reply:
+            return ["REPLY_TO is empty, so customers' answers to a reminder go to the same mailbox that Booklantern reads bills from. Set REPLY_TO to a mailbox a person reads (or use a separate mailbox for bills)."]
+        if reply == self.smtp_user.strip().casefold():
+            return ["REPLY_TO is the mailbox that Booklantern reads bills from (SMTP_USER). Set it to a mailbox a person reads."]
+        return []
+
+    def demo_server_problems(self) -> list[str]:
+        """A demo (no owner password) has a public password and a public example session secret. Anyone who has read the code could forge a session, so it must not hold real
+        connections or real writes. ALLOW_DEMO_SERVER=true is the owner's written choice for a throw away trial."""
+        if not self.demo_shortcuts or self.allow_demo_server:
+            return []
+        out: list[str] = []
+        real = [f"{c.upper()}_ADAPTER={n}" for c, n in (("accounting", self.accounting_adapter), ("payments", self.payments_adapter), ("inbox", self.inbox_adapter), ("email", self.email_adapter)) if n != "seed"]
+        if real:
+            out.append(f"DEMO_MODE is true with no OWNER_PASSWORD_HASH, so the public demo password and an example session secret are active, but real connections are switched on ({', '.join(real)}). "
+                       "Set DEMO_MODE=false and OWNER_PASSWORD_HASH, or use only the offline seed adapters.")
+        if self.mode is Mode.LIVE and self.accounting_write:
+            out.append("DEMO_MODE is true with no OWNER_PASSWORD_HASH while MODE=live and ACCOUNTING_WRITE=true. A public demo login would be able to post to your books. Set DEMO_MODE=false and OWNER_PASSWORD_HASH.")
+        return out
+
     def identity_problems(self) -> list[str]:
         """What is still a placeholder in the business identity. A reminder goes out under the company's name, address and sender mailbox."""
         out: list[str] = []
@@ -95,6 +132,7 @@ class Settings(BaseAppSettings):
             out.append("COMPANY_ADDRESS is empty. A reminder email carries the company's physical postal address in its footer.")
         if self.reply_to and not EMAIL_LIKE.match(self.reply_to):
             out.append("REPLY_TO is not an email address.")
+        out += self.reply_loop_problems()
         try:
             ZoneInfo(self.default_timezone)
         except (ZoneInfoNotFoundError, ValueError, OSError):
@@ -118,7 +156,7 @@ class Settings(BaseAppSettings):
         return out
 
     def runtime_errors(self) -> list[str]:
-        out = super().runtime_errors() + self.account_problems()
+        out = super().runtime_errors() + self.account_problems() + self.demo_server_problems()
         if self.mode is Mode.LIVE and not self.demo_mode:
             out += self.identity_problems()
         return list(dict.fromkeys(out))

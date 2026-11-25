@@ -30,10 +30,10 @@ Start at [docs/00-START-HERE.md](docs/00-START-HERE.md). The guides run from 00 
 
 Numbers come from `data/counts.json`.
 
-- <!--n:tests.passed-->323<!--/n--> Python tests passed and <!--n:tests.skipped-->1<!--/n--> was skipped (the Postgres cycle). Line coverage of the `booklantern` package: <!--n:tests.coverage_percent-->92.3<!--/n--> percent.
+- <!--n:tests.passed-->425<!--/n--> Python tests passed and <!--n:tests.skipped-->1<!--/n--> was skipped (the Postgres cycle). Line coverage of the `booklantern` package: <!--n:tests.coverage_percent-->92.3<!--/n--> percent.
 - <!--n:e2e.tests-->41<!--/n--> browser tests in Chrome: the whole demo path, accessibility scans of all <!--n:pages-->11<!--/n--> pages in light and dark with 0 serious or critical problems, keyboard use, reduced motion, 5,000 bank lines, no layout shift, no console errors, and pictures of 12 named states (including a button mid action, a toast with undo, an empty list and a failed load) at desktop and phone width.
 - Property tests: the forecast, money rounding and currency conversion, and the reminder stop rules on 400 random worlds of 90 days.
-- The seed check (`python tools/score_seed.py`): 25 of 25 planted document problems found with 0 extra flags, and 183 of 184 bank lines matched as the answer key says. The same author wrote the data and the checks, so these are not independent scores.
+- The seed check (`python tools/score_seed.py`): 25 of 25 planted document problems found with 0 extra flags, and 184 of 184 bank lines matched as the answer key says. The same author wrote the data and the checks, so these are not independent scores.
 - **The reader is weak on new layouts.** The offline reader is rules, not a language model. On the documents it was built against it got every field right. On our own earlier test (<!--n:heldout_documents-->24<!--/n--> documents) it got 37.8 percent. On 105 bills written by other people who never saw the code, the first run of the current reader got 75.2 percent of fields right on the second set (5 of 48 documents with every field right). See [docs/EXTRACTION-EVAL.md](docs/EXTRACTION-EVAL.md).
 
 ## Honest limits

@@ -13,7 +13,7 @@ from pydantic import BaseModel, Field
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from booklantern import setup_data
+from booklantern import intake, setup_data
 from booklantern.api.deps import db, get_ctx, owner
 from booklantern.context import Ctx
 from booklantern.models import Account, BankAccount, Vendor
@@ -48,7 +48,7 @@ class VendorPatch(BaseModel):
 
 
 @router.post("/vendors", summary="Add a vendor (owner only)")
-def add_vendor(body: VendorIn, s: Session = Depends(db), ctx: Ctx = Depends(get_ctx), u: dict = Depends(owner)):
+def add_vendor(body: VendorIn, s: Session = Depends(db, scope="function"), ctx: Ctx = Depends(get_ctx), u: dict = Depends(owner)):
     try:
         v = setup_data.create_vendor(s, ctx.settings, u["user"], **body.model_dump())
     except setup_data.SetupError as exc:
@@ -57,7 +57,7 @@ def add_vendor(body: VendorIn, s: Session = Depends(db), ctx: Ctx = Depends(get_
 
 
 @router.patch("/vendors/{vendor_id}", summary="Change a vendor's bank account on file, purchase order rule, terms or tax rate (owner only)")
-def change_vendor(vendor_id: int, body: VendorPatch, s: Session = Depends(db), u: dict = Depends(owner)):
+def change_vendor(vendor_id: int, body: VendorPatch, s: Session = Depends(db, scope="function"), ctx: Ctx = Depends(get_ctx), u: dict = Depends(owner)):
     v = s.get(Vendor, vendor_id)
     if v is None:
         raise HTTPException(404, "No such vendor.")
@@ -65,13 +65,16 @@ def change_vendor(vendor_id: int, body: VendorPatch, s: Session = Depends(db), u
     for k, val in changed.items():
         if val is not None:
             setattr(v, k, val)
+    s.flush()
+    # A bill that is waiting or approved was checked against the old record: check it again against the new one (an approved bill with a new blocking finding goes back to review).
+    sent_back = intake.revalidate_vendor_bills(s, ctx, v.id, u["user"]) if set(changed) & {"bank_account", "requires_po", "tax_rate_bp"} else []
     # the new account is not written into the log, only that it changed: the log is read by more people than the vendor list
-    record_audit(s, u["user"], "vendor.changed", f"vendor:{v.id}", {"fields": sorted(changed)})
-    return {"ok": True}
+    record_audit(s, u["user"], "vendor.changed", f"vendor:{v.id}", {"fields": sorted(changed), "sent_back_for_review": sent_back})
+    return {"ok": True, "sent_back_for_review": sent_back}
 
 
 @router.post("/vendors/import", summary="Import vendors from CSV text (owner only). Columns: name, currency, tax_rate, requires_po, bank_account, terms_days, address.")
-def import_vendors(body: CsvIn, s: Session = Depends(db), ctx: Ctx = Depends(get_ctx), u: dict = Depends(owner)):
+def import_vendors(body: CsvIn, s: Session = Depends(db, scope="function"), ctx: Ctx = Depends(get_ctx), u: dict = Depends(owner)):
     try:
         return setup_data.import_vendors(s, ctx.settings, u["user"], body.text).to_dict()
     except setup_data.SetupError as exc:
@@ -86,7 +89,7 @@ class CustomerIn(BaseModel):
 
 
 @router.post("/customers", summary="Add a customer (owner only)")
-def add_customer(body: CustomerIn, s: Session = Depends(db), ctx: Ctx = Depends(get_ctx), u: dict = Depends(owner)):
+def add_customer(body: CustomerIn, s: Session = Depends(db, scope="function"), ctx: Ctx = Depends(get_ctx), u: dict = Depends(owner)):
     try:
         c = setup_data.create_customer(s, ctx.settings, u["user"], **body.model_dump())
     except setup_data.SetupError as exc:
@@ -95,15 +98,15 @@ def add_customer(body: CustomerIn, s: Session = Depends(db), ctx: Ctx = Depends(
 
 
 @router.post("/customers/import", summary="Import customers from CSV text (owner only). Columns: name, email, timezone, terms_days.")
-def import_customers(body: CsvIn, s: Session = Depends(db), ctx: Ctx = Depends(get_ctx), u: dict = Depends(owner)):
+def import_customers(body: CsvIn, s: Session = Depends(db, scope="function"), ctx: Ctx = Depends(get_ctx), u: dict = Depends(owner)):
     try:
         return setup_data.import_customers(s, ctx.settings, u["user"], body.text).to_dict()
     except setup_data.SetupError as exc:
         raise _unprocessable(exc) from exc
 
 
-@router.post("/invoices/import", summary="Import open sales invoices from CSV text (owner only). Columns: number, customer, issue_date, due_date, total, currency, paid.")
-def import_invoices(body: CsvIn, s: Session = Depends(db), ctx: Ctx = Depends(get_ctx), u: dict = Depends(owner)):
+@router.post("/invoices/import", summary="Import open sales invoices from CSV text (owner only). Columns: number, customer, issue_date, due_date, total, currency, paid, paid_on.")
+def import_invoices(body: CsvIn, s: Session = Depends(db, scope="function"), ctx: Ctx = Depends(get_ctx), u: dict = Depends(owner)):
     try:
         return setup_data.import_invoices(s, ctx.settings, u["user"], body.text).to_dict()
     except setup_data.SetupError as exc:
@@ -118,12 +121,12 @@ class BankAccountIn(BaseModel):
 
 
 @router.get("/bank/accounts", summary="Bank accounts")
-def bank_accounts(s: Session = Depends(db)):
+def bank_accounts(s: Session = Depends(db, scope="function")):
     return [{"id": a.id, "name": a.name, "currency": a.currency, "opening_minor": a.opening_minor, "opening_date": a.opening_date.isoformat()} for a in s.scalars(select(BankAccount).order_by(BankAccount.id))]
 
 
 @router.post("/bank/accounts", summary="Add the bank account the statements belong to (owner only)")
-def add_bank_account(body: BankAccountIn, s: Session = Depends(db), ctx: Ctx = Depends(get_ctx), u: dict = Depends(owner)):
+def add_bank_account(body: BankAccountIn, s: Session = Depends(db, scope="function"), ctx: Ctx = Depends(get_ctx), u: dict = Depends(owner)):
     try:
         a = setup_data.create_bank_account(s, ctx.settings, u["user"], **body.model_dump())
     except setup_data.SetupError as exc:
@@ -138,12 +141,12 @@ class AccountIn(BaseModel):
 
 
 @router.get("/accounts", summary="Chart of accounts")
-def accounts(s: Session = Depends(db)):
+def accounts(s: Session = Depends(db, scope="function")):
     return [{"id": a.id, "code": a.code, "name": a.name, "kind": a.kind} for a in s.scalars(select(Account).order_by(Account.code))]
 
 
 @router.post("/accounts", summary="Add an account to the chart of accounts (owner only)")
-def add_account(body: AccountIn, s: Session = Depends(db), u: dict = Depends(owner)):
+def add_account(body: AccountIn, s: Session = Depends(db, scope="function"), u: dict = Depends(owner)):
     try:
         a = setup_data.create_account(s, u["user"], **body.model_dump())
     except setup_data.SetupError as exc:
@@ -161,7 +164,7 @@ class RecurringIn(BaseModel):
 
 
 @router.post("/recurring", summary="Add a repeating payment or receipt, such as rent or a retainer (owner only)")
-def add_recurring(body: RecurringIn, s: Session = Depends(db), u: dict = Depends(owner)):
+def add_recurring(body: RecurringIn, s: Session = Depends(db, scope="function"), u: dict = Depends(owner)):
     try:
         r = setup_data.create_recurring(s, u["user"], **body.model_dump())
     except setup_data.SetupError as exc:

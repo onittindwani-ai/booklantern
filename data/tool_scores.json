@@ -246,7 +246,7 @@
    "reference": "gmail_imap",
    "recommendation": {
     "beginner": "A dedicated mailbox on Gmail with an app password, because most small businesses have one. Use a mailbox just for bills.",
-    "implementer": "Create a separate mailbox such as bills at the client's domain and point suppliers at it. The reader only looks at unread mail and marks it read.",
+    "implementer": "Create a separate mailbox such as bills at the client's domain and point suppliers at it. The reader only looks at unread mail and marks it read once its bills are saved. Mail with no bill in it stays unread. Set REPLY_TO to another mailbox a person reads.",
     "cost_sensitive": "Any mail host that offers IMAP works and the reader adds no cost of its own.",
     "open_source_when": "A self hosted mail server is the right call only if the client already runs one. Do not start one for this."
    },
@@ -286,7 +286,7 @@
       },
       "integration": {
        "score": 70,
-       "evidence": "Tested against a local fake server for unread, attachments and marking seen."
+       "evidence": "Tested against a local fake server for unread, attachments, marking seen after the bills are saved, and leaving mail without a bill unread."
       }
      }
     },

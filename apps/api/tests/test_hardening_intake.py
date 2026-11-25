@@ -279,10 +279,10 @@ def test_reading_a_message_does_not_mark_it_read_and_a_poll_through_the_real_ada
         srv.store.deliver(mail([("b.pdf", b"%PDF-1.4 broken \x00\x01")]))
         srv.store.deliver(b"From: x@y.test\r\nSubject: hello\r\n\r\nno attachment here\r\n")
         demo_ctx.adapters.inbox = ImapInbox(imap_settings(srv))
-        assert len(demo_ctx.adapters.inbox.fetch_documents()) == 2 and [m["seen"] for m in srv.store.inbox] == [False, False, True]  # only the message with nothing to lose was marked
+        assert len(demo_ctx.adapters.inbox.fetch_documents()) == 2 and [m["seen"] for m in srv.store.inbox] == [False, False, False]  # nothing is marked yet, and the message with no bill is never marked: it may be a customer's answer
         with demo_ctx.factory() as s:
             out = intake.run_intake(s, demo_ctx)
-        assert out["fetched"] == 2 and [m["seen"] for m in srv.store.inbox] == [True, True, True]
+        assert out["fetched"] == 2 and [m["seen"] for m in srv.store.inbox] == [True, True, False]  # the two stored bills are marked read, the message with no bill stays unread for a person
 
 
 def test_an_oversized_message_is_skipped_unread_into_memory(monkeypatch):
@@ -291,7 +291,7 @@ def test_an_oversized_message_is_skipped_unread_into_memory(monkeypatch):
     monkeypatch.setattr(imap, "MAX_MESSAGE_BYTES", 500)
     with FakeMailServers() as srv:
         srv.store.deliver(mail([("a.pdf", bill_pdf())]))
-        assert ImapInbox(imap_settings(srv)).fetch_documents() == [] and srv.store.inbox[0]["seen"] is True
+        assert ImapInbox(imap_settings(srv)).fetch_documents() == [] and srv.store.inbox[0]["seen"] is False  # nothing was read from it, and it is left unread for a person (it used to be marked read)
 
 
 def test_a_poll_takes_at_most_a_set_number_of_messages(monkeypatch):

@@ -9,7 +9,7 @@ from pathlib import Path
 
 import httpx
 
-from booklantern.adapters.base import DraftBill, PostedDraft, RemoteInvoice, safe_base_url, split_tax
+from booklantern.adapters.base import DraftBill, OutcomeUnknown, PostedDraft, RemoteInvoice, safe_base_url, split_tax
 from booklantern.money import parse_amount, to_major_number, to_minor
 from booklantern.util import csv_safe
 from sendora_core.adapters import AdapterError
@@ -21,6 +21,8 @@ def _fail(what: str, exc: Exception) -> tuple[bool, str]:
 
 
 class XeroAccounting:
+    carries_idempotency_key = True  # the bill request carries an Idempotency-Key header
+
     def __init__(self, settings, client: httpx.Client | None = None):
         self.settings = settings
         if not settings.xero_access_token or not settings.xero_tenant_id:
@@ -87,6 +89,8 @@ class AkauntingAccounting:
             items.append({"name": "Tax as printed on the bill", "quantity": 1, "price": to_major_number(bill.tax_minor, bill.currency)})
         r = self.client.post("/api/documents", headers=self._h(), json={"type": "bill", "contact_id": 0, "contact_name": bill.vendor_name, "document_number": bill.number, "issued_at": bill.issue_date, "due_at": bill.due_date,
                                                                           "currency_code": bill.currency, "status": "draft", "items": items})
+        if r.status_code >= 500:  # a server error may come after the bill was made, and Akaunting cannot recognise a repeated request
+            raise OutcomeUnknown(f"Akaunting answered {r.status_code} when creating the draft bill, so it is not known whether the bill was made.")
         if r.status_code >= 400:
             raise AdapterError(f"Akaunting answered {r.status_code} when creating the draft bill.")
         made = r.json()["data"]

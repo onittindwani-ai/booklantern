@@ -1,6 +1,7 @@
 """Bank statement CSV import. CSV only: no bank login is ever used or stored.
 
-Columns are found by header name (Date, Description, Amount, Currency, Reference), in any order. Dates are ISO (2026-03-14).
+Columns are found by header name (Date, Description, Amount, Currency, Reference), in any order. Dates are ISO (2026-03-14). An amount is read strictly (see money.parse_amount): a line that
+cannot be read for certain stops the whole import, and every such line is listed, so a statement is never imported with a sign guessed.
 Duplicates: the same file imported twice adds nothing (each row is keyed by its content plus its position among identical rows).
 Identical rows inside one file are KEPT, because two real fees on one day look the same, and the later ones are marked as possible duplicates.
 """
@@ -29,10 +30,13 @@ class Row:
 
 
 class CsvError(ValueError):
-    pass
+    def __init__(self, message: str, lines: list[str] | None = None):
+        super().__init__(message)
+        self.lines = lines or []  # the lines that could not be read, one sentence each (empty for an error about the whole file)
 
 
 MAX_ROWS = 50_000
+MAX_LISTED = 15  # how many unreadable lines the message spells out
 MAX_REF, MAX_DESC = 40, 300  # the widths of the columns they are stored in
 
 
@@ -60,6 +64,7 @@ def _parse(text: str, default_currency: str) -> list[Row]:
         if need not in cols:
             raise CsvError(f"The file needs a column called {need.capitalize()}. Found: {', '.join(reader.fieldnames)}.")
     out: list[Row] = []
+    bad: list[str] = []
     seen: dict[str, int] = {}
     for n, rec in enumerate(reader, start=2):
         if n - 1 > MAX_ROWS:
@@ -67,16 +72,23 @@ def _parse(text: str, default_currency: str) -> list[Row]:
         raw_date = _cell(rec, cols["date"], n, "date")
         try:
             d = date.fromisoformat(raw_date)
-        except ValueError as exc:
-            raise CsvError(f"Line {n}: the date {raw_date!r} is not in the form 2026-03-14.") from exc
+        except ValueError:
+            bad.append(f"Line {n}: the date {raw_date!r} is not in the form 2026-03-14.")
+            continue
         raw_amount = _cell(rec, cols["amount"], n, "amount")
-        pa = parse_amount(raw_amount, (rec.get(cols.get("currency", "")) or default_currency).strip() or default_currency)
+        # One strict reader for money everywhere: a minus sign in any form, brackets and a trailing minus are read, DR means money out and CR money in, and any character it does
+        # not know makes the line unreadable. A line is never imported with its sign guessed.
+        pa = parse_amount(raw_amount, (rec.get(cols.get("currency", "")) or default_currency).strip() or default_currency, debit_credit=True)
         if pa is None or abs(pa[0]) > 10**12:
-            raise CsvError(f"Line {n}: {raw_amount!r} is not an amount.")
+            bad.append(f"Line {n}: {raw_amount!r} is not an amount this system can read for certain (use digits with a minus sign, brackets, DR or CR).")
+            continue
         desc = " ".join(_cell(rec, cols["description"], n, "description").split())[:MAX_DESC]
         base = hashlib.sha256(f"{d.isoformat()}|{desc}|{pa[0]}|{pa[1]}".encode()).hexdigest()
         seen[base] = seen.get(base, 0) + 1
         k = seen[base]
         ref = ((rec.get(cols.get("reference", "")) or "").strip() or base[:10] + f"-{k}")[:MAX_REF]
         out.append(Row(ref, d, desc, pa[0], pa[1], hashlib.sha256(f"{base}|{k}".encode()).hexdigest(), k, k > 1))
+    if bad:
+        more = f" ({len(bad) - MAX_LISTED} more not shown)" if len(bad) > MAX_LISTED else ""
+        raise CsvError(f"Nothing was imported: {len(bad)} line{'s' if len(bad) != 1 else ''} could not be read. " + " ".join(bad[:MAX_LISTED]) + more + " Fix them in the file and import it again. Lines already imported are never added twice.", bad)
     return out

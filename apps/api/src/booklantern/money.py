@@ -66,28 +66,64 @@ def to_minor(value: Decimal | str | int, currency: str) -> int:
     return int(scaled.to_integral_value(rounding=ROUND_HALF_UP))
 
 
-_NUM = re.compile(r"[^\d,.\-]")
+# Every dash that is meant as a minus: the hyphen, the real minus sign, the en dash, the figure dash, the small hyphen minus and the full width hyphen minus.
+MINUS = "-\u2212\u2013\u2012\ufe63\uff0d"
+_SPACES = re.compile(r"[\u00a0\u2007\u2009\u202f]")
+_CODE = re.compile(r"(?<![A-Za-z])([A-Z]{3})(?![A-Za-z])")
+_DRCR = re.compile(r"(?i)(?<![A-Za-z])(DR|CR)\.?\s*$")
+_DIGITS = re.compile(r"\d{1,3}(?:[ '\u2019]\d{3})+(?:[.,]\d+)?|[\d.,]*\d[\d.,]*")
 
 
-def parse_amount(text: str, currency: str | None = None) -> tuple[int, str] | None:
-    """Read an amount as written on a document. Handles 1,234.50 and 1.234,50 and a currency symbol or code. Returns (minor, currency) or None."""
-    if not text:
+def parse_amount(text: str, currency: str | None = None, *, debit_credit: bool = False) -> tuple[int, str] | None:
+    """Read an amount as written on a document or in a statement. Handles 1,234.50 and 1.234,50, a currency symbol or code, a minus in any of its forms (including the real
+    minus sign and the en dash that banks and spreadsheets write), brackets and a trailing minus. Returns (minor, currency), or None.
+
+    It reads only what it fully understands: any other character (a letter, a second sign, a stray symbol) makes the whole text "not an amount" instead of being dropped, so a
+    sign can never be lost silently and turn a payment out into money in. DR and CR are read only when `debit_credit` is true (a bank statement: DR is money out, CR is money
+    in); anywhere else they are not an amount. A sign together with DR or CR, or two signs, is refused as unclear."""
+    if not text or not text.strip():
         return None
-    t = text.strip()
-    cur = currency
-    for sym, code in SYMBOLS.items():
-        if sym in t:
-            cur = cur or code
-    m = re.search(r"\b(USD|EUR|GBP|CAD|AUD|CHF|INR|JPY)\b", t)
+    t = _SPACES.sub(" ", text).strip()
+    side = None
+    m = _DRCR.search(t)
     if m:
-        cur = m.group(1)
-    cur = cur or "USD"
-    paren = t.startswith("(") and t.endswith(")")
-    s = _NUM.sub("", t).strip(".,")
-    if not s or not re.search(r"\d", s):
+        if not debit_credit:
+            return None
+        side, t = m.group(1).upper(), t[: m.start()].strip()
+    cur = currency
+    codes = [c for c in _CODE.findall(t) if c in CURRENCY_EXPONENT]
+    if len(codes) > 1:
         return None
-    neg = s.startswith("-") or paren
-    s = s.lstrip("-")
+    if codes:
+        cur = codes[0]
+        t = re.sub(rf"(?<![A-Za-z]){codes[0]}(?![A-Za-z])", " ", t, count=1)
+    symbols = [s for s in SYMBOLS if s in t]
+    if len(symbols) > 1 or sum(t.count(s) for s in SYMBOLS) > 1:
+        return None
+    for sym in symbols:
+        cur = cur or SYMBOLS[sym]
+        t = t.replace(sym, " ")
+    t = " ".join(t.split())
+    if not t:
+        return None
+    signs = 0
+    negative = False
+    if t.startswith("(") and t.endswith(")"):
+        t, signs, negative = t[1:-1].strip(), signs + 1, True
+    if t and t[0] in MINUS + "+":
+        negative, signs, t = t[0] in MINUS, signs + 1, t[1:].strip()
+    if t and t[-1] in MINUS:
+        negative, signs, t = True, signs + 1, t[:-1].strip()
+    if signs > 1 or (signs and side):
+        return None
+    if side:
+        negative = side == "DR"
+    if not _DIGITS.fullmatch(t):
+        return None
+    s = re.sub(r"[ '\u2019]", "", t).rstrip(".,")
+    if not re.search(r"\d", s):
+        return None
+    cur = cur or "USD"
     last_dot, last_comma = s.rfind("."), s.rfind(",")
     if last_dot > -1 and last_comma > -1:
         dec_sep = "." if last_dot > last_comma else ","
@@ -107,7 +143,7 @@ def parse_amount(text: str, currency: str | None = None) -> tuple[int, str] | No
         minor = to_minor(f"{whole or '0'}.{frac}" if frac else (whole or "0"), cur)
     except MoneyError:
         return None
-    return (-minor if neg else minor), cur
+    return (-minor if negative else minor), cur
 
 
 def convert(minor: int, from_currency: str, to_currency: str, rate: Decimal) -> int:

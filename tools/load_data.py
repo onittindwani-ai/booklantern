@@ -3,7 +3,7 @@
     python tools/load_data.py bank-account "Main account" --currency USD --opening 1250000 --opening-date 2026-01-01   (opening balance in minor units, so cents)
     python tools/load_data.py vendors vendors.csv       columns: name, currency, tax_rate, requires_po, bank_account, terms_days, address
     python tools/load_data.py customers customers.csv   columns: name, email, timezone, terms_days
-    python tools/load_data.py invoices invoices.csv     columns: number, customer, issue_date, due_date, total, currency, paid
+    python tools/load_data.py invoices invoices.csv     columns: number, customer, issue_date, due_date, total, currency, paid, paid_on (optional)
     python tools/load_data.py account 6200 "Software" expense      one line of the chart of accounts
     python tools/load_data.py recurring "Rent" out 450000 monthly --day 1 --match "LANDLORD"
 

@@ -38,7 +38,7 @@ With `DEMO_MODE=false` the app starts empty: no sample company, no sample vendor
 python tools/load_data.py bank-account "Main account" --currency USD --opening 1250000 --opening-date 2026-01-01
 python tools/load_data.py vendors vendors.csv      # name, currency, tax_rate, requires_po, bank_account, terms_days, address
 python tools/load_data.py customers customers.csv  # name, email, timezone, terms_days
-python tools/load_data.py invoices invoices.csv    # number, customer, issue_date, due_date, total, currency, paid
+python tools/load_data.py invoices invoices.csv    # number, customer, issue_date, due_date, total, currency, paid, paid_on (optional)
 python tools/load_data.py account 6200 "Software" expense
 python tools/load_data.py recurring "Rent" out 450000 monthly --day 1 --match LANDLORD
 ```
@@ -47,7 +47,7 @@ A file is all or nothing: one bad line, named by its number, stops the whole fil
 
 ## Tests
 
-- Python: `.venv/bin/python -m pytest`. The last full run is in `data/counts.json`: <!--n:tests.passed-->323<!--/n--> passed, <!--n:tests.skipped-->1<!--/n--> skipped (it needs a Postgres, set `TEST_POSTGRES_URL`), coverage <!--n:tests.coverage_percent-->92.3<!--/n--> percent of the `booklantern` package.
+- Python: `.venv/bin/python -m pytest`. The last full run is in `data/counts.json`: <!--n:tests.passed-->425<!--/n--> passed, <!--n:tests.skipped-->1<!--/n--> skipped (it needs a Postgres, set `TEST_POSTGRES_URL`), coverage <!--n:tests.coverage_percent-->92.3<!--/n--> percent of the `booklantern` package.
 - Seed check: `.venv/bin/python tools/score_seed.py` prints one line per planted problem.
 - Extraction eval: `.venv/bin/python tools/eval_extraction.py` (see `EXTRACTION-EVAL.md`).
 - Browser tests: `pnpm e2e` (needs Google Chrome; it starts its own API and web server and a throwaway database). It tests the last build, so run `pnpm build` first. <!--n:e2e.tests-->41<!--/n--> tests.

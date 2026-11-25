@@ -8,10 +8,11 @@ FINDING = {
     "bank_detail_changed": "Bank details changed", "missing_po": "No purchase order", "currency_mismatch": "Unexpected currency", "future_date": "Date in the future", "wrong_company": "Addressed to someone else",
     "unknown_vendor": "Unknown vendor", "unreadable_document": "Could not read it", "low_confidence": "Low confidence", "possible_duplicate_line": "Duplicate bank line", "unmatched_line": "Bank line not matched",
     "suspicious_text": "Text that gives orders", "credit_note": "Credit note", "negative_amount": "Negative amount", "implausible_amount": "Amount too large to be real",
-    "bank_details_not_read": "Bank details not read",
+    "bank_details_not_read": "Bank details not read", "sender_not_allowed": "Sender not on the list", "post_outcome_unknown": "Posting outcome unclear", "reminder_unconfirmed": "Reminder may or may not have gone",
+    "reminder_refused": "Reminder not sent", "stop_reply": "Customer asked to stop", "customer_reply": "Customer replied",
 }
 BUCKET = {"current": "Not due yet", "1-30": "1 to 30 days late", "31-60": "31 to 60 days late", "61-90": "61 to 90 days late", "90+": "Over 90 days late"}
-REF = {"bill": "Bill", "bank_txn": "Bank line", "bank": "Bank line", "invoice": "Invoice", "document": "Document"}
+REF = {"bill": "Bill", "reminder": "Reminder", "customer": "Customer", "mail": "Message", "bank_txn": "Bank line", "bank": "Bank line", "invoice": "Invoice", "document": "Document"}
 
 
 def finding(kind: str) -> str:

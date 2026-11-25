@@ -2,7 +2,7 @@
 
 ## Pieces
 
-- **API** (`apps/api`, FastAPI, SQLAlchemy 2, Alembic). Everything that matters happens here. <!--n:api_paths-->61<!--/n--> paths, <!--n:tables-->20<!--/n--> tables with the prefix `ll_`. The OpenAPI file is `docs/openapi.json`.
+- **API** (`apps/api`, FastAPI, SQLAlchemy 2, Alembic). Everything that matters happens here. <!--n:api_paths-->62<!--/n--> paths, <!--n:tables-->20<!--/n--> tables with the prefix `ll_`. The OpenAPI file is `docs/openapi.json`.
 - **Worker** (`python -m booklantern.worker`). Runs four jobs on a timer: read the mailbox, send or draft reminders, suggest bank matches, refresh the forecast.
 - **Web** (`apps/web`, Next.js 16, React 19, TanStack Query, the shared plain CSS kit). It never talks to vendors. It forwards to the API and adds a required header to every change.
 - **Base** (`packages/core-py`, `packages/ui-kit`). Shared with the other systems and never edited here: write guard, approvals, audit chain, job runner, text model wrapper, adapter registry.
@@ -20,7 +20,7 @@ Amounts are whole numbers in the smallest unit (cents) plus a currency code. No 
 
 1. A file arrives by upload or the mailbox. It is hashed, so the same file twice is one document.
 2. The reader turns it into fields. Each field has a confidence and a box on the page (fractions of the page, so the screen can draw it at any size).
-3. Code validates: line sums, subtotal plus tax equals total, tax rate against the vendor's on file, duplicates (the same vendor, bill number and amount on any date, with punctuation and zero padding in the number ignored, is blocking; near: same amount, similar number, within 3 days), amount above 4 times the vendor's usual (needs at least 3 past bills), changed bank details, missing purchase order, date in the future, currency mismatch, wrong company. Each finding has a severity. A blocking one needs a written reason to approve.
+3. Code validates: line sums, subtotal plus tax equals total, tax rate against the vendor's on file, duplicates (the same vendor, bill number and amount on any date, with punctuation and zero padding in the number ignored, is blocking; near: same amount, similar number, within 3 days, also blocking; a bill with a number is compared with every other bill when either vendor is not on the list), amount above 4 times the vendor's usual (needs at least 3 past bills), changed bank details, missing purchase order, date in the future, currency mismatch, wrong company. Each finding has a severity. A blocking one needs a written reason to approve.
 4. A person reviews and approves. Approval makes a draft for the accounting adapter.
 
 ### How the offline reader scores confidence
@@ -33,7 +33,7 @@ Aging buckets: not due, 1 to 30, 31 to 60, 61 to 90, over 90. The ladder decides
 
 ## Reconciliation
 
-CSV only. Score a bank line against an open item: amount 50, name similarity up to 30, number found in the text 25, date within a window 10. At 85 or more the match is confirmed automatically. From 60 it is only suggested. Splits (one deposit paying 2 to 4 invoices) are found by subset sums. Identical lines inside one file are kept and flagged, and the same file twice adds nothing. A bank line in the company currency is compared with a bill or invoice in another currency after converting at the manual rate of that day; with no rate there is no amount comparison and the pair is never matched on the raw numbers. The match reason says which rate was used.
+CSV only. Score a bank line against an open item (an open invoice or an approved bill, whose open amount is the total less what is already paid and less what matches have reserved; an invoice or bill already marked paid can still be linked, but an open one always wins, and a line that fits only a paid one is confirmed by itself only when it names that document's number, otherwise a person looks): amount 50, name similarity up to 30, number found in the text 25, date within a window 10. At 85 or more the match is confirmed automatically. From 60 it is only suggested. A deposit marked as a part payment scores at least 55, and 5 more when it is exactly a half, a third or a quarter of what is open. Splits (one deposit paying 2 to 4 invoices) are found by subset sums. Identical lines inside one file are kept and flagged, and the same file twice adds nothing. A bank line in the company currency is compared with a bill or invoice in another currency after converting at the manual rate of that day; with no rate there is no amount comparison and the pair is never matched on the raw numbers. The match reason says which rate was used.
 
 ## Forecast (13 weeks)
 

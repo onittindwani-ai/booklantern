@@ -19,7 +19,7 @@ Read only by default. Posting a draft bill needs three things together: `MODE=li
 
 ## Where bills arrive (INBOX_ADAPTER)
 
-- **imap**. Reads unread messages from one mailbox, keeps only PDF, PNG and JPEG attachments and marks the message seen. Works with Gmail (app password) and any host that speaks IMAP. Tested against a fake IMAP server.
+- **imap**. Reads unread messages from one mailbox, keeps only PDF, PNG and JPEG attachments and marks a message seen only after its bills are saved. A message with no bill in it (a customer's answer to a reminder) is left unread, and one from a customer or asking to stop is shown on the Exceptions page. Use a mailbox where bills are the only thing that arrives, and set `REPLY_TO` to a different mailbox a person reads. Works with Gmail (app password) and any host that speaks IMAP. Tested against a fake IMAP server.
 
 ## Reminder email (EMAIL_ADAPTER)
 

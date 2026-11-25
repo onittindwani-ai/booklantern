@@ -62,6 +62,9 @@ class SeedInbox:
     def acknowledge(self, acks: list[str]) -> None:
         return None  # the offline mailbox hands each document over once
 
+    def take_notes(self) -> list:
+        return []  # the offline mailbox holds bills only
+
     def healthcheck(self) -> tuple[bool, str]:
         return True, "Offline demo mailbox."
 

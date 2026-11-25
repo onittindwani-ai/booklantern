@@ -7,7 +7,7 @@ from __future__ import annotations
 
 from datetime import date, datetime
 
-from sqlalchemy import JSON, BigInteger, Boolean, Date, ForeignKey, Integer, String, Text, UniqueConstraint
+from sqlalchemy import JSON, BigInteger, Boolean, Date, ForeignKey, Integer, String, Text, UniqueConstraint, false
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from sendora_core.db import Base, UTCDateTime, utcnow
@@ -106,6 +106,7 @@ class Bill(Base):
     posted_external_id: Mapped[str] = mapped_column(String(80), default="")
     paid_on: Mapped[date | None] = mapped_column(Date, nullable=True)
     edited_by: Mapped[str] = mapped_column(String(120), default="")
+    had_block: Mapped[bool] = mapped_column(Boolean, default=False, server_default=false())  # set the first time any blocking finding fires on this bill and never cleared: editing the finding away does not undo it
     created_at: Mapped[datetime] = mapped_column(UTCDateTime(), default=utcnow)
     lines: Mapped[list[BillLine]] = relationship(back_populates="bill", cascade="all, delete-orphan", order_by="BillLine.position")
 

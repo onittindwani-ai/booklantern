@@ -9,6 +9,7 @@ import { get, post, api } from "@/lib/api";
 import { useRole } from "@/lib/hooks";
 import { BILL_STATE, FIELD_LABEL, confTone, confWord, finding, sevTone } from "@/lib/labels";
 import { money, moneyIn } from "@/lib/money";
+import { REASON_HELP, realReason } from "@/lib/reason";
 import type { BillDetail, BillRow, FieldValue } from "@/lib/types";
 
 const MONEY = new Set(["subtotal_minor", "tax_minor", "total_minor"]);
@@ -48,7 +49,14 @@ function Review({ id, queue }: { id: number; queue: BillRow[] }) {
     onSuccess: (r) => { setEdits({}); notify.success(r.findings.length ? `Saved. ${r.findings.length} finding${r.findings.length > 1 ? "s" : ""} after the checks.` : "Saved. The checks found nothing."); refresh(); },
     onError: (e: Error) => notify.error("Could not save", e.message),
   });
-  const approve = useMutation({ mutationFn: () => post(`/bills/${id}/approve`, { note }), onSuccess: () => { notify.success("Approved."); refresh(); }, onError: (e: Error) => notify.error("Could not approve", e.message) });
+  // the fingerprint of the bill as this page loaded it goes with the approval: a bill that changed meanwhile is refused, and the page reloads so the approver looks again
+  const approve = useMutation({ mutationFn: () => post(`/bills/${id}/approve`, { note, etag: q.data?.etag }), onSuccess: () => { notify.success("Approved."); refresh(); }, onError: (e: Error) => { notify.error("Could not approve", e.message); refresh(); } });
+  const [seenId, setSeenId] = useState("");
+  const settle = useMutation({
+    mutationFn: (posted: boolean) => post(`/bills/${id}/post-outcome`, { posted, external_id: seenId, note }),
+    onSuccess: () => { notify.success("Saved."); setSeenId(""); setNote(""); refresh(); },
+    onError: (e: Error) => notify.error("Could not save", e.message),
+  });
   const reject = useMutation({ mutationFn: () => post(`/bills/${id}/reject`, { reason: note || "Rejected by a person" }), onSuccess: () => { notify.info("Rejected."); refresh(); }, onError: (e: Error) => notify.error("Could not reject", e.message) });
   const postDraft = useMutation({
     mutationFn: () => post<{ posted: boolean; reason?: string }>(`/bills/${id}/post`),
@@ -73,7 +81,7 @@ function Review({ id, queue }: { id: number; queue: BillRow[] }) {
   const problems = Object.fromEntries(Object.entries(edits).map(([k, v]) => [k, fieldProblem(k, v)] as const).filter(([, m]) => m));
   const firstProblem = Object.values(problems)[0] ?? null;
   const missing = [!b.vendor.trim() && "vendor", !b.issue_date && "bill date", b.total_minor <= 0 && "total"].filter(Boolean) as string[];
-  const approveBlocked = dirty ? "Save your changes first" : missing.length ? `Fill in the ${missing.join(", ")} and save first` : b.self_review === "blocked" ? "You changed this bill or closed a finding on it. Someone else has to approve it" : needNote && !note.trim() ? "Write the reason first" : null;
+  const approveBlocked = dirty ? "Save your changes first" : missing.length ? `Fill in the ${missing.join(", ")} and save first` : b.self_review === "blocked" ? "You changed this bill or closed a finding on it. Someone else has to approve it" : needNote && !realReason(note) ? REASON_HELP : null;
   return (
     <div className="ll-stack">
       <div className="sx-row" style={{ flexWrap: "wrap" }}>
@@ -128,6 +136,18 @@ function Review({ id, queue }: { id: number; queue: BillRow[] }) {
                 </div>
               </div>
             </Card>
+          ) : b.status === "posting" ? (
+            <Card title="Posting: what happened?" headingLevel={3}>
+              <div className="ll-stack">
+                <p style={{ margin: 0, maxWidth: "65ch" }}>The accounting system did not answer clearly when this bill was posted, and it cannot tell a repeated request from a new one. Nothing is posted again by itself. Look for the draft in your accounting system, then say what you found.</p>
+                <Field label="What you looked at (required)" value={note} onChange={setNote} />
+                <Field label="Id of the draft, if it is there" value={seenId} onChange={setSeenId} />
+                <div className="sx-row" style={{ flexWrap: "wrap" }}>
+                  <Button variant="primary" disabled={!canWrite || !realReason(note) || !seenId.trim()} disabledReason={!canWrite ? "Your sign in can read but not change" : !seenId.trim() ? "Type the id of the draft first" : REASON_HELP} onClick={async () => { await settle.mutateAsync(true); }}>The draft is there</Button>
+                  <Button disabled={!canWrite || !realReason(note)} disabledReason={!canWrite ? "Your sign in can read but not change" : REASON_HELP} onClick={async () => { await settle.mutateAsync(false); }}>It is not there, post again later</Button>
+                </div>
+              </div>
+            </Card>
           ) : b.status !== "approved" ? (
             <Card title="Closed" headingLevel={3}><p style={{ margin: 0, maxWidth: "65ch" }}>This bill is {BILL_STATE[b.status]?.label.toLowerCase() ?? b.status}. Nothing more can be done to it here.</p></Card>
           ) : b.status === "approved" ? (
@@ -146,7 +166,7 @@ function Review({ id, queue }: { id: number; queue: BillRow[] }) {
 function Inner() {
   const sp = useSearchParams();
   const router = useRouter();
-  const list = useQuery({ queryKey: ["bills", "needs_review,inbox,approved"], queryFn: () => get<BillRow[]>("/bills?status=needs_review,inbox,approved") });
+  const list = useQuery({ queryKey: ["bills", "needs_review,inbox,approved,posting"], queryFn: () => get<BillRow[]>("/bills?status=needs_review,inbox,approved,posting") });
   if (list.isError) return <LoadError error={list.error} onRetry={() => list.refetch()} what="the review queue" />;
   if (!list.data) return <ListSkeleton rows={6} />;
   const queue = [...list.data].sort((a, c) => (a.flags.some((f) => f.severity === "block") ? 0 : 1) - (c.flags.some((f) => f.severity === "block") ? 0 : 1) || a.id - c.id);

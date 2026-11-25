@@ -14,9 +14,14 @@ from sendora_core.audit import record_audit
 
 
 def import_csv(session: Session, text: str, batch: str, account_id: int | None = None) -> dict:
-    acct = session.get(BankAccount, account_id) if account_id else session.scalars(select(BankAccount).order_by(BankAccount.id)).first()
-    if acct is None:
+    accounts = list(session.scalars(select(BankAccount).order_by(BankAccount.id)))
+    if not accounts:
         raise bankcsv.CsvError("There is no bank account yet. Add one first (Bank accounts, or POST /api/bank/accounts) with its currency and opening balance.")
+    if account_id is None and len(accounts) > 1:
+        raise bankcsv.CsvError("There is more than one bank account, so say which one this statement belongs to (account_id). Names: " + "; ".join(f"{a.id} {a.name} ({a.currency})" for a in accounts[:10]) + ".")
+    acct = next((a for a in accounts if a.id == account_id), None) if account_id is not None else accounts[0]
+    if acct is None:
+        raise bankcsv.CsvError(f"There is no bank account with the number {account_id}.")
     rows = bankcsv.parse(text, acct.currency)
     for n, r in enumerate(rows, start=2):
         if r.currency.upper() != acct.currency.upper():
@@ -49,17 +54,34 @@ def balance(session: Session, account_id: int | None = None) -> int:
 
 
 def _targets(session: Session) -> list[RC.Target]:
-    matched: dict[tuple[str, int], int] = {}
-    for m in session.scalars(select(Match)):
+    """What a bank line may be matched to. Invoices that are open and bills that are approved or posted as a draft come first: their open amount is the total less what is already
+    paid and less what matches (suggested or confirmed) have reserved but no payment has recorded yet, so a partly paid invoice offers only what is still owed. Invoices and bills
+    already marked paid stay on the list marked `settled` (a statement can cover payments the books already hold), but the matcher always prefers an open one, so a later deposit of
+    the same amount from the same customer pays the invoice that is still open."""
+    reserved: dict[tuple[str, int], int] = {}
+    for m in session.scalars(select(Match).where(Match.target_type != "recurring")):
         k = ("invoice", m.invoice_id) if m.invoice_id else ("bill", m.bill_id)
-        if m.target_type != "recurring":
-            matched[k] = matched.get(k, 0) + m.allocated_minor
+        reserved[k] = reserved.get(k, 0) + m.allocated_minor
+    recorded: dict[tuple[str, int], int] = {}
+    for pa in session.scalars(select(PaymentAllocation)):
+        k = ("invoice", pa.invoice_id) if pa.invoice_id else ("bill", pa.bill_id)
+        recorded[k] = recorded.get(k, 0) + pa.amount_minor
+
+    def open_left(kind: str, row_id: int, total: int, paid: int, settled: bool) -> int:
+        taken = reserved.get((kind, row_id), 0)
+        if settled:
+            return total - taken  # already paid in full: what is left is the part no bank line has been linked to yet
+        pending = max(taken - recorded.get((kind, row_id), 0), 0)  # matched but not yet turned into a payment, so not yet in paid_minor
+        return total - paid - pending
+
     out = []
-    for i in session.scalars(select(Invoice)):
-        out.append(RC.Target("invoice", i.id, i.number, i.customer.name, i.total_minor - matched.get(("invoice", i.id), 0), i.issue_date, i.due_date, i.currency))
     names = {v.id: v.name for v in session.scalars(select(Vendor))}
+    for i in session.scalars(select(Invoice).where(Invoice.status.in_(("open", "paid")))):
+        settled = i.status == "paid"
+        out.append(RC.Target("invoice", i.id, i.number, i.customer.name, open_left("invoice", i.id, i.total_minor, i.paid_minor, settled), i.issue_date, i.due_date, i.currency, settled))
     for b in session.scalars(select(Bill).where(Bill.status.in_(("paid", "approved", "posted_draft")))):
-        out.append(RC.Target("bill", b.id, b.number, names.get(b.vendor_id, b.vendor_name_read), b.total_minor - matched.get(("bill", b.id), 0), b.issue_date, b.due_date, b.currency))
+        settled = b.status == "paid"
+        out.append(RC.Target("bill", b.id, b.number, names.get(b.vendor_id, b.vendor_name_read), open_left("bill", b.id, b.total_minor, b.paid_minor, settled), b.issue_date, b.due_date, b.currency, settled))
     return out
 
 
@@ -145,9 +167,12 @@ def unlink(session: Session, match_id: int, who: str) -> None:
             session.flush()
             if m.invoice_id:
                 inv = session.get(Invoice, m.invoice_id)
-                inv.paid_minor = max(0, inv.paid_minor - m.allocated_minor)
-                if inv.status == "paid" and inv.paid_minor < inv.total_minor:
-                    inv.status, inv.paid_on = "open", None
+                # Take the money back only when this payment is what put it there: the invoice is still open (a part payment), or this payment is the one that made it paid
+                # (it carries that payment's date). An invoice that was already marked paid before the line was linked to it stays as it was.
+                if inv.status == "open" or (inv.status == "paid" and inv.paid_on == payment.paid_on):
+                    inv.paid_minor = max(0, inv.paid_minor - m.allocated_minor)
+                    if inv.status == "paid" and inv.paid_minor < inv.total_minor:
+                        inv.status, inv.paid_on = "open", None
             elif m.bill_id:
                 bill = session.get(Bill, m.bill_id)
                 bill.paid_minor = max(0, bill.paid_minor - m.allocated_minor)
@@ -163,7 +188,8 @@ def unlink(session: Session, match_id: int, who: str) -> None:
 
 
 def record_payments(session: Session) -> int:
-    """Turn confirmed matches into payment records. Receipts raise paid_minor on invoices when the match shows more than is recorded."""
+    """Turn confirmed matches into payment records. Each new payment adds its allocation to the invoice it pays (on top of anything the invoice already had paid when it was
+    imported), and an invoice that holds its full amount becomes paid, with the date of the payment that completed it."""
     n = 0
     for t in session.scalars(select(BankTransaction).where(BankTransaction.status == "matched")):
         if session.scalars(select(Payment).where(Payment.bank_txn_id == t.id)).first():
@@ -173,14 +199,13 @@ def record_payments(session: Session) -> int:
         session.flush()
         for m in session.scalars(select(Match).where(Match.bank_txn_id == t.id, Match.target_type != "recurring")):
             session.add(PaymentAllocation(payment_id=p.id, invoice_id=m.invoice_id, bill_id=m.bill_id, amount_minor=m.allocated_minor))
+            inv = session.get(Invoice, m.invoice_id) if m.invoice_id else None
+            if inv is not None and inv.status == "open":  # a payment against an invoice already marked paid is only linked: it must not move the date it was paid or its amounts
+                inv.paid_minor = min(inv.paid_minor + m.allocated_minor, inv.total_minor)
+                if inv.paid_minor >= inv.total_minor:
+                    inv.status, inv.paid_on = "paid", t.posted_on
         n += 1
     session.flush()
-    for inv in session.scalars(select(Invoice)):
-        got = int(session.scalar(select(func.coalesce(func.sum(PaymentAllocation.amount_minor), 0)).where(PaymentAllocation.invoice_id == inv.id)) or 0)
-        if got > inv.paid_minor:
-            inv.paid_minor = min(got, inv.total_minor)
-            if inv.paid_minor >= inv.total_minor:
-                inv.status = "paid"
     _settle_bills(session)
     return n
 

@@ -5,10 +5,11 @@ from __future__ import annotations
 import logging
 from datetime import date, datetime
 
-from sqlalchemy import select
+from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
 from booklantern import aging, fx as FX, model_tasks, reminders as R
+from booklantern.adapters.base import OutcomeUnknown, PermanentFailure
 from booklantern.exceptions import raise_exception
 from booklantern.models import Customer, Invoice, PromiseToPay, Reminder
 from booklantern.money import MoneyError, format_minor
@@ -16,10 +17,12 @@ from booklantern.util import is_valid_email
 from sendora_core.adapters import AdapterError
 from sendora_core.approvals import request_approval
 from sendora_core.audit import record_audit
+from sendora_core.models import AuditEntry
 from sendora_core.events import record_event
 from sendora_core.safety import SafetyError, guard_write
 
 log = logging.getLogger("booklantern.collections")
+MAX_SEND_FAILURES = 5  # a reminder the mail server fails to take this many times (not counting a refusal of the address, which is one) is cancelled and shown to a person
 DRAFT_LINK_PREFIX = "https://pay.example.test/draft/"  # a placeholder shown in draft mode: it is never stored on an invoice and never put in a reminder
 
 
@@ -133,7 +136,7 @@ def cancel_drafts(session: Session, invoice_id: int, reason: str) -> int:
 def send_approved(session: Session, ctx) -> dict:
     """Send approved reminders. The rules are checked again now, because a payment, dispute or promise may have come in since approval."""
     eff, now = ctx.effective(session), ctx.now(session)
-    sent = held = cancelled = 0
+    sent = held = cancelled = unconfirmed = 0
     for r in list(session.scalars(select(Reminder).where(Reminder.status == "sending"))):  # left over from a stop in the middle of sending: it may or may not have gone out
         raise_exception(session, "reminder_unconfirmed", "warning", "reminder", r.id, f"A reminder for invoice {r.invoice.number} was being sent when the program stopped. Look in the sent mail folder: if it went out, nothing more is needed; if it did not, write to the customer by hand. This system will not send this reminder again by itself. Mark this finding dealt with when you have looked.")
     for r in list(session.scalars(select(Reminder).where(Reminder.status == "approved").order_by(Reminder.id))):
@@ -162,8 +165,32 @@ def send_approved(session: Session, ctx) -> dict:
         session.commit()
         try:
             ctx.adapters.email.send(from_addr=eff.email_from, to=inv.customer.email, subject=r.subject, body=r.body)
+        except OutcomeUnknown as exc:
+            # The text of the mail had left when the connection failed: the server may have taken it. It stays "sending", is never sent again by itself, and a person is told to look.
+            record_audit(session, "system", "reminder.send_unconfirmed", f"reminder:{r.id}", {"invoice": inv.number, "error": type(exc).__name__})
+            raise_exception(session, "reminder_unconfirmed", "warning", "reminder", r.id, f"A reminder for invoice {inv.number} may or may not have been sent: the mail connection failed after the message was handed over. Look in the sent mail folder: if it went out, nothing more is needed; if it did not, write to the customer by hand. This system will not send it again by itself. Mark this finding dealt with when you have looked.")
+            session.commit()
+            unconfirmed += 1
+            log.warning("reminder %s: the outcome of sending is unknown (%s)", r.id, type(exc).__name__)
+            continue
+        except PermanentFailure as exc:
+            r.status, r.sent_at, r.cancel_reason = "cancelled", None, "mail_server_refused"  # the server said no and will say no again: trying more changes nothing
+            record_audit(session, "system", "reminder.send_refused", f"reminder:{r.id}", {"invoice": inv.number})
+            raise_exception(session, "reminder_refused", "warning", "reminder", r.id, f"The mail server refused the reminder for invoice {inv.number} to {inv.customer.email} ({str(exc)[:120]}). Check the customer's email address, then write to them by hand or draft a new reminder.")
+            session.commit()
+            cancelled += 1
+            continue
         except (SafetyError, AdapterError) as exc:
             r.status, r.sent_at = "approved", None  # nothing left: the reminder goes back and is tried again later, the others still go out
+            if isinstance(exc, AdapterError):  # a refusal by the draft mode or the kill switch (SafetyError) is not a failure of the mail server
+                failures = 1 + int(session.scalar(select(func.count()).select_from(AuditEntry).where(AuditEntry.target == f"reminder:{r.id}", AuditEntry.action == "reminder.send_failed")) or 0)
+                record_audit(session, "system", "reminder.send_failed", f"reminder:{r.id}", {"invoice": inv.number, "attempt": failures})
+                if failures >= MAX_SEND_FAILURES:
+                    r.status, r.cancel_reason = "cancelled", "send_failed_repeatedly"
+                    raise_exception(session, "reminder_refused", "warning", "reminder", r.id, f"The reminder for invoice {inv.number} could not be sent {failures} times, so it was cancelled. Check the mail settings and the customer's address.")
+                    cancelled += 1
+                    session.commit()
+                    continue
             session.commit()
             held += 1
             log.warning("reminder %s was not sent: %s", r.id, str(exc)[:200])
@@ -172,7 +199,7 @@ def send_approved(session: Session, ctx) -> dict:
         record_audit(session, "system", "reminder.sent", f"reminder:{r.id}", {"invoice": inv.number})
         session.commit()  # saved at once, one reminder at a time: a failure later in the loop can never make this one go out again
         sent += 1
-    return {"sent": sent, "held": held, "cancelled": cancelled}
+    return {"sent": sent, "held": held, "cancelled": cancelled, "unconfirmed": unconfirmed}
 
 
 def approve_reminder(session: Session, reminder_id: int, who: str) -> Reminder:

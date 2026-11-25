@@ -12,14 +12,19 @@ from __future__ import annotations
 import re
 from decimal import ROUND_HALF_UP, Decimal
 
-from booklantern.money import CURRENCY_EXPONENT
+from booklantern.money import CURRENCY_EXPONENT, MINUS
 
 MAX_DIGITS = 15  # same limit as limits.MAX_DIGITS (not imported: limits.py imports money, this module is read by the extractors)
 
 SYMBOL_CURRENCY = {"€": "EUR", "£": "GBP", "¥": "JPY", "円": "JPY", "₹": "INR", "zł": "PLN", "Kč": "CZK", "₩": "KRW", "R$": "BRL", "Fr.": "CHF", "Rs.": "INR", "Rs": "INR"}
 CODE_RE = re.compile(r"\b(" + "|".join(sorted(CURRENCY_EXPONENT, key=len, reverse=True)) + r")\b")
-_AMOUNT = re.compile(r"""(?P<neg1>[-\u2212(]\s?)?(?:[$€£¥₹₩]|R\$|Rs\.?|zł|Kč|Fr\.)?\s?(?P<num>\d{1,3}(?:[   '’]\d{3})+(?:[.,]\d+)?|\d[\d.,'’]*)(?P<tail>\)|\s?-(?!\d)|\s?CR\b|\s?DR\b)?""")
-_TOKEN = re.compile(r"(?<![\w/.:-])" + _AMOUNT.pattern.replace("(?P<neg1>[-\\u2212(]\\s?)?", "(?P<neg1>[-\\u2212(]\\s?)?", 1), re.X)
+_MC = re.escape(MINUS)  # every dash that means a minus (the same list the bank statement reader uses), so a real minus sign or an en dash is never dropped
+_AMOUNT = re.compile(r"""(?P<neg1>[""" + _MC + r"""(]\s?)?(?:[$€£¥₹₩]|R\$|Rs\.?|zł|Kč|Fr\.)?\s?(?P<num>\d{1,3}(?:[ \u00a0\u202f'’]\d{3})+(?:[.,]\d+)?|\d[\d.,'’]*)(?P<tail>\)|\s?[""" + _MC + r"""](?!\d)|\s?CR\b|\s?DR\b)?""")
+_TOKEN = re.compile(r"(?<![\w/.:" + _MC + r"])" + _AMOUNT.pattern, re.X)
+
+
+def _negative_tail(tail: str) -> bool:
+    return tail == "CR" or (tail != "" and tail in set(MINUS))
 
 
 def to_minor_units(num: str, exp: int) -> int | None:
@@ -61,7 +66,7 @@ def parse_money(text: str, exp: int = 2) -> int | None:
     if n is None:
         return None
     tail = (m.group("tail") or "").strip()
-    neg = bool(m.group("neg1")) or tail in ("-", "CR") or (m.group("neg1") or "").strip() == "(" and tail == ")"
+    neg = bool(m.group("neg1")) or _negative_tail(tail) or (m.group("neg1") or "").strip() == "(" and tail == ")"
     return -n if neg else n
 
 
@@ -78,7 +83,7 @@ def money_tokens(line: str, exp: int = 2) -> list[tuple[int, int, int]]:
         if not has_sep and not marked and line[m.end():].strip():
             continue
         tail = (m.group("tail") or "").strip()
-        neg = bool(m.group("neg1")) or tail in ("-", "CR")
+        neg = bool(m.group("neg1")) or _negative_tail(tail)
         out.append((m.start(), m.end(), -n if neg else n))
     return out
 

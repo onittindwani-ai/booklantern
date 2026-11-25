@@ -48,12 +48,25 @@ A further independent audit of the hardened code found these, fixed in the same 
 14. The drafts sent to QuickBooks, Xero and Akaunting lacked the tax or the lines, and the total they returned was never compared. It is now, and a draft with another total sends the bill back to review.
 15. A change made with the cookie alone, with no body, did not need the custom header at the API. It does now. The sign in limit on an account across all addresses let a stranger keep the owner out, so it was removed (each address keeps its own limit).
 
+A third independent audit found these, fixed in the same release:
+
+16. An approver could edit a blocking finding away (a wrong company name, a bank account typed in, a number changed by one character), because the finding was deleted and the bill then looked clean, and approve alone. A bill now remembers that it ever carried a blocking finding. A reason for an override must be a real sentence (12 characters, 2 words, 5 different letters or digits).
+17. A vendor name that only looked like a real vendor's skipped both the duplicate check and the bank account check. A bill with a number is now compared with every other bill when either vendor is not on the list, and an unknown vendor that asks to be paid into an account blocks. `INTAKE_ALLOWED_SENDERS` can limit who may email bills in.
+18. A bank line written with the real minus sign or an en dash was read as money in, and `DR` as positive. One strict reader now keeps the sign, and anything it does not understand stops the import.
+19. A customer's "stop" reply was marked read by the mail poller within minutes. Mail with no bill in it now stays unread, and one from a customer or asking to stop is shown to a person.
+20. A start with no `DEMO_MODE` line passed the start check with real connections and live writes while the public demo password was active. It is now refused unless `ALLOW_DEMO_SERVER=true`.
+21. A later deposit of the same amount from the same customer could pay an invoice that was already paid, while the invoice still open kept getting reminders. An open invoice or bill now always wins, and a part paid invoice offers only what is still owed.
+22. A mail connection that failed after the message was handed over put the reminder back to be sent again, so a customer could get it twice. It now stays "sending" for a person to check. Posting to an accounting system that cannot recognise a repeated request stays "unknown" until a person looks.
+
 ## Not done, and known limits
 
 - No independent penetration test. No test against real vendor accounts. No deploy to a real host: the CI workflow builds the Docker images and starts the stack, nothing more.
 - PDFs are opened by a native library (pdfium) in the same process as the API, with no separate process or memory limit. A bug in it could be dangerous with a hostile file. Run the API in a container as a plain user, keep dependencies updated, and only accept bills from mailboxes you control.
 - The SSRF guard checks the address when the adapter is built. A host that changes its address afterwards (DNS rebinding) is not covered.
 - Rate limits are kept in memory in one process. Two API copies do not share them.
+- The web app sends a Content-Security-Policy with `script-src 'self' 'unsafe-inline'`: the pages Next.js builds carry small inline scripts, and a nonce would make every page render on each request. Everything else is limited to this site, and framing and plug ins are refused.
+- `INTAKE_ALLOWED_SENDERS` checks the From line of an email, which a sender can forge. Use it to narrow the door, and keep the intake address private.
+- `/ready` (open, like `/health`) answers a database failure with the class name of the error. It holds no data, but a fixed message would be better. That is in the shared base and is fixed there, not in this repository.
 - Sign in is one password per person. There is no second factor. Because no limit is kept on an account across all addresses (it would let a stranger lock the owner out), guesses spread over very many addresses are slowed only per address: use a long random owner password.
 - The API container trusts `X-Forwarded-For` only from the addresses in `FORWARDED_ALLOW_IPS` (default `127.0.0.1`; the compose file widens it to the private network that holds the web container). Keep the API behind your proxy, as the compose file does by binding to 127.0.0.1.
 - The hosting guides and every real vendor connection were never run (`docs/14-LIMITS-AND-HONEST-NOTES.md`). The Docker images are built and the stack is started by the CI workflow on GitHub, not on a real host.

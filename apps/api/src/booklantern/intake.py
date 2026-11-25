@@ -4,10 +4,11 @@ from __future__ import annotations
 
 import hashlib
 import logging
+import re
 from datetime import date, timedelta
 from pathlib import Path
 
-from sqlalchemy import func, select
+from sqlalchemy import func, select, update
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
@@ -16,7 +17,7 @@ from booklantern.exceptions import clear_open, raise_exception
 from booklantern.extraction import offline
 from booklantern.extraction.cells import page_count
 from booklantern.extraction.schema import Extraction
-from booklantern.models import Bill, BillLine, Document, ExceptionItem, Vendor
+from booklantern.models import Bill, BillLine, Customer, Document, ExceptionItem, Vendor
 from sendora_core.audit import record_audit
 from sendora_core.events import record_event
 
@@ -26,6 +27,7 @@ VALIDATION_KINDS = {"line_sum_mismatch", "wrong_total", "wrong_tax", "duplicate_
                     "future_date", "wrong_company", "unreadable_document", "low_confidence", "tax_rate_differs"}
 
 
+STOP_WORDS = re.compile(r"\b(stop|unsubscribe|opt[- ]?out|remove me|no more (?:emails?|reminders?|messages?)|do not (?:contact|email|write)|don'?t (?:contact|email|write))\b", re.I)
 MAX_READ_ATTEMPTS = 3  # a document whose reading was started this many times and never finished (the reader was killed, for example by memory) is given up on and goes to a person
 LOW_CONFIDENCE = 50  # a field read with less confidence than this is listed for a person
 
@@ -96,6 +98,24 @@ def validate_bill(session: Session, ctx, bill: Bill, rate_bp: int | None = None)
     return found
 
 
+def revalidate_vendor_bills(session: Session, ctx, vendor_id: int, who: str) -> list[int]:
+    """The vendor's record changed (its account on file, its purchase order rule or its usual tax rate), so every bill of that vendor that is still in review or approved is checked
+    again against the new record. An approved bill that now has a blocking finding goes back to review: it was approved against facts that are no longer the facts.
+    Returns the ids of the bills that went back."""
+    sent_back: list[int] = []
+    for b in list(session.scalars(select(Bill).where(Bill.vendor_id == vendor_id, Bill.status.in_(("needs_review", "inbox", "approved"))).order_by(Bill.id))):
+        doc = session.get(Document, b.document_id) if b.document_id else None
+        rate = ((doc.extraction or {}).get("fields", {}).get("tax_rate_bp") or {}).get("value") if doc else None
+        found = validate_bill(session, ctx, b, rate)
+        if b.status == "approved" and any(f.severity == "block" for f in found):
+            moved = session.execute(update(Bill).where(Bill.id == b.id, Bill.status == "approved").values(status="needs_review").execution_options(synchronize_session=False))
+            session.expire(b)
+            if moved.rowcount == 1:
+                sent_back.append(b.id)
+                record_audit(session, who, "bill.sent_back_for_review", f"bill:{b.id}", {"why": "the vendor's record changed", "findings": [f.kind for f in found if f.severity == "block"]})
+    return sent_back
+
+
 DEFAULT_TERMS_DAYS = 30  # net 30, a decided default
 
 
@@ -154,6 +174,8 @@ def process_document(session: Session, ctx, doc: Document, data: bytes | None = 
     session.flush()
     if assumed:
         raise_exception(session, "due_date_assumed", "info", "bill", bill.id, assumed)
+    if doc.source == "inbox" and not ctx.settings.sender_allowed(doc.from_addr):
+        raise_exception(session, "sender_not_allowed", "block", "bill", bill.id, f"This bill came by email from {limits.text(doc.from_addr, 120) or 'an unknown sender'}, which is not on INTAKE_ALLOWED_SENDERS. Check with the vendor that they sent it, then approve with a reason.")
     if ex.flags:
         raise_exception(session, "suspicious_text", "block", "bill", bill.id, "This document contains text that tries to give orders (" + "; ".join(ex.flags)[:200] + "). It was read as data and nothing it says was done. Check the bill with the vendor before approving.")
     if ex.value("negative_amount"):
@@ -242,8 +264,40 @@ def run_intake(session: Session, ctx) -> dict:
             session.commit()
     if acknowledge is not None:
         acknowledge(sorted(acks - kept_back))  # only now are the messages marked read
+    record_replies(session, ctx)
+    session.commit()
     fxservice.flag_missing(session, ctx)
     return {"fetched": fetched, "processed": done, "failed": failed}
+
+
+def _clean_note(text: str, n: int) -> str:
+    return " ".join(re.sub(r"[\x00-\x1f\x7f]", " ", text or "").split())[:n]
+
+
+def record_replies(session: Session, ctx) -> int:
+    """Mail that came to the intake mailbox with no bill in it stays unread there. Here it is shown to a person when it comes from a customer, or asks to stop: a "stop" reply
+    must never sit unseen. Nothing is switched off by it: a person looks, and opts the customer out on the Collections page if that is what was asked."""
+    take = getattr(ctx.adapters.inbox, "take_notes", None)
+    if take is None:
+        return 0
+    customers = {c.email.strip().casefold(): c for c in session.scalars(select(Customer)) if c.email}
+    shown = 0
+    for note in take():
+        cust = customers.get((note.from_addr or "").strip().casefold())
+        stop = bool(STOP_WORDS.search(f"{note.subject} {note.snippet}"))
+        if cust is None and not stop:
+            continue
+        who = f"{cust.name} ({_clean_note(note.from_addr, 80)})" if cust else _clean_note(note.from_addr, 80) or "an unknown sender"
+        what = "asks to stop the reminders" if stop else "answered"
+        detail = f"{who} {what}. Subject: {_clean_note(note.subject, 80)}. Starts: {_clean_note(note.snippet, 140)}. The message is still unread in the mailbox."
+        if stop:
+            detail += " If they want no more reminders, switch them off for this customer on the Collections page."
+        if cust:
+            raise_exception(session, "stop_reply" if stop else "customer_reply", "warning", "customer", cust.id, detail)
+        else:
+            raise_exception(session, "stop_reply", "warning", "mail", int(note.uid) if str(note.uid).isdigit() else 0, detail)
+        shown += 1
+    return shown
 
 
 def open_exceptions(session: Session) -> int:

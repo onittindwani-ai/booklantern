@@ -8,6 +8,8 @@ COPY apps/api /app/apps/api
 COPY data /app/data
 RUN pip install --no-cache-dir -c /app/constraints.txt /app/packages/core-py "/app/apps/api[postgres]"
 ENV SEED_DIR=/app/data HANDOFF_DIR=/data/handoff UPLOAD_DIR=/data/uploads
+# A container is a real install unless the .env says otherwise: the public demo password and the demo reset button exist only when DEMO_MODE=true is set on purpose.
+ENV DEMO_MODE=false
 RUN useradd --create-home --uid 10001 app && mkdir -p /data/handoff /data/uploads && chown -R app /data
 USER app
 WORKDIR /app/apps/api
