@@ -9,7 +9,7 @@ No accounts and no keys. Everything runs on made up data for a fictional company
 ## Without Docker
 
 1. Python 3.12 and Node 22 or newer, plus pnpm.
-2. `python3.12 -m venv .venv` then `.venv/bin/pip install -e packages/core-py -e "apps/api[dev]"`.
+2. `python3.12 -m venv .venv` then `.venv/bin/pip install -c constraints.txt -e packages/core-py -e "apps/api[dev]"`.
 3. `pnpm install` then `pnpm build`.
 4. In one terminal: `DEMO_MODE=true MODE=live INSECURE_COOKIES=1 .venv/bin/python -m uvicorn booklantern.api.app:app_from_env --factory --port 8000`
 5. In another: `API_BASE_URL=http://127.0.0.1:8000 INSECURE_COOKIES=1 pnpm --filter web start`

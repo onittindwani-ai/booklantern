@@ -21,9 +21,10 @@ jobs:
           python-version: "3.12"
           cache: pip
           cache-dependency-path: |
+            constraints.txt
             packages/core-py/pyproject.toml
             apps/api/pyproject.toml
-      - run: pip install -e packages/core-py -e "apps/api[dev]"
+      - run: pip install -c constraints.txt -e packages/core-py -e "apps/api[dev]"
       - run: python -m pytest -q
       - run: python tools/score_seed.py
       - run: python tools/score_tools.py --check
@@ -44,10 +45,11 @@ jobs:
           python-version: "3.12"
           cache: pip
           cache-dependency-path: |
+            constraints.txt
             packages/core-py/pyproject.toml
             apps/api/pyproject.toml
       # the browser tests start the API from .venv, the same place `make install` puts it
-      - run: python -m venv .venv && .venv/bin/pip install -e packages/core-py -e "apps/api[dev]"
+      - run: python -m venv .venv && .venv/bin/pip install -c constraints.txt -e packages/core-py -e "apps/api[dev]"
       - run: pnpm install --frozen-lockfile
       - run: pnpm typecheck
       - run: pnpm test:ui
@@ -76,6 +78,7 @@ jobs:
             echo "POSTGRES_PASSWORD=$(openssl rand -hex 16)"
             echo "SESSION_SECRET=$(openssl rand -hex 32)"
             echo "WEBHOOK_SHARED_SECRET=$(openssl rand -hex 16)"
+            echo "ALLOW_DEMO_SERVER=true"  # a throw away demo on Postgres, which the app refuses otherwise
           } >> .env
       - run: docker compose build
       - run: docker compose up -d
@@ -98,7 +101,7 @@ jobs:
       - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0  # v7.1.0
         with:
           python-version: "3.12"
-      - run: pip install pip-audit && pip install -e packages/core-py -e apps/api && pip-audit --skip-editable
+      - run: pip install pip-audit && pip install -c constraints.txt -e packages/core-py -e apps/api && pip-audit --skip-editable
       - uses: pnpm/action-setup@73e46992e05b19abd31f2f3c20e0e7370d762115  # v6.1.1
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1  # v7.1.0
         with:
