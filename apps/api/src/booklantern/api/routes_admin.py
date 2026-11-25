@@ -118,8 +118,8 @@ def fx_rates(s: Session = Depends(db, scope="function"), ctx: Ctx = Depends(get_
     return {"base": ctx.settings.base_currency, "rates": fxservice.list_rates(s), "today": ctx.today(s).isoformat()}
 
 
-@router.post("/fx-rates", summary="Add a manual exchange rate (company currency for one unit of the other currency), or correct the one for the same day")
-def set_fx_rate(body: FxRateIn, s: Session = Depends(db, scope="function"), ctx: Ctx = Depends(get_ctx), u: dict = Depends(writer)):
+@router.post("/fx-rates", summary="Add a manual exchange rate (company currency for one unit of the other currency), or correct the one for the same day. Owner only: a rate decides what foreign bills and invoices are worth.")
+def set_fx_rate(body: FxRateIn, s: Session = Depends(db, scope="function"), ctx: Ctx = Depends(get_ctx), u: dict = Depends(owner)):
     try:
         return fxservice.set_rate(s, ctx, body.currency, body.rate_date, body.rate, body.note, u["user"])
     except FX.FxError as exc:

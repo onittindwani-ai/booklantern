@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+from datetime import datetime, timedelta
 
 import httpx
 from sqlalchemy import func, update
@@ -189,6 +190,7 @@ def post_draft(session: Session, ctx, bill_id: int, who: str) -> dict:
             raise AdapterError("ACCOUNTING_WRITE is false. Booklantern reads your books and does not write to them until you switch that on.")
         if not _move(session, bill_id, ("approved",), "posting"):  # claimed: a second request at the same moment finds it no longer approved and stops here
             raise ValueError("Only an approved bill can be posted.")
+        record_audit(session, who, "bill.post_claimed", f"bill:{b.id}", {"claimed_at": ctx.now(session).isoformat()})  # when the claim was made, so a bill left in "posting" is found later
         session.commit()  # the claim is saved BEFORE the accounting system is asked: if the process dies or the later save fails, the bill still says "posting", never "approved" with a draft already made
         try:
             made = ctx.adapters.accounting.create_draft_bill(draft)
@@ -223,6 +225,30 @@ def post_draft(session: Session, ctx, bill_id: int, who: str) -> dict:
     clear_open(session, "bill", b.id, {"post_total_mismatch"})  # an earlier wrong draft was dealt with: the finding about it is done
     record_audit(session, who, "bill.posted_draft", f"bill:{b.id}", {"external_id": ext, "total_checked": returned is not None})
     return {"posted": True, "external_id": ext}
+
+
+STALE_POST_MINUTES = 15  # a post that is still "posting" this long after it was claimed did not finish: the process died, or the finding about it was closed the wrong way
+
+
+def sweep_stale_posts(session: Session, ctx) -> int:
+    """Find every bill that has been in "posting" longer than STALE_POST_MINUTES with no open `post_outcome_unknown` finding, and raise it, so a person can say what happened
+    (resolve_unknown_post). Without this a bill whose process died after the claim was saved sat in "posting" for good, out of the payables and the forecast. A bill with no record of
+    its claim (made before the claim was recorded) counts as old. Returns how many were raised."""
+    now, raised = ctx.now(session), 0
+    for bill in list(session.scalars(select(Bill).where(Bill.status == "posting"))):
+        if session.scalars(select(ExceptionItem).where(ExceptionItem.ref_type == "bill", ExceptionItem.ref_id == bill.id, ExceptionItem.kind == UNKNOWN_POST, ExceptionItem.status == "open")).first():
+            continue
+        last = session.scalars(select(AuditEntry).where(AuditEntry.target == f"bill:{bill.id}", AuditEntry.action == "bill.post_claimed").order_by(AuditEntry.id.desc()).limit(1)).first()
+        try:
+            at = datetime.fromisoformat(str((last.detail or {}).get("claimed_at"))) if last else None
+        except ValueError:
+            at = None
+        if at is not None and now - at < timedelta(minutes=STALE_POST_MINUTES):
+            continue
+        raise_exception(session, UNKNOWN_POST, "block", "bill", bill.id, "This bill was claimed for posting a while ago and never finished (the program stopped, or the answer was lost), so nobody knows whether the accounting system made the draft. Look for it there, then say what you found on this bill.")
+        record_audit(session, "system", "bill.post_stale", f"bill:{bill.id}", {})
+        raised += 1
+    return raised
 
 
 def resolve_unknown_post(session: Session, bill_id: int, who: str, posted: bool, external_id: str = "", note: str = "") -> Bill:

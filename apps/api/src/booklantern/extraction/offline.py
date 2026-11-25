@@ -23,7 +23,7 @@ from booklantern import hostile
 from booklantern.extraction import vocab
 from booklantern.extraction.cells import Cell, Page, page_count, read_page
 from booklantern.extraction.dates import fold, other_reading, pick_pair, read_date
-from booklantern.extraction.numbers import CODE_RE, find_currency, money_tokens
+from booklantern.extraction.numbers import CODE_RE, find_currency, money_tokens, unknown_mark
 from booklantern.extraction.schema import Extraction, FieldValue, LineItem
 from booklantern.money import CURRENCY_EXPONENT, tax_for
 
@@ -154,6 +154,16 @@ def _detect_currency(rows: list[Row], total_rows: list[Row]) -> tuple[str | None
     text = "\n".join(r.text for r in rows)
     cur = find_currency(text)
     return cur, "symbol on the page" if cur else ""
+
+
+def _foreign_total_mark(total_rows: list[Row], exp: int) -> str | None:
+    """A currency code or sign written next to a total that this system has no decimals for (TWD, COP, NT$). Such a bill is never booked in the company currency by itself."""
+    for r in total_rows[::-1]:
+        toks = money_tokens(r.text, exp)
+        mark = unknown_mark(r.text, toks[-1][0], toks[-1][1]) if toks else None
+        if mark:
+            return mark
+    return None
 
 
 def _solve(subs, taxes, taxtotals, totals):
@@ -290,6 +300,9 @@ def extract_pages(pages: list[Page], total_pages: int | None = None) -> Extracti
     if tax_amt is not None and (taxes or taxtotals):
         item = (taxtotals or taxes)[-1]
         put("tax_minor", abs(tax_amt), 60 + 15 + 5, item[2], "tax", ["label found", "amount parsed", f"read as {how}"])
+    foreign = _foreign_total_mark([r for r, k, *_ in found if k == "total"], exp)
+    if foreign:
+        put("currency_unknown", foreign, 90, tot[2] if tot else None, "total", [f"the total is written with {foreign}, a currency this system has no decimals for"])
     if cur and tot:
         put("currency", cur, 60 + 15 if cur_how.startswith(("code", "most")) else 55, tot[2], "total", [f"currency read from the {cur_how}"])
     # tax rate: one rate on one line, or parallel components added up

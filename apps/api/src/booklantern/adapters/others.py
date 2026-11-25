@@ -125,7 +125,8 @@ class CsvAccounting:
             for n, r in enumerate(reader, start=2):
                 if not (r["Total"] or "").strip() or not (r["Balance"] or "").strip():
                     continue  # a row with no amount is not an open invoice
-                t, b = parse_amount(r["Total"]), parse_amount(r["Balance"])
+                cur = getattr(self.settings, "base_currency", "USD")  # the file has no currency column: its amounts are in the company currency
+                t, b = parse_amount(r["Total"], cur), parse_amount(r["Balance"], cur)
                 if t is None or b is None:
                     raise AdapterError(f"invoices.csv line {n}: the Total or the Balance is not an amount ({(r['Total'] or '')[:20]!r}, {(r['Balance'] or '')[:20]!r}).")
                 if t[0] and b[0]:

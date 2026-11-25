@@ -18,13 +18,18 @@ def _remember_block(session: Session, ref_type: str, ref_id: int) -> None:
             session.flush()
 
 
-def raise_exception(session: Session, kind: str, severity: str, ref_type: str, ref_id: int, detail: str) -> ExceptionItem:
+def raise_exception(session: Session, kind: str, severity: str, ref_type: str, ref_id: int, detail: str, *, reopen_if_new: bool = False) -> ExceptionItem:
+    """`reopen_if_new`: a closed finding opens again when this call carries different text. A message from a customer is a new event each time, so a second "stop" must be seen
+    even though the first was closed; the same message found again (the text is the same) stays closed."""
     if severity == "block":
         _remember_block(session, ref_type, ref_id)
     row = session.scalars(select(ExceptionItem).where(ExceptionItem.kind == kind, ExceptionItem.ref_type == ref_type, ExceptionItem.ref_id == ref_id)).first()
     if row is None:
         row = ExceptionItem(kind=kind, severity=severity, ref_type=ref_type, ref_id=ref_id, detail=detail[:400])
         session.add(row)
+        session.flush()
+    elif row.status == "resolved" and reopen_if_new and row.detail != detail[:400]:
+        row.status, row.severity, row.resolved_by, row.detail = "open", severity, "", detail[:400]
         session.flush()
     elif row.status == "resolved" and severity == "block":
         # The check fired again after someone closed it. A reason given for the bill as it was is not a reason for the bill as it is now, so a blocking

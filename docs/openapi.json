@@ -2264,7 +2264,7 @@
     "tags": [
      "admin"
     ],
-    "summary": "Add a manual exchange rate (company currency for one unit of the other currency), or correct the one for the same day",
+    "summary": "Add a manual exchange rate (company currency for one unit of the other currency), or correct the one for the same day. Owner only: a rate decides what foreign bills and invoices are worth.",
     "operationId": "set_fx_rate_api_fx_rates_post",
     "requestBody": {
      "content": {

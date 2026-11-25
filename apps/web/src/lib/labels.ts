@@ -13,6 +13,8 @@ export const FINDING: Record<string, { label: string; help: string }> = {
   bank_details_not_read: { label: "Bank details not read", help: "The vendor has an account on file but none could be read from this bill. Compare the page with the account on file before paying." },
   negative_amount: { label: "Negative amount", help: "An amount on the document is negative (a credit or a reversal). It is not a bill to pay as it stands." },
   implausible_amount: { label: "Amount too large to be real", help: "A printed amount is far larger than any real bill, so it was not read. Key the amounts by hand." },
+  currency_unknown: { label: "Currency not known", help: "The bill is written in a currency this system has no decimals for, so its amounts are not booked. Key the bill by hand in a known currency, or add the currency, before approving." },
+  unsupported_file: { label: "File not read", help: "An attachment that was called a PDF or a picture is not one, so it was not read. Open the mail and look at the file." },
   suspicious_text: { label: "Text that gives orders", help: "The document contains text that tries to give orders. It was read as data. Check the bill with the vendor." },
   credit_note: { label: "Credit note", help: "This looks like a credit note, not a bill to pay." },
   missing_po: { label: "No purchase order", help: "This vendor's bills need a PO number." },

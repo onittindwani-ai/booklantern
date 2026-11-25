@@ -12,7 +12,16 @@ from booklantern.util import csv_safe
 from sendora_core.adapters import AdapterError
 from sendora_core.settings import Mode
 
-from .conftest import make_ctx
+from .conftest import freeze_clock, make_ctx
+
+# Reminders go out on business days and in business hours of the customer's own time zone, so these tests run on a clock that is always a Tuesday at 11:00 in New York
+# (the real time made them pass only from Monday to Friday between 9 and 17 there). Everything below that depends on "now" sees this moment.
+PINNED_NOW = datetime(2026, 12, 1, 16, 0, tzinfo=timezone.utc)
+
+
+@pytest.fixture(autouse=True)
+def _tuesday_morning(monkeypatch):
+    freeze_clock(monkeypatch, PINNED_NOW)
 
 
 class CountingAccounting:
@@ -294,3 +303,9 @@ def test_accounting_calls_carry_a_repeat_key():
 
     d = DraftBill("V", "N", "2026-01-01", "2026-02-01", "USD", idempotency_key="k" * 200)
     assert len(d.idempotency_key) == 200  # the adapters cut it to the width each system allows (50 and 128)
+
+
+def test_these_tests_run_on_the_pinned_clock_not_the_wall_clock(tmp_path):
+    ctx = live_ctx(tmp_path)
+    with ctx.factory() as s:
+        assert ctx.now(s) == PINNED_NOW and ctx.today(s) == date(2026, 12, 1)

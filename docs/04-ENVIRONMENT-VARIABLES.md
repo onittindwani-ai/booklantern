@@ -25,7 +25,7 @@ Names only. No real value ever goes in a document, a commit or a screenshot. Cop
 | `SESSION_SECRET` | yes | Signs the sign in cookie. At least 32 random characters, and the app will not start with the example value when `DEMO_MODE` is `false`. Make one: `python3 -c "import secrets; print(secrets.token_urlsafe(48))"`. Change it and everyone is signed out. |
 | `MODE` | yes | `draft` (default) saves what it would do. `live` lets approved actions leave the app. Only a person changes it, the app never can. |
 | `DEMO_MODE` | yes | `true` fills the fictional company and shows the demo bar. Set `false` for a real client (the example file already says `false`). Demo shortcuts (the public demo password, the example approver and viewer logins, the demo buttons, the made up demo date, loading the sample data) work only while `DEMO_MODE=true` and `OWNER_PASSWORD_HASH` is empty. |
-| `ALLOW_DEMO_SERVER` | no | The app refuses `DEMO_MODE=true` on a Postgres database unless this is `true`. Leave it `false`. |
+| `ALLOW_DEMO_SERVER` | no | Lets a demo start (`DEMO_MODE=true` with no `OWNER_PASSWORD_HASH`) go ahead in two cases the app otherwise refuses: on a Postgres database, and with a real accounting, payments, mail or inbox adapter or any write setting on. Only for a throw away machine. Leave it `false`. |
 | `MAX_BODY_BYTES` | no | The largest request the API accepts (default 25 MB, 26214400). Uploads are counted as they arrive, so a file with no declared size is cut off too. |
 | `LOG_LEVEL` | no | `DEBUG`, `INFO` (default), `WARNING` or `ERROR`. Bill text and bank lines are never written to the log at any level. |
 | `KILL_SWITCH` | no | `true` blocks every outgoing action. There is also a Pause all button. |

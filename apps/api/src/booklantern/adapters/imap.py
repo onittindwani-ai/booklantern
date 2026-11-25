@@ -21,6 +21,15 @@ from sendora_core.adapters import AdapterError
 from sendora_core.safety import write_action
 
 ALLOWED = {"application/pdf", "image/png", "image/jpeg"}
+
+
+def is_bill_part(part) -> bool:
+    """A PDF is a bill. A picture is one only when it was attached with a file name (an inline signature or logo, which Outlook and Gmail put in `multipart/related`, is not):
+    otherwise the message becomes an unreadable bill, is marked read, and a "stop" written in it is never shown."""
+    ctype = part.get_content_type()
+    if ctype == "application/pdf":
+        return True
+    return ctype in ALLOWED and bool(part.get_filename()) and part.get_content_disposition() == "attachment"
 MAX_BYTES = 15 * 1024 * 1024  # one attachment
 MAX_MESSAGE_BYTES = 25 * 1024 * 1024  # one whole message: a larger one is never loaded into memory
 MAX_MESSAGES_PER_POLL = 25  # the rest wait for the next poll
@@ -153,7 +162,7 @@ class ImapInbox(_Base):
                     found = 0
                     for part in msg.iter_attachments():
                         data_b = part.get_payload(decode=True) or b""
-                        if part.get_content_type() in ALLOWED and 0 < len(data_b) <= MAX_BYTES and found < MAX_ATTACHMENTS_PER_MESSAGE:
+                        if is_bill_part(part) and 0 < len(data_b) <= MAX_BYTES and found < MAX_ATTACHMENTS_PER_MESSAGE:
                             found += 1
                             out.append(InboundDocument(f"{msg['Message-ID'] or uid}:{part.get_filename() or 'attachment'}", clean_header(part.get_filename() or "attachment.pdf"), data_b,
                                                        parseaddr(str(msg["From"] or ""))[1], clean_header(str(msg["Subject"] or "")), ack=uid))

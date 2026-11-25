@@ -521,15 +521,17 @@ def test_the_csv_adapter_names_a_missing_column_and_a_bad_amount_instead_of_a_ke
     assert [i.number for i in got] == ["INV-1"] and got[0].balance_minor == 5000  # a byte order mark from a spreadsheet is fine, paid or blank rows are not open invoices
 
 
-def test_a_reminder_is_never_sent_twice_when_the_save_after_sending_fails(tmp_path):
+def test_a_reminder_is_never_sent_twice_when_the_save_after_sending_fails(tmp_path, monkeypatch):
     from sqlalchemy import select
 
     from booklantern import collections
     from booklantern.models import Reminder
     from sendora_core.models import AuditEntry
 
-    from .test_hardening_money import CountingEmail, add_customer_invoice, live_ctx
+    from .conftest import freeze_clock
+    from .test_hardening_money import PINNED_NOW, CountingEmail, add_customer_invoice, live_ctx
 
+    freeze_clock(monkeypatch, PINNED_NOW)  # reminders only go out on business days in business hours, so the test never depends on the day it runs
     ctx = live_ctx(tmp_path)
     ctx.adapters.email = CountingEmail()
     with ctx.factory() as s:

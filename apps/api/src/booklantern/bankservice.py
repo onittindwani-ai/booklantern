@@ -4,11 +4,12 @@ from __future__ import annotations
 
 from datetime import date
 
-from sqlalchemy import func, select
+from sqlalchemy import func, select, update
 from sqlalchemy.orm import Session
 
 from booklantern import bankcsv, reconcile as RC
 from booklantern.exceptions import raise_exception
+from booklantern.money import format_minor
 from booklantern.models import ExceptionItem, BankAccount, BankTransaction, Bill, Customer, Invoice, Match, Payment, PaymentAllocation, RecurringItem, Vendor
 from sendora_core.audit import record_audit
 
@@ -22,34 +23,49 @@ def import_csv(session: Session, text: str, batch: str, account_id: int | None =
     acct = next((a for a in accounts if a.id == account_id), None) if account_id is not None else accounts[0]
     if acct is None:
         raise bankcsv.CsvError(f"There is no bank account with the number {account_id}.")
-    rows = bankcsv.parse(text, acct.currency)
+    rows = bankcsv.parse(text, acct.currency, acct.id)
     for n, r in enumerate(rows, start=2):
         if r.currency.upper() != acct.currency.upper():
             raise bankcsv.CsvError(f"Line {n}: this account is in {acct.currency} and the line is in {r.currency}. Import one account and one currency per file.")
         if r.amount_minor == 0:
             raise bankcsv.CsvError(f"Line {n}: the amount is zero. A bank line needs an amount.")
-    have = set(session.scalars(select(BankTransaction.row_hash)))
-    added = skipped = dups = 0
+    have = set(session.scalars(select(BankTransaction.row_hash).where(BankTransaction.bank_account_id == acct.id)))  # this account only: the same line in another account is another line
+    added = skipped = dups = before_opening = 0
     for r in rows:
         if r.row_hash in have:
             skipped += 1  # the same file again, nothing new
+            continue
+        if r.legacy_hash in have:
+            # Saved by an earlier version, whose key had no account number: it is the same line. It gets the new key, so it never blocks the same line in another account.
+            session.execute(update(BankTransaction).where(BankTransaction.bank_account_id == acct.id, BankTransaction.row_hash == r.legacy_hash).values(row_hash=r.row_hash).execution_options(synchronize_session=False))
+            have.discard(r.legacy_hash)
+            have.add(r.row_hash)
+            skipped += 1
             continue
         t = BankTransaction(bank_account_id=acct.id, ref=r.ref, posted_on=r.posted_on, description=r.description, amount_minor=r.amount_minor, currency=r.currency, row_hash=r.row_hash, batch=batch)
         session.add(t)
         session.flush()
         added += 1
+        before_opening += r.posted_on < acct.opening_date
         if r.possible_duplicate:
             t.status = "exception"
             raise_exception(session, "possible_duplicate_line", "warning", "bank_txn", t.id, "An identical line (same date, text and amount) comes earlier in this file. Check the statement before you keep both.")
             dups += 1
-    return {"added": added, "skipped_already_imported": skipped, "possible_duplicates": dups}
+    out = {"added": added, "skipped_already_imported": skipped, "possible_duplicates": dups}
+    if before_opening:
+        out["ignored_before_opening_date"] = before_opening
+        out["note"] = (f"{before_opening} of the lines are dated before this account's opening date ({acct.opening_date.isoformat()}). They are kept and can still be matched to invoices and bills, "
+                       "but they are not added to the balance: the opening balance already holds them.")
+    return out
 
 
 def balance(session: Session, account_id: int | None = None) -> int:
+    """The opening balance plus every line from the opening date on. A line dated before the opening date is already inside the opening balance, so counting it again would
+    overstate the cash (and with it the forecast)."""
     acct = session.get(BankAccount, account_id) if account_id else session.scalars(select(BankAccount)).first()
     if acct is None:
         return 0
-    total = session.scalar(select(func.coalesce(func.sum(BankTransaction.amount_minor), 0)).where(BankTransaction.bank_account_id == acct.id, BankTransaction.currency == acct.currency))
+    total = session.scalar(select(func.coalesce(func.sum(BankTransaction.amount_minor), 0)).where(BankTransaction.bank_account_id == acct.id, BankTransaction.currency == acct.currency, BankTransaction.posted_on >= acct.opening_date))
     return acct.opening_minor + int(total)
 
 
@@ -143,8 +159,12 @@ def link_manually(session: Session, txn_id: int, kind: str, target_id: int, amou
     if amount_minor <= 0 or used + amount_minor > abs(t.amount_minor):
         raise ValueError("The linked amount cannot be more than the bank line.")
     already = int(session.scalar(select(func.coalesce(func.sum(Match.allocated_minor), 0)).where(Match.invoice_id == target_id if kind == "invoice" else Match.bill_id == target_id)) or 0)
-    if already + amount_minor > tgt.total_minor:
-        raise ValueError("That would pay more than the amount on the document.")
+    recorded = int(session.scalar(select(func.coalesce(func.sum(PaymentAllocation.amount_minor), 0)).where(PaymentAllocation.invoice_id == target_id if kind == "invoice" else PaymentAllocation.bill_id == target_id)) or 0)
+    # What the document already holds as paid counts too: an invoice imported with part of it paid has `paid_minor` that no bank line here explains. Matches whose payment is
+    # already recorded are inside `paid_minor`, so only the ones still waiting are added to it.
+    committed = tgt.paid_minor + max(already - recorded, 0)
+    if committed + amount_minor > tgt.total_minor:
+        raise ValueError("That would pay more than the amount on the document" + (f" (it already shows {format_minor(tgt.paid_minor, tgt.currency)} paid)." if tgt.paid_minor else "."))
     m = Match(bank_txn_id=txn_id, target_type=kind, invoice_id=target_id if kind == "invoice" else None, bill_id=target_id if kind == "bill" else None, allocated_minor=amount_minor, score=100, method="manual", status="confirmed", reason="linked by a person")
     session.add(m)
     t.status = "matched"

@@ -32,7 +32,7 @@ Open http://localhost:3000.
 
 ## A real install
 
-With `DEMO_MODE=false` the app starts empty: no sample company, no sample vendors. Set `COMPANY_NAME`, `COMPANY_ADDRESS`, `EMAIL_FROM`, `REPLY_TO`, `BASE_CURRENCY` and `DEFAULT_TIMEZONE` (`04`), then add what the app needs, either through the API (owner login, see `/docs` on the API) or with the command line loader, which reads the same settings file:
+With `DEMO_MODE=false` the app starts empty: no sample company, no sample vendors. Set `COMPANY_NAME`, `COMPANY_ADDRESS`, `EMAIL_FROM`, `REPLY_TO`, `BASE_CURRENCY` and `DEFAULT_TIMEZONE` (`04`), then add what the app needs, either through the API (owner login; the routes are listed in `docs/openapi.json`, and the interactive `/docs` page exists only while `DEMO_MODE=true`) or with the command line loader, which reads the same settings file:
 
 ```
 python tools/load_data.py bank-account "Main account" --currency USD --opening 1250000 --opening-date 2026-01-01
@@ -45,9 +45,15 @@ python tools/load_data.py recurring "Rent" out 450000 monthly --day 1 --match LA
 
 A file is all or nothing: one bad line, named by its number, stops the whole file. A vendor's `bank_account` is what every payment detail on a bill is compared with, so enter it from a source you trust, not from a bill. The web app has no page for typing vendors or customers yet; use the API or this loader. There is no file upload for them in the browser.
 
+### Bank accounts: opening balance, opening date and statements
+
+The opening balance is the cash in the account **on its opening date** (the morning of that day). The balance Booklantern shows, and the 13 week forecast that starts from it, are the opening balance plus every imported line dated **on or after** the opening date. A line dated before it is kept (it can still be matched to the invoice or bill it paid) but is not added, because the opening balance already holds it; the import tells you how many lines that was. So when you import 90 days of history, give the account the balance it had 90 days ago and that date, or give today's balance and today's date. Giving today's balance with an old date counts the same cash twice. If no opening date is given, it is today.
+
+A statement is imported into one account, and the same line in two accounts is two lines: the check for a repeated import is made per account. Amounts are read with the account's currency: in a currency with three decimals (KWD, BHD, OMR, JOD, TND) `12.345` and `12,345` are twelve and a bit; in a two decimal currency such as USD, `12,345` is twelve thousand three hundred forty five. An amount that cannot be told apart and has no currency is refused, and the line is listed.
+
 ## Tests
 
-- Python: `.venv/bin/python -m pytest`. The last full run is in `data/counts.json`: <!--n:tests.passed-->425<!--/n--> passed, <!--n:tests.skipped-->1<!--/n--> skipped (it needs a Postgres, set `TEST_POSTGRES_URL`), coverage <!--n:tests.coverage_percent-->92.3<!--/n--> percent of the `booklantern` package.
+- Python: `.venv/bin/python -m pytest`. The last full run is in `data/counts.json`: <!--n:tests.passed-->506<!--/n--> passed, <!--n:tests.skipped-->1<!--/n--> skipped (it needs a Postgres, set `TEST_POSTGRES_URL`), coverage <!--n:tests.coverage_percent-->93.3<!--/n--> percent of the `booklantern` package.
 - Seed check: `.venv/bin/python tools/score_seed.py` prints one line per planted problem.
 - Extraction eval: `.venv/bin/python tools/eval_extraction.py` (see `EXTRACTION-EVAL.md`).
 - Browser tests: `pnpm e2e` (needs Google Chrome; it starts its own API and web server and a throwaway database). It tests the last build, so run `pnpm build` first. <!--n:e2e.tests-->41<!--/n--> tests.

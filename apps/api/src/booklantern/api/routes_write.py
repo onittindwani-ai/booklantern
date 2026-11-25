@@ -95,6 +95,11 @@ class BillPatch(BaseModel):
     lines: list[LineIn] | None = Field(default=None, max_length=500)
 
 
+def _short(value) -> str | int | None:
+    """An old or new value for the audit log: numbers stay numbers, anything else is text of at most 80 characters."""
+    return value if isinstance(value, int) or value is None else str(value)[:80]
+
+
 @router.patch("/bills/{bill_id}", summary="Correct fields on a bill. The checks run again.")
 def patch_bill(bill_id: int, body: BillPatch, s: Session = Depends(db, scope="function"), ctx: Ctx = Depends(get_ctx), u: dict = Depends(writer)):
     b = _found(s.get(Bill, bill_id), "bill")
@@ -122,8 +127,10 @@ def patch_bill(bill_id: int, body: BillPatch, s: Session = Depends(db, scope="fu
     if issue and due and due < issue:
         raise HTTPException(422, "The due date is before the bill date. Check both dates.")
     name = changed.pop("vendor", None)
+    old_vendor = b.vendor_name_read
     if name is not None:
         _set_vendor(s, b, name.strip())
+    before = {k: getattr(b, k) for k in changed}
     for k, v in changed.items():
         setattr(b, k, v)
     if lines is not None:
@@ -135,7 +142,8 @@ def patch_bill(bill_id: int, body: BillPatch, s: Session = Depends(db, scope="fu
     doc = s.get(Document, b.document_id) if b.document_id else None
     rate_f = (doc.extraction or {}).get("fields", {}).get("tax_rate_bp") if doc else None
     found = intake.validate_bill(s, ctx, b, rate_f["value"] if rate_f and "tax_minor" not in changed and "subtotal_minor" not in changed else None)
-    record_audit(s, u["user"], "bill.edited", f"bill:{b.id}", {"fields": sorted(changed) + (["vendor"] if name is not None else []) + (["lines"] if lines is not None else [])})
+    record_audit(s, u["user"], "bill.edited", f"bill:{b.id}", {"fields": sorted(changed) + (["vendor"] if name is not None else []) + (["lines"] if lines is not None else []),
+                                                         "changes": {k: {"old": _short(before[k]), "new": _short(v)} for k, v in changed.items()} | ({"vendor": {"old": _short(old_vendor), "new": _short(name.strip())}} if name is not None else {})})
     return {"ok": True, "findings": [f.kind for f in found]}
 
 
@@ -348,6 +356,9 @@ def resolve_exception(exc_id: int, body: ResolveIn | None = None, s: Session = D
     if row.severity == "block" and not posting.real_reason(note):
         raise HTTPException(409, "This finding blocks approval. Write down why it is safe to close it. " + posting.REASON_HELP)
     bill = s.get(Bill, row.ref_id) if row.ref_type == "bill" else None
+    if row.kind == posting.UNKNOWN_POST and bill is not None and bill.status == "posting":
+        # Closing this finding here would leave the bill in "posting" for good: it is settled only by saying what is in the accounting system.
+        raise HTTPException(409, "This bill is still waiting for you to say whether the accounting system made its draft. Use 'Say what happened' on the bill (POST /api/bills/{id}/post-outcome), which settles the bill too.")
     own_edit = row.severity == "block" and bill is not None and u["user"] in posting.editors(s, bill)
     if own_edit and u["role"] != "owner":
         raise HTTPException(409, "You changed this bill yourself, so you cannot close a blocking finding on it. Someone else (or the owner) has to.")

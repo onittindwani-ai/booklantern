@@ -7,7 +7,7 @@ FINDING = {
     "missing_fx_rate": "No exchange rate", "line_sum_mismatch": "Lines do not add up", "duplicate_exact": "Exact duplicate", "duplicate_near": "Possible duplicate", "amount_far_above_history": "Far above usual",
     "bank_detail_changed": "Bank details changed", "missing_po": "No purchase order", "currency_mismatch": "Unexpected currency", "future_date": "Date in the future", "wrong_company": "Addressed to someone else",
     "unknown_vendor": "Unknown vendor", "unreadable_document": "Could not read it", "low_confidence": "Low confidence", "possible_duplicate_line": "Duplicate bank line", "unmatched_line": "Bank line not matched",
-    "suspicious_text": "Text that gives orders", "credit_note": "Credit note", "negative_amount": "Negative amount", "implausible_amount": "Amount too large to be real",
+    "suspicious_text": "Text that gives orders", "credit_note": "Credit note", "negative_amount": "Negative amount", "implausible_amount": "Amount too large to be real", "currency_unknown": "Currency not known", "unsupported_file": "File not read",
     "bank_details_not_read": "Bank details not read", "sender_not_allowed": "Sender not on the list", "post_outcome_unknown": "Posting outcome unclear", "reminder_unconfirmed": "Reminder may or may not have gone",
     "reminder_refused": "Reminder not sent", "stop_reply": "Customer asked to stop", "customer_reply": "Customer replied",
 }

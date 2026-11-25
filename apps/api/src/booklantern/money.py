@@ -16,6 +16,8 @@ CURRENCY_EXPONENT = {c: 2 for c in ("USD", "EUR", "GBP", "CAD", "AUD", "NZD", "C
                                     "CNY", "MXN", "BRL", "MYR", "THB", "PHP", "IDR", "EGP", "NGN", "KES")}
 CURRENCY_EXPONENT.update({"JPY": 0, "KRW": 0, "VND": 0, "CLP": 0, "ISK": 0, "UGX": 0, "BHD": 3, "KWD": 3, "OMR": 3, "JOD": 3, "TND": 3})
 SYMBOLS = {"$": "USD", "€": "EUR", "£": "GBP"}
+# The currencies a symbol may stand for: "$" is the mark of every dollar, so a Canadian dollar account may print it. A symbol that cannot belong to the stated currency refuses the amount.
+SYMBOL_CURRENCIES = {"$": {"USD", "CAD", "AUD", "NZD", "SGD", "HKD", "MXN", "CLP"}, "€": {"EUR"}, "£": {"GBP"}}
 SYMBOL_FOR = {"USD": "$", "EUR": "€", "GBP": "£"}
 
 
@@ -101,6 +103,8 @@ def parse_amount(text: str, currency: str | None = None, *, debit_credit: bool =
     if len(symbols) > 1 or sum(t.count(s) for s in SYMBOLS) > 1:
         return None
     for sym in symbols:
+        if cur and cur not in SYMBOL_CURRENCIES[sym]:
+            return None  # the sign says one currency and the currency given (or the code in the text) says another: never pick one silently
         cur = cur or SYMBOLS[sym]
         t = t.replace(sym, " ")
     t = " ".join(t.split())
@@ -123,6 +127,7 @@ def parse_amount(text: str, currency: str | None = None, *, debit_credit: bool =
     s = re.sub(r"[ '\u2019]", "", t).rstrip(".,")
     if not re.search(r"\d", s):
         return None
+    known = cur is not None  # a currency was given, or the text carried a code or a sign
     cur = cur or "USD"
     last_dot, last_comma = s.rfind("."), s.rfind(",")
     if last_dot > -1 and last_comma > -1:
@@ -130,8 +135,16 @@ def parse_amount(text: str, currency: str | None = None, *, debit_credit: bool =
     elif last_dot > -1 or last_comma > -1:
         sep = "." if last_dot > -1 else ","
         tail = s.rsplit(sep, 1)[1]
-        # repeated separator or exactly three digits after it means thousands (1,234 is one thousand two hundred thirty four)
-        dec_sep = None if (s.count(sep) > 1 or len(tail) == 3) else sep
+        if s.count(sep) > 1:
+            dec_sep = None  # a repeated separator is a thousands mark
+        elif len(tail) == 3:
+            # One separator and exactly three digits after it: thousands in a currency with 0 or 2 decimals (1,234 USD is one thousand two hundred thirty four), decimals in one with
+            # 3 (12.345 KWD is twelve and a bit). With no currency at all it cannot be told, so it is refused instead of guessed: that guess was a 1000 times error.
+            if not known:
+                return None
+            dec_sep = sep if CURRENCY_EXPONENT.get(cur) == 3 else None
+        else:
+            dec_sep = sep
     else:
         dec_sep = None
     if dec_sep:

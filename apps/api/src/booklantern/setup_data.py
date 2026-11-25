@@ -211,7 +211,15 @@ def import_invoices(session: Session, settings, who: str, text: str) -> ImportRe
             raise SetupError(f"{where}: the due date is before the invoice date.")
         cur = _currency(r.get("currency", ""), settings.base_currency, where)
         total = parse_amount(r["total"], cur)
+        if total is not None and total[1] != cur:
+            # The amount is written with its own currency (EUR 1,250.00). With a currency column that says otherwise there is no telling which is right, so the line is refused; with
+            # no currency column the amount's own currency is the invoice's.
+            if r.get("currency", "").strip():
+                raise SetupError(f"{where}: the total is written in {total[1]} but the currency column says {cur}. Make them the same.")
+            cur = total[1]
         paid = parse_amount(r["paid"], cur) if r.get("paid") else (0, cur)
+        if paid is not None and paid[1] != cur:
+            raise SetupError(f"{where}: what is paid is written in {paid[1]} but the invoice is in {cur}. Make them the same.")
         if total is None or paid is None or not 0 < total[0] <= limits.MAX_MINOR or not 0 <= paid[0] <= total[0]:
             raise SetupError(f"{where}: the total must be an amount above zero, and what is paid cannot be more than the total.")
         paid_on = None

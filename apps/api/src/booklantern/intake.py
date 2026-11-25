@@ -18,6 +18,7 @@ from booklantern.extraction import offline
 from booklantern.extraction.cells import page_count
 from booklantern.extraction.schema import Extraction
 from booklantern.models import Bill, BillLine, Customer, Document, ExceptionItem, Vendor
+from booklantern.money import CURRENCY_EXPONENT
 from sendora_core.audit import record_audit
 from sendora_core.events import record_event
 
@@ -137,6 +138,15 @@ def _amount(ex: Extraction, key: str, out_of_range: list[str]) -> int:
     return n
 
 
+def _unknown_currency(ex: Extraction) -> str:
+    """A currency code or sign the reader saw next to the total, or an answer from a model, that this system has no decimals for. It is blank for a known one or none."""
+    seen = str(ex.value("currency_unknown") or "").strip()
+    if seen:
+        return limits.text(seen, 8)
+    said = str(ex.value("currency") or "").strip().upper()
+    return limits.text(said, 8) if said and said not in CURRENCY_EXPONENT else ""
+
+
 def _date(ex: Extraction, key: str) -> date | None:
     try:
         return date.fromisoformat(str(ex.value(key))) if ex.value(key) else None
@@ -180,6 +190,9 @@ def process_document(session: Session, ctx, doc: Document, data: bytes | None = 
         raise_exception(session, "suspicious_text", "block", "bill", bill.id, "This document contains text that tries to give orders (" + "; ".join(ex.flags)[:200] + "). It was read as data and nothing it says was done. Check the bill with the vendor before approving.")
     if ex.value("negative_amount"):
         raise_exception(session, "negative_amount", "block", "bill", bill.id, "An amount on this document is negative (a credit or a reversal). It is not a bill to pay. A person decides how to apply it, and it must not be paid as it stands.")
+    unknown_cur = _unknown_currency(ex)
+    if unknown_cur:
+        raise_exception(session, "currency_unknown", "block", "bill", bill.id, f"This bill is written in {unknown_cur}, a currency this system does not know, so its amounts cannot be read with the right decimals. The amounts shown are only a placeholder in {ctx.settings.base_currency} and are NOT {ctx.settings.base_currency} amounts. Key the bill by hand in a currency this system knows, or add {unknown_cur} to money.CURRENCY_EXPONENT, before approving.")
     if too_big:
         raise_exception(session, "implausible_amount", "block", "bill", bill.id, f"A printed amount ({', '.join(sorted(set(too_big)))}) is far larger than any real bill, so it was not read. Key the amounts by hand from the page.")
     if ex.value("doc_type") == "credit_note":
@@ -230,6 +243,11 @@ def run_intake(session: Session, ctx) -> dict:
             session.commit()
         except UnsupportedFile:
             session.rollback()
+            # The message said "PDF" or "image" but the file is neither. It is marked read with the others, so it is listed for a person instead of vanishing.
+            raise_exception(session, "unsupported_file", "warning", "mail", int(d.ack) if str(d.ack).isdigit() else 0,
+                            f"Mail {_clean_note(str(d.ack), 20)}: a file named {_clean_note(d.file_name, 80)!r} from {_clean_note(d.from_addr, 80) or 'an unknown sender'} (subject {_clean_note(d.subject, 80)}) is not a real PDF, PNG or JPEG, so it was not read.",
+                            reopen_if_new=True)
+            session.commit()
         except Exception as exc:
             session.rollback()
             failed += 1
@@ -289,13 +307,13 @@ def record_replies(session: Session, ctx) -> int:
             continue
         who = f"{cust.name} ({_clean_note(note.from_addr, 80)})" if cust else _clean_note(note.from_addr, 80) or "an unknown sender"
         what = "asks to stop the reminders" if stop else "answered"
-        detail = f"{who} {what}. Subject: {_clean_note(note.subject, 80)}. Starts: {_clean_note(note.snippet, 140)}. The message is still unread in the mailbox."
+        detail = f"Mail {_clean_note(str(note.uid), 20)}: {who} {what}. Subject: {_clean_note(note.subject, 80)}. Starts: {_clean_note(note.snippet, 140)}. The message is still unread in the mailbox."
         if stop:
             detail += " If they want no more reminders, switch them off for this customer on the Collections page."
         if cust:
-            raise_exception(session, "stop_reply" if stop else "customer_reply", "warning", "customer", cust.id, detail)
+            raise_exception(session, "stop_reply" if stop else "customer_reply", "warning", "customer", cust.id, detail, reopen_if_new=True)
         else:
-            raise_exception(session, "stop_reply", "warning", "mail", int(note.uid) if str(note.uid).isdigit() else 0, detail)
+            raise_exception(session, "stop_reply", "warning", "mail", int(note.uid) if str(note.uid).isdigit() else 0, detail, reopen_if_new=True)
         shown += 1
     return shown
 

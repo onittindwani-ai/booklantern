@@ -49,7 +49,7 @@ function RatesCard({ canEdit }: { canEdit: boolean }) {
             <Field label="Note (optional)" value={note} onChange={setNote} hint="Where you looked it up" />
             <Button variant="primary" loading={save.isPending} disabled={cur.length !== 3 || rate.trim() === ""} disabledReason="Type a 3 letter currency and a rate first" onClick={() => save.mutate()}>Save rate</Button>
           </div>
-        ) : <p className="ll-mini" style={{ margin: 0 }}>Your sign in can read the rates but not change them.</p>}
+        ) : <p className="ll-mini" style={{ margin: 0 }}>Only the owner can change the rates. Your sign in can read them.</p>}
       </div>
     </Card>
   );
@@ -74,7 +74,7 @@ export default function ReportsPage() {
         <div className="ll-stat"><span className="ll-stat__l">Open exceptions</span><span className="ll-stat__v">{String(s.open_exceptions)}</span></div>
       </div>
       <Card title="What is in the pack"><p style={{ margin: 0 }}>Totals, receivables aging by customer, bills waiting, unmatched bank lines, open exceptions, the 13 week forecast, and the exchange rates used with every converted item. Every number comes from code. Check it before you share it.</p></Card>
-      <RatesCard canEdit={me.data?.role === "owner" || me.data?.role === "approver"} />
+      <RatesCard canEdit={me.data?.role === "owner"} />
     </div>
   );
 }

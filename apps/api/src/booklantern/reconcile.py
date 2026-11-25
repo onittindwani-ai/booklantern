@@ -7,6 +7,8 @@ A deposit marked as a part payment scores at least 55, and 5 more when it is exa
 invoices whose open amounts add up to the deposit exactly. Score 90.
 Auto confirm at 85 and above, but only when the name of the customer or vendor was also found in the description: an amount, a number and a date can all be copied
 by whoever writes the payment reference, so without a name a person confirms. Suggest from 60, otherwise leave the line unmatched for a person.
+A line that names the number of an invoice or bill that is already marked paid, when another document of the same amount is still open, is only ever a suggestion: the person
+who wrote the reference meant the paid one, so paying the open one by itself would settle the wrong document. Paid documents never take part in a split.
 A line that is identical to an earlier line of the same file is a possible duplicate and is never matched twice.
 """
 
@@ -91,6 +93,15 @@ def number_in(desc: str, number: str) -> bool:
     return number.casefold() in d or (len(digits) >= 4 and re.search(rf"(?<!\d){digits}(?!\d)", d) is not None)
 
 
+def names_exactly(desc: str, number: str) -> bool:
+    """The whole number, standing on its own in the text (INV-1 is not found inside INV-1001)."""
+    d = desc.casefold()
+    digits = re.sub(r"\D", "", number)
+    if re.search(rf"(?<![a-z0-9]){re.escape(number.casefold())}(?![a-z0-9])", d):
+        return True
+    return len(digits) >= 4 and re.search(rf"(?<!\d){digits}(?!\d)", d) is not None
+
+
 def _in_target_ccy(amount: int, cur: str, c: Target, on: date, rates: RateBook | None) -> tuple[int | None, str]:
     """The bank amount expressed in the target's currency, and a note saying which manual rate was used.
 
@@ -173,6 +184,10 @@ def match_all(txns: list[Txn], targets: list[Target], recurring: list[RecurringT
             unproven = c.settled and f"number {c.number} in the description" not in why
             if unproven:
                 why += "; no document number on the line, so a person confirms"
+            paid_named = next((p for p in pool if p.settled and p is not c and names_exactly(t.description, p.number)), None) if not c.settled else None
+            if paid_named is not None and not number_in(t.description, c.number):
+                unproven = True
+                why += f"; the line names {paid_named.number}, which is already marked paid, so a person decides which document it pays"
             out.append(Result(t.id, "matched" if sc >= CONFIRM_AT and named and not unproven else "suggested", [Link(c.kind, c.id, alloc, sc, why if named or sc < CONFIRM_AT or unproven else why + "; no name found, so a person confirms")]))
             continue
         split = _split(t, pool, left)
@@ -188,7 +203,7 @@ def match_all(txns: list[Txn], targets: list[Target], recurring: list[RecurringT
 def _split(t: Txn, pool: list[Target], left: dict) -> list[Link] | None:
     if t.amount_minor <= 0:
         return None
-    named = [c for c in pool if name_score(t.description, c.party) >= 10 and c.currency == t.currency]
+    named = [c for c in pool if not c.settled and name_score(t.description, c.party) >= 10 and c.currency == t.currency]
     by_party: dict[str, list[Target]] = {}
     for c in named:
         by_party.setdefault(c.party, []).append(c)
