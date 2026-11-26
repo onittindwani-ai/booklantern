@@ -27,5 +27,5 @@ Rate     Gross     VAT      Net
 13.5%  €422.50  €50.25  €372.25
 
 
-Bank details: Fictional Test Bank DAC
-IBAN IE00 FAKE 0000 0000 0001 01
+Bank details: Sample Test Bank DAC
+IBAN IE00 TEST 0000 0000 0001 01

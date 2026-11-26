@@ -55,5 +55,5 @@ B         13.5%     €96.00     €12.96    €108.96
 
 Delivery docket 0044219 - 3 pallets
 
-Bank details: Fictional Test Bank DAC
-IBAN IE00 FAKE 0000 0000 0002 02
+Bank details: Sample Test Bank DAC
+IBAN IE00 TEST 0000 0000 0002 02

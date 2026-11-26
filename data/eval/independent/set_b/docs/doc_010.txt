@@ -26,5 +26,5 @@ RET  Less retention 5%                          1  -3,197.50   -3,197.50
 Contract sum 250,000.00   Previously certified 118,500.00   Gross valuation to date 190,450.00
 Certificate no. IC-014 dated 29 October 2026
 
-Bank details: Fictional Test Bank plc
+Bank details: Sample Test Bank plc
 Sort 00-00-00  Acc 00000066

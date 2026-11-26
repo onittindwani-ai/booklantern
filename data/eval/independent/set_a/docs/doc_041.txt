@@ -43,5 +43,5 @@ Notes:
 Settlement discount: pay by Oct 30, 2026 to deduct 2%.
 Order no. 7798-B   Ship via LTL
 
-Bank details: Fictional Test Bank NA
+Bank details: Sample Test Bank NA
 Routing 000000000  Account 000055566677

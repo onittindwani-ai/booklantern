@@ -25,5 +25,5 @@ Long distance usage, 1,910 min       1910  0.012   22.92
                    Total charges                 $351.81
 
 
-Bank details: Fictional Test Bank NA
-Remit to lockbox 000000 (fictional)
+Bank details: Sample Test Bank NA
+Remit to lockbox 000000 (sample)

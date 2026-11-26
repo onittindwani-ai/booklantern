@@ -18,7 +18,7 @@ Every outside fact this project relies on. VERIFIED means the page was read on t
 | Railway service, variable and volume steps | https://docs.railway.com | not read | UNVERIFIED |
 | Hetzner server, firewall and cloud config steps | https://docs.hetzner.com | not read | UNVERIFIED |
 | Anthropic model and key steps | https://docs.anthropic.com | not read | UNVERIFIED |
-| Model path request and response shape (Messages endpoint, structured output) | read for the shared base on 2026-11-23, see the hub's FACTS-AND-SOURCES. Run only against a local fake server, never with a real key | 2026-11-23 | UNVERIFIED live |
+| Model path request and response shape (Messages endpoint, structured output) | read for the shared base on 2026-11-23, see the hub's FACTS-AND-SOURCES. Run only against a local mock server, never with a real key | 2026-11-23 | UNVERIFIED live |
 | Prices of every paid tool | each vendor's price page | not read | UNVERIFIED, no price is quoted |
 
 ## Libraries used
@@ -27,4 +27,4 @@ Installed 2026-11-23: reportlab 5.1.0 (builds the month end PDF and the sample b
 
 ## Not a fact from outside
 
-All people, companies, bank lines, amounts and the exchange rate in the demo are invented by us.
+All people, companies, bank lines, amounts and the exchange rate in the demo are sample data written by us.

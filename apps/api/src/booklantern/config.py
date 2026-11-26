@@ -9,7 +9,7 @@ from pydantic import Field
 
 from sendora_core.settings import BaseAppSettings, Mode
 
-DEFAULT_COMPANY_NAME = "Birchfield Supply Co"  # the made up demo company: a real install must name its own
+DEFAULT_COMPANY_NAME = "Birchfield Supply Co"  # the sample demo company: a real install must name its own
 DEFAULT_EMAIL_FROM = "accounts@example.test"
 EMAIL_LIKE = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
 
@@ -125,7 +125,7 @@ class Settings(BaseAppSettings):
         """What is still a placeholder in the business identity. A reminder goes out under the company's name, address and sender mailbox."""
         out: list[str] = []
         if self.company_name.strip() in {"", DEFAULT_COMPANY_NAME}:
-            out.append("COMPANY_NAME is still the made up demo name. Set your client's legal name: bills addressed to any other name are flagged, and reminders are signed with it.")
+            out.append("COMPANY_NAME is still the sample demo name. Set your client's legal name: bills addressed to any other name are flagged, and reminders are signed with it.")
         if self.email_adapter != "seed" and (self.email_from.strip() in {"", DEFAULT_EMAIL_FROM} or not EMAIL_LIKE.match(self.email_from)):
             out.append("EMAIL_FROM is empty or still the example address. Set the mailbox reminders are sent from.")
         if self.email_adapter != "seed" and len(self.company_address.strip()) < 10:

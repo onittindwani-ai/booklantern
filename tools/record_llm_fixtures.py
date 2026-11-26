@@ -1,7 +1,7 @@
 """Record the model answers for the seed bills and a few word tasks into data/llm_fixtures/, so the demo can replay them with LLM_BACKEND=fixture.
 
 IMPORTANT: these are NOT answers of a real model. The recording goes through the real anthropic code path (request building, schema, response parsing, the checks by code)
-against a local fake server that answers with the offline stand in. So the fixtures prove the replay path and the request shape, not model quality. Replace them with a
+against a local mock server that answers with the offline stand in. So the fixtures prove the replay path and the request shape, not model quality. Replace them with a
 recording from a real key (LLM_RECORD=true) when you have one.
 
 Run: python tools/record_llm_fixtures.py
@@ -23,7 +23,7 @@ from booklantern.config import Settings  # noqa: E402
 from booklantern.extraction.live import extract_with_model  # noqa: E402
 from booklantern.extraction.cells import page_count, read_page  # noqa: E402
 from booklantern.offline_llm import OfflineBackend  # noqa: E402
-from mock.anthropic_mock import FakeAnthropic  # noqa: E402
+from mock.anthropic_mock import StubAnthropic  # noqa: E402
 from sendora_core.llm import build_llm, reset_budgets  # noqa: E402
 
 OUT = ROOT / "data" / "llm_fixtures"
@@ -44,8 +44,8 @@ def record() -> dict:
     if OUT.exists():
         shutil.rmtree(OUT)
     n = 0
-    with FakeAnthropic(stand_in) as fake:
-        settings = Settings(_env_file=None, llm_backend="anthropic", anthropic_api_key="fake-key-for-local-server", anthropic_base_url=fake.url, llm_record=True, llm_fixtures_dir=str(OUT), database_url="sqlite://")
+    with StubAnthropic(stand_in) as stub:
+        settings = Settings(_env_file=None, llm_backend="anthropic", anthropic_api_key="stub-key-for-local-server", anthropic_base_url=stub.url, llm_record=True, llm_fixtures_dir=str(OUT), database_url="sqlite://")
         reset_budgets()
         llm = build_llm(settings, None)
         for path in documents():
@@ -60,9 +60,9 @@ def record() -> dict:
             model_tasks.write_reminder(llm, facts, ("fallback", "fallback"))
     files = len(list(OUT.glob("*.json")))
     (OUT / "README.txt").write_text(
-        "Recorded from a LOCAL FAKE server that answers with the offline stand in. Not answers of a real model.\n"
+        "Recorded from a LOCAL MOCK server that answers with the offline stand in. Not answers of a real model.\n"
         "They prove the replay path and the request shape only. Regenerate: python tools/record_llm_fixtures.py\n", encoding="utf-8")
-    return {"documents_read": n, "files": files, "requests_to_fake_server": len(fake.requests)}
+    return {"documents_read": n, "files": files, "requests_to_mock_server": len(stub.requests)}
 
 
 if __name__ == "__main__":

@@ -1,5 +1,5 @@
 {
- "fictional": true,
+ "sample_data": true,
  "company": {
   "name": "Birchfield Supply Co",
   "currency": "USD"
@@ -9,81 +9,81 @@
   {
    "key": "V01",
    "name": "Alderbank Packaging Ltd",
-   "addr": "14 Mill Lane, Fakeford",
+   "addr": "14 Mill Lane, Sampleford",
    "currency": "USD",
    "tax_bp": 800,
    "requires_po": false,
-   "account": "FICT-0101-2201",
+   "account": "SMPL-0101-2201",
    "terms_days": 30
   },
   {
    "key": "V02",
    "name": "Brightwater Freight Services",
-   "addr": "2 Dock Road, Fakeport",
+   "addr": "2 Dock Road, Sampleport",
    "currency": "USD",
    "tax_bp": 0,
    "requires_po": false,
-   "account": "FICT-0102-2202",
+   "account": "SMPL-0102-2202",
    "terms_days": 14
   },
   {
    "key": "V03",
    "name": "Cobalt Office Supply",
-   "addr": "77 Park Row, Fakeford",
+   "addr": "77 Park Row, Sampleford",
    "currency": "USD",
    "tax_bp": 700,
    "requires_po": true,
-   "account": "FICT-0103-2203",
+   "account": "SMPL-0103-2203",
    "terms_days": 30
   },
   {
    "key": "V04",
    "name": "Dunmore Industrial Parts",
-   "addr": "9 Forge Street, Fakeham",
+   "addr": "9 Forge Street, Sampleham",
    "currency": "USD",
    "tax_bp": 800,
    "requires_po": true,
-   "account": "FICT-0104-2204",
+   "account": "SMPL-0104-2204",
    "terms_days": 45
   },
   {
    "key": "V05",
    "name": "Eastgate Cleaning Co",
-   "addr": "31 East Gate, Fakeford",
+   "addr": "31 East Gate, Sampleford",
    "currency": "USD",
    "tax_bp": 0,
    "requires_po": false,
-   "account": "FICT-0105-2205",
+   "account": "SMPL-0105-2205",
    "terms_days": 15
   },
   {
    "key": "V06",
    "name": "Fernhill IT Support",
-   "addr": "5 Fern Hill, Fakeham",
+   "addr": "5 Fern Hill, Sampleham",
    "currency": "USD",
    "tax_bp": 1000,
    "requires_po": false,
-   "account": "FICT-0106-2206",
+   "account": "SMPL-0106-2206",
    "terms_days": 30
   },
   {
    "key": "V07",
    "name": "Gablemere Print Studio",
-   "addr": "Gablemere Weg 3, Fakestadt",
+   "addr": "Gablemere Weg 3, Samplestadt",
    "currency": "EUR",
    "tax_bp": 1900,
    "requires_po": false,
-   "account": "FICT-0107-2207",
+   "account": "SMPL-0107-2207",
    "terms_days": 30
   },
   {
    "key": "V08",
    "name": "Hollin Insurance Brokers",
-   "addr": "100 Cover Street, Fakeford",
+   "addr": "100 Cover Street, Sampleford",
    "currency": "USD",
    "tax_bp": 0,
    "requires_po": false,
-   "account": "FICT-0108-2208",
+   "account": "SMPL-0108-2208",
    "terms_days": 30
   }
  ],
@@ -1832,7 +1832,7 @@
   }
  ],
  "bank_account": {
-  "name": "Operating account (fictional)",
+  "name": "Operating account (sample)",
   "opening_minor": -15628882,
   "opening_date": "2025-12-01"
  },

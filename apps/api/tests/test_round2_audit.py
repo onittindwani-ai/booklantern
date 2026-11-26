@@ -23,7 +23,7 @@ def _blocks(client, bill_id):
 def test_an_approver_cannot_clear_their_own_bank_detail_edit_and_approve_alone(client):  # noqa: F811
     d = _clean_bill(client)
     ap = approver(client)
-    assert client.patch(f"/api/bills/{d['id']}", json={"bank_account": "FICT-9999-0000"}, headers=ap).status_code == 200
+    assert client.patch(f"/api/bills/{d['id']}", json={"bank_account": "SMPL-9999-0000"}, headers=ap).status_code == 200
     block = next(e for e in _blocks(client, d["id"]) if e["kind"] == "bank_detail_changed")
     assert client.post(f"/api/bills/{d['id']}/approve", json={"note": ""}, headers=ap).status_code == 409  # the old rule held this far
     # the person who made the edit may not close the finding it raised ...
@@ -36,10 +36,10 @@ def test_an_approver_cannot_clear_their_own_bank_detail_edit_and_approve_alone(c
 
 def test_a_closed_finding_comes_back_when_the_check_fires_again(client):  # noqa: F811
     d = _clean_bill(client)
-    assert client.patch(f"/api/bills/{d['id']}", json={"bank_account": "FICT-9999-0000"}).status_code == 200
+    assert client.patch(f"/api/bills/{d['id']}", json={"bank_account": "SMPL-9999-0000"}).status_code == 200
     block = next(e for e in _blocks(client, d["id"]) if e["kind"] == "bank_detail_changed")
     assert client.post(f"/api/exceptions/{block['id']}/resolve", json={"note": "Phoned the vendor, the new account is right"}).status_code == 200
-    assert client.patch(f"/api/bills/{d['id']}", json={"bank_account": "FICT-1234-5678", "total_minor": d["total_minor"] + 100, "subtotal_minor": d["subtotal_minor"] + 100}).status_code == 200
+    assert client.patch(f"/api/bills/{d['id']}", json={"bank_account": "SMPL-1234-5678", "total_minor": d["total_minor"] + 100, "subtotal_minor": d["subtotal_minor"] + 100}).status_code == 200
     again = next(e for e in _blocks(client, d["id"]) if e["kind"] == "bank_detail_changed")
     assert again["status"] == "open"  # a second edit of the account is not covered by the first person's reason
     assert client.post(f"/api/bills/{d['id']}/approve", json={"note": ""}).status_code == 409
@@ -86,7 +86,7 @@ def test_a_pdf_with_text_far_off_the_page_gives_a_short_layout_and_a_small_memor
 
 def test_the_owner_edits_and_closes_the_finding_and_a_second_person_approves(client):  # noqa: F811
     d = _clean_bill(client)
-    assert client.patch(f"/api/bills/{d['id']}", json={"bank_account": "FICT-9999-0000"}).status_code == 200
+    assert client.patch(f"/api/bills/{d['id']}", json={"bank_account": "SMPL-9999-0000"}).status_code == 200
     block = next(e for e in _blocks(client, d["id"]) if e["kind"] == "bank_detail_changed")
     assert client.post(f"/api/exceptions/{block['id']}/resolve", json={"note": "Phoned the vendor, the new account is right"}).status_code == 200  # the owner may close a finding on their own edit, with a reason
     assert client.post(f"/api/bills/{d['id']}/approve", json={"note": ""}).status_code == 409  # but the owner approving it too needs a written reason
@@ -98,7 +98,7 @@ def test_the_owner_edits_and_closes_the_finding_and_a_second_person_approves(cli
 
 def test_the_owner_can_approve_their_own_reviewed_bill_with_a_written_reason_and_it_is_audited(client):  # noqa: F811
     d = _clean_bill(client)
-    assert client.patch(f"/api/bills/{d['id']}", json={"bank_account": "FICT-9999-0000"}).status_code == 200
+    assert client.patch(f"/api/bills/{d['id']}", json={"bank_account": "SMPL-9999-0000"}).status_code == 200
     block = next(e for e in _blocks(client, d["id"]) if e["kind"] == "bank_detail_changed")
     assert client.post(f"/api/exceptions/{block['id']}/resolve", json={"note": "Phoned the vendor on the number on file"}).status_code == 200
     assert client.post(f"/api/bills/{d['id']}/approve", json={"note": "Owner decision: the vendor confirmed the new account by phone"}).status_code == 200
@@ -114,7 +114,7 @@ def test_a_bill_nobody_touched_is_approved_by_one_person_as_before(client):  # n
 def test_an_approver_cannot_close_a_finding_on_a_bill_they_edited_even_when_it_is_the_only_one_open(client):  # noqa: F811
     d = _clean_bill(client)
     ap = approver(client)
-    assert client.patch(f"/api/bills/{d['id']}", json={"bank_account": "FICT-9999-0000"}, headers=ap).status_code == 200
+    assert client.patch(f"/api/bills/{d['id']}", json={"bank_account": "SMPL-9999-0000"}, headers=ap).status_code == 200
     ids = [e["id"] for e in _blocks(client, d["id"]) if e["status"] == "open"]
     assert ids and all(client.post(f"/api/exceptions/{i}/resolve", json={"note": "fine"}, headers=ap).status_code == 409 for i in ids)
 
@@ -179,7 +179,7 @@ def _bank_world(ctx, bill_total=10_000):
     from booklantern.models import BankAccount, BankTransaction, Bill
 
     with ctx.factory() as s:
-        v = setup_data.create_vendor(s, ctx.settings, "owner", name="Hollis Print Co", bank_account="FICT-5555")
+        v = setup_data.create_vendor(s, ctx.settings, "owner", name="Hollis Print Co", bank_account="SMPL-5555")
         acct = BankAccount(name="Main", currency="USD", opening_minor=1_000_000, opening_date=date(2026, 1, 1))
         s.add(acct)
         s.flush()
@@ -268,9 +268,9 @@ def test_a_bill_sent_again_a_month_later_is_blocked_through_the_whole_pipeline(c
     from sqlalchemy import select
 
     with ctx.factory() as s:
-        v = setup_data.create_vendor(s, ctx.settings, "owner", name="Hollis Print Co", bank_account="FICT-5555")
-        a = Bill(vendor_id=v.id, vendor_name_read=v.name, number="HP-0042", issue_date=date(2026, 10, 1), currency="USD", subtotal_minor=5000, total_minor=5000, status="needs_review", bank_account="FICT-5555")
-        b = Bill(vendor_id=v.id, vendor_name_read=v.name, number="hp 42", issue_date=date(2026, 11, 3), currency="USD", subtotal_minor=5000, total_minor=5000, status="needs_review", bank_account="FICT-5555")
+        v = setup_data.create_vendor(s, ctx.settings, "owner", name="Hollis Print Co", bank_account="SMPL-5555")
+        a = Bill(vendor_id=v.id, vendor_name_read=v.name, number="HP-0042", issue_date=date(2026, 10, 1), currency="USD", subtotal_minor=5000, total_minor=5000, status="needs_review", bank_account="SMPL-5555")
+        b = Bill(vendor_id=v.id, vendor_name_read=v.name, number="hp 42", issue_date=date(2026, 11, 3), currency="USD", subtotal_minor=5000, total_minor=5000, status="needs_review", bank_account="SMPL-5555")
         s.add_all([a, b])
         s.flush()
         intake.validate_bill(s, ctx, b)
@@ -633,7 +633,7 @@ def test_two_bills_with_no_number_are_one_bill_only_when_the_dates_match_too():
 def test_the_second_person_approving_is_not_logged_as_self_review_and_the_page_is_told_what_to_do(client):  # noqa: F811
     d = _clean_bill(client)
     ap = approver(client)
-    assert client.patch(f"/api/bills/{d['id']}", json={"bank_account": "FICT-9999-0000"}).status_code == 200
+    assert client.patch(f"/api/bills/{d['id']}", json={"bank_account": "SMPL-9999-0000"}).status_code == 200
     block = next(e for e in _blocks(client, d["id"]) if e["kind"] == "bank_detail_changed")
     assert client.get(f"/api/bills/{d['id']}").json()["self_review"] == "owner"  # the owner edited it: the page asks for a written reason
     assert client.get(f"/api/bills/{d['id']}", headers=ap).json()["self_review"] == ""
@@ -646,7 +646,7 @@ def test_the_second_person_approving_is_not_logged_as_self_review_and_the_page_i
 def test_an_approver_who_edited_a_bill_is_told_by_the_page_that_someone_else_must_approve(client):  # noqa: F811
     d = _clean_bill(client)
     ap = approver(client)
-    assert client.patch(f"/api/bills/{d['id']}", json={"bank_account": "FICT-9999-0000"}, headers=ap).status_code == 200
+    assert client.patch(f"/api/bills/{d['id']}", json={"bank_account": "SMPL-9999-0000"}, headers=ap).status_code == 200
     assert client.get(f"/api/bills/{d['id']}", headers=ap).json()["self_review"] == "blocked"
 
 

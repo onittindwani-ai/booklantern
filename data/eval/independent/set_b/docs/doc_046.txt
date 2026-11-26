@@ -29,5 +29,5 @@ Total (USD)                 USD 4,090.00
 Equivalent HKD 33,520.00 at 7.8000 (for reference only)
 B/L no. PRFSZX000188   Container TEST0000001
 
-Bank details: Fictional Test Bank (HK) Ltd
+Bank details: Sample Test Bank (HK) Ltd
 Acct 000-000001-001

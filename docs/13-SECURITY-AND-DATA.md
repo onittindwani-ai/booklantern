@@ -17,7 +17,7 @@ The full list of what was tested and what was not is in `../SECURITY.md`. In sho
 - **Web.** The browser never holds a vendor key. The web app forwards to the API and adds a required header to every change, so a form on another website cannot make the browser change data. The API asks for the same header (`x-booklantern: 1`) on every change whose session comes from the cookie, so the API port is not open to that either.
 - **Uploads and mail.** Only PDF, PNG and JPEG, with a size limit counted as the bytes arrive. The same file twice is one document. One damaged or hostile attachment never loses the other bills in a mailbox poll, and a mail is marked read only after its bills are saved.
 - **Mail connections** check the server's certificate, and plain text is refused for any host but this computer.
-- **Demo shortcuts** (the public demo password, the example logins, the demo buttons, the made up date, sample data) exist only with `DEMO_MODE=true` and no `OWNER_PASSWORD_HASH`.
+- **Demo shortcuts** (the public demo password, the example logins, the demo buttons, the sample date, sample data) exist only with `DEMO_MODE=true` and no `OWNER_PASSWORD_HASH`.
 - **The in app switches.** Pause all and force draft, set in the app, hold for posting, sending and payment links even when the environment says live.
 - **Where data lives.** Bills, bank lines and customer names are in your database and the uploads folder. If you turn on the live reader, bill contents go to the model vendor.
 

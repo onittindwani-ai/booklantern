@@ -1,6 +1,6 @@
 # Capabilities
 
-Every screen, what it does, how to use it. Screenshots were taken from the demo data (a fictional company) at 1440 by 900. Phone versions are in `docs/screenshots/` too, <!--n:screenshots-->47<!--/n--> pictures in all.
+Every screen, what it does, how to use it. Screenshots were taken from the demo data (a sample company) at 1440 by 900. Phone versions are in `docs/screenshots/` too, <!--n:screenshots-->47<!--/n--> pictures in all.
 
 ## Cash cockpit
 ![Cash cockpit](screenshots/page-cockpit-desktop.png)

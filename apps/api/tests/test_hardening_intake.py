@@ -24,7 +24,7 @@ from booklantern.extraction.cells import Cell, Page
 from booklantern.extraction.numbers import to_minor_units
 from booklantern.extraction.schema import Extraction, FieldValue, LineItem
 from booklantern.models import Bill, Document, ExceptionItem
-from mock.mail_servers import FakeMailServers
+from mock.mail_servers import StubMailServers
 from sendora_core.adapters import AdapterError
 
 from .conftest import make_ctx
@@ -45,7 +45,7 @@ def bill_pdf(vendor="Orchard Parts Ltd", number="OP-100", total="100.00", extra=
     return pdf([vendor, "INVOICE", f"Invoice No: {number}", "Invoice Date: 2026-11-20", "Due Date: 2026-12-20", "Bill To: Birchfield Supply Co", *extra, f"Subtotal USD {total}", "Tax USD 0.00", f"Total Due USD {total}"])
 
 
-class FakeInbox:
+class StubInbox:
     """A mailbox that hands over a fixed list and remembers what it was told to mark read."""
 
     def __init__(self, docs):
@@ -58,7 +58,7 @@ class FakeInbox:
         self.acked += acks
 
     def healthcheck(self):
-        return True, "fake"
+        return True, "stub"
 
 
 def doc(name, data, ack, external_id=None):
@@ -73,7 +73,7 @@ def demo_ctx(tmp_path):
 # ---- one bad document, the others stay ----
 
 def test_one_failing_document_does_not_take_the_others_with_it(demo_ctx, monkeypatch, caplog):
-    inbox = FakeInbox([doc("good1.pdf", bill_pdf(number="G-1"), "1"), doc("bad.pdf", bill_pdf(number="BAD-1", extra=["SECRET BILL TEXT"]), "2"), doc("good2.pdf", bill_pdf(number="G-2", total="250.00"), "3")])
+    inbox = StubInbox([doc("good1.pdf", bill_pdf(number="G-1"), "1"), doc("bad.pdf", bill_pdf(number="BAD-1", extra=["SECRET BILL TEXT"]), "2"), doc("good2.pdf", bill_pdf(number="G-2", total="250.00"), "3")])
     demo_ctx.adapters.inbox = inbox
     real = intake.process_document
 
@@ -100,7 +100,7 @@ def test_one_failing_document_does_not_take_the_others_with_it(demo_ctx, monkeyp
 
 
 def test_a_mailbox_message_stays_unread_when_its_document_cannot_even_be_stored(demo_ctx, monkeypatch):
-    inbox = FakeInbox([doc("a.pdf", bill_pdf(number="A-1"), "1"), doc("b.pdf", bill_pdf(number="B-1"), "2")])
+    inbox = StubInbox([doc("a.pdf", bill_pdf(number="A-1"), "1"), doc("b.pdf", bill_pdf(number="B-1"), "2")])
     demo_ctx.adapters.inbox = inbox
     real = intake.ingest
 
@@ -119,7 +119,7 @@ def test_a_mailbox_message_stays_unread_when_its_document_cannot_even_be_stored(
 
 def test_colliding_message_ids_and_names_never_make_a_reference_clash(demo_ctx):
     same = "<D1>:inv.pdf"
-    inbox = FakeInbox([doc("inv.pdf", bill_pdf(number="X-1"), "1", same), doc("inv.pdf", bill_pdf(number="X-2", total="55.00"), "2", same)])
+    inbox = StubInbox([doc("inv.pdf", bill_pdf(number="X-1"), "1", same), doc("inv.pdf", bill_pdf(number="X-2", total="55.00"), "2", same)])
     demo_ctx.adapters.inbox = inbox
     with demo_ctx.factory() as s:
         out = intake.run_intake(s, demo_ctx)
@@ -136,15 +136,15 @@ def test_the_stored_file_name_is_the_full_hash_so_two_files_never_share_one(demo
 
 # ---- nothing overflows a column ----
 
-def fake_extract(**fields):
+def stub_extract(**fields):
     def extract(session, ctx, d, data):
         f = {k: FieldValue(v, 90) for k, v in fields.items() if k != "lines"}
-        return Extraction("fake", True, f, fields.get("lines", []))
+        return Extraction("stub", True, f, fields.get("lines", []))
     return extract
 
 
 def test_huge_values_and_long_text_are_clamped_and_flagged(demo_ctx, monkeypatch):
-    monkeypatch.setattr(intake, "_extract", fake_extract(vendor="V" * 5000, number="N" * 500, currency="NOTACURRENCYCODE" * 20, po="P" * 400, bill_to="B" * 900, bank_account="A" * 300, issue_date="not a date",
+    monkeypatch.setattr(intake, "_extract", stub_extract(vendor="V" * 5000, number="N" * 500, currency="NOTACURRENCYCODE" * 20, po="P" * 400, bill_to="B" * 900, bank_account="A" * 300, issue_date="not a date",
                                                          subtotal_minor=10**25, tax_minor=0, total_minor=10**25, lines=[LineItem("L" * 900, 10**15, 10**25, 10**25)]))
     with demo_ctx.factory() as s:
         d = intake.ingest(s, demo_ctx, "x.pdf", bill_pdf(number="CLAMP-1"))
@@ -274,7 +274,7 @@ def imap_settings(srv, **kw):
 
 
 def test_reading_a_message_does_not_mark_it_read_and_a_poll_through_the_real_adapter_acknowledges_after_storing(demo_ctx):
-    with FakeMailServers() as srv:
+    with StubMailServers() as srv:
         srv.store.deliver(mail([("a.pdf", bill_pdf(number="MB-1"))]))
         srv.store.deliver(mail([("b.pdf", b"%PDF-1.4 broken \x00\x01")]))
         srv.store.deliver(b"From: x@y.test\r\nSubject: hello\r\n\r\nno attachment here\r\n")
@@ -289,7 +289,7 @@ def test_an_oversized_message_is_skipped_unread_into_memory(monkeypatch):
     from booklantern.adapters import imap
 
     monkeypatch.setattr(imap, "MAX_MESSAGE_BYTES", 500)
-    with FakeMailServers() as srv:
+    with StubMailServers() as srv:
         srv.store.deliver(mail([("a.pdf", bill_pdf())]))
         assert ImapInbox(imap_settings(srv)).fetch_documents() == [] and srv.store.inbox[0]["seen"] is False  # nothing was read from it, and it is left unread for a person (it used to be marked read)
 
@@ -298,7 +298,7 @@ def test_a_poll_takes_at_most_a_set_number_of_messages(monkeypatch):
     from booklantern.adapters import imap
 
     monkeypatch.setattr(imap, "MAX_MESSAGES_PER_POLL", 2)
-    with FakeMailServers() as srv:
+    with StubMailServers() as srv:
         for i in range(5):
             srv.store.deliver(mail([(f"{i}.pdf", bill_pdf(number=f"CAP-{i}"))]))
         assert len(ImapInbox(imap_settings(srv)).fetch_documents()) == 2
@@ -347,7 +347,7 @@ def test_mail_connections_pass_a_verifying_context(monkeypatch):
 def test_a_sent_reminder_carries_an_unsubscribe_header():
     from booklantern.config import Settings
 
-    with FakeMailServers() as srv:
+    with StubMailServers() as srv:
         s = imap_settings(srv, mode="live", reply_to="ar@riveraworks.test")
         SmtpSender(s).send(from_addr="accounts@riveraworks.test", to="c@customer.test", subject="Reminder", body="hello")
         import email as _email

@@ -31,5 +31,5 @@ Total (incl. GST)              $2,536.60
 Job ref: SLIP-0042   Vessel: MV Test Star
 ABN lookup date 2026-07-01
 
-Bank details: Fictional Test Bank Ltd
+Bank details: Sample Test Bank Ltd
 BSB 000-000  Account 00000001

@@ -3,11 +3,11 @@ from datetime import date, timedelta
 from booklantern import validation as V
 
 AS_OF = date(2026, 12, 1)
-VEND = V.VendorData(1, "Alderbank Packaging Ltd", "USD", 800, True, "FICT-0101-2201")
+VEND = V.VendorData(1, "Alderbank Packaging Ltd", "USD", 800, True, "SMPL-0101-2201")
 
 
 def bill(**kw):
-    base = dict(id=10, vendor_id=1, number="ALD-1", issue_date=AS_OF - timedelta(days=5), currency="USD", po="PO-1", bill_to="Birchfield Supply Co", bank_account="FICT-0101-2201",
+    base = dict(id=10, vendor_id=1, number="ALD-1", issue_date=AS_OF - timedelta(days=5), currency="USD", po="PO-1", bill_to="Birchfield Supply Co", bank_account="SMPL-0101-2201",
                 subtotal=10000, tax=800, total=10800, line_totals=[6000, 4000], tax_rate_bp=800)
     base.update(kw)
     return V.BillData(**base)
@@ -29,8 +29,8 @@ def test_each_math_check():
 
 
 def test_vendor_facts():
-    assert "bank_detail_changed" in kinds(bill(bank_account="FICT-9999-0000"))
-    assert kinds(bill(bank_account="fict 0101 2201")) == set()  # spacing and case do not matter
+    assert "bank_detail_changed" in kinds(bill(bank_account="SMPL-9999-0000"))
+    assert kinds(bill(bank_account="smpl 0101 2201")) == set()  # spacing and case do not matter
     assert "missing_po" in kinds(bill(po=""))
     assert "currency_mismatch" in kinds(bill(currency="EUR"))
     assert "future_date" in kinds(bill(issue_date=AS_OF + timedelta(days=9)))

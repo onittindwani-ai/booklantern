@@ -30,6 +30,6 @@ Tax Amount (in words): Indian Rupees Two Lakh Sixty Three Thousand Two Hundred a
 
 Declaration: We declare that this invoice shows the actual price of the goods described.
 
-Bank details: Fictional Test Bank of India
+Bank details: Sample Test Bank of India
 A/c No. 000000000001  IFSC TEST0000001
 This is a Computer Generated Invoice

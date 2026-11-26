@@ -31,5 +31,5 @@ GLV   Disposable gloves, box 100   12        5.20  20%   62.40
                                     INVOICE TOTAL      £308.88
 
 
-Bank details: Fictional Test Bank plc
+Bank details: Sample Test Bank plc
 Sort 00-00-00  Acc 00000123

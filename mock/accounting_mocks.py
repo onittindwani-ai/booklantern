@@ -1,4 +1,4 @@
-"""Fake Xero and Akaunting endpoints, written from memory of their public docs (UNVERIFIED: the doc pages could not be read when this was built)."""
+"""Mock Xero and Akaunting endpoints, written from memory of their public docs (UNVERIFIED: the doc pages could not be read when this was built)."""
 
 from __future__ import annotations
 

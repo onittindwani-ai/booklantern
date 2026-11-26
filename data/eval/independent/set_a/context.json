@@ -86,7 +86,7 @@
   "Zuiderzee Logistiek BV": {
    "default_currency": "EUR",
    "requires_po": false,
-   "iban_on_file": "IBAN NL00 FAKE 0000 0000 01",
+   "iban_on_file": "IBAN NL00 TEST 0000 0000 01",
    "typical_total_minor_range": [
     17151,
     453817
@@ -138,7 +138,7 @@
   "Northgate Packaging Ltd": {
    "default_currency": "GBP",
    "requires_po": true,
-   "iban_on_file": "Sort 00-00-00  Acc 00000011  IBAN GB00 FAKE 0000 0000 0011 00",
+   "iban_on_file": "Sort 00-00-00  Acc 00000011  IBAN GB00 TEST 0000 0000 0011 00",
    "typical_total_minor_range": [
     33534,
     102840
@@ -150,7 +150,7 @@
   "Marlow & Finch LLP": {
    "default_currency": "GBP",
    "requires_po": false,
-   "iban_on_file": "Sort 00-00-00  Acc 00000022  (client account, fictional)",
+   "iban_on_file": "Sort 00-00-00  Acc 00000022  (client account, sample)",
    "typical_total_minor_range": [
     52650,
     241750
@@ -212,7 +212,7 @@
   "Tallis Fuel Services": {
    "default_currency": "EUR",
    "requires_po": false,
-   "iban_on_file": "IBAN IE00 FAKE 0000 0000 0001 01",
+   "iban_on_file": "IBAN IE00 TEST 0000 0000 0001 01",
    "typical_total_minor_range": [
     35047,
     190497

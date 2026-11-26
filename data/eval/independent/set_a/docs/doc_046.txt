@@ -29,6 +29,6 @@ Bon de livraison n° BL-55021 du 24 septembre 2026
 Pénalité de retard : 3 fois le taux d'intérêt légal
 
 ----------------------------------------------------------------------
-Coordonnées bancaires: Banque Fictive SA
+Coordonnées bancaires: Banque Exemple SA
 IBAN FR00 0000 0000 0000 0000 0000 001
 N° TVA FR00 000000001  |  SIRET 000 000 001 00012

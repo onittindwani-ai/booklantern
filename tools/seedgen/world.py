@@ -1,4 +1,4 @@
-"""The fictional world: vendors, customers, invoices, payments, bank lines. Deterministic. Everything is made up."""
+"""The sample world: vendors, customers, invoices, payments, bank lines. Deterministic. Everything is sample data."""
 
 from __future__ import annotations
 
@@ -8,7 +8,7 @@ from datetime import date, timedelta
 
 from booklantern.money import line_total, mul_bp
 
-FX_EUR_USD_BP = 10800  # a fictional fixed rate: 1 EUR = 1.0800 USD, used by the seed and by the matcher setting
+FX_EUR_USD_BP = 10800  # a sample fixed rate: 1 EUR = 1.0800 USD, used by the seed and by the matcher setting
 
 AS_OF = date(2026, 12, 1)
 BANK_START = date(2025, 12, 1)
@@ -29,14 +29,14 @@ class VendorDef:
 
 
 VENDORS = [
-    VendorDef("V01", "Alderbank Packaging Ltd", "14 Mill Lane, Fakeford", "USD", 800, False, "FICT-0101-2201", 30, [("Carton 12x12", 240, 400000), ("Pallet wrap roll", 1895, 6000), ("Bubble sleeve", 65, 900000)]),
-    VendorDef("V02", "Brightwater Freight Services", "2 Dock Road, Fakeport", "USD", 0, False, "FICT-0102-2202", 14, [("Pallet delivery", 18500, 4000), ("Fuel surcharge", 2400, 4000), ("Storage per pallet week", 850, 12000)]),
-    VendorDef("V03", "Cobalt Office Supply", "77 Park Row, Fakeford", "USD", 700, True, "FICT-0103-2203", 30, [("Copy paper case", 3850, 6000), ("Toner cartridge", 11900, 2000), ("Desk organiser", 1450, 5000)]),
-    VendorDef("V04", "Dunmore Industrial Parts", "9 Forge Street, Fakeham", "USD", 800, True, "FICT-0104-2204", 45, [("Hex bolt box of 100", 1250, 20000), ("Bearing 6204", 940, 30000), ("Hydraulic hose 2m", 3600, 8000)]),
-    VendorDef("V05", "Eastgate Cleaning Co", "31 East Gate, Fakeford", "USD", 0, False, "FICT-0105-2205", 15, [("Weekly office clean", 28000, 4000), ("Window clean", 9500, 1000)]),
-    VendorDef("V06", "Fernhill IT Support", "5 Fern Hill, Fakeham", "USD", 1000, False, "FICT-0106-2206", 30, [("Support hours", 9500, 9000), ("Remote monitoring licence", 4900, 5000)]),
-    VendorDef("V07", "Gablemere Print Studio", "Gablemere Weg 3, Fakestadt", "EUR", 1900, False, "FICT-0107-2207", 30, [("Flyer print run of 500", 7200, 4000), ("Roll up banner", 14500, 2000)]),
-    VendorDef("V08", "Hollin Insurance Brokers", "100 Cover Street, Fakeford", "USD", 0, False, "FICT-0108-2208", 30, [("Premium instalment", 42000, 1000), ("Admin fee", 1500, 1000)]),
+    VendorDef("V01", "Alderbank Packaging Ltd", "14 Mill Lane, Sampleford", "USD", 800, False, "SMPL-0101-2201", 30, [("Carton 12x12", 240, 400000), ("Pallet wrap roll", 1895, 6000), ("Bubble sleeve", 65, 900000)]),
+    VendorDef("V02", "Brightwater Freight Services", "2 Dock Road, Sampleport", "USD", 0, False, "SMPL-0102-2202", 14, [("Pallet delivery", 18500, 4000), ("Fuel surcharge", 2400, 4000), ("Storage per pallet week", 850, 12000)]),
+    VendorDef("V03", "Cobalt Office Supply", "77 Park Row, Sampleford", "USD", 700, True, "SMPL-0103-2203", 30, [("Copy paper case", 3850, 6000), ("Toner cartridge", 11900, 2000), ("Desk organiser", 1450, 5000)]),
+    VendorDef("V04", "Dunmore Industrial Parts", "9 Forge Street, Sampleham", "USD", 800, True, "SMPL-0104-2204", 45, [("Hex bolt box of 100", 1250, 20000), ("Bearing 6204", 940, 30000), ("Hydraulic hose 2m", 3600, 8000)]),
+    VendorDef("V05", "Eastgate Cleaning Co", "31 East Gate, Sampleford", "USD", 0, False, "SMPL-0105-2205", 15, [("Weekly office clean", 28000, 4000), ("Window clean", 9500, 1000)]),
+    VendorDef("V06", "Fernhill IT Support", "5 Fern Hill, Sampleham", "USD", 1000, False, "SMPL-0106-2206", 30, [("Support hours", 9500, 9000), ("Remote monitoring licence", 4900, 5000)]),
+    VendorDef("V07", "Gablemere Print Studio", "Gablemere Weg 3, Samplestadt", "EUR", 1900, False, "SMPL-0107-2207", 30, [("Flyer print run of 500", 7200, 4000), ("Roll up banner", 14500, 2000)]),
+    VendorDef("V08", "Hollin Insurance Brokers", "100 Cover Street, Sampleford", "USD", 0, False, "SMPL-0108-2208", 30, [("Premium instalment", 42000, 1000), ("Admin fee", 1500, 1000)]),
 ]
 
 
@@ -208,7 +208,7 @@ def _bank(w: World, cust: dict) -> None:
         v = vm[b["vendor"]]
         if b["paid_on"] >= AS_OF.isoformat():
             continue
-        amt = b["total_minor"] if v.currency == "USD" else mul_bp(b["total_minor"], FX_EUR_USD_BP)  # EUR bills are paid in dollars at a fixed fictional rate
+        amt = b["total_minor"] if v.currency == "USD" else mul_bp(b["total_minor"], FX_EUR_USD_BP)  # EUR bills are paid in dollars at a fixed sample rate
         tail = f" {b['number']}" if k % 3 else ""
         add(b["paid_on"], f"ACH DEBIT {v.name.upper()}{tail}", -amt, "bill", [{"type": "bill", "number": b["number"], "amount_minor": amt}])
     # recurring

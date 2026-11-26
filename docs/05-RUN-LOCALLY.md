@@ -17,7 +17,7 @@ Windows: use WSL 2 with Ubuntu and work inside it. PowerShell and cmd are not su
 
 ## Database
 
-- **SQLite** (default): tables are created on start. In demo mode (and only with no `OWNER_PASSWORD_HASH`) the made up company is loaded when the database is empty. A database that already holds data is never reloaded or erased on start.
+- **SQLite** (default): tables are created on start. In demo mode (and only with no `OWNER_PASSWORD_HASH`) the sample company is loaded when the database is empty. A database that already holds data is never reloaded or erased on start.
 - **Postgres**: set `DATABASE_URL=postgresql+psycopg://user:pass@host:5432/dbname`, then `cd apps/api && ../../.venv/bin/alembic upgrade head`. Alembic reads `DATABASE_URL` from the environment or from `.env` (or the file named by `ENV_FILE`, relative to the folder you run it in: `ENV_FILE=../../.env`) and stops with a message when it finds none. Do this on every update.
 
 ## Two programs, then the web app

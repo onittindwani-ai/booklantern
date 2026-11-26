@@ -34,5 +34,5 @@ Settlement discount: pay by 24/10/2026 to deduct 2%.
 Delivery ticket 0071882   Driver: test
 Weight 4,120 kg
 
-Bank details: Fictional Test Bank plc
+Bank details: Sample Test Bank plc
 Sort 00-00-00  Acc 00000044

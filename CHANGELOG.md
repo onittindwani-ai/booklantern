@@ -1,10 +1,14 @@
 # Changelog
 
+## 1.0.2 (2026-11-27)
+
+Documentation and demo label updates.
+
 ## 1.0.1 (2026-11-25)
 
 A hardening release: the fixes of a second, stricter self review, in plain words.
 
-- Demo and real installs: the public demo password, the example approver and viewer logins, the demo buttons, the made up demo date and the loading of sample data now work only when `DEMO_MODE=true` and no `OWNER_PASSWORD_HASH` is set. A restart can no longer erase or reload a database that holds data. The example `.env` now says `DEMO_MODE=false`.
+- Demo and real installs: the public demo password, the example approver and viewer logins, the demo buttons, the sample demo date and the loading of sample data now work only when `DEMO_MODE=true` and no `OWNER_PASSWORD_HASH` is set. A restart can no longer erase or reload a database that holds data. The example `.env` now says `DEMO_MODE=false`.
 - A real install is usable from nothing: vendors (with the bank account on file), customers, open invoices, bank accounts, the chart of accounts and repeating items can be added through new owner only API routes, CSV imports and `tools/load_data.py`. Business name, address, reply address, currency and time zone are settings (`COMPANY_NAME`, `COMPANY_ADDRESS`, `REPLY_TO`, `BASE_CURRENCY`, `DEFAULT_TIMEZONE`); the placeholder company name keeps a live install from starting.
 - Reminders carry your name, your postal address, a plain way to stop them and an unsubscribe header. A placeholder payment link is never stored or sent.
 - Bill intake: one damaged or hostile attachment no longer loses the other bills in the same mailbox poll (each document is saved on its own, a mail is marked read only after saving, failures are logged without bill text). Mail is read without marking it read, and size and message count limits apply.

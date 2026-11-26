@@ -1,4 +1,4 @@
-"""The description of one synthetic bill. Everything in it is fictional."""
+"""The description of one synthetic bill. Everything in it is sample data."""
 
 from __future__ import annotations
 
@@ -9,7 +9,7 @@ from booklantern.money import format_minor
 
 COMPANY = "Birchfield Supply Co"
 OTHER_COMPANY = "Larkspur Trading Ltd"
-FOOTER = "Synthetic sample document. Fictional company, not a real invoice."
+FOOTER = "Synthetic sample document. Sample company, not a real invoice."
 
 
 @dataclass

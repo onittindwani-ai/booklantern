@@ -255,7 +255,7 @@
      "id": "gmail_imap",
      "name": "Gmail over IMAP",
      "kind": "paid",
-     "supported_in_booklantern": "Adapter tested against a fake IMAP server",
+     "supported_in_booklantern": "Adapter tested against a mock IMAP server",
      "run": "not run against Gmail",
      "sources": [
       {
@@ -286,7 +286,7 @@
       },
       "integration": {
        "score": 70,
-       "evidence": "Tested against a local fake server for unread, attachments, marking seen after the bills are saved, and leaving mail without a bill unread."
+       "evidence": "Tested against a local mock server for unread, attachments, marking seen after the bills are saved, and leaving mail without a bill unread."
       }
      }
     },

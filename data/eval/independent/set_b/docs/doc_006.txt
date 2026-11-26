@@ -28,5 +28,5 @@ GST 10%                           $20.32
 Total (incl. GST)                $223.52
 
 
-Bank details: Fictional Test Bank Ltd
+Bank details: Sample Test Bank Ltd
 BSB 000-000  Account 00000001

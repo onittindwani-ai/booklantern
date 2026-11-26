@@ -69,11 +69,11 @@ def flag_missing(session: Session, ctx) -> int:
 
 
 def load_seed_rates(session: Session, seed: dict, now) -> int:
-    """The demo seed ships one fictional rate per currency, dated at the start of the data so every seeded line can be converted."""
+    """The demo seed ships one sample rate per currency, dated at the start of the data so every seeded line can be converted."""
     start = date.fromisoformat(seed["bank_account"]["opening_date"])
     n = 0
     for cur, bp in seed.get("fx_rates_bp", {}).items():
-        session.add(FxRate(currency=cur, rate_date=start, rate=format((Decimal(bp) / Decimal(10_000)).quantize(Decimal("0.0001")), "f"), note="Demo rate, fictional", entered_by="seed", created_at=now))
+        session.add(FxRate(currency=cur, rate_date=start, rate=format((Decimal(bp) / Decimal(10_000)).quantize(Decimal("0.0001")), "f"), note="Demo rate, sample", entered_by="seed", created_at=now))
         n += 1
     session.flush()
     return n

@@ -1,6 +1,6 @@
 """Write the synthetic seed: PDFs, the bank file, the receivables, and the answer key with every planted problem.
 
-Run: python tools/make_seed.py   (deterministic, safe to run again). Everything in the output is fictional.
+Run: python tools/make_seed.py   (deterministic, safe to run again). Everything in the output is sample data.
 """
 
 from __future__ import annotations
@@ -87,7 +87,7 @@ def make_dev(world) -> list[DocSpec]:
         elif k in (25, 26):
             s.lines[0].total_minor += 5000 if k == 25 else 1800; s.problems = ["line_sum_mismatch"]
         elif k in (27, 28):
-            s.account = f"FICT-9{k}-7788"; s.problems = ["bank_change"]
+            s.account = f"SMPL-9{k}-7788"; s.problems = ["bank_change"]
         elif k in (29, 30):
             for ln in s.lines:
                 ln.qty_milli = max(ln.qty_milli, 1000) * 8; ln.total_minor = line_total(ln.qty_milli, ln.unit_minor)
@@ -172,19 +172,19 @@ def main() -> None:
     write_pdfs(dev, DEV_LAYOUTS, DATA / "documents")
     write_pdfs(held, HELDOUT_LAYOUTS, DATA / "heldout" / "documents")
     total_flow = sum(t["amount_minor"] for t in w.bank)
-    closing_target = 3_200_000  # a fictional balance chosen so the 13 week forecast has a visible low point
+    closing_target = 3_200_000  # a sample balance chosen so the 13 week forecast has a visible low point
     opening = closing_target - total_flow
     seed = {
-        "fictional": True, "company": {"name": COMPANY, "currency": "USD"}, "as_of": AS_OF.isoformat(),
+        "sample_data": True, "company": {"name": COMPANY, "currency": "USD"}, "as_of": AS_OF.isoformat(),
         "vendors": [{"key": v.key, "name": v.name, "addr": v.addr, "currency": v.currency, "tax_bp": v.tax_bp, "requires_po": v.requires_po, "account": v.account, "terms_days": v.terms_days} for v in VENDORS],
         "customers": [c.__dict__ for c in CUSTOMERS], "invoices": w.invoices, "bills_hist": w.bills_hist,
-        "bank_account": {"name": "Operating account (fictional)", "opening_minor": opening, "opening_date": "2025-12-01"},
+        "bank_account": {"name": "Operating account (sample)", "opening_minor": opening, "opening_date": "2025-12-01"},
         "fx_rates_bp": {"EUR": FX_EUR_USD_BP}, "bank_csv": "bank_statement.csv", "recurring": w.recurring, "promises": w.promises, "reminders": reminder_history(w),
         "documents": [{"id": s.doc_id, "file": f"documents/{s.doc_id}.pdf", "source": "inbox" if int(s.doc_id[1:]) % 3 else "upload",
                        "from": f"billing@{s.vendor.split()[0].lower()}.example.test", "subject": f"Invoice {s.number}"} for s in dev],
     }
     key = {
-        "fictional": True,
+        "sample_data": True,
         "documents": {s.doc_id: {"file": f"documents/{s.doc_id}.pdf", "layout": s.layout, "scan": s.layout == "S", "fields": s.truth(), "problems": s.problems, "duplicate_of": s.duplicate_of} for s in dev},
         "heldout": {s.doc_id: {"file": f"heldout/documents/{s.doc_id}.pdf", "layout": s.layout, "fields": s.truth()} for s in held},
         "reconciliation": w.key,

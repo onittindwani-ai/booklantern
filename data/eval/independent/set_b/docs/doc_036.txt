@@ -33,5 +33,5 @@ FOIL   Catering foil 450mm x 75m      8       13.90  20%  111.20
                                      INVOICE TOTAL       £643.44
 
 
-Bank details: Fictional Test Bank plc
+Bank details: Sample Test Bank plc
 Sort 00-00-00  Acc 00000088

@@ -12,7 +12,7 @@ from booklantern.adapters.quickbooks import QuickBooksAccounting
 from booklantern.config import Settings
 from booklantern.registry import build_adapters, build_registry
 from mock.accounting_mocks import AkauntingMock, XeroMock
-from mock.mail_servers import FakeMailServers
+from mock.mail_servers import StubMailServers
 from mock.qbo_mock import QboMock
 from mock.stripe_mock import StripeMock
 from sendora_core.adapters import AdapterError
@@ -84,7 +84,7 @@ def test_xero_and_akaunting_read_and_write_only_when_allowed():
     ka = AkauntingAccounting(ks, client=TestClient(k.app, base_url="https://a.example.test"))
     assert ka.healthcheck()[0]
     with pytest.raises(AdapterError):
-        ka.create_draft_bill(BILL)  # the mock needs a contact id, and the adapter does not invent one: it shows the error
+        ka.create_draft_bill(BILL)  # the mock needs a contact id, and the adapter does not create one: it shows the error
 
 
 def test_csv_adapter_round_trip(tmp_path):
@@ -111,11 +111,11 @@ def test_stripe_payment_link_and_draft_guard():
 
 
 def test_imap_inbox_takes_pdf_attachments_only_and_smtp_sends():
-    with FakeMailServers() as srv:
+    with StubMailServers() as srv:
         m = EmailMessage()
         m["From"], m["To"], m["Subject"] = "billing@vendor.example.test", "ap@us.example.test", "Invoice 1"
         m.set_content("see attached")
-        m.add_attachment(b"%PDF-1.4 fake", maintype="application", subtype="pdf", filename="inv.pdf")
+        m.add_attachment(b"%PDF-1.4 stub", maintype="application", subtype="pdf", filename="inv.pdf")
         m.add_attachment(b"MZ", maintype="application", subtype="octet-stream", filename="run.exe")
         srv.store.deliver(m.as_bytes())
         s = S(imap_host=srv.host, imap_port=srv.imap_port, imap_use_ssl=False, smtp_user="demo", smtp_password="demo-password", smtp_host=srv.host, smtp_port=srv.smtp_port, smtp_use_tls=False, mode=Mode.LIVE)

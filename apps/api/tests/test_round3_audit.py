@@ -34,7 +34,7 @@ def _kinds(s, bill_id, status="open"):
 def _world(client, seeded):
     """A vendor with an account on file and a clean earlier bill from it, in the app's own database."""
     with seeded.factory() as s:
-        v = setup_data.create_vendor(s, seeded.settings, "owner", name="Hollis Print Co", bank_account="FICT-5555-0000")
+        v = setup_data.create_vendor(s, seeded.settings, "owner", name="Hollis Print Co", bank_account="SMPL-5555-0000")
         first = _bill(s, seeded, v, "HP-0042")
         s.commit()
         return v.id, first.id
@@ -57,7 +57,7 @@ def test_an_approver_who_edits_the_blocking_finding_away_cannot_approve_alone(cl
         bid = b.id
         s.commit()
     ap = approver(client)
-    fix = {"wrong_company": {"bill_to": seeded.settings.company_name}, "bank_details_not_read": {"bank_account": "FICT-5555-0000"}, "duplicate": {"number": "HP-0042X", "total_minor": 5000}}[path]
+    fix = {"wrong_company": {"bill_to": seeded.settings.company_name}, "bank_details_not_read": {"bank_account": "SMPL-5555-0000"}, "duplicate": {"number": "HP-0042X", "total_minor": 5000}}[path]
     assert client.patch(f"/api/bills/{bid}", json=fix, headers=ap).status_code == 200
     d = client.get(f"/api/bills/{bid}", headers=ap).json()
     assert d["had_block"] is True
@@ -115,9 +115,9 @@ def test_the_flag_is_kept_by_the_database_and_old_files_get_it(tmp_path):
 
 def test_a_lookalike_vendor_with_a_copied_bill_and_its_own_account_is_blocked_twice(ctx):
     with ctx.factory() as s:
-        v = setup_data.create_vendor(s, ctx.settings, "owner", name="Cobalt Office Supply", bank_account="FICT-7777-1111")
+        v = setup_data.create_vendor(s, ctx.settings, "owner", name="Cobalt Office Supply", bank_account="SMPL-7777-1111")
         real = _bill(s, ctx, v, "COB-5521", total=250_000)
-        copy = _bill(s, ctx, None, "COB-5521", total=250_000, bank="FICT-6666-9999")
+        copy = _bill(s, ctx, None, "COB-5521", total=250_000, bank="SMPL-6666-9999")
         found = _kinds(s, copy.id)
         assert found.get("duplicate_exact") == "block"  # the same number and total, whatever the vendor is called
         assert found.get("unknown_vendor") == "block"  # an unknown vendor that asks to be paid into an account
@@ -132,8 +132,8 @@ def test_an_unknown_vendor_without_bank_details_is_still_only_a_warning(ctx):
 
 def test_two_bills_from_different_listed_vendors_with_the_same_number_are_not_duplicates(ctx):
     with ctx.factory() as s:
-        a = setup_data.create_vendor(s, ctx.settings, "owner", name="Alpha Tools", bank_account="FICT-1")
-        b = setup_data.create_vendor(s, ctx.settings, "owner", name="Beta Tools", bank_account="FICT-2")
+        a = setup_data.create_vendor(s, ctx.settings, "owner", name="Alpha Tools", bank_account="SMPL-1")
+        b = setup_data.create_vendor(s, ctx.settings, "owner", name="Beta Tools", bank_account="SMPL-2")
         _bill(s, ctx, a, "INV-1", total=1000)
         second = _bill(s, ctx, b, "INV-1", total=1000)
         assert "duplicate_exact" not in _kinds(s, second.id)
@@ -141,7 +141,7 @@ def test_two_bills_from_different_listed_vendors_with_the_same_number_are_not_du
 
 def test_a_number_changed_by_a_character_on_the_same_total_blocks(ctx):
     with ctx.factory() as s:
-        v = setup_data.create_vendor(s, ctx.settings, "owner", name="Hollis Print Co", bank_account="FICT-5555-0000")
+        v = setup_data.create_vendor(s, ctx.settings, "owner", name="Hollis Print Co", bank_account="SMPL-5555-0000")
         _bill(s, ctx, v, "HP-0042")
         again = _bill(s, ctx, v, "HP-0042X")
         assert _kinds(s, again.id)["duplicate_near"] == "block"
@@ -242,15 +242,15 @@ def _mail(sender, subject, body, attach=False):
     m["From"], m["To"], m["Subject"] = sender, "ap@us.example.test", subject
     m.set_content(body)
     if attach:
-        m.add_attachment(b"%PDF-1.4 fake", maintype="application", subtype="pdf", filename="inv.pdf")
+        m.add_attachment(b"%PDF-1.4 stub", maintype="application", subtype="pdf", filename="inv.pdf")
     return m.as_bytes()
 
 
 def test_mail_with_no_bill_stays_unread_and_is_handed_over_once():
     from booklantern.adapters.imap import ImapInbox
-    from mock.mail_servers import FakeMailServers
+    from mock.mail_servers import StubMailServers
 
-    with FakeMailServers() as srv:
+    with StubMailServers() as srv:
         srv.store.deliver(_mail("cust@marlowe.example.test", "Re: Reminder", "Please stop sending these reminders."))
         srv.store.deliver(_mail("vendor@x.example.test", "Invoice", "attached", attach=True))
         box = ImapInbox(_imap_settings(srv))
@@ -266,9 +266,9 @@ def test_mail_with_no_bill_stays_unread_and_is_handed_over_once():
 
 def test_a_stop_reply_from_a_customer_shows_up_as_an_exception_for_a_person(tmp_path):
     from booklantern.adapters.imap import ImapInbox
-    from mock.mail_servers import FakeMailServers
+    from mock.mail_servers import StubMailServers
 
-    with FakeMailServers() as srv:
+    with StubMailServers() as srv:
         c = make_ctx(tmp_path)
         c.adapters.inbox = ImapInbox(_imap_settings(srv))
         with c.factory() as s:
@@ -442,9 +442,9 @@ def _status(c, rid):
 
 
 def test_a_connection_that_drops_after_the_text_was_handed_over_is_never_sent_again(tmp_path, noon):
-    from mock.mail_servers import FakeMailServers
+    from mock.mail_servers import StubMailServers
 
-    with FakeMailServers() as srv:
+    with StubMailServers() as srv:
         srv.store.drop_after_data = True  # the server keeps the mail and the line goes dead before it answers
         c, rid = _reminder_world(tmp_path, srv)
         assert _send(c)["unconfirmed"] == 1
@@ -458,9 +458,9 @@ def test_a_connection_that_drops_after_the_text_was_handed_over_is_never_sent_ag
 
 
 def test_a_failure_while_saying_goodbye_after_the_server_accepted_the_mail_still_counts_as_sent(tmp_path, noon):
-    from mock.mail_servers import FakeMailServers
+    from mock.mail_servers import StubMailServers
 
-    with FakeMailServers() as srv:
+    with StubMailServers() as srv:
         srv.store.quit_reply = "500 go away"
         c, rid = _reminder_world(tmp_path, srv)
         assert _send(c)["sent"] == 1
@@ -468,9 +468,9 @@ def test_a_failure_while_saying_goodbye_after_the_server_accepted_the_mail_still
 
 
 def test_a_refused_address_is_one_try_not_a_retry_loop(tmp_path, noon):
-    from mock.mail_servers import FakeMailServers
+    from mock.mail_servers import StubMailServers
 
-    with FakeMailServers() as srv:
+    with StubMailServers() as srv:
         srv.store.rcpt_reply = "550 no such user"
         c, rid = _reminder_world(tmp_path, srv)
         assert _send(c)["cancelled"] == 1
@@ -482,9 +482,9 @@ def test_a_refused_address_is_one_try_not_a_retry_loop(tmp_path, noon):
 
 
 def test_a_server_that_keeps_failing_is_given_up_on_after_five_tries(tmp_path, noon):
-    from mock.mail_servers import FakeMailServers
+    from mock.mail_servers import StubMailServers
 
-    with FakeMailServers() as srv:
+    with StubMailServers() as srv:
         srv.store.rcpt_reply = "450 mailbox busy"  # a temporary refusal: fine to try again
         c, rid = _reminder_world(tmp_path, srv)
         for _ in range(4):
@@ -518,7 +518,7 @@ def _approved(tmp_path, adapter):
     c = make_ctx(tmp_path, mode=Mode.LIVE, accounting_write=True)
     c.adapters.accounting = adapter
     with c.factory() as s:
-        v = setup_data.create_vendor(s, c.settings, "owner", name="Hollis Print Co", bank_account="FICT-1")
+        v = setup_data.create_vendor(s, c.settings, "owner", name="Hollis Print Co", bank_account="SMPL-1")
         b = _bill(s, c, v, "HP-1", status="approved")
         s.commit()
         return c, b.id
@@ -580,7 +580,7 @@ def test_a_refused_connection_never_sent_anything_so_it_is_not_unclear(tmp_path)
 
 def test_the_post_outcome_route_needs_a_real_reason(client, seeded):  # noqa: F811
     with seeded.factory() as s:
-        v = setup_data.create_vendor(s, seeded.settings, "owner", name="Hollis Print Co", bank_account="FICT-1")
+        v = setup_data.create_vendor(s, seeded.settings, "owner", name="Hollis Print Co", bank_account="SMPL-1")
         b = _bill(s, seeded, v, "HP-1", status="posting")
         from booklantern.exceptions import raise_exception
         raise_exception(s, posting.UNKNOWN_POST, "block", "bill", b.id, "unclear")
@@ -609,7 +609,7 @@ def test_a_bill_that_changed_after_the_page_loaded_it_is_not_approved_unseen(cli
 def test_a_vendors_changed_account_sends_an_approved_bill_back_to_review(client, seeded):  # noqa: F811
     vid, first = _world(client, seeded)
     assert client.post(f"/api/bills/{first}/approve", json={"note": ""}).status_code == 200
-    r = client.patch(f"/api/vendors/{vid}", json={"bank_account": "FICT-9999-9999"})
+    r = client.patch(f"/api/vendors/{vid}", json={"bank_account": "SMPL-9999-9999"})
     assert r.status_code == 200 and r.json()["sent_back_for_review"] == [first]
     d = client.get(f"/api/bills/{first}").json()
     assert d["status"] == "needs_review" and any(e["kind"] == "bank_detail_changed" and e["status"] == "open" for e in d["exceptions"])

@@ -26,5 +26,5 @@ Premium support plan                   1       100.00   100.00
 Approximate GBP equivalent GBP 764.40 at rate 0.7800 (information only)
 Approximate EUR equivalent EUR 899.60 at rate 0.9180 (information only)
 
-Bank details: Fictional Test Bank NA
+Bank details: Sample Test Bank NA
 Routing 000000000  Account 000012345678

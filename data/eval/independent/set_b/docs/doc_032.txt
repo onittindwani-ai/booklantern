@@ -30,5 +30,5 @@ NAP2   Paper napkins 2 ply, case 2000    3       21.00  20%   63.00
                                          INVOICE TOTAL      £223.10
 
 
-Bank details: Fictional Test Bank plc
+Bank details: Sample Test Bank plc
 Sort 00-00-00  Acc 00000088

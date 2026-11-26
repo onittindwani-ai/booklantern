@@ -25,5 +25,5 @@ PT-4866B  Packing tape 48mm x 66m, brown          48 roll        1.05   50.40
 Notes:
 Customer reference: HOS-WH-04
 
-Bank details: Fictional Test Bank plc
-Sort 00-00-00  Acc 00000099  IBAN GB00 FAKE 0000 0000 0099 00
+Bank details: Sample Test Bank plc
+Sort 00-00-00  Acc 00000099  IBAN GB00 TEST 0000 0000 0099 00

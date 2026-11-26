@@ -17,7 +17,7 @@ class SeedAccounting:
 
     def list_open_invoices(self) -> list[RemoteInvoice]:
         if not self.settings.demo_mode:
-            return []  # the offline stand in holds fictional invoices: a real install never sees them
+            return []  # the offline stand in holds sample invoices: a real install never sees them
         seed = json.loads((data_dir(self.settings.seed_dir) / "seed.json").read_text())
         names = {c["key"]: c["name"] for c in seed["customers"]}
         return [RemoteInvoice(i["number"], names[i["customer"]], i["total_minor"], i["total_minor"] - i["paid_minor"], i["due"]) for i in seed["invoices"] if i["status"] == "open"]
@@ -49,7 +49,7 @@ class SeedInbox:
 
     def fetch_documents(self) -> list[InboundDocument]:
         if not self.settings.demo_mode:
-            return []  # the offline mailbox holds fictional bills: a real install that left INBOX_ADAPTER=seed must never load them
+            return []  # the offline mailbox holds sample bills: a real install that left INBOX_ADAPTER=seed must never load them
         root = data_dir(self.settings.seed_dir)
         seed = json.loads((root / "seed.json").read_text())
         out = []

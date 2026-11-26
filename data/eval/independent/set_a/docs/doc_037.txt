@@ -23,5 +23,5 @@ Handling in/uit, 12 pallets                12   6,25   75,00
                                          TOTAL      € 228,69
 
 
-Bankgegevens: Fictieve Testbank NV
-IBAN NL00 FAKE 0000 0000 01
+Bankgegevens: Voorbeeld Testbank NV
+IBAN NL00 TEST 0000 0000 01

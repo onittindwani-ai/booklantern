@@ -20,7 +20,7 @@ A finance back office for one small business, set up by an implementer. It reads
 
 ## Try it
 
-Follow [docs/01-QUICK-DEMO.md](docs/01-QUICK-DEMO.md). Everything in the demo is fictional and nothing leaves your computer.
+Follow [docs/01-QUICK-DEMO.md](docs/01-QUICK-DEMO.md). Everything in the demo is sample data and nothing leaves your computer.
 
 ## Use it for a client
 
@@ -34,11 +34,11 @@ Numbers come from `data/counts.json`.
 - <!--n:e2e.tests-->41<!--/n--> browser tests in Chrome: the whole demo path, accessibility scans of all <!--n:pages-->11<!--/n--> pages in light and dark with 0 serious or critical problems, keyboard use, reduced motion, 5,000 bank lines, no layout shift, no console errors, and pictures of 12 named states (including a button mid action, a toast with undo, an empty list and a failed load) at desktop and phone width.
 - Property tests: the forecast, money rounding and currency conversion, and the reminder stop rules on 400 random worlds of 90 days.
 - The seed check (`python tools/score_seed.py`): 25 of 25 planted document problems found with 0 extra flags, and 184 of 184 bank lines matched as the answer key says. The same author wrote the data and the checks, so these are not independent scores.
-- **The reader is weak on new layouts.** The offline reader is rules, not a language model. On the documents it was built against it got every field right. On our own earlier test (<!--n:heldout_documents-->24<!--/n--> documents) it got 37.8 percent. On 105 bills written by other people who never saw the code, the first run of the current reader got 75.2 percent of fields right on the second set (5 of 48 documents with every field right). See [docs/EXTRACTION-EVAL.md](docs/EXTRACTION-EVAL.md).
+- **The reader is weak on new layouts.** The offline reader is rules, not a language model. On the documents it was built against it got every field right. On our own earlier test (<!--n:heldout_documents-->24<!--/n--> documents) it got 37.8 percent. On 105 bills written by separate AI test authors who never saw the code, the first run of the current reader got 75.2 percent of fields right on the second set (5 of 48 documents with every field right). See [docs/EXTRACTION-EVAL.md](docs/EXTRACTION-EVAL.md).
 
 ## Honest limits
 
-The accounting, payment and mailbox connections were tested only against stand in servers we wrote and never against the real services. The model path (a language model reads bills and words text, code checks it) was run only against a local fake server, never with a real key. Contract tests (6) check the adapters against saved excerpts of public docs, but QuickBooks bill and invoice paths could not be fetched and stay unverified. The GitHub CI workflow builds the Docker images and starts the stack, but the Vercel, Railway and Hetzner guides were never deployed to a real host. Read [docs/14-LIMITS-AND-HONEST-NOTES.md](docs/14-LIMITS-AND-HONEST-NOTES.md) before you promise a client anything.
+The accounting, payment and mailbox connections were tested only against stand in servers we wrote and never against the real services. The model path (a language model reads bills and words text, code checks it) was run only against a local mock server, never with a real key. Contract tests (6) check the adapters against saved excerpts of public docs, but QuickBooks bill and invoice paths could not be fetched and stay unverified. The GitHub CI workflow builds the Docker images and starts the stack, but the Vercel, Railway and Hetzner guides were never deployed to a real host. Read [docs/14-LIMITS-AND-HONEST-NOTES.md](docs/14-LIMITS-AND-HONEST-NOTES.md) before you promise a client anything.
 
 ## Safe by default
 

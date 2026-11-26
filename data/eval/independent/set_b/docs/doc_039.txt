@@ -26,5 +26,5 @@ Tax 0%                          EUR 0.00
 Total (USD)                 EUR 1,953.00
 
 
-Bank details: Fictional Test Bank (HK) Ltd
+Bank details: Sample Test Bank (HK) Ltd
 Acct 000-000001-001

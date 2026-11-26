@@ -25,5 +25,5 @@ Brandstoftoeslag                                     1     94,40     94,40
 BTW-nr afnemer: IE0000001A
 BTW verlegd: de afnemer is de BTW verschuldigd.
 
-Bankgegevens: Fictieve Testbank NV
-IBAN NL00 FAKE 0000 0000 01
+Bankgegevens: Voorbeeld Testbank NV
+IBAN NL00 TEST 0000 0000 01

@@ -28,5 +28,5 @@ Taxa        Base        IVA       Total
 Condições de pagamento: Pagamento a 30 dias
 Vencimento: 2026-12-10
 
-Dados bancários: Banco Fictício SA
+Dados bancários: Banco Exemplo SA
 IBAN PT50 0000 0000 0000 0000 0000 1

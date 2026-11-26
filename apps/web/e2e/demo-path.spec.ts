@@ -80,7 +80,7 @@ test.describe.serial("demo path", () => {
     await expect(page.getByRole("list", { name: "Open items" })).toBeVisible();
     await page.getByRole("button", { name: /^Link to / }).first().click();
     await expect(page.getByText("Linked.").first()).toBeVisible();
-    await page.setInputFiles('input[type="file"]', { name: "extra.csv", mimeType: "text/csv", buffer: Buffer.from("Date,Description,Amount,Currency,Reference\n2026-11-30,\"TEST DEPOSIT FICTIONAL\",125.00,USD,X900\n") });
+    await page.setInputFiles('input[type="file"]', { name: "extra.csv", mimeType: "text/csv", buffer: Buffer.from("Date,Description,Amount,Currency,Reference\n2026-11-30,\"TEST DEPOSIT SAMPLE\",125.00,USD,X900\n") });
     await page.getByRole("button", { name: "Import" }).click();
     await expect(page.getByText("Imported 1 line.")).toBeVisible();
   });

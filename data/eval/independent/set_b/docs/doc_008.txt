@@ -29,5 +29,5 @@ Total (incl. GST)               -$136.40
 
 Original invoice TM-118842 dated 14 Oct 2026
 
-Bank details: Fictional Test Bank Ltd
+Bank details: Sample Test Bank Ltd
 BSB 000-000  Account 00000001

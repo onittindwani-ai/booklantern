@@ -41,7 +41,7 @@ class Ctx:
         return self.settings.model_copy(update=upd) if upd else self.settings
 
     def now(self, session: Session):
-        """The real time, unless demo shortcuts are on (DEMO_MODE and no owner password): only then the made up demo date and its offset count."""
+        """The real time, unless demo shortcuts are on (DEMO_MODE and no owner password): only then the sample demo date and its offset count."""
         return clock.now(session, self.settings.demo_shortcuts)
 
     def today(self, session: Session) -> date:

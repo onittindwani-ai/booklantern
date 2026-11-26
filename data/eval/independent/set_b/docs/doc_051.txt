@@ -28,7 +28,7 @@ Date        Fee earner  Description                              Hours    Rate  
 
 Client account balance held: 2,000.00
 
-Bank details: Fictional Test Bank plc (client account)
+Bank details: Sample Test Bank plc (client account)
 Sort 00-00-00  Acc 00000055
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 

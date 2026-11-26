@@ -13,7 +13,7 @@ This guide gives no price figures. It gives the shape of the offer, so you can p
 - **Setup, once.** Business basics check (`02`), a fresh copy for the client, mailbox and accounting connections, importing three months of the bank statement, loading real vendors and customers, agreeing the reminder ladder and the exchange rates in writing, and a trial period in draft mode. Charge for the hours and the care, not for the software, which is free.
 - **Running it, monthly.** A short review of the exceptions, the aging, the forecast and the exchange rates (a person types them; check they are current), and answering when the reader gets a bill wrong. State plainly how many hours a month that includes.
 - **Costs that pass through, at cost.** Hosting, the mailbox for bills, the accounting tool's own fees, the payment link fees and any model usage. Show these as the client's own accounts, not as your markup.
-- **Never charge for** a promised amount of money collected or saved, and never present anything here as tax, accounting or legal advice. The reader suggests, a person confirms, the forecast is a guess, and the demo numbers are fictional.
+- **Never charge for** a promised amount of money collected or saved, and never present anything here as tax, accounting or legal advice. The reader suggests, a person confirms, the forecast is a guess, and the demo numbers are sample data.
 
 ## Onboarding checklist
 

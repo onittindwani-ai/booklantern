@@ -102,7 +102,7 @@ There is no close open source replacement here that Booklantern supports, so non
 | Gmail over IMAP | paid | 75 | 60 | 70 | 80 | 40 | 70 | **68.8** | reference |
 | Any IMAP mail host | free | 75 | 55 | 65 | 85 | 60 | 65 | **69.5** | 100 percent of Gmail over IMAP |
 
-What Booklantern has for each: Gmail over IMAP: Adapter tested against a fake IMAP server (not run against Gmail); Any IMAP mail host: Same adapter as Gmail (not run against a real host).
+What Booklantern has for each: Gmail over IMAP: Adapter tested against a mock IMAP server (not run against Gmail); Any IMAP mail host: Same adapter as Gmail (not run against a real host).
 
 **Evidence, Gmail over IMAP**
 
@@ -111,7 +111,7 @@ What Booklantern has for each: Gmail over IMAP: Adapter tested against a fake IM
 - Reliability and upkeep (70): A mature service, but app passwords can be withdrawn by Google.
 - Cost (80): Works with a normal mailbox. No price checked.
 - Data control (40): Mail stays at Google.
-- Integration depth (70): Tested against a local fake server for unread, attachments, marking seen after the bills are saved, and leaving mail without a bill unread.
+- Integration depth (70): Tested against a local mock server for unread, attachments, marking seen after the bills are saved, and leaving mail without a bill unread.
 - Sources: https://support.google.com/mail/answer/185833 (checked not fetched, UNVERIFIED)
 
 **Evidence, Any IMAP mail host**

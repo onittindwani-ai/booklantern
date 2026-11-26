@@ -24,7 +24,7 @@ def test_a_blank_scan_cannot_be_approved_until_it_has_a_vendor_a_date_and_a_tota
     r = client.post(f"/api/bills/{b['id']}/approve", json={"note": "just do it"})
     assert r.status_code == 409 and "vendor" in r.json()["error"]["message"] and "total" in r.json()["error"]["message"]
     assert client.patch(f"/api/bills/{b['id']}", json={"vendor": "Cobalt Office Supply", "number": "X-1", "issue_date": "2026-11-20", "subtotal_minor": 10000, "tax_minor": 0, "total_minor": 10000,
-                                                       "bank_account": "FICT-0103-2203"}).status_code == 200  # typed from the page: a bill with no account is held back (bank_details_not_read)
+                                                       "bank_account": "SMPL-0103-2203"}).status_code == 200  # typed from the page: a bill with no account is held back (bank_details_not_read)
     assert client.post(f"/api/bills/{b['id']}/approve", json={"note": ""}).status_code == 200
 
 

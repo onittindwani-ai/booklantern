@@ -26,5 +26,5 @@ Alarm monitoring, 3 sites         3 site      260,00    780,00
 Notes:
 Previous invoice INV004398 settled 2026/09/28
 
-Bank details: Fictional Test Bank Ltd
+Bank details: Sample Test Bank Ltd
 Branch 000000  Acct 0000000001

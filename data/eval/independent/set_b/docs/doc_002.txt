@@ -27,5 +27,5 @@ Vencimento: 2026-11-19
 ATCUD: 0000-000412
 Processado por programa certificado n.º 0000/AT
 
-Dados bancários: Banco Fictício SA
+Dados bancários: Banco Exemplo SA
 IBAN PT50 0000 0000 0000 0000 0000 1

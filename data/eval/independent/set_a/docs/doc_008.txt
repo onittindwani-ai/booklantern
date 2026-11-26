@@ -67,5 +67,5 @@ Pallet 34 Rotterdam - Lelystad, route R3       1   76,25   76,25
 Total packages: 34   Total weight: 15840 kg
 Chauffeur: J. de Test, kenteken 00-XXX-0
 
-Bankgegevens: Fictieve Testbank NV
-IBAN NL00 FAKE 0000 0000 01
+Bankgegevens: Voorbeeld Testbank NV
+IBAN NL00 TEST 0000 0000 01

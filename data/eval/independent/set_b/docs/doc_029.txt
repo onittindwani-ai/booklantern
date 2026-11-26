@@ -32,5 +32,5 @@ B         13.5%     €44.00    €5.94     €49.94
 
 RECS certificate ref 001122
 
-Bank details: Fictional Test Bank DAC
-IBAN IE00 FAKE 0000 0000 0002 02
+Bank details: Sample Test Bank DAC
+IBAN IE00 TEST 0000 0000 0002 02

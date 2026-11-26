@@ -144,7 +144,7 @@ def test_a_restart_never_seeds_over_real_data(tmp_path):
     create_app(ctx.settings, ctx)  # a restart
     with ctx.factory() as s:
         assert s.scalars(select(Customer).where(Customer.name == "Entered By Hand")).first() is not None
-        assert s.scalars(select(Vendor)).first() is None  # and the fictional seed was not loaded on top
+        assert s.scalars(select(Vendor)).first() is None  # and the sample seed was not loaded on top
 
 
 def test_a_restart_with_an_owner_password_never_seeds(tmp_path):

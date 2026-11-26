@@ -27,5 +27,5 @@ Notes:
 Total packages: 14   Total weight: 412 kg
 Late payment: interest at 1.5% per month is charged on overdue balances.
 
-Bank details: Fictional Test Bank plc
-Sort 00-00-00  Acc 00000011  IBAN GB00 FAKE 0000 0000 0011 00
+Bank details: Sample Test Bank plc
+Sort 00-00-00  Acc 00000011  IBAN GB00 TEST 0000 0000 0011 00

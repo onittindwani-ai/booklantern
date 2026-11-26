@@ -22,5 +22,5 @@ XT-16   Crystal oscillator 16MHz    500 pcs        0.92  460.00
                                         GST 9%          S$72.52
                                         GRAND TOTAL  S$1,108.52
 
-Bank details: Fictional Test Bank Ltd
+Bank details: Sample Test Bank Ltd
 Acct 000-000001-0  SWIFT TESTSGSG

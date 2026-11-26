@@ -25,5 +25,5 @@ SK-0100  Strapping kit, polypropylene           4 kit       22.50   90.00
 Notes:
 Delivery note: DN-20377
 
-Bank details: Fictional Test Bank plc
-Sort 00-00-00  Acc 00000011  IBAN GB00 FAKE 0000 0000 0011 00
+Bank details: Sample Test Bank plc
+Sort 00-00-00  Acc 00000011  IBAN GB00 TEST 0000 0000 0011 00

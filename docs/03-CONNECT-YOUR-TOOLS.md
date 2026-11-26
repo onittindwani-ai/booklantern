@@ -19,7 +19,7 @@ Read only by default. Posting a draft bill needs three things together: `MODE=li
 
 ## Where bills arrive (INBOX_ADAPTER)
 
-- **imap**. Reads unread messages from one mailbox, keeps only PDF, PNG and JPEG attachments and marks a message seen only after its bills are saved. A message with no bill in it (a customer's answer to a reminder) is left unread, and one from a customer or asking to stop is shown on the Exceptions page. Use a mailbox where bills are the only thing that arrives, and set `REPLY_TO` to a different mailbox a person reads. Works with Gmail (app password) and any host that speaks IMAP. Tested against a fake IMAP server.
+- **imap**. Reads unread messages from one mailbox, keeps only PDF, PNG and JPEG attachments and marks a message seen only after its bills are saved. A message with no bill in it (a customer's answer to a reminder) is left unread, and one from a customer or asking to stop is shown on the Exceptions page. Use a mailbox where bills are the only thing that arrives, and set `REPLY_TO` to a different mailbox a person reads. Works with Gmail (app password) and any host that speaks IMAP. Tested against a mock IMAP server.
 
 ## Reminder email (EMAIL_ADAPTER)
 
@@ -28,7 +28,7 @@ Read only by default. Posting a draft bill needs three things together: `MODE=li
 ## The reader (EXTRACTOR and LLM_BACKEND)
 
 - **offline** (default). Rules that read the text layer of a PDF. It cannot read scans.
-- **live**. A language model reads the text layer through the base wrapper, and code checks every value it returns and redoes the sums (`model_tasks.py`). Run only against a local fake server, never with a real key (UNVERIFIED), and it cannot yet send page images (see `14-LIMITS-AND-HONEST-NOTES.md`).
+- **live**. A language model reads the text layer through the base wrapper, and code checks every value it returns and redoes the sums (`model_tasks.py`). Run only against a local mock server, never with a real key (UNVERIFIED), and it cannot yet send page images (see `14-LIMITS-AND-HONEST-NOTES.md`).
 
 ## How to add another tool
 

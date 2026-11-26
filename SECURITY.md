@@ -4,7 +4,7 @@ Booklantern handles bills, bank lines and customer names. It never moves money a
 
 ## Two risks to know before you deploy
 
-- **Demo mode.** `DEMO_MODE=true` switches on a public demo password, made up approver and viewer accounts, the demo buttons (one of them erases the database), a made up demo date and the loading of sample data. They all turn off the moment `OWNER_PASSWORD_HASH` is set, and the app refuses demo mode on Postgres, but a real install should always run with `DEMO_MODE=false`.
+- **Demo mode.** `DEMO_MODE=true` switches on a public demo password, example approver and viewer accounts, the demo buttons (one of them erases the database), a sample demo date and the loading of sample data. They all turn off the moment `OWNER_PASSWORD_HASH` is set, and the app refuses demo mode on Postgres, but a real install should always run with `DEMO_MODE=false`.
 - **Secrets.** `SESSION_SECRET` signs every login. With `DEMO_MODE=false` the app refuses to start on a short or example value. Anyone who learns it can sign in as the owner, so keep `.env` out of git and change it if it may have leaked. The vendor's bank account on file is the number every payment detail is compared with, so only the owner can change it.
 
 ## Design rules

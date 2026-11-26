@@ -8,7 +8,7 @@
 | Alembic says `DATABASE_URL is not set` | Put it in the environment or in `.env` (or name the file with `ENV_FILE`). Alembic never guesses a database. |
 | A bill says it needs review because of its amount | A total over about ten billion, a negative total or an unknown currency is blocked on purpose. Check the page and key the right value. |
 | A bill is held for `bank_details_not_read` | The vendor has a bank account on file and the bill shows none. Check the page; if the account is not on it, ask the vendor. |
-| Every page is empty | Demo mode loads the made up company only when the database is empty. Open the search (Cmd+K), choose Reset the demo data, or in a real install import your data. |
+| Every page is empty | Demo mode loads the sample company only when the database is empty. Open the search (Cmd+K), choose Reset the demo data, or in a real install import your data. |
 | "Post as a draft" says nothing was posted | Correct in draft mode. It needs `MODE=live`, `ACCOUNTING_WRITE=true` and an approved bill. |
 | A bill shows "Could not read it" | The file is a scan or picture. Key the fields by hand, or use the live reader once it is tested. |
 | A field has no box on the page | The reader found the value but not its place. Read the page yourself. |

@@ -22,5 +22,5 @@ SALES TAX 0% ....................................... $0.00
 TOTAL .......................................... $1,710.00
 ----------------------------------------------------------
 Sales tax exempt: certificate on file
-Bank details: Fictional Test Bank NA
+Bank details: Sample Test Bank NA
 ROUTING 000000000 ACCT 000099887766

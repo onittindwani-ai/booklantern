@@ -29,5 +29,5 @@ Design time                      1.5 hr        70.00   105.00
   Total             $305.55
 
 
-Bank details: Fictional Test Bank of Canada
+Bank details: Sample Test Bank of Canada
 Transit 00000 Inst 000 Acct 0000001

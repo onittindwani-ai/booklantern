@@ -26,6 +26,6 @@ Conditions de paiement: Paiement à 30 jours fin de mois
 Indemnité forfaitaire de recouvrement : 40,00 EUR
 
 ----------------------------------------------------------------------
-Coordonnées bancaires: Banque Fictive SA
+Coordonnées bancaires: Banque Exemple SA
 IBAN FR00 0000 0000 0000 0000 0000 001
 N° TVA FR00 000000001  |  SIRET 000 000 001 00012

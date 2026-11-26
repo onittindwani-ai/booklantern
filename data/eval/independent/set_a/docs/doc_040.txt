@@ -22,5 +22,5 @@ Alarm monitoring, 3 sites          3 site      260,00    780,00
                                           VAT 15%    R 1 384,50
                                           TOTAL     R 10 614,50
 
-Bank details: Fictional Test Bank Ltd
+Bank details: Sample Test Bank Ltd
 Branch 000000  Acct 0000000001

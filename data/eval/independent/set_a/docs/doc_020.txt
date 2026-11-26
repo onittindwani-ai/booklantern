@@ -26,5 +26,5 @@ Notes:
 Order no. 7731-A   Ship via Ground   Pro no. 00442211
 Settlement discount: pay by Oct 9, 2026 to deduct 2%.
 
-Bank details: Fictional Test Bank NA
+Bank details: Sample Test Bank NA
 Routing 000000000  Account 000055566677

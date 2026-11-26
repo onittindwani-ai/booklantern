@@ -1,6 +1,6 @@
 # Five minute demo
 
-No accounts and no keys. Everything runs on made up data for a fictional company, Birchfield Supply Co.
+No accounts and no keys. Everything runs on sample data for a sample company, Birchfield Supply Co.
 
 ## With Docker
 
@@ -15,7 +15,7 @@ The Docker stack is for a real install and starts empty (`08-DEPLOY-HETZNER.md`)
 5. In another: `API_BASE_URL=http://127.0.0.1:8000 INSECURE_COOKIES=1 pnpm --filter web start`
 6. Open http://localhost:3000 and sign in as `owner@example.test` with the demo password shown on the sign in page.
 
-The first start fills an empty SQLite database with the made up company by itself. This works only with `DEMO_MODE=true` and no `OWNER_PASSWORD_HASH`; the demo password then works too. A database that already holds data is never reloaded.
+The first start fills an empty SQLite database with the sample company by itself. This works only with `DEMO_MODE=true` and no `OWNER_PASSWORD_HASH`; the demo password then works too. A database that already holds data is never reloaded.
 
 ## The tour
 

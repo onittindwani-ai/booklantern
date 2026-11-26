@@ -2,7 +2,7 @@
 
 Booklantern is a finance back office for a small business, set up and run by an implementer for one client per copy. It reads vendor bills, checks them with code, chases late customers, matches the bank statement and shows a 13 week cash forecast. It never moves money. It does not give tax or accounting advice.
 
-All people, companies, bank lines and numbers in the seed data are fictional and labelled as such.
+All people, companies, bank lines and numbers in the seed data are sample data and labelled as such.
 
 ## 1. Hard rules
 
@@ -34,7 +34,7 @@ Vendor, Customer, Document, Bill (+ BillLine), Invoice (+ InvoiceLine), Payment 
 | --- | --- | --- | --- |
 | accounting | seed (offline), csv, quickbooks (QBO), xero, akaunting | A (seed, csv, quickbooks against a mock), B (xero, akaunting) | read first; create draft bill only when `ACCOUNTING_WRITE=true`, mode live and approved |
 | payments | seed, stripe (payment links) | B | creates a payment link; never captures or moves money |
-| inbox | seed, imap (Gmail app password or any IMAP host) | A against a fake IMAP server | only reads unseen messages |
+| inbox | seed, imap (Gmail app password or any IMAP host) | A against a mock IMAP server | only reads unseen messages |
 
 ## 5. Reminder stop rules (tested as properties)
 

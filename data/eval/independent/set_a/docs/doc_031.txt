@@ -23,5 +23,5 @@ TOTAL ............................................ $534.64
 ----------------------------------------------------------
 Service period 08/01/2026 to 08/31/2026
 Route 12   Crew B
-Bank details: Fictional Test Bank NA
+Bank details: Sample Test Bank NA
 ROUTING 000000000 ACCT 000099887766

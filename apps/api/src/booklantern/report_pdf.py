@@ -63,7 +63,7 @@ def build(session: Session, ctx) -> bytes:
     sm = summary(session, ctx)
     buf = io.BytesIO()
     doc = SimpleDocTemplate(buf, pagesize=letter, title="Month end pack", author="Booklantern")
-    out = [Paragraph(f"Month end pack, as of {sm['as_of']}", st["Title"]), Paragraph("Prepared by code from the data in this system. This is a working pack, not accounting or tax advice. Sample data in the demo is fictional.", st["Normal"]), Spacer(1, 12)]
+    out = [Paragraph(f"Month end pack, as of {sm['as_of']}", st["Title"]), Paragraph("Prepared by code from the data in this system. This is a working pack, not accounting or tax advice. The demo uses sample data.", st["Normal"]), Spacer(1, 12)]
     out += [_table([["Measure", "Value"], ["Cash on the bank statements", f(sm["cash_minor"])], ["Receivables outstanding", f(sm["receivable_minor"])], ["Open invoices", str(sm["open_invoices"])],
                     ["Bills waiting for review", str(sm["bills_to_review"])], ["Bank lines not matched", str(sm["unmatched_lines"])], ["Open exceptions", str(sm["open_exceptions"])]], [260, 140]), Spacer(1, 14)]
     ag = collections.aging_report(session, ctx.today(session), ctx.rates(session))

@@ -34,5 +34,5 @@ Installation, on site                     1       150.00   150.00
 Proof approved 2026-10-02 by M. Test
 Job no. J-20991
 
-Bank details: Fictional Test Bank of Canada
+Bank details: Sample Test Bank of Canada
 Transit 00000 Inst 000 Acct 0000001

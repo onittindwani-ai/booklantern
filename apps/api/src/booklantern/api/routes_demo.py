@@ -47,7 +47,7 @@ class StressIn(BaseModel):
     n: int = Field(ge=1, le=20000)
 
 
-@router.post("/stress-bank", summary="Add many fictional bank lines, to check that long tables stay fast")
+@router.post("/stress-bank", summary="Add many sample bank lines, to check that long tables stay fast")
 def stress(b: StressIn, s: Session = Depends(db, scope="function"), ctx: Ctx = Depends(get_ctx), u: dict = Depends(owner)):
     from booklantern.models import BankAccount, BankTransaction
 

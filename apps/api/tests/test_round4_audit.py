@@ -18,7 +18,7 @@ from booklantern.extraction import offline
 from booklantern.extraction.numbers import to_minor_units
 from booklantern.models import BankAccount, BankTransaction, Bill, ExceptionItem, Invoice
 from booklantern.money import parse_amount
-from mock.mail_servers import FakeMailServers
+from mock.mail_servers import StubMailServers
 from sendora_core.audit import record_audit
 
 from .test_hardening_intake import bill_pdf, imap_settings, pdf
@@ -173,7 +173,7 @@ def make_customer(s, ctx, email="owner@customer.test", name="Customer One"):
 
 
 def test_a_stop_reply_with_a_signature_image_stays_unread_and_is_shown(ctx):
-    with FakeMailServers() as srv:
+    with StubMailServers() as srv:
         with ctx.factory() as s:
             cust = make_customer(s, ctx)
         srv.store.deliver(outlook_message("owner@customer.test", "Re: Invoice INV-1 reminder", "Please stop sending me these reminders."))
@@ -187,7 +187,7 @@ def test_a_stop_reply_with_a_signature_image_stays_unread_and_is_shown(ctx):
 
 
 def test_a_real_pdf_with_a_signature_image_in_the_same_message_is_still_read(ctx):
-    with FakeMailServers() as srv:
+    with StubMailServers() as srv:
         srv.store.deliver(outlook_message("billing@vendor.test", "Invoice", "Invoice attached.", ("inv.pdf", bill_pdf(number="SIG-1"))))
         docs = ImapInbox(imap_settings(srv)).fetch_documents()
         assert [d.file_name for d in docs] == ["inv.pdf"]
@@ -198,13 +198,13 @@ def test_a_scanned_bill_attached_as_a_picture_is_still_taken():
     m["From"], m["To"], m["Subject"] = "billing@vendor.test", "bills@example.test", "Scan"
     m.set_content("scan attached")
     m.add_attachment(PNG, maintype="image", subtype="png", filename="scan.png")
-    with FakeMailServers() as srv:
+    with StubMailServers() as srv:
         srv.store.deliver(m.as_bytes())
         assert [d.file_name for d in ImapInbox(imap_settings(srv)).fetch_documents()] == ["scan.png"]
 
 
 def test_a_second_stop_request_is_shown_again_after_the_first_was_closed(ctx):
-    with FakeMailServers() as srv:
+    with StubMailServers() as srv:
         with ctx.factory() as s:
             cust = make_customer(s, ctx)
         ctx.adapters.inbox = ImapInbox(imap_settings(srv))
@@ -445,7 +445,7 @@ def test_a_file_that_says_it_is_a_pdf_but_is_not_is_listed_for_a_person(ctx):
     m["From"], m["To"], m["Subject"] = "billing@vendor.test", "bills@example.test", "Invoice"
     m.set_content("attached")
     m.add_attachment(b"this is not a pdf at all", maintype="application", subtype="pdf", filename="inv.pdf")
-    with FakeMailServers() as srv:
+    with StubMailServers() as srv:
         srv.store.deliver(m.as_bytes())
         ctx.adapters.inbox = ImapInbox(imap_settings(srv))
         with ctx.factory() as s:

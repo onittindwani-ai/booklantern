@@ -26,5 +26,5 @@ Overage traffic, 412 GB               412   0.045   18.54
 
 Direct debit will be taken on 09 Nov 2026 (mandate 00000000AAAA)
 
-Bank details: Fictional Test Bank plc
+Bank details: Sample Test Bank plc
 Sort 00-00-00  Acc 00000077

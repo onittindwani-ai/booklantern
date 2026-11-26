@@ -85,7 +85,7 @@ class AkauntingAccounting:
             raise AdapterError("ACCOUNTING_WRITE is false, so nothing is posted to Akaunting.")
         lines = bill.lines or [{"description": "Bill " + bill.number, "quantity": 1, "unit_minor": bill.subtotal_minor, "total_minor": bill.subtotal_minor}]
         items = [{"name": ln["description"][:100] or "Item", "quantity": ln["quantity"], "price": to_major_number(ln["unit_minor"], bill.currency)} for ln in lines]
-        if bill.tax_minor:  # no tax record is invented: the tax printed on the bill goes in as its own line, so the draft carries the approved total
+        if bill.tax_minor:  # no tax record is added that the bill does not show: the tax printed on the bill goes in as its own line, so the draft carries the approved total
             items.append({"name": "Tax as printed on the bill", "quantity": 1, "price": to_major_number(bill.tax_minor, bill.currency)})
         r = self.client.post("/api/documents", headers=self._h(), json={"type": "bill", "contact_id": 0, "contact_name": bill.vendor_name, "document_number": bill.number, "issued_at": bill.issue_date, "due_at": bill.due_date,
                                                                           "currency_code": bill.currency, "status": "draft", "items": items})

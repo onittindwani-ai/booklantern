@@ -33,9 +33,9 @@ def build_registry(settings) -> AdapterRegistry:
     add("payments", "seed", "A", seed.SeedPayments, "Offline placeholders. No real link.")
     add("payments", "stripe", "B", StripePayments, "Payment link create call verified on the API reference page. Tested against a mock.")
     add("inbox", "seed", "A", seed.SeedInbox, "Offline demo mailbox.")
-    add("inbox", "imap", "A", ImapInbox, "Tested against a fake IMAP server, not a real mail host.")
+    add("inbox", "imap", "A", ImapInbox, "Tested against a mock IMAP server, not a real mail host.")
     add("email", "seed", "A", seed.SeedEmail, "Offline. Nothing leaves this machine.")
-    add("email", "smtp", "A", SmtpSender, "Tested against a fake SMTP server, not a real mail host.")
+    add("email", "smtp", "A", SmtpSender, "Tested against a mock SMTP server, not a real mail host.")
     return reg
 
 

@@ -29,5 +29,5 @@ Retour / Return: stylos à bille          3          9,80            -29,40
 
 Réf. facture / Ref. invoice: MB-71204
 
-Bank details: Fictional Test Bank of Canada
+Bank details: Sample Test Bank of Canada
 Transit 00001 Inst 001 Acct 0000002

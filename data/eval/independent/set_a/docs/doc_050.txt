@@ -27,5 +27,5 @@ Rate      Gross      VAT        Net
 Pump 4   Card ending 0000   Auth 004411
 Fuel savings points this year: 2,410
 
-Bank details: Fictional Test Bank DAC
-IBAN IE00 FAKE 0000 0000 0001 01
+Bank details: Sample Test Bank DAC
+IBAN IE00 TEST 0000 0000 0001 01

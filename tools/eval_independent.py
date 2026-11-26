@@ -1,4 +1,4 @@
-"""Score the offline bill reader and the checks on an independent test set (written by people who never saw the code).
+"""Score the offline bill reader and the checks on an independent test set (written by separate AI test authors who never saw the code).
 
 A set folder holds `docs/doc_NNN.txt` (the text layer of one bill each, pages split by a form feed), `key.json` (one object per file) and `context.json`
 (the client name, the reference date and a vendor master). The reader is rules written by the build. It is NOT a language model, and these numbers say

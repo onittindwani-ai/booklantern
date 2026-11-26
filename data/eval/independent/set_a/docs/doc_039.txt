@@ -25,5 +25,5 @@ Premium support plan                                   1       100.00      100.0
                                                        Amount due      $44,927.14
 
 
-Bank details: Fictional Test Bank NA
+Bank details: Sample Test Bank NA
 Routing 000000000  Account 000012345678

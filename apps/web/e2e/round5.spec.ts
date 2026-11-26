@@ -183,7 +183,7 @@ test.describe("round 5: every fix from the walk through the screens", () => {
     await page.setInputFiles('input[type="file"]', { name: "a.csv", mimeType: "text/csv", buffer: Buffer.from("foo,bar\n1,2\n") });
     await expect(page.getByRole("alert").filter({ hasText: "needs these columns: Date, Description, Amount" })).toBeVisible();
     await expect(page.getByRole("button", { name: "Import" })).toBeDisabled();
-    await page.setInputFiles('input[type="file"]', { name: "b.csv", mimeType: "text/csv", buffer: Buffer.from("Date,Description,Amount,Currency,Reference\n2026-11-30,TEST DEPOSIT FICTIONAL,125.00,USD,Z1\n") });
+    await page.setInputFiles('input[type="file"]', { name: "b.csv", mimeType: "text/csv", buffer: Buffer.from("Date,Description,Amount,Currency,Reference\n2026-11-30,TEST DEPOSIT SAMPLE,125.00,USD,Z1\n") });
     await expect(page.getByText(/1 row, 5 columns/)).toBeVisible();
     await expect(page.locator(".ll-file")).not.toContainText(/phone|call/i);
     await page.getByRole("button", { name: "Import" }).click();

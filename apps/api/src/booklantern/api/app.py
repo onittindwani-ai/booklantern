@@ -32,7 +32,7 @@ def _holds_data(ctx: Ctx) -> bool:
 
 
 def _seed_if_empty(ctx: Ctx) -> None:
-    """A fresh demo database starts with the fictional seed world, so the first page is never empty.
+    """A fresh demo database starts with the sample seed world, so the first page is never empty.
 
     Only for a demo with no owner password, on a local SQLite file, and only when the database holds nothing at all: a restart can never
     erase or reseed data that someone entered.
@@ -62,7 +62,7 @@ def create_app(settings: Settings | None = None, ctx: Ctx | None = None) -> Fast
         ctx = Ctx(settings, make_session_factory(engine))
     _seed_if_empty(ctx)
     app = create_base_app(ctx.settings, ctx.factory)
-    app.title, app.version = "Booklantern API", "1.0.1"
+    app.title, app.version = "Booklantern API", "1.0.2"
     app.state.ctx = ctx
     # A page makes several calls at once. This bucket is per client address (set uvicorn --proxy-headers so that is the real visitor, not the web server).
     app.state.limiter = TokenBucket(capacity=600, refill_per_sec=20.0)

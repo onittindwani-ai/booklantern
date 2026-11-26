@@ -2,7 +2,7 @@
 
 Booklantern is a finance back office for one small business, set up and run by an implementer. It reads the bills vendors send, checks them with code, chases customers who pay late, matches the bank statement and shows the next 13 weeks of cash. A person approves everything that matters.
 
-All people, companies, bank lines and numbers in the demo are made up and labelled as fictional.
+All people, companies, bank lines and numbers in the demo are sample data and labelled as sample data.
 
 ## Who it is for
 
@@ -27,7 +27,7 @@ All people, companies, bank lines and numbers in the demo are made up and labell
 
 ## Read this before you promise anything
 
-The built in reader is an offline stand in. It is **not a language model**. On two independent sets of bills written by other people it got about 3 fields in 4 right and about 1 document in 10 with nothing wrong (see `EXTRACTION-EVAL.md`). The model reader (a language model reads, code checks) is real code tested against a local fake server only, never with a real key. Treat every extraction as a suggestion a person confirms.
+The built in reader is an offline stand in. It is **not a language model**. On two independent sets of bills written by separate AI test authors it got about 3 fields in 4 right and about 1 document in 10 with nothing wrong (see `EXTRACTION-EVAL.md`). The model reader (a language model reads, code checks) is real code tested against a local mock server only, never with a real key. Treat every extraction as a suggestion a person confirms.
 
 ## Next steps
 

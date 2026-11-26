@@ -29,5 +29,5 @@ SIP trunk capacity, 30 channels        30    6.50  195.00
 Call detail record file: CDR-2610.csv
 Prior month usage 2,205 min
 
-Bank details: Fictional Test Bank NA
-Remit to lockbox 000000 (fictional)
+Bank details: Sample Test Bank NA
+Remit to lockbox 000000 (sample)

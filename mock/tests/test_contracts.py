@@ -107,7 +107,7 @@ def test_csv_adapter_reads_and_writes_the_documented_columns(tmp_path):
 def test_smtp_message_has_the_rfc_5322_header_fields(monkeypatch):
     sent = []
 
-    class FakeSmtp:
+    class StubSmtp:
         def __enter__(self):
             return self
 
@@ -118,7 +118,7 @@ def test_smtp_message_has_the_rfc_5322_header_fields(monkeypatch):
             sent.append(m)
 
     s = SmtpSender(settings(smtp_host="mail.example.test"))
-    monkeypatch.setattr(s, "_smtp", lambda: FakeSmtp())
+    monkeypatch.setattr(s, "_smtp", lambda: StubSmtp())
     mid = s.send(from_addr="accounts@example.test", to="ada@example.test", subject="Hello", body="Body")
     m = sent[0]
     assert m["From"] and m["To"] and m["Subject"] == "Hello" and m["Message-ID"] == mid and mid.startswith("<") and mid.endswith(">")

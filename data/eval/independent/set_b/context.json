@@ -189,7 +189,7 @@
   "Voltaic Telecom, Inc.": {
    "default_currency": "USD",
    "requires_po": false,
-   "iban_on_file": "Remit to lockbox 000000 (fictional)",
+   "iban_on_file": "Remit to lockbox 000000 (sample)",
    "typical_total_minor_range": [
     26385,
     72032
@@ -215,7 +215,7 @@
   "Brennan & Doyle Electrical Ltd": {
    "default_currency": "EUR",
    "requires_po": false,
-   "iban_on_file": "IBAN IE00 FAKE 0000 0000 0002 02",
+   "iban_on_file": "IBAN IE00 TEST 0000 0000 0002 02",
    "typical_total_minor_range": [
     110903,
     746946

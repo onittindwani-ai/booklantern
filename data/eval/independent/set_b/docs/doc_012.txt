@@ -48,5 +48,5 @@ Total
 £1,531.68
 
 Previous invoice TW-90112 paid 05 October 2026
-Bank details: Fictional Test Bank plc
+Bank details: Sample Test Bank plc
 Sort 00-00-00  Acc 00000111

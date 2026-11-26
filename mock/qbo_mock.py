@@ -1,4 +1,4 @@
-"""Fake QuickBooks Online API for tests and the demo. Written from Intuit's public material (UNVERIFIED against the real service).
+"""Mock QuickBooks Online API for tests and the demo. Written from Intuit's public material (UNVERIFIED against the real service).
 
 OAuth: POST /oauth2/v1/tokens/bearer with Basic client auth (the real host is oauth.platform.intuit.com).
 Data: /v3/company/{realmId}/... with a Bearer token and an optional minorversion query value. Access tokens last 3600 seconds.

@@ -26,5 +26,5 @@ Rate    Gross    VAT      Net
 
 Loyalty balance 410 points
 
-Bank details: Fictional Test Bank plc
+Bank details: Sample Test Bank plc
 Sort 00-00-00  Acc 00000033

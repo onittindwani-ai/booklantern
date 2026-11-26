@@ -22,5 +22,5 @@ CAP-10   Capacitor 10uF 16V, reel of 4000  30 reel       34.00  1,020.00
                                                  GST 7%         S$131.60
                                                  GRAND TOTAL  S$2,011.60
 
-Bank details: Fictional Test Bank Ltd
+Bank details: Sample Test Bank Ltd
 Acct 000-000001-0  SWIFT TESTSGSG

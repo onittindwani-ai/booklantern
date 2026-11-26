@@ -129,10 +129,10 @@ def _foreign_invoice(s, ctx, cents=250_000, currency="EUR", number="X-EUR-1", la
     return inv.id
 
 
-def test_the_demo_seed_carries_one_dated_fictional_rate(seeded):
+def test_the_demo_seed_carries_one_dated_sample_rate(seeded):
     with seeded.factory() as s:
         rows = list(s.scalars(select(FxRate)))
-        assert [(r.currency, r.rate, r.note) for r in rows] == [("EUR", "1.0800", "Demo rate, fictional")]
+        assert [(r.currency, r.rate, r.note) for r in rows] == [("EUR", "1.0800", "Demo rate, sample")]
 
 
 def test_aging_in_the_company_currency_keeps_the_original_amount(seeded):
