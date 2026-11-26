@@ -2,7 +2,7 @@
 
 Separators: a comma or dot may be the decimal mark or a thousands mark, and a space, a thin space or an apostrophe is always a thousands mark.
 Rules (general, not tied to any layout): when both a dot and a comma appear, the last one is the decimal mark; one kind that repeats is a thousands
-mark (so Indian grouping 12,34,567.00 reads right); one kind that appears once with exactly three digits after it is a thousands mark; with one or two
+mark (so Indian grouping 12,34,567.00 reads right); one kind that appears once with exactly three digits after it is a thousands mark (a decimal mark in a currency with three decimals); with one or two
 digits after it, it is the decimal mark; a currency with no minor unit (yen) never has a decimal mark. Negative: a leading minus, brackets, a trailing
 minus or a trailing CR. A trailing DR or no sign is positive.
 """
@@ -10,14 +10,22 @@ minus or a trailing CR. A trailing DR or no sign is positive.
 from __future__ import annotations
 
 import re
+import unicodedata
 from decimal import ROUND_HALF_UP, Decimal
 
-from booklantern.money import CURRENCY_EXPONENT
+from booklantern.money import CURRENCY_EXPONENT, MINUS
+
+MAX_DIGITS = 15  # same limit as limits.MAX_DIGITS (not imported: limits.py imports money, this module is read by the extractors)
 
 SYMBOL_CURRENCY = {"€": "EUR", "£": "GBP", "¥": "JPY", "円": "JPY", "₹": "INR", "zł": "PLN", "Kč": "CZK", "₩": "KRW", "R$": "BRL", "Fr.": "CHF", "Rs.": "INR", "Rs": "INR"}
 CODE_RE = re.compile(r"\b(" + "|".join(sorted(CURRENCY_EXPONENT, key=len, reverse=True)) + r")\b")
-_AMOUNT = re.compile(r"""(?P<neg1>[-\u2212(]\s?)?(?:[$€£¥₹₩]|R\$|Rs\.?|zł|Kč|Fr\.)?\s?(?P<num>\d{1,3}(?:[   '’]\d{3})+(?:[.,]\d+)?|\d[\d.,'’]*)(?P<tail>\)|\s?-(?!\d)|\s?CR\b|\s?DR\b)?""")
-_TOKEN = re.compile(r"(?<![\w/.:-])" + _AMOUNT.pattern.replace("(?P<neg1>[-\\u2212(]\\s?)?", "(?P<neg1>[-\\u2212(]\\s?)?", 1), re.X)
+_MC = re.escape(MINUS)  # every dash that means a minus (the same list the bank statement reader uses), so a real minus sign or an en dash is never dropped
+_AMOUNT = re.compile(r"""(?P<neg1>[""" + _MC + r"""(]\s?)?(?:[$€£¥₹₩]|R\$|Rs\.?|zł|Kč|Fr\.)?\s?(?P<num>\d{1,3}(?:[ \u00a0\u202f'’]\d{3})+(?:[.,]\d+)?|\d[\d.,'’]*)(?P<tail>\)|\s?[""" + _MC + r"""](?!\d)|\s?CR\b|\s?DR\b)?""")
+_TOKEN = re.compile(r"(?<![\w/.:" + _MC + r"])" + _AMOUNT.pattern, re.X)
+
+
+def _negative_tail(tail: str) -> bool:
+    return tail == "CR" or (tail != "" and tail in set(MINUS))
 
 
 def to_minor_units(num: str, exp: int) -> int | None:
@@ -25,6 +33,8 @@ def to_minor_units(num: str, exp: int) -> int | None:
     s = re.sub(r"[   '’]", "", num).strip(".,")
     if not s or not re.fullmatch(r"[\d.,]+", s):
         return None
+    if len(re.sub(r"\D", "", s)) > MAX_DIGITS:
+        return None  # no real bill has an amount this long: it is not read, so it can never overflow a column
     last_dot, last_comma = s.rfind("."), s.rfind(",")
     dec = None
     if exp > 0:
@@ -33,7 +43,7 @@ def to_minor_units(num: str, exp: int) -> int | None:
         elif last_dot > -1 or last_comma > -1:
             sep = "." if last_dot > -1 else ","
             tail = s.rsplit(sep, 1)[1]
-            dec = None if (s.count(sep) > 1 or len(tail) == 3) else sep
+            dec = None if (s.count(sep) > 1 or (len(tail) == 3 and exp != 3)) else sep  # three digits after one mark: thousands, except in a currency with three decimals (KWD, BHD)
     elif last_dot > -1 and last_comma > -1:
         return None
     if dec:
@@ -57,7 +67,7 @@ def parse_money(text: str, exp: int = 2) -> int | None:
     if n is None:
         return None
     tail = (m.group("tail") or "").strip()
-    neg = bool(m.group("neg1")) or tail in ("-", "CR") or (m.group("neg1") or "").strip() == "(" and tail == ")"
+    neg = bool(m.group("neg1")) or _negative_tail(tail) or (m.group("neg1") or "").strip() == "(" and tail == ")"
     return -n if neg else n
 
 
@@ -74,9 +84,37 @@ def money_tokens(line: str, exp: int = 2) -> list[tuple[int, int, int]]:
         if not has_sep and not marked and line[m.end():].strip():
             continue
         tail = (m.group("tail") or "").strip()
-        neg = bool(m.group("neg1")) or tail in ("-", "CR")
+        neg = bool(m.group("neg1")) or _negative_tail(tail)
         out.append((m.start(), m.end(), -n if neg else n))
     return out
+
+
+_MARK_BEFORE = re.compile(r"(?:\b([A-Z]{3})|([A-Za-z]{1,3}\$))\s?$")
+_CODE_AFTER = re.compile(r"\s?([A-Z]{3})\b")
+KNOWN_MARKS = {"$", "US$", "R$", "HK$", "S$", "A$", "C$", "NZ$", "AU$", "CA$", "€", "£", "¥", "₹", "₩", "zł", "Kč", "Fr.", "Rs", "Rs."}
+# The active ISO 4217 codes. A three letter word next to a total is called a currency only when it is one of these (DUE, SUM and TAX are not), and it is "unknown" when this system has no decimals for it.
+ISO_CODES = frozenset("""AED AFN ALL AMD ANG AOA ARS AUD AWG AZN BAM BBD BDT BGN BHD BIF BMD BND BOB BRL BSD BTN BWP BYN BZD CAD CDF CHF CLP CNY COP CRC CUP CVE CZK DJF DKK DOP DZD EGP ERN ETB EUR FJD FKP GBP GEL
+GHS GIP GMD GNF GTQ GYD HKD HNL HTG HUF IDR ILS INR IQD IRR ISK JMD JOD JPY KES KGS KHR KMF KPW KRW KWD KYD KZT LAK LBP LKR LRD LSL LYD MAD MDL MGA MKD MMK MNT MOP MRU MUR MVR MWK MXN MYR MZN NAD NGN
+NIO NOK NPR NZD OMR PAB PEN PGK PHP PKR PLN PYG QAR RON RSD RUB RWF SAR SBD SCR SDG SEK SGD SHP SLE SOS SRD SSP STN SVC SYP SZL THB TJS TMT TND TOP TRY TTD TWD TZS UAH UGX USD UYU UZS VES VND VUV WST XAF
+XCD XOF XPF YER ZAR ZMW ZWL""".split())
+
+
+def unknown_mark(line: str, start: int, end: int) -> str | None:
+    """A currency code or sign printed right next to the amount at line[start:end] that this system has no decimals for (TWD, COP, NT$, a baht or dong sign). None when the amount
+    carries a known code or sign, or none at all. A bill in a currency the reader does not know must never be booked in the company currency without anyone looking."""
+    before, after = line[:start].rstrip(), line[end:]
+    m = _MARK_BEFORE.search(before)
+    code = (m.group(1) or m.group(2)) if m else None
+    if code is None:
+        a = _CODE_AFTER.match(after)
+        code = a.group(1) if a else None
+    if code is not None:
+        if code in KNOWN_MARKS or code in CURRENCY_EXPONENT:
+            return None
+        return code if code in ISO_CODES or code.endswith("$") else None
+    if before and unicodedata.category(before[-1]) == "Sc" and before[-1] not in KNOWN_MARKS:
+        return before[-1]
+    return None
 
 
 def find_currency(text: str) -> str | None:

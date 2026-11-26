@@ -19,7 +19,7 @@ Vendor, Customer, Document, Bill (+ BillLine), Invoice (+ InvoiceLine), Payment 
 
 ## 3. Pipelines
 
-1. Intake: upload, or IMAP mailbox (attachments that are PDFs or images). Each file is hashed; the same file twice is one Document.
+1. Intake: upload, or IMAP mailbox (attachments that are PDFs, or pictures attached with a file name). Each file is hashed; the same file twice is one Document.
 2. Extraction: the extractor turns a Document into fields with a confidence per field and the page position (box) of each value. Demo mode uses an offline stand in that reads the text layer of the PDFs the seed generator makes. It is NOT a language model. Scanned pages (images in a PDF) have no text layer: the stand in says so and the bill goes to manual entry. The live path through the base model wrapper is written and UNVERIFIED (never run).
 3. Validation by code: line sums, subtotal plus tax equals total, tax rate sanity, duplicates (exact and near), amount against the vendor's history, changed bank details, missing purchase order, date in the future, currency mismatch, bill addressed to another company. Each finding is an Exception with a severity.
 4. Review queue: a person edits fields, sees the boxes on the page, approves. Approval makes a draft posting for the accounting adapter.
@@ -49,7 +49,7 @@ Never send a reminder when: the invoice is paid or voided; the customer opted ou
 
 ## 7. API (all under /api, session required except login)
 
-auth (login, logout, me), overview, documents (list, upload, detail, page image, extract), bills (list, detail, patch fields, approve, reject, post draft), vendors, customers, invoices (list, detail), aging (summary and drill down), collections (reminders list, approve, send, promises, dispute, opt out), payments link, bank (transactions list, CSV import, matches suggest, link, unlink), exceptions (list, resolve), forecast (get, scenario run), reports (month end pack PDF), integrations (list, test), approvals, audit, settings, events stream, demo (reset, tick, advance).
+auth (login, logout, me), overview, documents (list, upload, detail, page image, extract), bills (list, detail, patch fields, approve, reject, post draft, say what happened after an unclear post), vendors, customers, invoices (list, detail), aging (summary and drill down), collections (reminders list, approve, send, promises, dispute, opt out), payments link, bank (transactions list, CSV import, matches suggest, link, unlink), exceptions (list, resolve), forecast (get, scenario run), reports (month end pack PDF), integrations (list, test), approvals, audit, settings, events stream, demo (reset, tick, advance).
 
 ## 8. Pages
 

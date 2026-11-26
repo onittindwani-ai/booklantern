@@ -15,7 +15,7 @@ from booklantern.offline_llm import OfflineBackend
 from booklantern.registry import AdapterSet, build_adapters, build_registry
 from sendora_core.costs import CostTracker
 from sendora_core.llm import LLM, build_llm
-from sendora_core.settings import Mode
+from sendora_core.settings import LLMBackendKind, Mode
 
 
 @dataclass
@@ -41,20 +41,24 @@ class Ctx:
         return self.settings.model_copy(update=upd) if upd else self.settings
 
     def now(self, session: Session):
-        return clock.now(session, self.settings.demo_mode)
+        """The real time, unless demo shortcuts are on (DEMO_MODE and no owner password): only then the made up demo date and its offset count."""
+        return clock.now(session, self.settings.demo_shortcuts)
 
     def today(self, session: Session) -> date:
-        return clock.today(session, self.settings.demo_mode)
+        return clock.today(session, self.settings.demo_shortcuts)
 
     def rates(self, session: Session):
         from booklantern import fxservice
 
         return fxservice.rate_book(session, self)
 
-    def llm(self, session: Session) -> LLM:
+    def llm(self, session: Session, live: bool = True) -> LLM:
         # LLM_BACKEND=offline (default) | fixture | anthropic. The offline stand in is the zero account default.
-        # The anthropic path is UNVERIFIED against the real service.
-        return build_llm(self.effective(session), CostTracker(session), offline=OfflineBackend())
+        # The anthropic path is UNVERIFIED against the real service. live=False always uses the offline stand in: a read only visitor never causes a paid call.
+        eff = self.effective(session)
+        if not live and eff.effective_llm_backend is LLMBackendKind.ANTHROPIC:
+            eff = eff.model_copy(update={"llm_backend": LLMBackendKind.OFFLINE})
+        return build_llm(eff, CostTracker(session), offline=OfflineBackend())
 
 
 def set_state(session: Session, key: str, value: str) -> None:

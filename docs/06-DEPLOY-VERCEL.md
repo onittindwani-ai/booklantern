@@ -12,7 +12,7 @@ The Root Directory steps were read from https://vercel.com/docs/monorepos on 202
 6. Set `API_BASE_URL` to your API address with no trailing slash.
 7. Do not set `INSECURE_COOKIES` or `NEXT_PUBLIC_DEMO_HINT`.
 8. Deploy, open the address, sign in.
-9. On the API server run uvicorn with `--proxy-headers` and `--forwarded-allow-ips` set to your proxy, so rate limits see the real visitor.
+9. On the API server run uvicorn with `--proxy-headers` and set the environment variable `FORWARDED_ALLOW_IPS` to the address your requests arrive from (the API image defaults it to `127.0.0.1`; compose widens it to the private network), so rate limits see the real visitor. The web app passes on only the last address in `X-Forwarded-For`, the one its own proxy saw, because the earlier entries are written by the visitor.
 
 ## If the build fails
 

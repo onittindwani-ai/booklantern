@@ -47,7 +47,8 @@ def test_duplicate_rules():
     o = bill(id=1)
     assert "duplicate_exact" in kinds(bill(), [o])
     assert "duplicate_near" in kinds(bill(number="ALD-1A"), [o])
-    assert "duplicate_near" in kinds(bill(issue_date=o.issue_date + timedelta(days=1)), [o])  # same number and amount, date a day apart
+    assert "duplicate_exact" in kinds(bill(issue_date=o.issue_date + timedelta(days=1)), [o])  # same number and amount, date a day apart: the same bill again (it was only a warning before)
+    assert "duplicate_near" in kinds(bill(number="ALD-1A", issue_date=o.issue_date + timedelta(days=1)), [o])  # a similar number, a day apart
     far = bill(id=1, number="ALD-0", issue_date=AS_OF - timedelta(days=35))
     assert kinds(bill(), [far]) == set()  # same amount, sequential number, a month apart: a normal monthly bill
     assert kinds(bill(), [bill(id=1, vendor_id=2)]) == set()  # another vendor

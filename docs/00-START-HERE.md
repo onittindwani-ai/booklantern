@@ -35,4 +35,4 @@ The built in reader is an offline stand in. It is **not a language model**. On t
 2. Check the business basics before you take a client: `02-BUSINESS-BASICS-CHECK.md`.
 3. Connect real tools: `03-CONNECT-YOUR-TOOLS.md` and `04-ENVIRONMENT-VARIABLES.md`.
 
-The numbers in these docs come from `data/counts.json`: <!--n:pages-->11<!--/n--> pages, <!--n:api_paths-->54<!--/n--> API paths, <!--n:tables-->20<!--/n--> database tables.
+The numbers in these docs come from `data/counts.json`: <!--n:pages-->11<!--/n--> pages, <!--n:api_paths-->62<!--/n--> API paths, <!--n:tables-->20<!--/n--> database tables.

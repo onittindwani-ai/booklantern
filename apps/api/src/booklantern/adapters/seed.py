@@ -6,9 +6,8 @@ import json
 from pathlib import Path
 
 from booklantern.adapters.base import DraftBill, InboundDocument, RemoteInvoice
+from booklantern.seeding import data_dir
 from sendora_core.safety import write_action
-
-DATA = Path(__file__).resolve().parents[5] / "data"
 
 
 class SeedAccounting:
@@ -17,7 +16,9 @@ class SeedAccounting:
         self.posted: list[DraftBill] = []
 
     def list_open_invoices(self) -> list[RemoteInvoice]:
-        seed = json.loads((Path(self.settings.seed_dir or DATA) / "seed.json").read_text())
+        if not self.settings.demo_mode:
+            return []  # the offline stand in holds fictional invoices: a real install never sees them
+        seed = json.loads((data_dir(self.settings.seed_dir) / "seed.json").read_text())
         names = {c["key"]: c["name"] for c in seed["customers"]}
         return [RemoteInvoice(i["number"], names[i["customer"]], i["total_minor"], i["total_minor"] - i["paid_minor"], i["due"]) for i in seed["invoices"] if i["status"] == "open"]
 
@@ -47,14 +48,22 @@ class SeedInbox:
         self.delivered: set[str] = set()
 
     def fetch_documents(self) -> list[InboundDocument]:
-        root = Path(self.settings.seed_dir or DATA)
+        if not self.settings.demo_mode:
+            return []  # the offline mailbox holds fictional bills: a real install that left INBOX_ADAPTER=seed must never load them
+        root = data_dir(self.settings.seed_dir)
         seed = json.loads((root / "seed.json").read_text())
         out = []
         for d in seed["documents"]:
             if d["source"] == "inbox" and d["id"] not in self.delivered:
                 self.delivered.add(d["id"])
-                out.append(InboundDocument(d["id"], Path(d["file"]).name, (root / d["file"]).read_bytes(), d["from"], d["subject"]))
+                out.append(InboundDocument(d["id"], Path(d["file"]).name, (root / d["file"]).read_bytes(), d["from"], d["subject"], ref=d["id"]))
         return out
+
+    def acknowledge(self, acks: list[str]) -> None:
+        return None  # the offline mailbox hands each document over once
+
+    def take_notes(self) -> list:
+        return []  # the offline mailbox holds bills only
 
     def healthcheck(self) -> tuple[bool, str]:
         return True, "Offline demo mailbox."

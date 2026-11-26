@@ -5,14 +5,16 @@ from __future__ import annotations
 from datetime import date
 
 from fastapi import APIRouter, Depends, HTTPException, Request
+from fastapi.concurrency import run_in_threadpool
 from pydantic import BaseModel, Field
-from sqlalchemy import select
+from sqlalchemy import select, update
 from sqlalchemy.orm import Session
 
 from booklantern import bankservice, collections, intake, posting
 from booklantern.api.deps import db, get_ctx, writer
 from booklantern.context import Ctx
 from booklantern.exceptions import resolve
+from booklantern.money import CURRENCY_EXPONENT
 from booklantern.models import ExceptionItem, BankTransaction, Bill, BillLine, Customer, Document, Invoice, Match, Reminder
 from sendora_core.audit import record_audit
 
@@ -30,27 +32,51 @@ def _found(obj, what: str):
     return obj
 
 
-@router.post("/documents/upload", summary="Upload a PDF or image as the raw request body. Send the file name in the x-filename header.")
-async def upload(request: Request, s: Session = Depends(db), ctx: Ctx = Depends(get_ctx), u: dict = Depends(writer)):
-    data = await request.body()
-    if not data or len(data) > 15 * 1024 * 1024:
+MAX_UPLOAD = 15 * 1024 * 1024
+EDITABLE = ("needs_review", "inbox")  # the states a bill may still be edited in
+
+
+async def _bounded_body(request: Request, limit: int) -> bytes:
+    """The request body, read with a ceiling: a declared size over the limit is refused before a byte is read, and a body that is longer than it says is cut off."""
+    declared = request.headers.get("content-length")
+    if declared is not None and (not declared.isdigit() or int(declared) > limit):
         raise HTTPException(413, "The file is empty or larger than 15 MB.")
+    chunks: list[bytes] = []
+    total = 0
+    async for chunk in request.stream():
+        total += len(chunk)
+        if total > limit:
+            raise HTTPException(413, "The file is empty or larger than 15 MB.")
+        chunks.append(chunk)
+    return b"".join(chunks)
+
+
+def _store_and_read(s: Session, ctx: Ctx, name: str, data: bytes, who: str) -> dict:
     try:
-        doc = intake.ingest(s, ctx, request.headers.get("x-filename", "upload.pdf"), data, "upload")
+        doc = intake.ingest(s, ctx, name, data, "upload")
     except intake.UnsupportedFile as exc:
         raise HTTPException(415, str(exc)) from exc
     if doc is None:
         return {"duplicate": True}
     bill = intake.process_document(s, ctx, doc, data)
-    record_audit(s, u["user"], "document.uploaded", f"document:{doc.id}", {})
+    record_audit(s, who, "document.uploaded", f"document:{doc.id}", {})
     return {"duplicate": False, "document_id": doc.id, "bill_id": bill.id}
+
+
+@router.post("/documents/upload", summary="Upload a PDF or image as the raw request body. Send the file name in the x-filename header.")
+async def upload(request: Request, s: Session = Depends(db, scope="function"), ctx: Ctx = Depends(get_ctx), u: dict = Depends(writer)):
+    data = await _bounded_body(request, MAX_UPLOAD)
+    if not data:
+        raise HTTPException(413, "The file is empty or larger than 15 MB.")
+    # Reading a PDF is slow work: it runs in a worker thread, so the sign in page and every other request keep answering meanwhile.
+    return await run_in_threadpool(_store_and_read, s, ctx, request.headers.get("x-filename", "upload.pdf"), data, u["user"])
 
 
 class LineIn(BaseModel):
     description: str = Field(max_length=240)
     quantity_milli: int = Field(ge=0, le=10**9)
-    unit_minor: int
-    total_minor: int
+    unit_minor: int = Field(ge=0, le=10**12)
+    total_minor: int = Field(ge=0, le=10**12)
 
 
 class BillPatch(BaseModel):
@@ -66,14 +92,24 @@ class BillPatch(BaseModel):
     subtotal_minor: int | None = Field(default=None, ge=0, le=10**12)
     tax_minor: int | None = Field(default=None, ge=0, le=10**12)
     total_minor: int | None = Field(default=None, ge=0, le=10**12)
-    lines: list[LineIn] | None = None
+    lines: list[LineIn] | None = Field(default=None, max_length=500)
+
+
+def _short(value) -> str | int | None:
+    """An old or new value for the audit log: numbers stay numbers, anything else is text of at most 80 characters."""
+    return value if isinstance(value, int) or value is None else str(value)[:80]
 
 
 @router.patch("/bills/{bill_id}", summary="Correct fields on a bill. The checks run again.")
-def patch_bill(bill_id: int, body: BillPatch, s: Session = Depends(db), ctx: Ctx = Depends(get_ctx), u: dict = Depends(writer)):
+def patch_bill(bill_id: int, body: BillPatch, s: Session = Depends(db, scope="function"), ctx: Ctx = Depends(get_ctx), u: dict = Depends(writer)):
     b = _found(s.get(Bill, bill_id), "bill")
-    if b.status not in ("needs_review", "inbox"):
+    if b.status not in EDITABLE:
         raise HTTPException(409, "Only a bill that is waiting for review can be edited.")
+    # The edit is claimed with one conditional UPDATE: a bill that was approved or rejected a moment ago is not touched, and on Postgres the row stays locked until this
+    # request ends, so an approval cannot slip in between and approve values the approver never saw.
+    claimed = s.execute(update(Bill).where(Bill.id == bill_id, Bill.status.in_(EDITABLE)).values(edited_by=u["user"]).execution_options(synchronize_session=False))
+    if claimed.rowcount != 1:
+        raise HTTPException(409, "This bill was approved or rejected a moment ago, so it can no longer be edited.")
     changed = body.model_dump(exclude_unset=True)
     lines = changed.pop("lines", None)
     for k in ("vendor", "number", "currency", "po_number", "bill_to", "bank_account", "subtotal_minor", "tax_minor", "total_minor"):
@@ -81,12 +117,20 @@ def patch_bill(bill_id: int, body: BillPatch, s: Session = Depends(db), ctx: Ctx
             raise HTTPException(422, f"{k.replace('_minor', '').replace('_', ' ').capitalize()} cannot be empty. Leave the field as it was, or type a value.")
     if "currency" in changed:
         changed["currency"] = changed["currency"].upper()
+        if changed["currency"] not in CURRENCY_EXPONENT:
+            raise HTTPException(422, f"{changed['currency']} is not a currency this system knows. Use a three letter code such as USD, EUR or GBP.")
+    if changed.get("vendor_id") is not None:
+        from booklantern.models import Vendor
+        if s.get(Vendor, changed["vendor_id"]) is None:
+            raise HTTPException(422, "That vendor is not on the vendor list.")
     issue, due = changed.get("issue_date", b.issue_date), changed.get("due_date", b.due_date)
     if issue and due and due < issue:
         raise HTTPException(422, "The due date is before the bill date. Check both dates.")
     name = changed.pop("vendor", None)
+    old_vendor = b.vendor_name_read
     if name is not None:
         _set_vendor(s, b, name.strip())
+    before = {k: getattr(b, k) for k in changed}
     for k, v in changed.items():
         setattr(b, k, v)
     if lines is not None:
@@ -98,7 +142,8 @@ def patch_bill(bill_id: int, body: BillPatch, s: Session = Depends(db), ctx: Ctx
     doc = s.get(Document, b.document_id) if b.document_id else None
     rate_f = (doc.extraction or {}).get("fields", {}).get("tax_rate_bp") if doc else None
     found = intake.validate_bill(s, ctx, b, rate_f["value"] if rate_f and "tax_minor" not in changed and "subtotal_minor" not in changed else None)
-    record_audit(s, u["user"], "bill.edited", f"bill:{b.id}", {"fields": sorted(changed) + (["vendor"] if name is not None else []) + (["lines"] if lines is not None else [])})
+    record_audit(s, u["user"], "bill.edited", f"bill:{b.id}", {"fields": sorted(changed) + (["vendor"] if name is not None else []) + (["lines"] if lines is not None else []),
+                                                         "changes": {k: {"old": _short(before[k]), "new": _short(v)} for k, v in changed.items()} | ({"vendor": {"old": _short(old_vendor), "new": _short(name.strip())}} if name is not None else {})})
     return {"ok": True, "findings": [f.kind for f in found]}
 
 
@@ -112,12 +157,13 @@ def _set_vendor(s: Session, b: Bill, name: str) -> None:
 
 class ApproveIn(BaseModel):
     note: str = Field(default="", max_length=300)
+    etag: str | None = Field(default=None, max_length=64)  # the fingerprint the page loaded with the bill (GET /api/bills/{id}): when it is sent and the bill is different now, nothing is approved
 
 
-@router.post("/bills/{bill_id}/approve", summary="Approve a bill. A blocking finding needs a written reason.")
-def approve_bill(bill_id: int, body: ApproveIn, s: Session = Depends(db), u: dict = Depends(writer)):
+@router.post("/bills/{bill_id}/approve", summary="Approve a bill. A blocking finding needs a written reason (at least 12 characters in 2 words). Send the etag from GET /api/bills/{id} to refuse a bill that changed meanwhile.")
+def approve_bill(bill_id: int, body: ApproveIn, s: Session = Depends(db, scope="function"), u: dict = Depends(writer)):
     try:
-        b = posting.approve(s, bill_id, u["user"], body.note)
+        b = posting.approve(s, bill_id, u["user"], body.note, u["role"], body.etag)
     except posting.NoSuchBill as exc:
         raise HTTPException(404, str(exc)) from exc
     except ValueError as exc:
@@ -125,12 +171,29 @@ def approve_bill(bill_id: int, body: ApproveIn, s: Session = Depends(db), u: dic
     return {"status": b.status}
 
 
+class PostOutcomeIn(BaseModel):
+    posted: bool
+    external_id: str = Field(default="", max_length=80)
+    note: str = Field(min_length=1, max_length=300)
+
+
+@router.post("/bills/{bill_id}/post-outcome", summary="Say what happened after a post whose outcome was unclear: the draft is in the accounting system (give its id) or it is not.")
+def post_outcome(bill_id: int, body: PostOutcomeIn, s: Session = Depends(db, scope="function"), u: dict = Depends(writer)):
+    try:
+        b = posting.resolve_unknown_post(s, bill_id, u["user"], body.posted, body.external_id, body.note)
+    except posting.NoSuchBill as exc:
+        raise HTTPException(404, str(exc)) from exc
+    except ValueError as exc:
+        raise _bad(exc) from exc
+    return {"status": b.status, "external_id": b.posted_external_id}
+
+
 class RejectIn(BaseModel):
     reason: str = Field(min_length=1, max_length=300)
 
 
 @router.post("/bills/{bill_id}/reject", summary="Reject a bill")
-def reject_bill(bill_id: int, body: RejectIn, s: Session = Depends(db), u: dict = Depends(writer)):
+def reject_bill(bill_id: int, body: RejectIn, s: Session = Depends(db, scope="function"), u: dict = Depends(writer)):
     try:
         return {"status": posting.reject(s, bill_id, u["user"], body.reason).status}
     except posting.NoSuchBill as exc:
@@ -140,7 +203,7 @@ def reject_bill(bill_id: int, body: RejectIn, s: Session = Depends(db), u: dict 
 
 
 @router.post("/bills/{bill_id}/post", summary="Post an approved bill to the accounting system as a draft. Does nothing in draft mode or with ACCOUNTING_WRITE off.")
-def post_bill(bill_id: int, s: Session = Depends(db), ctx: Ctx = Depends(get_ctx), u: dict = Depends(writer)):
+def post_bill(bill_id: int, s: Session = Depends(db, scope="function"), ctx: Ctx = Depends(get_ctx), u: dict = Depends(writer)):
     try:
         return posting.post_draft(s, ctx, bill_id, u["user"])
     except posting.NoSuchBill as exc:
@@ -150,7 +213,7 @@ def post_bill(bill_id: int, s: Session = Depends(db), ctx: Ctx = Depends(get_ctx
 
 
 @router.post("/reminders/{reminder_id}/approve", summary="Approve a drafted reminder")
-def approve_reminder(reminder_id: int, s: Session = Depends(db), u: dict = Depends(writer)):
+def approve_reminder(reminder_id: int, s: Session = Depends(db, scope="function"), u: dict = Depends(writer)):
     try:
         r = collections.approve_reminder(s, reminder_id, u["user"])
         collections.close_approval(s, reminder_id, True, u["user"], u["role"])
@@ -160,9 +223,9 @@ def approve_reminder(reminder_id: int, s: Session = Depends(db), u: dict = Depen
 
 
 @router.post("/reminders/{reminder_id}/cancel", summary="Cancel a reminder that has not been sent")
-def cancel_reminder(reminder_id: int, s: Session = Depends(db), u: dict = Depends(writer)):
+def cancel_reminder(reminder_id: int, s: Session = Depends(db, scope="function"), u: dict = Depends(writer)):
     r = s.get(Reminder, reminder_id)
-    if r is None or r.status not in ("drafted", "approved"):
+    if r is None or r.status not in ("drafted", "approved", "sending"):  # "sending": it was being sent when the program stopped, and a person has looked at the sent mail
         raise HTTPException(409, "This reminder cannot be cancelled.")
     r.status, r.cancel_reason = "cancelled", "cancelled by a person"
     record_audit(s, u["user"], "reminder.cancelled", f"reminder:{r.id}", {})
@@ -177,7 +240,7 @@ class PromiseIn(BaseModel):
 
 
 @router.post("/invoices/{invoice_id}/promise", summary="Record a promise to pay")
-def promise(invoice_id: int, body: PromiseIn, s: Session = Depends(db), ctx: Ctx = Depends(get_ctx), u: dict = Depends(writer)):
+def promise(invoice_id: int, body: PromiseIn, s: Session = Depends(db, scope="function"), ctx: Ctx = Depends(get_ctx), u: dict = Depends(writer)):
     inv = _found(s.get(Invoice, invoice_id), "invoice")
     if inv.status != "open":
         raise HTTPException(409, "This invoice is already paid, so there is nothing to promise.")
@@ -195,7 +258,7 @@ class DisputeIn(BaseModel):
 
 
 @router.post("/invoices/{invoice_id}/dispute", summary="Mark or clear a dispute. A dispute stops reminders.")
-def dispute(invoice_id: int, body: DisputeIn, s: Session = Depends(db), u: dict = Depends(writer)):
+def dispute(invoice_id: int, body: DisputeIn, s: Session = Depends(db, scope="function"), u: dict = Depends(writer)):
     _found(s.get(Invoice, invoice_id), "invoice")
     return {"disputed": collections.set_dispute(s, invoice_id, body.disputed, body.note, u["user"]).disputed}
 
@@ -205,13 +268,15 @@ class OptOutIn(BaseModel):
 
 
 @router.post("/customers/{customer_id}/opt-out", summary="Record that a customer asked to get no reminders")
-def opt_out(customer_id: int, body: OptOutIn, s: Session = Depends(db), u: dict = Depends(writer)):
+def opt_out(customer_id: int, body: OptOutIn, s: Session = Depends(db, scope="function"), u: dict = Depends(writer)):
     _found(s.get(Customer, customer_id), "customer")
+    if not body.opted_out and u["role"] != "owner":
+        raise HTTPException(403, "Only the owner can switch reminders back on for a customer who asked to stop.")
     return {"opted_out": collections.set_opt_out(s, customer_id, body.opted_out, u["user"]).opted_out}
 
 
 @router.post("/invoices/{invoice_id}/payment-link", summary="Make a payment link for an invoice. In draft mode this makes a placeholder and nothing at the payment provider.")
-def payment_link(invoice_id: int, s: Session = Depends(db), ctx: Ctx = Depends(get_ctx), u: dict = Depends(writer)):
+def payment_link(invoice_id: int, s: Session = Depends(db, scope="function"), ctx: Ctx = Depends(get_ctx), u: dict = Depends(writer)):
     inv = _found(s.get(Invoice, invoice_id), "invoice")
     if inv.status != "open":
         raise HTTPException(409, "This invoice is already paid, so it needs no payment link.")
@@ -220,14 +285,15 @@ def payment_link(invoice_id: int, s: Session = Depends(db), ctx: Ctx = Depends(g
 
 class ImportIn(BaseModel):
     text: str = Field(min_length=1, max_length=8_000_000)
-    name: str = Field(default="upload.csv", max_length=80)
+    name: str = Field(default="upload.csv", max_length=40)
+    account_id: int | None = Field(default=None, ge=1)  # which bank account the statement belongs to; needed when there is more than one
 
 
 @router.post("/bank/import", summary="Import a bank statement CSV (text in the body). CSV only, no bank login.")
-def bank_import(body: ImportIn, s: Session = Depends(db), ctx: Ctx = Depends(get_ctx), u: dict = Depends(writer)):
+def bank_import(body: ImportIn, s: Session = Depends(db, scope="function"), ctx: Ctx = Depends(get_ctx), u: dict = Depends(writer)):
     from booklantern.bankcsv import CsvError
     try:
-        r = bankservice.import_csv(s, body.text, body.name)
+        r = bankservice.import_csv(s, body.text, body.name, body.account_id)
     except CsvError as exc:
         raise HTTPException(422, str(exc)) from exc
     r["matching"] = bankservice.run_matching(s, ctx)
@@ -237,7 +303,7 @@ def bank_import(body: ImportIn, s: Session = Depends(db), ctx: Ctx = Depends(get
 
 
 @router.post("/bank/match/run", summary="Run the matcher on lines that are not matched yet")
-def match_run(s: Session = Depends(db), ctx: Ctx = Depends(get_ctx), u: dict = Depends(writer)):
+def match_run(s: Session = Depends(db, scope="function"), ctx: Ctx = Depends(get_ctx), u: dict = Depends(writer)):
     r = bankservice.run_matching(s, ctx)
     bankservice.record_payments(s)
     return r
@@ -251,7 +317,7 @@ class LinkIn(BaseModel):
 
 
 @router.post("/bank/links", summary="Link a bank line to an invoice or bill by hand")
-def link(body: LinkIn, s: Session = Depends(db), u: dict = Depends(writer)):
+def link(body: LinkIn, s: Session = Depends(db, scope="function"), u: dict = Depends(writer)):
     t = _found(s.get(BankTransaction, body.txn_id), "bank line")
     _found(s.get(Invoice if body.kind == "invoice" else Bill, body.target_id), body.kind)
     if (t.amount_minor > 0) != (body.kind == "invoice"):
@@ -265,7 +331,7 @@ def link(body: LinkIn, s: Session = Depends(db), u: dict = Depends(writer)):
 
 
 @router.post("/bank/matches/{match_id}/confirm", summary="Confirm a suggested match")
-def confirm(match_id: int, s: Session = Depends(db), u: dict = Depends(writer)):
+def confirm(match_id: int, s: Session = Depends(db, scope="function"), u: dict = Depends(writer)):
     _found(s.get(Match, match_id), "match")
     bankservice.confirm_match(s, match_id, u["user"])
     bankservice.record_payments(s)
@@ -273,7 +339,7 @@ def confirm(match_id: int, s: Session = Depends(db), u: dict = Depends(writer)):
 
 
 @router.delete("/bank/matches/{match_id}", summary="Remove a match")
-def unlink(match_id: int, s: Session = Depends(db), u: dict = Depends(writer)):
+def unlink(match_id: int, s: Session = Depends(db, scope="function"), u: dict = Depends(writer)):
     _found(s.get(Match, match_id), "match")
     bankservice.unlink(s, match_id, u["user"])
     return {"ok": True}
@@ -284,14 +350,21 @@ class ResolveIn(BaseModel):
 
 
 @router.post("/exceptions/{exc_id}/resolve", summary="Mark an exception as dealt with. A blocking one needs a written reason.")
-def resolve_exception(exc_id: int, body: ResolveIn | None = None, s: Session = Depends(db), u: dict = Depends(writer)):
+def resolve_exception(exc_id: int, body: ResolveIn | None = None, s: Session = Depends(db, scope="function"), u: dict = Depends(writer)):
     note = (body.note if body else "").strip()
     row = _found(s.get(ExceptionItem, exc_id), "exception")
-    if row.severity == "block" and not note:
-        raise HTTPException(409, "This finding blocks approval. Write down why it is safe to close it.")
+    if row.severity == "block" and not posting.real_reason(note):
+        raise HTTPException(409, "This finding blocks approval. Write down why it is safe to close it. " + posting.REASON_HELP)
+    bill = s.get(Bill, row.ref_id) if row.ref_type == "bill" else None
+    if row.kind == posting.UNKNOWN_POST and bill is not None and bill.status == "posting":
+        # Closing this finding here would leave the bill in "posting" for good: it is settled only by saying what is in the accounting system.
+        raise HTTPException(409, "This bill is still waiting for you to say whether the accounting system made its draft. Use 'Say what happened' on the bill (POST /api/bills/{id}/post-outcome), which settles the bill too.")
+    own_edit = row.severity == "block" and bill is not None and u["user"] in posting.editors(s, bill)
+    if own_edit and u["role"] != "owner":
+        raise HTTPException(409, "You changed this bill yourself, so you cannot close a blocking finding on it. Someone else (or the owner) has to.")
     try:
         e = resolve(s, exc_id, u["user"])
     except ValueError as exc:
         raise HTTPException(404, str(exc)) from exc
-    record_audit(s, u["user"], "exception.resolved", f"exception:{e.id}", {"kind": e.kind, "note": note[:200]})
+    record_audit(s, u["user"], "exception.resolved", f"exception:{e.id}", {"kind": e.kind, "note": note[:200], "self_review": own_edit})
     return {"status": e.status}

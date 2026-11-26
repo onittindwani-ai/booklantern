@@ -10,6 +10,13 @@ export const FINDING: Record<string, { label: string; help: string }> = {
   duplicate_near: { label: "Possible duplicate", help: "Same vendor and amount as another bill, with a very similar number and date." },
   amount_far_above_history: { label: "Far above usual", help: "Much larger than this vendor's usual bill." },
   bank_detail_changed: { label: "Bank details changed", help: "The bank account is not the one on file. Phone the vendor before paying." },
+  bank_details_not_read: { label: "Bank details not read", help: "The vendor has an account on file but none could be read from this bill. Compare the page with the account on file before paying." },
+  negative_amount: { label: "Negative amount", help: "An amount on the document is negative (a credit or a reversal). It is not a bill to pay as it stands." },
+  implausible_amount: { label: "Amount too large to be real", help: "A printed amount is far larger than any real bill, so it was not read. Key the amounts by hand." },
+  currency_unknown: { label: "Currency not known", help: "The bill is written in a currency this system has no decimals for, so its amounts are not booked. Key the bill by hand in a known currency, or add the currency, before approving." },
+  unsupported_file: { label: "File not read", help: "An attachment that was called a PDF or a picture is not one, so it was not read. Open the mail and look at the file." },
+  suspicious_text: { label: "Text that gives orders", help: "The document contains text that tries to give orders. It was read as data. Check the bill with the vendor." },
+  credit_note: { label: "Credit note", help: "This looks like a credit note, not a bill to pay." },
   missing_po: { label: "No purchase order", help: "This vendor's bills need a PO number." },
   currency_mismatch: { label: "Unexpected currency", help: "Not the currency this vendor is usually paid in." },
   future_date: { label: "Date in the future", help: "The bill is dated after today." },
@@ -19,12 +26,19 @@ export const FINDING: Record<string, { label: string; help: string }> = {
   low_confidence: { label: "Low confidence", help: "At least one field is unsure." },
   possible_duplicate_line: { label: "Duplicate bank line", help: "An identical line comes earlier in the file." },
   unmatched_line: { label: "Bank line not matched", help: "Nothing fits this line." },
+  tax_rate_differs: { label: "Tax rate differs from the usual", help: "The printed tax rate is not one this vendor's bills usually carry. A comparison only, not tax advice." },
+  sender_not_allowed: { label: "Sender not on the list", help: "The bill came by email from an address that is not in INTAKE_ALLOWED_SENDERS. Check with the vendor before approving." },
+  post_outcome_unknown: { label: "Posting outcome unclear", help: "The accounting system did not answer clearly, so nobody knows whether it made the draft. Look for it there, then say what you found on the bill." },
+  reminder_unconfirmed: { label: "Reminder may or may not have gone", help: "The mail connection failed after the message was handed over. Look in the sent folder before anything is done by hand." },
+  reminder_refused: { label: "Reminder not sent", help: "The mail server refused it or failed too many times. Check the customer's address." },
+  stop_reply: { label: "Customer asked to stop", help: "A message that asks to stop the reminders is waiting, unread, in the mailbox. Switch reminders off for that customer on the Collections page if that is what they want." },
+  customer_reply: { label: "Customer replied", help: "A customer answered by email. The message is still unread in the mailbox." },
 };
 export const finding = (k: string) => FINDING[k] ?? { label: k.replace(/_/g, " "), help: "" };
 export const sevTone = (s: string): BadgeTone => (s === "block" ? "danger" : s === "warning" ? "warning" : "neutral");
 
 export const BILL_STATE: Record<string, { label: string; tone: BadgeTone }> = {
-  inbox: { label: "New", tone: "neutral" }, needs_review: { label: "Needs review", tone: "warning" }, approved: { label: "Approved", tone: "accent" },
+  inbox: { label: "New", tone: "neutral" }, posting: { label: "Posting: outcome unclear", tone: "danger" }, needs_review: { label: "Needs review", tone: "warning" }, approved: { label: "Approved", tone: "accent" },
   posted_draft: { label: "Posted as draft", tone: "success" }, paid: { label: "Paid", tone: "success" }, rejected: { label: "Rejected", tone: "neutral" },
 };
 export const FIELD_LABEL: Record<string, string> = {

@@ -5,7 +5,7 @@ from __future__ import annotations
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from booklantern import bankservice, collections, forecastservice, fxservice, intake
+from booklantern import bankservice, collections, forecastservice, fxservice, intake, posting
 from booklantern.context import Ctx, set_state
 from sendora_core.events import record_event
 from sendora_core.jobs import Handler, enqueue
@@ -25,6 +25,7 @@ def job_reminders(session: Session, ctx: Ctx) -> dict:
 
 
 def job_reconcile(session: Session, ctx: Ctx) -> dict:
+    posting.sweep_stale_posts(session, ctx)  # a bill left in "posting" by a stopped process gets the finding that lets a person settle it
     out = bankservice.run_matching(session, ctx)
     bankservice.record_payments(session)
     return out

@@ -26,16 +26,35 @@ def pages_from_text(text: str) -> list[Page]:
     return out
 
 
+MAX_COLUMN = 220  # a printed line is never laid out wider than this many characters: a cell placed far off the page cannot make the text longer
+MAX_LINES_PER_PAGE = 400
+
+
 def layout_text(pages: list[Page], max_chars: int = 24000) -> str:
-    """The text layer laid out in columns: each cell starts at the column its left edge sits at, at least two spaces after the cell before it. Pages are split by a form feed."""
-    out = []
+    """The text layer laid out in columns: each cell starts at the column its left edge sits at, at least two spaces after the cell before it. Pages are split by a form feed.
+
+    Every size is bounded before it is built, not after: a column is clamped to the page width and to MAX_COLUMN, a page keeps at most MAX_LINES_PER_PAGE lines, and the
+    work stops as soon as `max_chars` are reached. A file that places a letter 100 million points to the right makes the same short text as one that does not (a 1.4 KB
+    PDF used to need hundreds of megabytes here).
+    """
+    out: list[str] = []
+    total = 0
     for pg in pages:
-        lines = []
-        for cells in pg.rows():
+        limit = max(1, min(MAX_COLUMN, int(pg.width / CHAR_W)))
+        lines: list[str] = []
+        for cells in pg.rows()[:MAX_LINES_PER_PAGE]:
             line = ""
             for c in cells:
-                col = max(int(round(c.x0 / CHAR_W)) - int(MARGIN / CHAR_W), 0)
+                col = min(max(int(round(max(min(c.x0, 1e7), 0.0) / CHAR_W)) - int(MARGIN / CHAR_W), 0), limit)
                 line += " " * max(col - len(line), 2 if line else col) + c.text
+                if len(line) > limit + 400:  # the cells of one row are not allowed to stretch it without end either
+                    line = line[: limit + 400]
+                    break
             lines.append(line.rstrip())
+            total += len(line) + 1
+            if total >= max_chars:
+                break
         out.append("\n".join(lines))
+        if total >= max_chars:
+            break
     return PAGE_BREAK.join(out)[:max_chars]

@@ -23,7 +23,7 @@ from booklantern import hostile
 from booklantern.extraction import vocab
 from booklantern.extraction.cells import Cell, Page, page_count, read_page
 from booklantern.extraction.dates import fold, other_reading, pick_pair, read_date
-from booklantern.extraction.numbers import CODE_RE, find_currency, money_tokens
+from booklantern.extraction.numbers import CODE_RE, find_currency, money_tokens, unknown_mark
 from booklantern.extraction.schema import Extraction, FieldValue, LineItem
 from booklantern.money import CURRENCY_EXPONENT, tax_for
 
@@ -49,6 +49,33 @@ class Row:
 
     def cell_at(self, pos: int) -> Cell | None:
         return next((c for c, (s, e) in zip(self.cells, self.spans) if s <= pos < e), None)
+
+
+ROUTING_LABEL = re.compile(r"\b(?:routing|aba|rtn)(?:\s*(?:no\.?|number|#))?\s*[:.#]?\s*(\d{9})\b", re.I)
+SORT_LABEL = re.compile(r"\bsort\s*code\s*[:.#]?\s*(\d{2}[- ]?\d{2}[- ]?\d{2})\b", re.I)
+SWIFT_LABEL = re.compile(r"\b(?:swift|bic)(?:\s*(?:code|/bic))?\s*[:.#]?\s*([A-Z]{6}[A-Z0-9]{2}(?:[A-Z0-9]{3})?)\b")
+ACCOUNT_NO_LABEL = re.compile(r"\b(?:account|acct|a/c)\s*(?:no\.?|number|num|#)?\s*[:.#]?\s*(\d[\d -]{4,20}\d)\b", re.I)
+BANK_WORDS = re.compile(r"\b(?:bank|routing|sort\s*code|swift|bic|remit|wire|ach)\b", re.I)
+
+
+def labelled_bank_details(rows: list[Row]) -> tuple[str, Cell] | None:
+    """Routing and account numbers, a UK sort code or a SWIFT code, read by their labels. An 'account number' on its own is usually the customer's account with the
+    vendor, so it counts only when a routing number, sort code or SWIFT code is printed too, or the same line says bank, wire or remit."""
+    parts: dict[str, str] = {}
+    first: Cell | None = None
+    bank_context = False
+    for r in rows:
+        if BANK_WORDS.search(r.text):
+            bank_context = True
+        for key, rx in (("routing", ROUTING_LABEL), ("sort", SORT_LABEL), ("swift", SWIFT_LABEL), ("account", ACCOUNT_NO_LABEL)):
+            m = rx.search(r.text)
+            if m and key not in parts:
+                parts[key] = re.sub(r"[^A-Z0-9]", "", m.group(1).upper())
+                first = first or r.cell_at(m.start(1)) or r.cells[0]
+    strong = any(k in parts for k in ("routing", "sort", "swift"))
+    if first is None or not (strong or ("account" in parts and bank_context)):
+        return None
+    return " ".join(parts[k] for k in ("routing", "sort", "account", "swift") if k in parts), first
 
 
 def _rate_bp(text: str) -> int:
@@ -127,6 +154,16 @@ def _detect_currency(rows: list[Row], total_rows: list[Row]) -> tuple[str | None
     text = "\n".join(r.text for r in rows)
     cur = find_currency(text)
     return cur, "symbol on the page" if cur else ""
+
+
+def _foreign_total_mark(total_rows: list[Row], exp: int) -> str | None:
+    """A currency code or sign written next to a total that this system has no decimals for (TWD, COP, NT$). Such a bill is never booked in the company currency by itself."""
+    for r in total_rows[::-1]:
+        toks = money_tokens(r.text, exp)
+        mark = unknown_mark(r.text, toks[-1][0], toks[-1][1]) if toks else None
+        if mark:
+            return mark
+    return None
 
 
 def _solve(subs, taxes, taxtotals, totals):
@@ -244,8 +281,12 @@ def extract_pages(pages: list[Page], total_pages: int | None = None) -> Extracti
             put("vendor", first.cells[0].text.strip(), 45 + 10, first.cells[0], "top of the page", ["no label, taken from the top of the page"])
 
     # amounts into fields
+    negative: list[str] = []  # amounts printed with a minus sign, in brackets or marked CR: the sign is kept as a finding, never dropped quietly
+
     def money_field(name, item, label):
         m, r, c, lab = item
+        if m < 0:
+            negative.append(label)
         put(name, m if m >= 0 else -m, 60 + 15 + 5, c, label, ["label found", "amount parsed", "value read to the right"])
 
     if sub:
@@ -254,9 +295,14 @@ def extract_pages(pages: list[Page], total_pages: int | None = None) -> Extracti
         money_field("total_minor", tot, "total")
     if how == "incl" and tot:
         put("subtotal_minor", tot[0] - tax_amt, 55, tot[2], "total minus tax", ["not printed (prices include tax), worked out as total minus tax"])
+    if tax_amt is not None and tax_amt < 0:
+        negative.append("tax")
     if tax_amt is not None and (taxes or taxtotals):
         item = (taxtotals or taxes)[-1]
         put("tax_minor", abs(tax_amt), 60 + 15 + 5, item[2], "tax", ["label found", "amount parsed", f"read as {how}"])
+    foreign = _foreign_total_mark([r for r, k, *_ in found if k == "total"], exp)
+    if foreign:
+        put("currency_unknown", foreign, 90, tot[2] if tot else None, "total", [f"the total is written with {foreign}, a currency this system has no decimals for"])
     if cur and tot:
         put("currency", cur, 60 + 15 if cur_how.startswith(("code", "most")) else 55, tot[2], "total", [f"currency read from the {cur_how}"])
     # tax rate: one rate on one line, or parallel components added up
@@ -272,6 +318,10 @@ def extract_pages(pages: list[Page], total_pages: int | None = None) -> Extracti
         if (m or lab) and "bank_account" not in f:
             pos = (m.start() if m else lab.start(1))
             put("bank_account", (m.group() if m else lab.group(1).strip()), 55, r.cell_at(pos) or r.cells[0], "account pattern", ["no label, found by its shape" if m else "label found"])
+    if "bank_account" not in f:  # labelled details in the other usual styles (US routing and account, UK sort code, SWIFT)
+        details = labelled_bank_details(rows)
+        if details:
+            put("bank_account", details[0], 50, details[1], "bank details", ["found by the labels Routing, Sort code, SWIFT or Account next to bank words"])
 
     # lines
     stop = min((rows.index(r) for r, k, *_ in found if k), default=len(rows))
@@ -288,7 +338,9 @@ def extract_pages(pages: list[Page], total_pages: int | None = None) -> Extracti
         f["tax_rate_bp"].confidence = min(100, f["tax_rate_bp"].confidence + 15) if agree else max(0, f["tax_rate_bp"].confidence - 25)
         f["tax_rate_bp"].reasons.append("printed rate matches tax over subtotal" if agree else "printed rate does not match tax over subtotal")
     head = " ".join(r.text for r in rows[:8])
-    credit = bool(vocab.CREDIT_RE.search(fold(head)))
+    credit = bool(vocab.CREDIT_RE.search(fold(head))) or bool(negative)
+    if negative:
+        put("negative_amount", 1, 90, None, "sign", [f"the {', '.join(sorted(set(negative)))} amount is printed as a negative number"])
     put("doc_type", "credit_note" if credit else "bill", 80 if credit else 55, None, "title", ["credit note wording in the heading" if credit else "no credit note wording"])
     if credit:
         notes.append("This looks like a credit note, not a bill to pay.")

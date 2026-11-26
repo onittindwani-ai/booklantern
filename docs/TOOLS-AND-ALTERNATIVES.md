@@ -111,7 +111,7 @@ What Booklantern has for each: Gmail over IMAP: Adapter tested against a fake IM
 - Reliability and upkeep (70): A mature service, but app passwords can be withdrawn by Google.
 - Cost (80): Works with a normal mailbox. No price checked.
 - Data control (40): Mail stays at Google.
-- Integration depth (70): Tested against a local fake server for unread, attachments and marking seen.
+- Integration depth (70): Tested against a local fake server for unread, attachments, marking seen after the bills are saved, and leaving mail without a bill unread.
 - Sources: https://support.google.com/mail/answer/185833 (checked not fetched, UNVERIFIED)
 
 **Evidence, Any IMAP mail host**
@@ -127,7 +127,7 @@ What Booklantern has for each: Gmail over IMAP: Adapter tested against a fake IM
 **Recommendation by user type**
 
 - **Beginner:** A dedicated mailbox on Gmail with an app password, because most small businesses have one. Use a mailbox just for bills.
-- **Implementer running it for clients:** Create a separate mailbox such as bills at the client's domain and point suppliers at it. The reader only looks at unread mail and marks it read.
+- **Implementer running it for clients:** Create a separate mailbox such as bills at the client's domain and point suppliers at it. The reader only looks at unread mail and marks it read once its bills are saved. Mail with no bill in it stays unread. Set REPLY_TO to another mailbox a person reads.
 - **Cost sensitive owner:** Any mail host that offers IMAP works and the reader adds no cost of its own.
 - **When open source is the right call:** A self hosted mail server is the right call only if the client already runs one. Do not start one for this.
 

@@ -41,6 +41,7 @@ class BillData:
     total: int
     line_totals: list[int]
     tax_rate_bp: int | None = None
+    vendor_name: str = ""  # the name as read from the document: it stands in for the vendor when the vendor list has no match
 
 
 @dataclass
@@ -99,19 +100,52 @@ def check_math(b: BillData, vendor: VendorData | None) -> list[Finding]:
     return out
 
 
+def norm_number(s: str) -> str:
+    """A bill number with the punctuation, the case and the zero padding taken out, so INV-0042, inv 42 and Inv.42 are one number. Digits of different groups stay apart (1-42 is not 142)."""
+    parts = re.findall(r"[a-z]+|\d+", s.casefold())
+    return "".join(re.sub(r"^0+(?=\d)", "", p) if p.isdigit() else p for p in parts)
+
+
+def same_vendor(a: BillData, b: BillData, number: str = "") -> bool:
+    """Whether two bills may be from the same vendor, for the duplicate checks.
+
+    Two matched vendors are the same only when it is the same record. When either bill has no matched vendor (a name that is on no list, or a lookalike such as
+    "Cobalt Office Supply Holdings Ltd" next to "Cobalt Office Supply") a bill that has a number is compared whatever name it carries, because a copy of a real bill under a
+    slightly different name is exactly what a duplicate check must catch. A bill with no number has nothing else to go on, so there the names must be close."""
+    if a.vendor_id is not None and b.vendor_id is not None:
+        return a.vendor_id == b.vendor_id
+    if number:
+        return True
+    return bool(a.vendor_name.strip() and b.vendor_name.strip()) and similar(a.vendor_name, b.vendor_name) >= 0.85
+
+
+def _other_name(o: BillData, b: BillData) -> str:
+    """A note for the person when the other bill carries a different vendor name or record, so a lookalike is plain to see."""
+    if o.vendor_id == b.vendor_id and o.vendor_id is not None:
+        return ""
+    if o.vendor_name.strip() and o.vendor_name.strip().casefold() != b.vendor_name.strip().casefold():
+        return f" That bill names the vendor as {o.vendor_name.strip()!r}."
+    return ""
+
+
 def check_duplicates(b: BillData, others: list[BillData]) -> list[Finding]:
-    """Compare against bills seen earlier. `others` must hold only bills received before this one, in order."""
+    """Compare against bills seen earlier. `others` must hold every other bill that counts (earlier or later), in order."""
     out: list[Finding] = []
+    number = norm_number(b.number)
     for o in others:
-        if o.id == b.id or o.vendor_id != b.vendor_id or o.vendor_id is None:
+        if o.id == b.id or not same_vendor(o, b, number):
             continue
-        same_number = o.number.strip().casefold() == b.number.strip().casefold()
-        if same_number and o.total == b.total and o.issue_date == b.issue_date and o.currency == b.currency:
-            out.append(Finding("duplicate_exact", "block", f"Same vendor, number, date and amount as bill {o.id}.", [o.id]))
+        # The same number and amount is the same bill on any date. Two bills with no readable number only count as one when their dates are the same as well (as before).
+        if norm_number(o.number) == number and o.total == b.total and o.currency == b.currency and (number or o.issue_date == b.issue_date):
+            if o.issue_date == b.issue_date:
+                out.append(Finding("duplicate_exact", "block", f"Same vendor, number, date and amount as bill {o.id}.{_other_name(o, b)}", [o.id]))
+            else:  # the same bill sent again with another date, or with no date, is still the same bill
+                out.append(Finding("duplicate_exact", "block", f"Same vendor, number and amount as bill {o.id}, but a different bill date ({o.issue_date or 'none'} and {b.issue_date or 'none'}). The same bill sent again?{_other_name(o, b)}", [o.id]))
             continue
         close_in_time = o.issue_date is not None and b.issue_date is not None and abs((o.issue_date - b.issue_date).days) <= NEAR_DAYS
         if o.total == b.total and o.currency == b.currency and similar(o.number, b.number) >= 0.85 and close_in_time:
-            out.append(Finding("duplicate_near", "warning", f"Same vendor and amount as bill {o.id}, a very similar number ({o.number} and {b.number}) and a date within {NEAR_DAYS} days.", [o.id]))
+            # Same amount, a number changed by a character or two, a date within days: this is how a paid bill is sent again to get past a duplicate check. It blocks like an exact copy.
+            out.append(Finding("duplicate_near", "block", f"Same vendor and amount as bill {o.id}, a very similar number ({o.number} and {b.number}) and a date within {NEAR_DAYS} days. A bill sent again with the number changed?{_other_name(o, b)}", [o.id]))
     return out
 
 
@@ -127,10 +161,16 @@ def check_history(b: BillData, history_totals: list[int]) -> list[Finding]:
 def check_vendor_facts(b: BillData, vendor: VendorData | None, company: str, as_of: date) -> list[Finding]:
     out: list[Finding] = []
     if vendor is None:
-        out.append(Finding("unknown_vendor", "warning", "The vendor name does not match anyone on the vendor list."))
+        if b.bank_account.strip():
+            out.append(Finding("unknown_vendor", "block", "The vendor name does not match anyone on the vendor list, and the bill asks to be paid into a bank account. A name that is only close to a real vendor's, with a "
+                                                         "different account, is how payments are redirected. Check the name and the account with the vendor on a number you already have, or add the vendor to the list first."))
+        else:
+            out.append(Finding("unknown_vendor", "warning", "The vendor name does not match anyone on the vendor list."))
     else:
         if vendor.bank_account and b.bank_account and norm_account(vendor.bank_account) != norm_account(b.bank_account):
             out.append(Finding("bank_detail_changed", "block", "The bank account on this bill is different from the one on file. Phone the vendor on a number you already have before paying."))
+        elif vendor.bank_account and not b.bank_account:
+            out.append(Finding("bank_details_not_read", "block", "This vendor has a bank account on file, but none could be read from this bill. The bill may show its details in a form the reader does not know, so a changed account would go unseen. Compare the page with the account on file before paying."))
         if vendor.requires_po and not b.po:
             out.append(Finding("missing_po", "warning", "This vendor's bills need a purchase order number and none was found."))
         if b.currency != vendor.currency:

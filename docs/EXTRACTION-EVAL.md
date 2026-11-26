@@ -76,6 +76,6 @@ Field accuracy per field, set B first run: vendor 83.3, invoice number 79.2, inv
 
 ## Other evals
 
-- **Planted problems and bank matching:** `python tools/score_seed.py` checks 25 planted document problems (duplicates counted per pair; found 25 of 25, 0 extra flags) and the bank answer key (183 of 184 lines as the key says). The same author wrote the seed and the checks.
+- **Planted problems and bank matching:** `python tools/score_seed.py` checks 25 planted document problems (duplicates counted per pair; found 25 of 25, 0 extra flags) and the bank answer key (184 of 184 lines as the key says). The same author wrote the seed and the checks.
 - **Duplicates:** exact and near duplicate detection, scored per pair, in `score_seed.py`.
 - **Property tests:** the forecast (deterministic, cash adds up, never more than is owed), the reminder stop rules on 400 random worlds of 90 days each, and money rounding. See `apps/api/tests/`.

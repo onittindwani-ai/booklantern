@@ -4,18 +4,18 @@ No accounts and no keys. Everything runs on made up data for a fictional company
 
 ## With Docker
 
-`docker compose up` starts the API, the worker, a database and the web app, then open http://localhost:3000. The compose file was written but **not run** here because no Docker daemon was available (UNVERIFIED). If it fails, use the steps below.
+The Docker stack is for a real install and starts empty (`08-DEPLOY-HETZNER.md`): it uses Postgres, and the demo company is loaded only into a SQLite database. For the demo use the steps below. The GitHub CI workflow builds the images and starts the stack, but no real host was used.
 
 ## Without Docker
 
 1. Python 3.12 and Node 22 or newer, plus pnpm.
-2. `python3.12 -m venv .venv` then `.venv/bin/pip install -e packages/core-py -e "apps/api[dev]"`.
+2. `python3.12 -m venv .venv` then `.venv/bin/pip install -c constraints.txt -e packages/core-py -e "apps/api[dev]"`.
 3. `pnpm install` then `pnpm build`.
 4. In one terminal: `DEMO_MODE=true MODE=live INSECURE_COOKIES=1 .venv/bin/python -m uvicorn booklantern.api.app:app_from_env --factory --port 8000`
 5. In another: `API_BASE_URL=http://127.0.0.1:8000 INSECURE_COOKIES=1 pnpm --filter web start`
 6. Open http://localhost:3000 and sign in as `owner@example.test` with the demo password shown on the sign in page.
 
-The first start fills the database with the made up company by itself.
+The first start fills an empty SQLite database with the made up company by itself. This works only with `DEMO_MODE=true` and no `OWNER_PASSWORD_HASH`; the demo password then works too. A database that already holds data is never reloaded.
 
 ## The tour
 

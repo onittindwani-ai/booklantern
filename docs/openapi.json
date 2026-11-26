@@ -2,7 +2,7 @@
  "openapi": "3.1.0",
  "info": {
   "title": "Booklantern API",
-  "version": "1.0.0"
+  "version": "1.0.1"
  },
  "paths": {
   "/health": {
@@ -564,6 +564,43 @@
       }
      }
     }
+   },
+   "post": {
+    "tags": [
+     "setup"
+    ],
+    "summary": "Add a vendor (owner only)",
+    "operationId": "add_vendor_api_vendors_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/VendorIn"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
    }
   },
   "/api/customers": {
@@ -579,6 +616,43 @@
       "content": {
        "application/json": {
         "schema": {}
+       }
+      }
+     }
+    }
+   },
+   "post": {
+    "tags": [
+     "setup"
+    ],
+    "summary": "Add a customer (owner only)",
+    "operationId": "add_customer_api_customers_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/CustomerIn"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
        }
       }
      }
@@ -915,7 +989,7 @@
     "tags": [
      "write"
     ],
-    "summary": "Approve a bill. A blocking finding needs a written reason.",
+    "summary": "Approve a bill. A blocking finding needs a written reason (at least 12 characters in 2 words). Send the etag from GET /api/bills/{id} to refuse a bill that changed meanwhile.",
     "operationId": "approve_bill_api_bills__bill_id__approve_post",
     "parameters": [
      {
@@ -934,6 +1008,56 @@
       "application/json": {
        "schema": {
         "$ref": "#/components/schemas/ApproveIn"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/bills/{bill_id}/post-outcome": {
+   "post": {
+    "tags": [
+     "write"
+    ],
+    "summary": "Say what happened after a post whose outcome was unclear: the draft is in the accounting system (give its id) or it is not.",
+    "operationId": "post_outcome_api_bills__bill_id__post_outcome_post",
+    "parameters": [
+     {
+      "name": "bill_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "title": "Bill Id"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/PostOutcomeIn"
        }
       }
      }
@@ -1554,6 +1678,324 @@
     }
    }
   },
+  "/api/vendors/{vendor_id}": {
+   "patch": {
+    "tags": [
+     "setup"
+    ],
+    "summary": "Change a vendor's bank account on file, purchase order rule, terms or tax rate (owner only)",
+    "operationId": "change_vendor_api_vendors__vendor_id__patch",
+    "parameters": [
+     {
+      "name": "vendor_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "title": "Vendor Id"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/VendorPatch"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/vendors/import": {
+   "post": {
+    "tags": [
+     "setup"
+    ],
+    "summary": "Import vendors from CSV text (owner only). Columns: name, currency, tax_rate, requires_po, bank_account, terms_days, address.",
+    "operationId": "import_vendors_api_vendors_import_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/CsvIn"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/customers/import": {
+   "post": {
+    "tags": [
+     "setup"
+    ],
+    "summary": "Import customers from CSV text (owner only). Columns: name, email, timezone, terms_days.",
+    "operationId": "import_customers_api_customers_import_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/CsvIn"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/invoices/import": {
+   "post": {
+    "tags": [
+     "setup"
+    ],
+    "summary": "Import open sales invoices from CSV text (owner only). Columns: number, customer, issue_date, due_date, total, currency, paid, paid_on.",
+    "operationId": "import_invoices_api_invoices_import_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/CsvIn"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/bank/accounts": {
+   "get": {
+    "tags": [
+     "setup"
+    ],
+    "summary": "Bank accounts",
+    "operationId": "bank_accounts_api_bank_accounts_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     }
+    }
+   },
+   "post": {
+    "tags": [
+     "setup"
+    ],
+    "summary": "Add the bank account the statements belong to (owner only)",
+    "operationId": "add_bank_account_api_bank_accounts_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/BankAccountIn"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/accounts": {
+   "get": {
+    "tags": [
+     "setup"
+    ],
+    "summary": "Chart of accounts",
+    "operationId": "accounts_api_accounts_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     }
+    }
+   },
+   "post": {
+    "tags": [
+     "setup"
+    ],
+    "summary": "Add an account to the chart of accounts (owner only)",
+    "operationId": "add_account_api_accounts_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/AccountIn"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/recurring": {
+   "post": {
+    "tags": [
+     "setup"
+    ],
+    "summary": "Add a repeating payment or receipt, such as rent or a retainer (owner only)",
+    "operationId": "add_recurring_api_recurring_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/RecurringIn"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
   "/api/approvals": {
    "get": {
     "tags": [
@@ -1822,7 +2264,7 @@
     "tags": [
      "admin"
     ],
-    "summary": "Add a manual exchange rate (company currency for one unit of the other currency), or correct the one for the same day",
+    "summary": "Add a manual exchange rate (company currency for one unit of the other currency), or correct the one for the same day. Owner only: a rate decides what foreign bills and invoices are worth.",
     "operationId": "set_fx_rate_api_fx_rates_post",
     "requestBody": {
      "content": {
@@ -1994,6 +2436,34 @@
  },
  "components": {
   "schemas": {
+   "AccountIn": {
+    "properties": {
+     "code": {
+      "type": "string",
+      "maxLength": 12,
+      "minLength": 1,
+      "title": "Code"
+     },
+     "name": {
+      "type": "string",
+      "maxLength": 120,
+      "minLength": 1,
+      "title": "Name"
+     },
+     "kind": {
+      "type": "string",
+      "pattern": "^(asset|liability|income|expense)$",
+      "title": "Kind"
+     }
+    },
+    "type": "object",
+    "required": [
+     "code",
+     "name",
+     "kind"
+    ],
+    "title": "AccountIn"
+   },
    "AdvanceIn": {
     "properties": {
      "hours": {
@@ -2016,10 +2486,62 @@
       "maxLength": 300,
       "title": "Note",
       "default": ""
+     },
+     "etag": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 64
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Etag"
      }
     },
     "type": "object",
     "title": "ApproveIn"
+   },
+   "BankAccountIn": {
+    "properties": {
+     "name": {
+      "type": "string",
+      "maxLength": 120,
+      "minLength": 1,
+      "title": "Name"
+     },
+     "currency": {
+      "type": "string",
+      "maxLength": 3,
+      "title": "Currency",
+      "default": ""
+     },
+     "opening_minor": {
+      "type": "integer",
+      "maximum": 1000000000000.0,
+      "minimum": -1000000000000.0,
+      "title": "Opening Minor",
+      "default": 0
+     },
+     "opening_date": {
+      "anyOf": [
+       {
+        "type": "string",
+        "format": "date"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Opening Date"
+     }
+    },
+    "type": "object",
+    "required": [
+     "name"
+    ],
+    "title": "BankAccountIn"
    },
    "BillPatch": {
     "properties": {
@@ -2176,7 +2698,8 @@
         "items": {
          "$ref": "#/components/schemas/LineIn"
         },
-        "type": "array"
+        "type": "array",
+        "maxItems": 500
        },
        {
         "type": "null"
@@ -2187,6 +2710,55 @@
     },
     "type": "object",
     "title": "BillPatch"
+   },
+   "CsvIn": {
+    "properties": {
+     "text": {
+      "type": "string",
+      "maxLength": 8000000,
+      "minLength": 1,
+      "title": "Text"
+     }
+    },
+    "type": "object",
+    "required": [
+     "text"
+    ],
+    "title": "CsvIn"
+   },
+   "CustomerIn": {
+    "properties": {
+     "name": {
+      "type": "string",
+      "maxLength": 160,
+      "minLength": 1,
+      "title": "Name"
+     },
+     "email": {
+      "type": "string",
+      "maxLength": 200,
+      "title": "Email",
+      "default": ""
+     },
+     "timezone": {
+      "type": "string",
+      "maxLength": 60,
+      "title": "Timezone",
+      "default": ""
+     },
+     "terms_days": {
+      "type": "integer",
+      "maximum": 3650.0,
+      "minimum": 0.0,
+      "title": "Terms Days",
+      "default": 30
+     }
+    },
+    "type": "object",
+    "required": [
+     "name"
+    ],
+    "title": "CustomerIn"
    },
    "DecideIn": {
     "properties": {
@@ -2283,9 +2855,21 @@
      },
      "name": {
       "type": "string",
-      "maxLength": 80,
+      "maxLength": 40,
       "title": "Name",
       "default": "upload.csv"
+     },
+     "account_id": {
+      "anyOf": [
+       {
+        "type": "integer",
+        "minimum": 1.0
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Account Id"
      }
     },
     "type": "object",
@@ -2309,10 +2893,14 @@
      },
      "unit_minor": {
       "type": "integer",
+      "maximum": 1000000000000.0,
+      "minimum": 0.0,
       "title": "Unit Minor"
      },
      "total_minor": {
       "type": "integer",
+      "maximum": 1000000000000.0,
+      "minimum": 0.0,
       "title": "Total Minor"
      }
     },
@@ -2360,10 +2948,12 @@
     "properties": {
      "email": {
       "type": "string",
+      "maxLength": 254,
       "title": "Email"
      },
      "password": {
       "type": "string",
+      "maxLength": 1024,
       "title": "Password"
      }
     },
@@ -2386,6 +2976,32 @@
      "opted_out"
     ],
     "title": "OptOutIn"
+   },
+   "PostOutcomeIn": {
+    "properties": {
+     "posted": {
+      "type": "boolean",
+      "title": "Posted"
+     },
+     "external_id": {
+      "type": "string",
+      "maxLength": 80,
+      "title": "External Id",
+      "default": ""
+     },
+     "note": {
+      "type": "string",
+      "maxLength": 300,
+      "minLength": 1,
+      "title": "Note"
+     }
+    },
+    "type": "object",
+    "required": [
+     "posted",
+     "note"
+    ],
+    "title": "PostOutcomeIn"
    },
    "PromiseIn": {
     "properties": {
@@ -2413,6 +3029,53 @@
      "amount_minor"
     ],
     "title": "PromiseIn"
+   },
+   "RecurringIn": {
+    "properties": {
+     "name": {
+      "type": "string",
+      "maxLength": 120,
+      "minLength": 1,
+      "title": "Name"
+     },
+     "direction": {
+      "type": "string",
+      "pattern": "^(in|out)$",
+      "title": "Direction"
+     },
+     "amount_minor": {
+      "type": "integer",
+      "maximum": 1000000000000.0,
+      "exclusiveMinimum": 0.0,
+      "title": "Amount Minor"
+     },
+     "cadence": {
+      "type": "string",
+      "pattern": "^(monthly|twice_monthly|weekly)$",
+      "title": "Cadence"
+     },
+     "day": {
+      "type": "integer",
+      "maximum": 31.0,
+      "minimum": 1.0,
+      "title": "Day",
+      "default": 1
+     },
+     "match_text": {
+      "type": "string",
+      "maxLength": 120,
+      "title": "Match Text",
+      "default": ""
+     }
+    },
+    "type": "object",
+    "required": [
+     "name",
+     "direction",
+     "amount_minor",
+     "cadence"
+    ],
+    "title": "RecurringIn"
    },
    "RejectIn": {
     "properties": {
@@ -2523,6 +3186,113 @@
      "type"
     ],
     "title": "ValidationError"
+   },
+   "VendorIn": {
+    "properties": {
+     "name": {
+      "type": "string",
+      "maxLength": 160,
+      "minLength": 1,
+      "title": "Name"
+     },
+     "currency": {
+      "type": "string",
+      "maxLength": 3,
+      "title": "Currency",
+      "default": ""
+     },
+     "tax_rate_bp": {
+      "type": "integer",
+      "maximum": 10000.0,
+      "minimum": 0.0,
+      "title": "Tax Rate Bp",
+      "default": 0
+     },
+     "requires_po": {
+      "type": "boolean",
+      "title": "Requires Po",
+      "default": false
+     },
+     "bank_account": {
+      "type": "string",
+      "maxLength": 80,
+      "title": "Bank Account",
+      "default": ""
+     },
+     "terms_days": {
+      "type": "integer",
+      "maximum": 3650.0,
+      "minimum": 0.0,
+      "title": "Terms Days",
+      "default": 30
+     },
+     "address": {
+      "type": "string",
+      "maxLength": 240,
+      "title": "Address",
+      "default": ""
+     }
+    },
+    "type": "object",
+    "required": [
+     "name"
+    ],
+    "title": "VendorIn"
+   },
+   "VendorPatch": {
+    "properties": {
+     "bank_account": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 80
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Bank Account"
+     },
+     "requires_po": {
+      "anyOf": [
+       {
+        "type": "boolean"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Requires Po"
+     },
+     "terms_days": {
+      "anyOf": [
+       {
+        "type": "integer",
+        "maximum": 3650.0,
+        "minimum": 0.0
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Terms Days"
+     },
+     "tax_rate_bp": {
+      "anyOf": [
+       {
+        "type": "integer",
+        "maximum": 10000.0,
+        "minimum": 0.0
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Tax Rate Bp"
+     }
+    },
+    "type": "object",
+    "title": "VendorPatch"
    }
   }
  }

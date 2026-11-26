@@ -2,9 +2,16 @@
 
 from __future__ import annotations
 
+import re
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
+
 from pydantic import Field
 
 from sendora_core.settings import BaseAppSettings, Mode
+
+DEFAULT_COMPANY_NAME = "Birchfield Supply Co"  # the made up demo company: a real install must name its own
+DEFAULT_EMAIL_FROM = "accounts@example.test"
+EMAIL_LIKE = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
 
 
 class Settings(BaseAppSettings):
@@ -19,8 +26,12 @@ class Settings(BaseAppSettings):
     viewer_password_hash: str | None = None
     login_burst: int = Field(default=5, ge=1, le=1000)  # sign in tries in a row before a short wait; the browser tests raise it
 
-    company_name: str = "Birchfield Supply Co"  # bills addressed to another name are flagged
-    base_currency: str = "USD"
+    company_name: str = Field(default=DEFAULT_COMPANY_NAME, max_length=120)  # COMPANY_NAME: bills addressed to another name are flagged; it also signs every reminder
+    company_address: str = Field(default="", max_length=300)  # COMPANY_ADDRESS: physical postal address, printed in the footer of every reminder email
+    reply_to: str = Field(default="", max_length=254)  # REPLY_TO: where customers answer a reminder, also the mailto in the List-Unsubscribe header (empty means EMAIL_FROM)
+    base_currency: str = Field(default="USD", min_length=3, max_length=3)  # BASE_CURRENCY
+    default_timezone: str = "America/New_York"  # DEFAULT_TIMEZONE: the time zone of a customer imported without one (reminders are sent in the customer's local hours)
+    log_level: str = Field(default="INFO", pattern="^(DEBUG|INFO|WARNING|ERROR)$")  # LOG_LEVEL
 
     accounting_adapter: str = "seed"  # seed, csv, quickbooks, xero, akaunting
     payments_adapter: str = "seed"  # seed or stripe
@@ -58,7 +69,10 @@ class Settings(BaseAppSettings):
     imap_host: str = ""
     imap_port: int = 993
     imap_use_ssl: bool = True
-    email_from: str = "accounts@example.test"
+    email_from: str = DEFAULT_EMAIL_FROM
+    # INTAKE_ALLOWED_SENDERS: comma separated addresses or @domains whose mail may bring bills. Empty means any sender (anyone who knows the intake address can then send a bill).
+    # A bill from another sender is still stored, but it carries a blocking finding. A From line can be forged, so this narrows the door, it does not lock it.
+    intake_allowed_senders: str = Field(default="", max_length=2000)
 
     # Decided defaults for the collections ladder and the forecast. The implementer can change each one.
     reminder_window_start: int = Field(default=9, ge=0, le=23)
@@ -73,10 +87,88 @@ class Settings(BaseAppSettings):
     def probs(self) -> dict[str, int]:
         return {k.strip(): int(v) for k, v in (p.split("=") for p in self.collection_prob_bp.split(",") if "=" in p)}
 
+    def allowed_senders(self) -> list[str]:
+        return [x.strip().casefold() for x in self.intake_allowed_senders.replace(";", ",").split(",") if x.strip()]
+
+    def sender_allowed(self, address: str) -> bool:
+        """True when INTAKE_ALLOWED_SENDERS is empty, or the address is listed (exactly, or by its @domain)."""
+        allowed = self.allowed_senders()
+        a = (address or "").strip().casefold()
+        return not allowed or a in allowed or ("@" in a and f"@{a.rsplit('@', 1)[1]}" in allowed)
+
+    def reply_loop_problems(self) -> list[str]:
+        """Customers answer a reminder. When the answer goes to the very mailbox the intake poller reads, a person may never see it (a "stop" reply sat among the bills)."""
+        if self.inbox_adapter != "imap" or self.email_adapter != "smtp":
+            return []
+        reply = self.reply_to.strip().casefold()
+        if not reply:
+            return ["REPLY_TO is empty, so customers' answers to a reminder go to the same mailbox that Booklantern reads bills from. Set REPLY_TO to a mailbox a person reads (or use a separate mailbox for bills)."]
+        if reply == self.smtp_user.strip().casefold():
+            return ["REPLY_TO is the mailbox that Booklantern reads bills from (SMTP_USER). Set it to a mailbox a person reads."]
+        return []
+
+    def demo_server_problems(self) -> list[str]:
+        """A demo (no owner password) has a public password and a public example session secret. Anyone who has read the code could forge a session, so it must not hold real
+        connections or real writes. ALLOW_DEMO_SERVER=true is the owner's written choice for a throw away trial."""
+        if not self.demo_shortcuts or self.allow_demo_server:
+            return []
+        out: list[str] = []
+        real = [f"{c.upper()}_ADAPTER={n}" for c, n in (("accounting", self.accounting_adapter), ("payments", self.payments_adapter), ("inbox", self.inbox_adapter), ("email", self.email_adapter)) if n != "seed"]
+        if real:
+            out.append(f"DEMO_MODE is true with no OWNER_PASSWORD_HASH, so the public demo password and an example session secret are active, but real connections are switched on ({', '.join(real)}). "
+                       "Set DEMO_MODE=false and OWNER_PASSWORD_HASH, or use only the offline seed adapters.")
+        if self.mode is Mode.LIVE and self.accounting_write:
+            out.append("DEMO_MODE is true with no OWNER_PASSWORD_HASH while MODE=live and ACCOUNTING_WRITE=true. A public demo login would be able to post to your books. Set DEMO_MODE=false and OWNER_PASSWORD_HASH.")
+        return out
+
+    def identity_problems(self) -> list[str]:
+        """What is still a placeholder in the business identity. A reminder goes out under the company's name, address and sender mailbox."""
+        out: list[str] = []
+        if self.company_name.strip() in {"", DEFAULT_COMPANY_NAME}:
+            out.append("COMPANY_NAME is still the made up demo name. Set your client's legal name: bills addressed to any other name are flagged, and reminders are signed with it.")
+        if self.email_adapter != "seed" and (self.email_from.strip() in {"", DEFAULT_EMAIL_FROM} or not EMAIL_LIKE.match(self.email_from)):
+            out.append("EMAIL_FROM is empty or still the example address. Set the mailbox reminders are sent from.")
+        if self.email_adapter != "seed" and len(self.company_address.strip()) < 10:
+            out.append("COMPANY_ADDRESS is empty. A reminder email carries the company's physical postal address in its footer.")
+        if self.reply_to and not EMAIL_LIKE.match(self.reply_to):
+            out.append("REPLY_TO is not an email address.")
+        out += self.reply_loop_problems()
+        try:
+            ZoneInfo(self.default_timezone)
+        except (ZoneInfoNotFoundError, ValueError, OSError):
+            out.append("DEFAULT_TIMEZONE is not a time zone name (for example America/New_York).")
+        return out
+
+    def account_problems(self) -> list[str]:
+        """The owner, the approver and the viewer are three different people. Two roles on one email would make one account silently replace the other (the owner's would be lost)."""
+        from sendora_core.auth import clean_email
+
+        named = [("OWNER_EMAIL", clean_email(self.owner_email)), ("APPROVER_EMAIL", clean_email(self.approver_email or "")), ("VIEWER_EMAIL", clean_email(self.viewer_email or ""))]
+        seen: dict[str, str] = {}
+        out: list[str] = []
+        for name, email in named:
+            if not email:
+                continue
+            if email in seen:
+                out.append(f"{name} is the same address as {seen[email]}. The owner, the approver and the viewer must be three different people, or one account would silently replace the other.")
+            else:
+                seen[email] = name
+        return out
+
+    def runtime_errors(self) -> list[str]:
+        out = super().runtime_errors() + self.account_problems() + self.demo_server_problems()
+        if self.mode is Mode.LIVE and not self.demo_mode:
+            out += self.identity_problems()
+        return list(dict.fromkeys(out))
+
     def problems(self) -> list[str]:
         out = [p for p in super().problems() if not (self.demo_mode and p.startswith("MODE is live while DEMO_MODE"))]
         if not self.demo_mode and not self.owner_password_hash:
             out.append("OWNER_PASSWORD_HASH is empty. Create one with tools/hash_password.py and set it before you run outside demo mode.")
+        if self.demo_mode and self.owner_password_hash:
+            out.append("DEMO_MODE is true but an owner password is set. The public demo password is switched off; set DEMO_MODE=false for a real install.")
+        if not self.demo_mode:
+            out += [p for p in self.identity_problems() if p not in out]
         if self.accounting_write and self.mode is not Mode.LIVE:
             out.append("ACCOUNTING_WRITE is true but MODE is draft, so nothing will be posted. That is safe, set MODE=live only when you mean it.")
         if self.accounting_adapter == "quickbooks" and not (self.qbo_client_id and self.qbo_client_secret and self.qbo_refresh_token and self.qbo_realm_id):

@@ -6,6 +6,7 @@ import { Badge, Button, Card, Dialog, EmptyState, Field, notify } from "@sendora
 import { ListSkeleton, LoadError, PageHead } from "@/components/Parts";
 import { get, post } from "@/lib/api";
 import { useRole } from "@/lib/hooks";
+import { REASON_HELP, realReason } from "@/lib/reason";
 import { finding, sevTone } from "@/lib/labels";
 import type { ExceptionRow } from "@/lib/types";
 
@@ -28,13 +29,13 @@ export default function ExceptionsPage() {
             <div key={e.id} className="ll-field" style={{ gridTemplateColumns: "1fr auto" }}>
               <span><Badge tone={sevTone(e.severity)}>{f.label}</Badge> <span>{e.detail}</span><br /><span className="ll-mini" style={{ fontSize: "var(--sx-text-caption)", color: "var(--sx-ink-2)" }}>{f.help}</span></span>
               <span className="sx-row">
-                {e.ref_type === "bill" ? <Link className="sx-btn sx-btn--sm" href={`/review?bill=${e.ref_id}`}>Open bill</Link> : e.ref_type === "bank_txn" || e.ref_type === "bank" ? <Link className="sx-btn sx-btn--sm" href="/reconcile">Open bank lines</Link> : null}
-                <Button size="sm" disabled={!canWrite} disabledReason="Your sign in can read but not change" onClick={async () => { if (e.severity === "block") { setWhy(""); setAsking(e); } else await done.mutateAsync({ id: e.id, note: "" }); }}>Mark dealt with</Button>
+                {e.ref_type === "bill" ? <Link className="sx-btn sx-btn--sm" href={`/review?bill=${e.ref_id}`}>Open bill</Link> : e.ref_type === "bank_txn" || e.ref_type === "bank" ? <Link className="sx-btn sx-btn--sm" href="/reconcile">Open bank lines</Link> : e.ref_type === "customer" ? <Link className="sx-btn sx-btn--sm" href="/collections">Open collections</Link> : null}
+                {e.kind === "post_outcome_unknown" ? null : <Button size="sm" disabled={!canWrite} disabledReason="Your sign in can read but not change" onClick={async () => { if (e.severity === "block") { setWhy(""); setAsking(e); } else await done.mutateAsync({ id: e.id, note: "" }); }}>Mark dealt with</Button>}
               </span>
             </div>);
         })}</div></Card>)}
       <Dialog open={asking !== null} onOpenChange={(o) => !o && setAsking(null)} title="This finding blocks approval" description={asking ? `${finding(asking.kind).label}. Closing it takes the block off the bill, so write down why that is safe. The reason goes in the audit log.` : undefined}
-        actions={<Button variant="primary" disabled={!why.trim()} disabledReason="Write the reason first" onClick={async () => { if (asking) await done.mutateAsync({ id: asking.id, note: why.trim() }); }}>Close it with this reason</Button>}>
+        actions={<Button variant="primary" disabled={!realReason(why)} disabledReason={REASON_HELP} onClick={async () => { if (asking) await done.mutateAsync({ id: asking.id, note: why.trim() }); }}>Close it with this reason</Button>}>
         <Field label="Why is it safe to close this (required)" value={why} onChange={setWhy} />
       </Dialog>
     </div>

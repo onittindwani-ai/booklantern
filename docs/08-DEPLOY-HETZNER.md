@@ -1,17 +1,23 @@
 # Deploy on a Hetzner server
 
-**Not tested: no Hetzner server was created and no Docker image was built here (no Docker daemon).** The files in `deploy/hetzner/` are checked only for valid syntax. Steps are UNVERIFIED, from our general knowledge. Check them against https://docs.hetzner.com. One small server runs everything with Docker Compose and Caddy, which gets an HTTPS certificate for you.
+**Not tested on a real host: no Hetzner server was created.** The GitHub CI workflow builds the Docker images and starts the compose stack (the API and the web app must answer), and the backup script is tested with a stand in `docker` command. Nothing else in `deploy/hetzner/` was run. Steps are UNVERIFIED, from our general knowledge. Check them against https://docs.hetzner.com. One small server runs everything with Docker Compose and Caddy, which gets an HTTPS certificate for you.
 
 1. Make a server (Ubuntu LTS is fine). Add your SSH key while creating it.
 2. Add a firewall that allows only ports 22, 80 and 443.
 3. Point two DNS names at the server: one for the web app and one for the API.
 4. Optional: paste `deploy/hetzner/cloud-init.yaml` into the cloud config box. It installs Docker and Caddy and holds no secrets. Do not add any.
 5. Log in with SSH and clone your repository to `/opt/booklantern`.
-6. `cp .env.example .env` and fill it in (see `04`). Put your two DNS names in `deploy/hetzner/Caddyfile`.
-7. `docker compose up -d --build`.
+6. `cp .env.example .env` and fill it in (see `04`). The Docker path needs these four, or the API will not start:
+   - `DEMO_MODE=false`
+   - `SESSION_SECRET`: a random value of 32 or more characters, `python3 -c "import secrets; print(secrets.token_urlsafe(48))"`
+   - `OWNER_PASSWORD_HASH`: from `python tools/hash_password.py`, in single quotes
+   - `POSTGRES_PASSWORD`: letters and digits only, or percent encoded, because it sits inside the database address: `openssl rand -hex 24`
+
+   Also set `COMPANY_NAME`, `COMPANY_ADDRESS`, `EMAIL_FROM`, `REPLY_TO` and `DEFAULT_TIMEZONE` before `MODE=live`. Put your two DNS names in `deploy/hetzner/Caddyfile`.
+7. `docker compose up -d --build`. The API runs the database migrations itself when it starts; `docker compose exec api alembic upgrade head` is only needed to run them by hand. The new install is empty: add its vendors, customers and bank account (`05`, "A real install").
 8. Copy the Caddyfile to `/etc/caddy/Caddyfile` and `sudo systemctl reload caddy`.
 9. Open the web address and sign in.
 
 ## Backups
 
-`deploy/hetzner/backup.sh` writes a compressed Postgres dump to `/var/backups/booklantern`. Run it daily with cron: `0 3 * * * /opt/booklantern/deploy/hetzner/backup.sh`. The uploads volume holds the bill files, so back it up too. Test a restore (see `11`) before you need it.
+`deploy/hetzner/backup.sh` writes a compressed Postgres dump and a tar file of the uploaded bills to `/var/backups/booklantern` (files readable only by their owner). Run it daily with cron: `0 3 * * * /opt/booklantern/deploy/hetzner/backup.sh` (it works from cron's own folder, and keeps no empty dump). Set `BACKUP_COPY_TO=user@host:/path/` to copy the files to another machine with rsync: a copy on the same disk is not a backup. Also turn on Hetzner server backups. Test a restore (see `11`) before you need it.

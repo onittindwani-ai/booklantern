@@ -120,6 +120,9 @@ test.describe("round 5: every fix from the walk through the screens", () => {
     await expect(page.getByText(/^Saved\./)).toBeVisible();
     await page.reload(); await page.waitForLoadState("networkidle");
     await expect(page.locator("#f-vendor")).toHaveValue("Cobalt Office Supply");
+    // The vendor has a bank account on file and none was read from the scan, so the bill now carries a blocking finding: approval needs a written reason.
+    await expect(page.getByRole("button", { name: "Approve", exact: true })).toBeDisabled();
+    await page.getByLabel(/Why approve despite the blocking finding/).fill("Checked the bank details with the vendor by phone");
     await expect(page.getByRole("button", { name: "Approve", exact: true })).toBeEnabled();
     await page.context().close();
   });
@@ -295,7 +298,7 @@ test.describe("round 5: every fix from the walk through the screens", () => {
     await page.goto("/collections"); await page.waitForLoadState("networkidle");
     const row = page.locator(".ll-plan").filter({ hasText: "INV-2068" });
     await row.getByRole("button", { name: "Payment link" }).click();
-    await expect(page.getByText(/Payment link created|a placeholder link was saved/).first()).toBeVisible();
+    await expect(page.getByText(/Payment link created|so no link was saved/).first()).toBeVisible();
     await expect(row.getByText(/Link: /)).toContainText("INV-2068");
     await expect(row.getByRole("button", { name: "Copy link" })).toBeVisible();
     await page.context().close();

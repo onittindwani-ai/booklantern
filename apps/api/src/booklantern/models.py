@@ -7,7 +7,7 @@ from __future__ import annotations
 
 from datetime import date, datetime
 
-from sqlalchemy import JSON, BigInteger, Boolean, Date, ForeignKey, Integer, String, Text, UniqueConstraint
+from sqlalchemy import JSON, BigInteger, Boolean, Date, ForeignKey, Integer, String, Text, UniqueConstraint, false
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from sendora_core.db import Base, UTCDateTime, utcnow
@@ -15,7 +15,7 @@ from sendora_core.db import Base, UTCDateTime, utcnow
 BILL_STATUSES = ("inbox", "needs_review", "approved", "posted_draft", "paid", "rejected")
 DOC_STATUSES = ("new", "extracted", "unreadable", "linked")
 INVOICE_STATUSES = ("open", "paid", "void")
-REMINDER_STATUSES = ("drafted", "approved", "sent", "cancelled")
+REMINDER_STATUSES = ("drafted", "approved", "sending", "sent", "cancelled")
 PROMISE_STATUSES = ("open", "kept", "broken")
 SEVERITIES = ("info", "warning", "block")
 
@@ -77,6 +77,7 @@ class Document(Base):
     page_count: Mapped[int] = mapped_column(Integer, default=1)
     has_text_layer: Mapped[bool] = mapped_column(Boolean, default=True)
     status: Mapped[str] = mapped_column(String(20), default="new")
+    read_attempts: Mapped[int] = mapped_column(Integer, default=0, server_default="0")  # how many times reading was started: a file that keeps killing the reader is given up on (intake.MAX_READ_ATTEMPTS)
     extraction: Mapped[dict] = mapped_column(JSON, default=dict)  # fields with value, confidence, page and box
     extractor: Mapped[str] = mapped_column(String(60), default="")
     stored_path: Mapped[str] = mapped_column(String(400), default="")
@@ -105,6 +106,7 @@ class Bill(Base):
     posted_external_id: Mapped[str] = mapped_column(String(80), default="")
     paid_on: Mapped[date | None] = mapped_column(Date, nullable=True)
     edited_by: Mapped[str] = mapped_column(String(120), default="")
+    had_block: Mapped[bool] = mapped_column(Boolean, default=False, server_default=false())  # set the first time any blocking finding fires on this bill and never cleared: editing the finding away does not undo it
     created_at: Mapped[datetime] = mapped_column(UTCDateTime(), default=utcnow)
     lines: Mapped[list[BillLine]] = relationship(back_populates="bill", cascade="all, delete-orphan", order_by="BillLine.position")
 

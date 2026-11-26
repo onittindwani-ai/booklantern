@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import base64
+from decimal import Decimal
 
 from fastapi import FastAPI, Header, Request
 from fastapi.responses import JSONResponse
@@ -31,7 +32,9 @@ class XeroMock:
             if xero_tenant_id != self.tenant:
                 return JSONResponse({"Title": "Forbidden"}, 403)
             body = await request.json()
-            inv = {**body, "InvoiceID": f"mock-{len(self.invoices) + 1}", "Status": body.get("Status", "DRAFT")}
+            # like the real service: with amounts exclusive of tax the total is the lines plus the tax on them
+            total = sum(Decimal(str(x.get("Quantity", 1))) * Decimal(str(x.get("UnitAmount", 0))) + Decimal(str(x.get("TaxAmount", 0))) for x in body.get("LineItems", []))
+            inv = {**body, "InvoiceID": f"mock-{len(self.invoices) + 1}", "Status": body.get("Status", "DRAFT"), "Total": float(total)}
             self.invoices.append(inv)
             return {"Invoices": [inv]}
 
@@ -39,7 +42,8 @@ class XeroMock:
 class AkauntingMock:
     """GET and POST /api/documents with Basic auth. type=bill or invoice."""
 
-    def __init__(self, user: str = "owner@example.test", password: str = "mock-password"):
+    def __init__(self, user: str = "owner@example.test", password: str = "mock-password", require_contact: bool = True):
+        self.require_contact = require_contact
         self.cred = "Basic " + base64.b64encode(f"{user}:{password}".encode()).decode()
         self.documents: list[dict] = []
         self.app = FastAPI(title="Akaunting mock")
@@ -55,8 +59,9 @@ class AkauntingMock:
             if authorization != self.cred:
                 return JSONResponse({"message": "Unauthenticated."}, 401)
             body = await request.json()
-            if not body.get("type") or not body.get("contact_id"):
+            if not body.get("type") or (self.require_contact and not body.get("contact_id")):
                 return JSONResponse({"message": "The given data was invalid."}, 422)
-            doc = {**body, "id": len(self.documents) + 1, "status": "draft"}
+            amount = sum(Decimal(str(x.get("quantity", 1))) * Decimal(str(x.get("price", 0))) for x in body.get("items", []))
+            doc = {**body, "id": len(self.documents) + 1, "status": "draft", "amount": float(amount)}
             self.documents.append(doc)
             return {"data": doc}

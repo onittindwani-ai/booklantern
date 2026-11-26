@@ -1,14 +1,16 @@
 import { NextResponse } from "next/server";
+import { lastHop } from "@/lib/clientIp";
 
 const API = process.env.API_BASE_URL ?? "http://127.0.0.1:8000";
 
 /** Sign in: ask the API for a token and keep it in an httpOnly cookie. The token never reaches page JavaScript. */
 export async function POST(request: Request) {
   if (request.headers.get("x-booklantern") !== "1") return NextResponse.json({ error: { message: "Bad request." } }, { status: 400 });
-  const body = await request.text();
+  if (Number(request.headers.get("content-length") ?? 0) > 4096) return NextResponse.json({ error: { message: "Bad request." } }, { status: 413 }); // a sign in form is tiny
+  const body = (await request.text()).slice(0, 4096);
   let upstream: Response;
   try {
-    upstream = await fetch(`${API}/api/auth/login`, { method: "POST", headers: { "content-type": "application/json", "x-forwarded-for": request.headers.get("x-forwarded-for") ?? "" }, body });
+    upstream = await fetch(`${API}/api/auth/login`, { method: "POST", headers: { "content-type": "application/json", "x-forwarded-for": lastHop(request.headers.get("x-forwarded-for")) }, body });
   } catch {
     return NextResponse.json({ error: { message: "The server is not reachable. Check that the API is running." } }, { status: 502 });
   }

@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import base64
 import secrets
+from decimal import Decimal
 from urllib.parse import parse_qsl
 
 from fastapi import FastAPI, Header, Request
@@ -79,7 +80,8 @@ class QboMock:
             self.minor_versions.append(minorversion)
             store = self.bills if entity == "bill" else self.invoices
             new_id = str(len(store) + 100)
-            store[new_id] = {**body, "Id": new_id, "SyncToken": "0"}
+            total = sum(Decimal(str(x.get("Amount", 0))) for x in body.get("Line", [])) + Decimal(str((body.get("TxnTaxDetail") or {}).get("TotalTax", 0)))
+            store[new_id] = {**body, "Id": new_id, "SyncToken": "0", "TotalAmt": float(total)}
             return {"Bill" if entity == "bill" else "Invoice": store[new_id], "time": "2026-12-01T09:00:00.000-08:00"}
 
         return app

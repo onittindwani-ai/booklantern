@@ -77,7 +77,9 @@ def test_edit_approve_and_post_in_draft_mode(client):
     r = client.patch(f"/api/bills/{clean['id']}", json={"po_number": "PO-9999", "total_minor": clean["total_minor"] + 5})
     assert r.status_code == 200 and "wrong_total" in r.json()["findings"]  # editing re runs the checks
     client.patch(f"/api/bills/{clean['id']}", json={"total_minor": clean["total_minor"]})
-    assert client.post(f"/api/bills/{clean['id']}/approve", json={}).json()["status"] == "approved"
+    # the wrong total raised a blocking finding, and putting the total back removed it: the bill still remembers it, so the owner who made both edits needs a real reason (round 3)
+    assert client.post(f"/api/bills/{clean['id']}/approve", json={}).status_code == 409
+    assert client.post(f"/api/bills/{clean['id']}/approve", json={"note": "Put the total back to what the page shows"}).json()["status"] == "approved"
     res = client.post(f"/api/bills/{clean['id']}/post").json()
     assert res["posted"] is False and "draft" in res["reason"].lower()
     assert client.patch(f"/api/bills/{clean['id']}", json={"po_number": "x"}).status_code == 409  # approved bills are not edited

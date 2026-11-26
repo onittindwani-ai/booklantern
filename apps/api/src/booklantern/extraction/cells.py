@@ -7,6 +7,8 @@ from dataclasses import dataclass
 
 import pypdfium2 as pdfium
 
+MAX_RECTS = 4000  # text runs read from one page: a real bill page has a few hundred, so a file with a million tiny runs cannot keep the reader busy
+MAX_CELL_CHARS = 300
 ROW_TOL = 3.5  # points: runs whose vertical centres are closer than this share a row
 
 
@@ -50,9 +52,9 @@ def read_page(data: bytes, index: int = 0) -> Page:
     w, h = page.get_size()
     tp = page.get_textpage()
     cells: list[Cell] = []
-    for i in range(tp.count_rects()):
+    for i in range(min(tp.count_rects(), MAX_RECTS)):
         l, b, r, t = tp.get_rect(i)
-        text = tp.get_text_bounded(l, b, r, t).replace("\r", " ").replace("\n", " ")
+        text = tp.get_text_bounded(l, b, r, t).replace("\r", " ").replace("\n", " ")[:MAX_CELL_CHARS]
         if not text.strip():
             continue
         # a monospaced line can hold several columns separated by runs of spaces: split them and share the box by character position

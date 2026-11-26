@@ -68,3 +68,9 @@ def normalize_phone(value: str) -> str:
     v = (value or "").strip()
     out = ("+" if v.startswith("+") else "") + re.sub(r"\D", "", v)
     return out if E164_RE.match(out) else ""
+
+
+def csv_safe(value: object) -> str:
+    """A cell that starts with = + - @ tab or return is read as a formula by Excel and Sheets. A leading apostrophe makes it plain text."""
+    text = "" if value is None else str(value)
+    return "'" + text if text[:1] in {"=", "+", "-", "@", "\t", "\r"} else text

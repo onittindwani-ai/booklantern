@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import io
 from datetime import date
+from xml.sax.saxutils import escape
 
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import letter
@@ -70,18 +71,18 @@ def build(session: Session, ctx) -> bytes:
     ex = list(session.scalars(select(ExceptionItem).where(ExceptionItem.status == "open").order_by(ExceptionItem.severity.desc(), ExceptionItem.id)))
     more = max(0, len(ex) - 40)
     ex = ex[:40]
-    out += [Paragraph("Open exceptions", st["Heading2"]), _table([["Kind", "Where", "Detail"]] + [[Paragraph(labels.finding(e.kind), st["BodyText"]), labels.where(e.ref_type, e.ref_id), Paragraph(e.detail, st["BodyText"])] for e in ex] if ex else [["None", "", ""]], [110, 80, 300]), Spacer(1, 14)]
+    out += [Paragraph("Open exceptions", st["Heading2"]), _table([["Kind", "Where", "Detail"]] + [[Paragraph(escape(labels.finding(e.kind)), st["BodyText"]), labels.where(e.ref_type, e.ref_id), Paragraph(escape(e.detail), st["BodyText"])] for e in ex] if ex else [["None", "", ""]], [110, 80, 300]), Spacer(1, 14)]
     if more:
         out.append(Paragraph(f"And {more} more open exceptions. They are all on the Exceptions page.", st["BodyText"]))
     res = forecastservice.compute(session, ctx)
     out += [Paragraph("13 week cash forecast", st["Heading2"]), _table([["Week", "Starts", "Receipts", "Bills", "Recurring", "Closing"]] +
                                                                   [[str(w["index"]), w["start"], f(w["receipts_minor"] + w["new_sales_minor"]), f(w["bills_minor"]), f(w["recurring_out_minor"] + w["recurring_in_minor"]), f(w["closing_minor"])] for w in res["weeks"]]),
-            Spacer(1, 8), Paragraph(f"Lowest point {f(res['low_point_minor'])} in week {res['low_point_week']}. Collection probabilities and the new sales assumption are defaults that the owner sets.", st["Normal"])]
+            Spacer(1, 8), Paragraph(escape(f"Lowest point {f(res['low_point_minor'])} in week {res['low_point_week']}. Collection probabilities and the new sales assumption are defaults that the owner sets."), st["Normal"])]
     fxr = FX.FxReport(cur)
     for part in (ag["fx"], res["fx"]):
         fxr.absorb(part)
-    out += [Spacer(1, 14), Paragraph("Exchange rates", st["Heading2"]), Paragraph(fx_note(fxr, cur), st["Normal"])]
+    out += [Spacer(1, 14), Paragraph("Exchange rates", st["Heading2"]), Paragraph(escape(fx_note(fxr, cur)), st["Normal"])]
     for line in fx_lines(fxr):
-        out.append(Paragraph(line, st["BodyText"]))
+        out.append(Paragraph(escape(line), st["BodyText"]))  # a bill number or a vendor name is text from outside: it must never be read as markup
     doc.build(out)
     return buf.getvalue()

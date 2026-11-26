@@ -18,7 +18,7 @@ def test_a_float_is_refused():
 
 
 @pytest.mark.parametrize("text,want", [("$1,234.50", (123450, "USD")), ("1.234,50 €", (123450, "EUR")), ("USD 12,000", (1200000, "USD")), ("(5.00)", (-500, "USD")), ("-8.35", (-835, "USD")),
-                                       ("1,234", (123400, "USD")), ("€ 1.234.567,89", (123456789, "EUR")), ("99", (9900, "USD"))])
+                                       ("1,234 USD", (123400, "USD")), ("€ 1.234.567,89", (123456789, "EUR")), ("99", (9900, "USD"))])
 def test_parse_amount_as_written(text, want):
     assert M.parse_amount(text) == want
 
